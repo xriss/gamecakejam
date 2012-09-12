@@ -16,12 +16,35 @@ bake=function(state,play)
 
 	play.modname=modname
 
+	local game=state.game
+
+
+	local ship=state:rebake("aroids.ship")
+	
 
 play.setup=function(state)
+
+	state.cake.sheets:loads_and_chops{
+		{"imgs/ship",1,1,0.5,0.5},
+	}
+	
+	ship.setup(state)
+	
 end
+
+
 play.clean=function(state)
+
+	ship.clean(state)
+	
 end
+
+
 play.update=function(state)
+
+
+	ship.update(state)
+
 end
 play.draw=function(state)
 
@@ -32,6 +55,10 @@ play.draw=function(state)
 
 	font:set_xy(100,100)
 	font:draw("This is a play.")
+
+	ship.draw(state)
+
+
 end
 
 

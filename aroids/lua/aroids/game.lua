@@ -13,6 +13,7 @@ modname=(...)
 bake=function(state,game)
 	local game=game or {}
 	game.state=state
+	state.game=game
 	
 	game.modname=modname
 	
@@ -23,8 +24,6 @@ bake=function(state,game)
 	
 	game.input={}
 	game.input.volatile={}
-	game.page="menu"
-	game.wait=60
 	
 	
 --	local cards=state:rebake("dike.cards")
@@ -87,7 +86,7 @@ game.clean=function(state)
 end
 
 game.msg=function(state,m)
-	print(wstr.dump(m))
+--	print(wstr.dump(m))
 	
 	if m.class=="key" then
 		local name
@@ -103,7 +102,12 @@ game.msg=function(state,m)
 			name="fire"
 		end
 		if name then
---			game.input
+			if m.action==1 then
+				game.input.volatile[name]=true
+			end
+			if m.action==-1 then
+				game.input.volatile[name]=false
+			end
 		end
 	end
 	
