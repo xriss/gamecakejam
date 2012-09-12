@@ -27,9 +27,9 @@ bake=function(state,game)
 	game.wait=60
 	
 	
-	local cards=state:rebake("dike.cards")
-	local stacks=state:rebake("dike.stacks")
-	local items=state:rebake("dike.items")
+--	local cards=state:rebake("dike.cards")
+--	local stacks=state:rebake("dike.stacks")
+--	local items=state:rebake("dike.items")
 	
 	
 game.loads=function(state)
@@ -39,20 +39,6 @@ game.loads=function(state)
 	state.cake.images:loads({
 	})
 	
-	do
-		local t={}
-		for _,c in ipairs{"c","d","h","s"} do
-			for i=1,13 do
-				t[#t+1]={cards.filename(c,i),1,1,0.5,0.5}
-			end
-		end
-		t[#t+1]={cards.filename("b",1),1,1,0.5,0.5}
-		t[#t+1]={cards.filename("b",2),1,1,0.5,0.5}
-		
---		print(wstr.dump(t))
-		state.cake.sheets:loads_and_chops(t)
-	end
-
 end
 		
 game.setup=function(state)
@@ -64,7 +50,7 @@ game.setup=function(state)
 	game.now=nil
 	game.next=nil
 	
-	game.next=state:rebake("dike.game_play")
+	game.next=state:rebake("aroids.game_menu")
 	
 	
 	game.change()

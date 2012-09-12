@@ -1,9 +1,9 @@
 
 -- the displayed name
-title="WetDike"
+title="Aroids"
 
 
 -- the internal name, used for the base game module
-name="dike"
+name="aroids"
 
 

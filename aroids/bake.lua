@@ -1,4 +1,3 @@
-#!/usr/local/bin/gamecake
 
 
 local wbake=require("wetgenes.bake")
@@ -9,7 +8,8 @@ local wgrdmap=require("wetgenes.grdmap")
 local lfs=require("lfs")
 local zip=require("zip")
 
-for _,dir in ipairs{"cards"} do
+
+for _,dir in ipairs{"imgs"} do
 
 	local files=wbake.findfiles{basedir="art",dir=dir,filter="."}.ret
 
@@ -20,10 +20,3 @@ for _,dir in ipairs{"cards"} do
 	end
 
 end
-
-
-
-wbake.create_dir_for_file("out/dike.zip")
-os.execute("rm out/dike.zip")
-os.execute("zip -r out/dike.zip data lua")
-
