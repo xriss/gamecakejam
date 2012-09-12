@@ -45,7 +45,7 @@ shots.item_new=function()
 	it.vx=0
 	it.vy=0
 	it.age=0
-	it.siz=64/256
+	it.siz=128/256
 	
 	shots.items[it]=it
 	

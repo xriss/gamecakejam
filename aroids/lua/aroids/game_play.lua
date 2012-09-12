@@ -21,6 +21,7 @@ bake=function(state,play)
 
 	local ship=state:rebake("aroids.ship")
 	local shots=state:rebake("aroids.shots")
+	local rocks=state:rebake("aroids.rocks")
 	
 
 play.setup=function(state)
@@ -29,10 +30,14 @@ play.setup=function(state)
 		{"imgs/back",1,1,0.5,0.5},
 		{"imgs/ship",1,1,0.5,0.5},
 		{"imgs/bullet3",1,1,0.5,0.5},
+		{"imgs/chick3",1,1,0.5,0.5},
+		{"imgs/chick2",1,1,0.5,0.5},
+		{"imgs/chick1",1,1,0.5,0.5},
 	}
 	
 	ship.setup(state)
 	shots.setup(state)
+	rocks.setup(state)
 	
 end
 
@@ -41,6 +46,7 @@ play.clean=function(state)
 
 	ship.clean(state)
 	shots.clean(state)
+	rocks.clean(state)
 	
 end
 
@@ -50,7 +56,8 @@ play.update=function(state)
 
 	ship.update(state)
 	shots.update(state)
-	
+	rocks.update(state)
+		
 end
 play.draw=function(state)
 
@@ -65,6 +72,7 @@ play.draw=function(state)
 
 	ship.draw(state)
 	shots.draw(state)
+	rocks.draw(state)
 
 
 end
