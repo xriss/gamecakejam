@@ -98,7 +98,7 @@ game.msg=function(state,m)
 			name="left"
 		elseif m.keyname=="right" then
 			name="right"
-		elseif m.keyname=="space" then
+		elseif m.keyname=="space" or m.keyname=="control_l" then
 			name="fire"
 		end
 		if name then

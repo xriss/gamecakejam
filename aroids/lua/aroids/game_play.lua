@@ -20,15 +20,19 @@ bake=function(state,play)
 
 
 	local ship=state:rebake("aroids.ship")
+	local shots=state:rebake("aroids.shots")
 	
 
 play.setup=function(state)
 
 	state.cake.sheets:loads_and_chops{
+		{"imgs/back",1,1,0.5,0.5},
 		{"imgs/ship",1,1,0.5,0.5},
+		{"imgs/bullet3",1,1,0.5,0.5},
 	}
 	
 	ship.setup(state)
+	shots.setup(state)
 	
 end
 
@@ -36,6 +40,7 @@ end
 play.clean=function(state)
 
 	ship.clean(state)
+	shots.clean(state)
 	
 end
 
@@ -44,19 +49,22 @@ play.update=function(state)
 
 
 	ship.update(state)
-
+	shots.update(state)
+	
 end
 play.draw=function(state)
 
 	local canvas=state.canvas
 	local font=canvas.font
 
-	font:set_size(32,0) -- 32 pixels high
+	state.cake.sheets:get("imgs/back"):draw(1,720/2,480/2)
 
+	font:set_size(32,0) -- 32 pixels high
 	font:set_xy(100,100)
 	font:draw("This is a play.")
 
 	ship.draw(state)
+	shots.draw(state)
 
 
 end

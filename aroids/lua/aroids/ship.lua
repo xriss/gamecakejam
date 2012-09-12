@@ -16,6 +16,8 @@ bake=function(state,ship)
 
 	ship.modname=modname
 	
+	local shots=state:rebake("aroids.shots")
+
 	local game=state.game
 	
 ship.setup=function(state)
@@ -26,8 +28,8 @@ ship.setup=function(state)
 	ship.vx=0
 	ship.vy=0
 	ship.rz=0
-	ship.siz=32/256
-	
+	ship.siz=64/256
+	ship.heat=0
 end
 
 ship.clean=function(state)
@@ -53,6 +55,15 @@ ship.update=function(state)
 		ship.vx=tx*v
 		ship.vy=ty*v
 	end
+
+	if game.input.fire then
+		if ship.heat<=0 then
+			ship.heat=16
+			shots.item_add(ship.px+tx*10,ship.py+ty*10,ship.rz,tx*5,ty*5)
+		end
+	end
+	
+	ship.heat=ship.heat-1
 	
 	ship.vx=ship.vx*15/16
 	ship.vy=ship.vy*15/16
