@@ -9,3 +9,81 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 
 module(...)
 modname=(...)
+
+bake=function(state,ship)
+	local ship=ship or {}
+	ship.state=state
+
+	ship.modname=modname
+	
+	local shots=state:rebake("aroids.shots")
+
+	local game=state.game
+	
+ship.setup=function(state)
+	print("ship setup")
+	
+	ship.px=0
+	ship.py=0
+	ship.vx=0
+	ship.vy=0
+	ship.rz=0
+	ship.siz=64/256
+	ship.heat=0
+end
+
+ship.clean=function(state)
+end
+
+ship.update=function(state)
+
+	local r=4
+	local v=4
+	
+	local tx=-math.sin(math.pi*-ship.rz/180)
+	local ty=-math.cos(math.pi*-ship.rz/180)
+	
+	if game.input.left then
+		ship.rz=ship.rz-r
+	end
+
+	if game.input.right then
+		ship.rz=ship.rz+r
+	end
+
+	if game.input.up then
+		ship.vx=tx*v
+		ship.vy=ty*v
+	end
+
+	if game.input.fire then
+		if ship.heat<=0 then
+			ship.heat=16
+			shots.item_add(ship.px+tx*10,ship.py+ty*10,ship.rz,tx*5,ty*5)
+		end
+	end
+	
+	ship.heat=ship.heat-1
+	
+	ship.vx=ship.vx*15/16
+	ship.vy=ship.vy*15/16
+	
+	ship.px=ship.px+ship.vx
+	ship.py=ship.py+ship.vy
+	
+	if ship.px<-(720/2) then ship.px=ship.px+720 end
+	if ship.px> (720/2) then ship.px=ship.px-720 end
+	if ship.py<-(480/2) then ship.py=ship.py+480 end
+	if ship.py> (480/2) then ship.py=ship.py-480 end
+	
+end
+
+ship.draw=function(state)
+
+	state.cake.sheets:get("imgs/ship"):draw(1,(720/2)+ship.px,(480/2)+ship.py,ship.rz,ship.siz)
+
+end
+	
+	
+	return ship
+end
