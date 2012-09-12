@@ -87,8 +87,26 @@ game.clean=function(state)
 end
 
 game.msg=function(state,m)
---	print(wstr.dump(m))
-		
+	print(wstr.dump(m))
+	
+	if m.class="key" then
+		local name
+		if m.keyname=="up" then
+			name="up"
+		else if m.keyname=="down" then
+			name="down"
+		else if m.keyname=="left" then
+			name="left"
+		else if m.keyname=="right" then
+			name="right"
+		else if m.keyname=="space" then
+			name="fire"
+		end
+		if name then
+			game.input
+		end
+	end
+	
 --	game.js.msg(m)
 
 	if game.now and game.now.msg then
