@@ -89,21 +89,21 @@ end
 game.msg=function(state,m)
 	print(wstr.dump(m))
 	
-	if m.class="key" then
+	if m.class=="key" then
 		local name
 		if m.keyname=="up" then
 			name="up"
-		else if m.keyname=="down" then
+		elseif m.keyname=="down" then
 			name="down"
-		else if m.keyname=="left" then
+		elseif m.keyname=="left" then
 			name="left"
-		else if m.keyname=="right" then
+		elseif m.keyname=="right" then
 			name="right"
-		else if m.keyname=="space" then
+		elseif m.keyname=="space" then
 			name="fire"
 		end
 		if name then
-			game.input
+--			game.input
 		end
 	end
 	
