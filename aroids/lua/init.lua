@@ -18,7 +18,7 @@ local opts={
 	width=720,	-- display basics
 	height=480,
 	title="Aroids",
-	fps=50,
+	fps=60,
 }
 
 local bake=function()

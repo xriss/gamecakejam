@@ -15,6 +15,12 @@ bake=function(state,play)
 	play.state=state
 
 	play.modname=modname
+	
+	local canvas=state.canvas
+	local font=canvas.font
+	local cake=state.cake
+	local gl=cake.gl
+	local game=state.game
 
 
 play.setup=function(state)
@@ -31,15 +37,15 @@ end
 
 
 play.update=function(state)
+	
+	if game.input.fire then -- click to start
+		game.next=state:rebake("aroids.game_play")
+	end
 end
 
 
 play.draw=function(state)
 
-	local canvas=state.canvas
-	local font=canvas.font
-	local cake=state.cake
-	local gl=cake.gl
 
 	state.cake.sheets:get("imgs/title"):draw(1,720/2,480/2)
 
