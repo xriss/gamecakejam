@@ -17,11 +17,12 @@ bake=function(state,ship)
 	ship.modname=modname
 	
 	local shots=state:rebake("aroids.shots")
+	local rocks=state:rebake("aroids.rocks")
 
 	local game=state.game
 	
 ship.setup=function(state)
-	print("ship setup")
+--	print("ship setup")
 	
 	ship.px=0
 	ship.py=0
@@ -75,6 +76,24 @@ ship.update=function(state)
 	if ship.px> (720/2) then ship.px=ship.px-720 end
 	if ship.py<-(480/2) then ship.py=ship.py+480 end
 	if ship.py> (480/2) then ship.py=ship.py-480 end
+	
+
+	if rocks.age>100 then
+	
+		for _,v in pairs(rocks.items) do
+		
+			local dd=(v.siz*128)*1.25
+			dd=dd*dd
+
+			local dx=v.px-ship.px
+			local dy=v.py-ship.py
+			
+			if dx*dx + dy*dy < dd then
+				game.next=state:rebake("aroids.game_menu")
+			end
+		
+		end
+	end
 	
 end
 

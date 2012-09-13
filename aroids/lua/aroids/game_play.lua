@@ -67,8 +67,8 @@ play.draw=function(state)
 	state.cake.sheets:get("imgs/back"):draw(1,720/2,480/2)
 
 	font:set_size(32,0) -- 32 pixels high
-	font:set_xy(100,100)
-	font:draw("This is a play.")
+	font:set_xy(0,0)
+	font:draw("Level: "..game.level.." Score: "..game.score)
 
 	ship.draw(state)
 	shots.draw(state)

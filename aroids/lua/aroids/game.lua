@@ -51,6 +51,8 @@ game.setup=function(state)
 	
 	game.next=state:rebake("aroids.game_menu")
 	
+	game.level=1
+	game.score=0
 	
 	game.change()
 end

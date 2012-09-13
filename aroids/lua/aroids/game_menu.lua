@@ -29,6 +29,8 @@ play.setup=function(state)
 		{"imgs/title",1,1,0.5,0.5},
 	}
 	
+	play.age=0
+	
 end
 
 
@@ -37,9 +39,15 @@ end
 
 
 play.update=function(state)
+
+	play.age=play.age+1
 	
-	if game.input.fire then -- click to start
-		game.next=state:rebake("aroids.game_play")
+	if play.age>100 then
+		if game.input.fire then -- click to start
+			game.level=1
+			game.score=0
+			game.next=state:rebake("aroids.game_play")
+		end
 	end
 end
 
@@ -54,8 +62,8 @@ play.draw=function(state)
 
 	font:set_size(32,0) -- 32 pixels high
 
-	font:set_xy(100,100)
-	font:draw("This is a menu.")
+	font:set_xy(0,0)
+	font:draw("Level: "..game.level.." Score: "..game.score)
 	
 		
 	

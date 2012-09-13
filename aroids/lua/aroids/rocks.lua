@@ -23,7 +23,11 @@ bake=function(state,rocks)
 
 	
 rocks.setup=function(state)
-	print("rocks setup")
+	rocks.reset()
+end
+
+rocks.reset=function()
+	rocks.age=0
 	
 	rocks.items={}
 	
@@ -64,6 +68,7 @@ rocks.item_new=function()
 	it.vr=0
 	it.age=0
 	it.siz=64/256
+	it.idx=1
 	
 	rocks.items[it]=it
 	
@@ -108,8 +113,8 @@ rocks.item_update=function(it)
 		local dy=v.py-it.py
 		
 		if dx*dx + dy*dy < dd then
+			it:splode(v.vx,v.vy)
 			v:del()
-			it:splode()
 			break
 		end
 	
@@ -117,19 +122,29 @@ rocks.item_update=function(it)
 	
 end
 
-rocks.item_splode=function(it)
+rocks.item_splode=function(it,dvx,dvy)
 
-	for i=1,2 do
+	game.score=game.score + (it.idx*game.level)
+
+	if it.idx>3 then
 	
-		local px=it.px
-		local py=it.py
-		local rz=math.random(0,360)
-		local vr=math.random(100,200)/100
-		local vx=math.random(100,500)/100
-		local vy=math.random(100,500)/100
-		local sz=it.siz*3/4
-		rocks.item_add(px,py,rz,vx,vy,vr,sz)	
+	else
 
+		for i=1,game.level+1 do
+		
+			local px=it.px
+			local py=it.py
+			local rz=math.random(0,360)
+			local vr=math.random(100,200)/100
+			local vx=(dvx+math.random(100,500)/100)*2/4
+			local vy=(dvy+math.random(100,500)/100)*2/4
+			local sz=it.siz*2/4
+			local n=rocks.item_add(px,py,rz,vx,vy,vr,sz)
+			
+			n.idx=it.idx+1
+
+		end
+		
 	end
 	
 	it:del()
@@ -138,7 +153,11 @@ end
 
 rocks.item_draw=function(it)
 
-	state.cake.sheets:get("imgs/chick3"):draw(1,(720/2)+it.px,(480/2)+it.py,it.rz,it.siz)
+	local t=it.idx
+	if t<1 then t=1 end
+	if t>3 then t=3 end
+
+	state.cake.sheets:get("imgs/chick"..t):draw(1,(720/2)+it.px,(480/2)+it.py,it.rz,it.siz)
 	
 end
 
@@ -148,8 +167,17 @@ end
 
 rocks.update=function(state)
 
+	rocks.age=rocks.age+1
+
+	local count=0
 	for _,v in pairs(rocks.items) do
 		v:update()
+		count=count+1
+	end
+	
+	if count<=0 then -- game overman
+		game.level=game.level+1
+		rocks.reset()
 	end
 
 end
