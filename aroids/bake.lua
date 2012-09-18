@@ -1,4 +1,4 @@
-
+#!/usr/local/bin/gamecake
 
 local wbake=require("wetgenes.bake")
 local wstr=require("wetgenes.string")
@@ -20,3 +20,9 @@ for _,dir in ipairs{"imgs"} do
 	end
 
 end
+
+
+wbake.create_dir_for_file("out/aroids.zip")
+os.execute("rm out/aroids.zip")
+os.execute("zip -r out/aroids.zip data lua opts.lua")
+
