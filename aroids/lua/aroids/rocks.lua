@@ -157,7 +157,7 @@ rocks.item_draw=function(it)
 	if t<1 then t=1 end
 	if t>3 then t=3 end
 
-	state.cake.sheets:get("imgs/chick"..t):draw(1,(720/2)+it.px,(480/2)+it.py,it.rz,it.siz)
+	state.cake.sheets:get("imgs/chick"..t):draw(1,(720/2)+it.px,(480/2)+it.py,it.rz,it.siz*256,it.siz*256)
 	
 end
 

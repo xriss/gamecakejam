@@ -85,7 +85,7 @@ end
 
 shots.item_draw=function(it)
 
-	state.cake.sheets:get("imgs/bullet3"):draw(1,(720/2)+it.px,(480/2)+it.py,it.rz,it.siz)
+	state.cake.sheets:get("imgs/bullet3"):draw(1,(720/2)+it.px,(480/2)+it.py,it.rz,it.siz*36,it.siz*62)
 	
 end
 

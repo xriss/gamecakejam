@@ -118,7 +118,7 @@ game.draw=function(state)
 	if game.page=="menu" then
 
 		gl.Color(pack.argb4_pmf4(0xffff)) -- draw drop shadow
-		cake.sheets:get("splash"):draw(1,0,0,0,1,1)
+		cake.sheets:get("splash"):draw(1,0,0,0,640,480)
 
 		game.play.drawscore()
 		

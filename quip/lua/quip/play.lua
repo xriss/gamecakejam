@@ -123,7 +123,7 @@ function new_plane(id)
 			if plane.immune>=0 then
 				gl.Color(pack.argb4_pmf4(0x8fff)) 
 			end
-			cake.sheets:get("plane"..plane.id):draw(1,plane.x,plane.y,plane.rz,1/2,1/2)
+			cake.sheets:get("plane"..plane.id):draw(1,plane.x,plane.y,plane.rz,128/2,128/2)
 		end
 		if plane.fx then plane.fx.draw() end
 		
@@ -173,7 +173,7 @@ function new_plane(id)
 			end
 		end
 		p.draw=function()
-			cake.sheets:get("pew"):draw(1,p.x,p.y,0,2,2)
+			cake.sheets:get("pew"):draw(1,p.x,p.y,0,16,16)
 		end
 	end
 	plane.bang=function()
@@ -196,7 +196,7 @@ function new_plane(id)
 		end
 		fx.draw=function()
 			gl.Color(1,1,1,0)
-			cake.sheets:get("boom"):draw(1,fx.x,fx.y,fx.rz,fx.ss,fx.ss)
+			cake.sheets:get("boom"):draw(1,fx.x,fx.y,fx.rz,fx.ss*128,fx.ss*128)
 		end
 	end
 	
@@ -225,18 +225,18 @@ play.draw=function(state)
 	
 
 	gl.Color(pack.argb4_pmf4(0xffff)) 
-	cake.sheets:get("back"):draw(1,0,0,0,1,1)
+	cake.sheets:get("back"):draw(1,0,0,0,640,480)
 
 	for i,v in ipairs(play.planes) do
 		v.draw()
 	end
 
 	gl.Color(pack.argb4_pmf4(0xffff)) 
-	cake.sheets:get("cone"):draw(1,0,0,0,1,1)
+	cake.sheets:get("cone"):draw(1,0,0,0,640,480)
 
 --	gl.Color(pack.argb4_pmf4(0xffff))
 	gl.Color(1,1,1,0)
-	cake.sheets:get("clouds"):draw(1,0,0,0,1,1)
+	cake.sheets:get("clouds"):draw(1,0,0,0,640,480)
 	
 	return play.drawscore()
 	

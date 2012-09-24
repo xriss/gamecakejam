@@ -28,7 +28,7 @@ bake=function(game)
 					pset("p1_"..v,m.action==1)
 				end
 			end
-			if m.keyname=="control_r" then
+			if m.keyname=="control_r" or m.keyname=="rcontrol" or m.keyname=="space" then
 				pset("p1_".."fire",m.action==1)
 			end
 			
