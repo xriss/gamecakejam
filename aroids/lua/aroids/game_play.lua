@@ -26,7 +26,7 @@ bake=function(state,play)
 
 play.setup=function(state)
 
-	state.cake.sheets:loads_and_chops{
+	state.cake.sheets.loads_and_chops{
 		{"imgs/back",1,1,0.5,0.5},
 		{"imgs/ship",1,1,0.5,0.5},
 		{"imgs/bullet3",1,1,0.5,0.5},
@@ -64,11 +64,11 @@ play.draw=function(state)
 	local canvas=state.canvas
 	local font=canvas.font
 
-	state.cake.sheets:get("imgs/back"):draw(1,720/2,480/2)
+	state.cake.sheets.get("imgs/back"):draw(1,720/2,480/2)
 
-	font:set_size(32,0) -- 32 pixels high
-	font:set_xy(0,0)
-	font:draw("Level: "..game.level.." Score: "..game.score)
+	font.set_size(32,0) -- 32 pixels high
+	font.set_xy(0,0)
+	font.draw("Level: "..game.level.." Score: "..game.score)
 
 	ship.draw(state)
 	shots.draw(state)

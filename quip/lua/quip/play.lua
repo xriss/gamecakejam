@@ -123,7 +123,7 @@ function new_plane(id)
 			if plane.immune>=0 then
 				gl.Color(pack.argb4_pmf4(0x8fff)) 
 			end
-			cake.sheets:get("plane"..plane.id):draw(1,plane.x,plane.y,plane.rz,128/2,128/2)
+			cake.sheets.get("plane"..plane.id):draw(1,plane.x,plane.y,plane.rz,128/2,128/2)
 		end
 		if plane.fx then plane.fx.draw() end
 		
@@ -173,7 +173,7 @@ function new_plane(id)
 			end
 		end
 		p.draw=function()
-			cake.sheets:get("pew"):draw(1,p.x,p.y,0,16,16)
+			cake.sheets.get("pew"):draw(1,p.x,p.y,0,16,16)
 		end
 	end
 	plane.bang=function()
@@ -196,7 +196,7 @@ function new_plane(id)
 		end
 		fx.draw=function()
 			gl.Color(1,1,1,0)
-			cake.sheets:get("boom"):draw(1,fx.x,fx.y,fx.rz,fx.ss*128,fx.ss*128)
+			cake.sheets.get("boom"):draw(1,fx.x,fx.y,fx.rz,fx.ss*128,fx.ss*128)
 		end
 	end
 	
@@ -225,18 +225,18 @@ play.draw=function(state)
 	
 
 	gl.Color(pack.argb4_pmf4(0xffff)) 
-	cake.sheets:get("back"):draw(1,0,0,0,640,480)
+	cake.sheets.get("back"):draw(1,0,0,0,640,480)
 
 	for i,v in ipairs(play.planes) do
 		v.draw()
 	end
 
 	gl.Color(pack.argb4_pmf4(0xffff)) 
-	cake.sheets:get("cone"):draw(1,0,0,0,640,480)
+	cake.sheets.get("cone"):draw(1,0,0,0,640,480)
 
 --	gl.Color(pack.argb4_pmf4(0xffff))
 	gl.Color(1,1,1,0)
-	cake.sheets:get("clouds"):draw(1,0,0,0,640,480)
+	cake.sheets.get("clouds"):draw(1,0,0,0,640,480)
 	
 	return play.drawscore()
 	
@@ -249,11 +249,11 @@ play.drawscore=function(state)
 			local p=play.planes[i]
 			if p then
 				local s=string.format("%d",p.score)
-				local sw=font:width(s) -- how wide the string is
-				font:set_size(32,0) -- 32 pixels high
+				local sw=font.width(s) -- how wide the string is
+				font.set_size(32,0) -- 32 pixels high
 				gl.Color(pack.argb4_pmf4(v[3]))
-				font:set_xy(v[1]-(sw/2),v[2])
-				font:draw(s)
+				font.set_xy(v[1]-(sw/2),v[2])
+				font.draw(s)
 				if p.score>max then max=p.score end
 			end
 		end

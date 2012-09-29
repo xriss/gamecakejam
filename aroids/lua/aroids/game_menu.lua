@@ -25,7 +25,7 @@ bake=function(state,play)
 
 play.setup=function(state)
 
-	state.cake.sheets:loads_and_chops{
+	state.cake.sheets.loads_and_chops{
 		{"imgs/title",1,1,0.5,0.5},
 	}
 	
@@ -55,15 +55,15 @@ end
 play.draw=function(state)
 
 
-	state.cake.sheets:get("imgs/title"):draw(1,720/2,480/2)
+	state.cake.sheets.get("imgs/title"):draw(1,720/2,480/2)
 
 
 	gl.Color(pack.argb4_pmf4(0xf000))
 
-	font:set_size(32,0) -- 32 pixels high
+	font.set_size(32,0) -- 32 pixels high
 
-	font:set_xy(0,0)
-	font:draw("Level: "..game.level.." Score: "..game.score)
+	font.set_xy(0,0)
+	font.draw("Level: "..game.level.." Score: "..game.score)
 	
 		
 	

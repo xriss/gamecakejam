@@ -99,7 +99,7 @@ end
 
 ship.draw=function(state)
 
-	state.cake.sheets:get("imgs/ship"):draw(1,(720/2)+ship.px,(480/2)+ship.py,ship.rz,ship.siz*173,ship.siz*256)
+	state.cake.sheets.get("imgs/ship"):draw(1,(720/2)+ship.px,(480/2)+ship.py,ship.rz,ship.siz*173,ship.siz*256)
 
 end
 	
