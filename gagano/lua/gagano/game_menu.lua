@@ -11,55 +11,65 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,play)
-	local play=play or {}
-	play.state=state
+M.bake=function(state,menu)
+	local menu=menu or {}
+	menu.state=state
 	
-	play.modname=modname
+	menu.modname=modname
 
 	local cake=state.cake
+	local sheets=cake.sheets
 	local opts=state.opts
 	local canvas=state.canvas
 	local font=canvas.font
 	local flat=canvas.flat
 	local gl=cake.gl
 	
-	
-play.loads=function(state)
+	local gui=state:rebake("gagano.gui")
 
+	
+	
+menu.loads=function(state)
+
+	sheets.loads_and_chops{
+		{"imgs/splash",1,1,0.5,0.5},
+	}
+	
 end
 		
-play.setup=function(state)
+menu.setup=function(state)
 
-	play.loads(state)
-
-end
-
-play.clean=function(state)
-
---	gui.clean()
+	menu.loads(state)
 
 end
 
-play.msg=function(state,m)
+menu.clean=function(state)
+
+	gui.clean()
+
+end
+
+menu.msg=function(state,m)
 
 --	print(wstr.dump(m))
 
---	if gui.msg(m) then return end -- gui can eat msgs
+	if gui.msg(m) then return end -- gui can eat msgs
 	
 end
 
-play.update=function(state)
+menu.update=function(state)
 
---	gui.update()
+	gui.update()
 
 end
 
-play.draw=function(state)
+menu.draw=function(state)
 		
---	gui.draw()
+	sheets.get("imgs/splash"):draw(1,720/2,480/2)
+	
+	gui.draw()
 
 end
 
-	return play
+	return menu
 end

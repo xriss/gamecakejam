@@ -53,6 +53,10 @@ game.setup=function(state)
 	game.now=nil
 	game.next=nil
 	
+	game.gui=state:rebake("gagano.gui")
+	
+	game.gui:setup()
+	
 	game.next=state:rebake("gagano.game_menu")
 	
 	game.change()
