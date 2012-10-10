@@ -34,6 +34,9 @@ M.bake=function(state,game)
 	game.page="menu"
 	game.wait=60
 	
+	game.last_score=0
+	game.best_score=0
+	
 	game.gui=state:rebake("gagano.gui")
 
 game.loads=function(state)

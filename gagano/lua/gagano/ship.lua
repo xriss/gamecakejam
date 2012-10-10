@@ -21,6 +21,7 @@ M.bake=function(state,ship)
 	local sheets=cake.sheets
 	
 	local shots=state:rebake("gagano.shots")
+	local play=state:rebake("gagano.game_play")
 	
 	function ship.setup()
 	
@@ -29,6 +30,10 @@ M.bake=function(state,ship)
 		
 		ship.gx=720/2
 		ship.gy=400
+		
+		ship.state="live"
+		
+		ship.deadcount=0
 		
 	end
 	
@@ -39,6 +44,15 @@ M.bake=function(state,ship)
 	
 	function ship.update()
 	
+		if ship.state=="dead" then
+			ship.deadcount=ship.deadcount+1
+			if ship.deadcount>100 then
+				state.game.last_score=play.score
+				state.game.next=state:rebake("gagano.game_menu")
+			end
+			return
+		end
+
 		if ship.gy<240 then ship.gy=240 end 
 		if ship.gy>460 then ship.gy=460 end 
 		if ship.gx<0   then ship.gx=0   end 
@@ -61,6 +75,10 @@ M.bake=function(state,ship)
 	end
 
 	function ship.draw()
+	
+		if ship.state=="dead" then
+			return
+		end
 
 		sheets.get("imgs/ship"):draw(1,ship.px,ship.py)
 

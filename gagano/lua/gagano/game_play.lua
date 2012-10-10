@@ -41,9 +41,11 @@ play.loads=function(state)
 		{"imgs/sub",1,1,0.5,0.5},
 		{"imgs/shark",1,1,0.5,0.5},
 		{"imgs/bullet",1,1,0.5,0.5},
+		{"imgs/boom",1,1,0.5,0.5},
 	}
 	
 	sounds.loads{
+		"die",
 		"beep",
 		"shoot",
 	}
@@ -51,6 +53,8 @@ play.loads=function(state)
 end
 		
 play.setup=function(state)
+
+	play.score=0
 
 	play.loads(state)
 
@@ -104,6 +108,11 @@ play.draw=function(state)
 	shots.draw()
 
 	gui.draw()
+	
+	local s=play.score..""
+	local sw=font.width(s)
+	font.set_xy( 360-(sw/2) ,480-32)
+	font.draw(s)
 
 end
 
