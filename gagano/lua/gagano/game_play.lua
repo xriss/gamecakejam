@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,menu)
-	local menu=menu or {}
-	menu.state=state
+M.bake=function(state,play)
+	local play=play or {}
+	play.state=state
 	
-	menu.modname=M.modname
+	play.modname=M.modname
 
 	local cake=state.cake
 	local sheets=cake.sheets
@@ -27,10 +27,8 @@ M.bake=function(state,menu)
 	
 	local gui=state.game.gui
 
-	print("menu",state.game,state.game.gui)
-
 	
-menu.loads=function(state)
+play.loads=function(state)
 
 	sheets.loads_and_chops{
 		{"imgs/splash",1,1,0.5,0.5},
@@ -38,18 +36,18 @@ menu.loads=function(state)
 	
 end
 		
-menu.setup=function(state)
+play.setup=function(state)
 
-	menu.loads(state)
+	play.loads(state)
 
-	gui.page("menu")
+	gui.page("play")
 end
 
-menu.clean=function(state)
+play.clean=function(state)
 
 end
 
-menu.msg=function(state,m)
+play.msg=function(state,m)
 
 --	print(wstr.dump(m))
 
@@ -57,13 +55,13 @@ menu.msg=function(state,m)
 	
 end
 
-menu.update=function(state)
+play.update=function(state)
 
 	gui.update()
 
 end
 
-menu.draw=function(state)
+play.draw=function(state)
 		
 	sheets.get("imgs/splash"):draw(1,720/2,480/2)
 	
@@ -71,5 +69,5 @@ menu.draw=function(state)
 
 end
 
-	return menu
+	return play
 end

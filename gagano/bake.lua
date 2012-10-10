@@ -21,6 +21,17 @@ for _,dir in ipairs{"imgs"} do
 
 end
 
+for i,v in ipairs{
+	"fonts/Vera.ttf",
+	"skins/soapbar/border.png",
+	"skins/soapbar/buttin.png",
+	"skins/soapbar/buttof.png",
+	"skins/soapbar/button.png",
+} do
+	wbake.create_dir_for_file("data/"..v)
+	wbake.copyfile("../../mods/data/"..v,"data/"..v)
+end
+
 
 wbake.create_dir_for_file("out/gagano.zip")
 os.execute("rm out/gagano.zip")
