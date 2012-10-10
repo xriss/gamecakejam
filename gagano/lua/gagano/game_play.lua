@@ -29,14 +29,17 @@ M.bake=function(state,play)
 
 	local ship=state:rebake("gagano.ship")
 	local nmes=state:rebake("gagano.nmes")
+	local shots=state:rebake("gagano.shots")
 	
 play.loads=function(state)
 
 	sheets.loads_and_chops{
 		{"imgs/splash",1,1,0.5,0.5},
+		{"imgs/starfield",1,1,0.5,0.5},
 		{"imgs/ship",1,1,0.5,0.5},
 		{"imgs/sub",1,1,0.5,0.5},
 		{"imgs/shark",1,1,0.5,0.5},
+		{"imgs/bullet",1,1,0.5,0.5},
 	}
 	
 end
@@ -47,13 +50,15 @@ play.setup=function(state)
 
 	gui.page("play")
 	
+	shots.setup()
 	ship.setup()
 	nmes.setup()
 end
 
 play.clean=function(state)
 
-	ship.setup()
+	shots.clean()
+	ship.clean()
 	nmes.clean()
 end
 
@@ -66,6 +71,10 @@ play.msg=function(state,m)
 	if m.x and m.y then
 		ship.gx=m.x
 		ship.gy=m.y
+		
+		if m.class=="mouse" and m.action==1 and m.keycode==1 then
+			ship.do_shot=true
+		end
 	end
 		
 end
@@ -74,6 +83,7 @@ play.update=function(state)
 
 	gui.update()
 
+	shots.update()
 	nmes.update()
 	ship.update()
 
@@ -81,10 +91,11 @@ end
 
 play.draw=function(state)
 		
---	sheets.get("imgs/splash"):draw(1,720/2,480/2)
+	sheets.get("imgs/starfield"):draw(1,720/2,480/2)
 	
 	nmes.draw()
 	ship.draw()
+	shots.draw()
 
 	gui.draw()
 

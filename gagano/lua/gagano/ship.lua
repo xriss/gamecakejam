@@ -11,6 +11,7 @@ local pack=require("wetgenes.pack")
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 
+
 M.bake=function(state,ship)
 
 	ship=ship or {} 
@@ -19,6 +20,7 @@ M.bake=function(state,ship)
 	local cake=state.cake
 	local sheets=cake.sheets
 	
+	local shots=state:rebake("gagano.shots")
 	
 	function ship.setup()
 	
@@ -44,6 +46,12 @@ M.bake=function(state,ship)
 	
 		ship.px=ship.px*0.75 + ship.gx*0.25
 		ship.py=ship.py*0.75 + ship.gy*0.25
+		
+		if ship.do_shot then
+			shots.add({x=ship.px,y=ship.py-32,vx=0,vy=-4})
+		end
+		
+		ship.do_shot=false
 
 	end
 	

@@ -57,7 +57,7 @@ game.setup=function(state)
 	game.gui.setup()
 	
 	game.next=state:rebake("gagano.game_menu")
-	game.next=state:rebake("gagano.game_play")
+--	game.next=state:rebake("gagano.game_play")
 	
 	game.change()
 end

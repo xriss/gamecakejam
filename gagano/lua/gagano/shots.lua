@@ -11,10 +11,10 @@ local pack=require("wetgenes.pack")
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 
-M.bake=function(state,nmes)
+M.bake=function(state,shots)
 
-	nmes=nmes or {} 
-	nmes.modname=M.modname
+	shots=shots or {} 
+	shots.modname=M.modname
 	
 	local cake=state.cake
 	local sheets=cake.sheets
@@ -22,54 +22,39 @@ M.bake=function(state,nmes)
 	local meta={}
 	
 	
-	function nmes.setup()
+	function shots.setup()
 	
-		nmes.list={}
-
-		local x=64
-		local y=32
-		local bx=32
-		for i=1,30 do
-			
-			nmes.add({x=x+16,y=y})
-			
-			x=x+64
-			if x>=720-64 then
-				x=bx
-				y=y+64
-				if bx==64 then bx=32 else bx=64 end
-			end
-		end
+		shots.list={}
 		
 	end
 	
 
-	function nmes.clean()
+	function shots.clean()
 	
 	end
 	
-	function nmes.update()
+	function shots.update()
 	
-		for i,v in pairs(nmes.list) do
+		for i,v in pairs(shots.list) do
 			v:update()
 		end
 
 	end
 	
-	function nmes.msg(m)
+	function shots.msg(m)
 
 	end
 
-	function nmes.draw()
+	function shots.draw()
 
 		
-		for i,v in pairs(nmes.list) do
+		for i,v in pairs(shots.list) do
 			v:draw()
 		end
 
 	end
 	
-	function nmes.add(opts)
+	function shots.add(opts)
 	
 		local nme={}
 		setmetatable(nme,{__index=meta})
@@ -80,22 +65,30 @@ M.bake=function(state,nmes)
 	end
 
 
-	function meta.setup(nme,opts)
-		nme.px=opts.x or 200
-		nme.py=opts.y or 200
+	function meta.setup(shot,opts)
+		shot.px=opts.x or 200
+		shot.py=opts.y or 200
 		
-		nmes.list[nme]=nme
+		shot.vx=opts.vx or 0
+		shot.vy=opts.vy or -1
+		
+		shots.list[shot]=shot
 	end
 	
-	function meta.clean(nme)
+	function meta.clean(shot)
 	end
 	
-	function meta.update(nme)
+	function meta.update(shot)
+		shot.px=shot.px+shot.vx
+		shot.py=shot.py+shot.vy
+		if shot.px<-128 or shot.px>720+128 or shot.py<-128 or shot.py>480+128 then
+			shots.list[shot]=nil
+		end
 	end
 	
-	function meta.draw(nme)
-		sheets.get("imgs/sub"):draw(1,nme.px,nme.py)
+	function meta.draw(shot)
+		sheets.get("imgs/bullet"):draw(1,shot.px,shot.py)
 	end
 	
-	return nmes
+	return shots
 end
