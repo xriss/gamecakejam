@@ -25,6 +25,18 @@ M.bake=function(state,gui)
 		gui.page("menu")
 	end
 	
+	gui.hooks=function(act,widget)
+			
+		local id=widget and widget.id
+		
+		if act=="click" then
+			if id=="start" then
+				state.game.next=state:rebake("gagano.game_play")
+			end
+		end
+	
+	end
+	
 	function gui.pages.play(master)
 
 --		local top=master:add({hx=720,hy=480,mx=720,my=480,class="flow",ax=0,ay=0,font="Vera",text_size=24})
@@ -38,7 +50,7 @@ M.bake=function(state,gui)
 		top:add({sy=440,sx=720})
 		local bot=top:add({sy=40,sx=720,mx=720,class="flow"})
 		bot:add({sy=40,sx=200})
-		bot:add({sx=200,sy=40,color=0xffffffff,text="Start!",id="start"})
+		bot:add({sx=200,sy=40,color=0xffffffff,text="Start!",id="start",hooks=gui.hooks})
 		bot:add({sy=40,sx=200})
 		
 	end
