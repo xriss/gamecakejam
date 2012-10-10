@@ -18,6 +18,7 @@ M.bake=function(state,play)
 	play.modname=M.modname
 
 	local cake=state.cake
+	local sounds=cake.sounds
 	local sheets=cake.sheets
 	local opts=state.opts
 	local canvas=state.canvas
@@ -42,6 +43,11 @@ play.loads=function(state)
 		{"imgs/bullet",1,1,0.5,0.5},
 	}
 	
+	sounds.loads{
+		"beep",
+		"shoot",
+	}
+
 end
 		
 play.setup=function(state)

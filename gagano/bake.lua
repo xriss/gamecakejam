@@ -21,6 +21,18 @@ for _,dir in ipairs{"imgs"} do
 
 end
 
+for _,dir in ipairs{"sfx"} do
+
+	local files=wbake.findfiles{basedir="art",dir=dir,filter="."}.ret
+
+	for i,v in ipairs(files) do
+		wbake.create_dir_for_file("data/"..v)
+		wbake.copyfile("art/"..v,"data/"..v)
+		print(v)
+	end
+
+end
+
 for i,v in ipairs{
 	"fonts/Vera.ttf",
 	"skins/soapbar/border.png",
