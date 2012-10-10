@@ -28,6 +28,7 @@ M.bake=function(state,play)
 	local gui=state.game.gui
 
 	local ship=state:rebake("gagano.ship")
+	local nmes=state:rebake("gagano.nmes")
 	
 play.loads=function(state)
 
@@ -47,11 +48,13 @@ play.setup=function(state)
 	gui.page("play")
 	
 	ship.setup()
+	nmes.setup()
 end
 
 play.clean=function(state)
 
-	ship.clean()
+	ship.setup()
+	nmes.clean()
 end
 
 play.msg=function(state,m)
@@ -71,6 +74,7 @@ play.update=function(state)
 
 	gui.update()
 
+	nmes.update()
 	ship.update()
 
 end
@@ -79,6 +83,7 @@ play.draw=function(state)
 		
 --	sheets.get("imgs/splash"):draw(1,720/2,480/2)
 	
+	nmes.draw()
 	ship.draw()
 
 	gui.draw()

@@ -37,6 +37,11 @@ M.bake=function(state,ship)
 	
 	function ship.update()
 	
+		if ship.gy<240 then ship.gy=240 end 
+		if ship.gy>460 then ship.gy=460 end 
+		if ship.gx<0   then ship.gx=0   end 
+		if ship.gx>720 then ship.gx=720 end 
+	
 		ship.px=ship.px*0.75 + ship.gx*0.25
 		ship.py=ship.py*0.75 + ship.gy*0.25
 
