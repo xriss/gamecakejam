@@ -22,8 +22,12 @@ M.bake=function(state,nmes)
 	local meta={}
 	
 	local shots=state:rebake("gagano.shots")
+	local ship=state:rebake("gagano.ship")
+	local play=state:rebake("gagano.game_play")
 	
 	function nmes.setup()
+	
+		nmes.base_score=100
 	
 		nmes.list={}
 
@@ -105,6 +109,19 @@ M.bake=function(state,nmes)
 	function meta.update(nme)
 	
 	local can_die = function()
+
+		if ship.state~="dead" then
+			local x=nme.px-ship.px
+			local y=nme.py-ship.py
+			if x*x + y*y < 32*32 then
+				ship.state="dead"
+				nme.state="dead"
+				nme.rz=0+math.random(0,100)
+				nme.sx=200+math.random(0,100)
+				nme.sy=200+math.random(0,100)
+			end
+		end
+		
 		for i,v in pairs(shots.list) do
 			local x=nme.px-v.px
 			local y=nme.py-v.py
@@ -117,6 +134,8 @@ M.bake=function(state,nmes)
 					nme.sy=200+math.random(0,100)
 					
 					cake.beep("die")
+					
+					play.score=play.score+nmes.base_score
 				break
 			end
 		end
@@ -126,6 +145,7 @@ M.bake=function(state,nmes)
 		
 			if math.random(0,1000) < 5 then
 				nme.state="swoop"
+				nme.vx=(math.random(0,256)-128)/64
 			end
 			
 			can_die()
@@ -133,10 +153,12 @@ M.bake=function(state,nmes)
 		elseif nme.state=="swoop" then
 		
 			nme.py=nme.py+5
+			nme.px=nme.px+nme.vx
 			
 			if nme.py>480+64 then
-				nme.py=64
-				nme.state="live"
+				nme.px=math.random(64,720-64)
+				nme.py=-64
+				nme.state="swoop"
 			end
 		
 			can_die()
@@ -149,6 +171,10 @@ M.bake=function(state,nmes)
 			
 			if nme.sx<=0 or nme.sy<=0 then
 				nmes.list[nme]=nil
+				
+				nmes.add({x=math.random(64,720-64),y=-64,img=nme.img})
+				nmes.add({x=math.random(64,720-64),y=-64,img=nme.img})
+				
 			end
 		end
 	end

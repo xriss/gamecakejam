@@ -54,6 +54,8 @@ end
 		
 play.setup=function(state)
 
+	play.score=0
+
 	play.loads(state)
 
 	gui.page("play")
@@ -106,6 +108,11 @@ play.draw=function(state)
 	shots.draw()
 
 	gui.draw()
+	
+	local s=play.score..""
+	local sw=font.width(s)
+	font.set_xy( 360-(sw/2) ,480-32)
+	font.draw(s)
 
 end
 
