@@ -45,6 +45,7 @@ play.loads=function(state)
 	}
 	
 	sounds.loads{
+		"die",
 		"beep",
 		"shoot",
 	}

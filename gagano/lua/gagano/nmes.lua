@@ -30,9 +30,15 @@ M.bake=function(state,nmes)
 		local x=64
 		local y=32
 		local bx=32
+		local img
 		for i=1,30 do
+		
+			img="imgs/sub"
+			if i>10 and i<=20 then
+				img="imgs/shark"
+			end
 			
-			nmes.add({x=x+16,y=y})
+			nmes.add({x=x+16,y=y,img=img})
 			
 			x=x+64
 			if x>=720-64 then
@@ -82,6 +88,9 @@ M.bake=function(state,nmes)
 
 
 	function meta.setup(nme,opts)
+	
+		nme.img=opts.img or "imgs/sub"
+	
 		nme.px=opts.x or 200
 		nme.py=opts.y or 200
 		
@@ -94,31 +103,68 @@ M.bake=function(state,nmes)
 	end
 	
 	function meta.update(nme)
+	
+	local can_die = function()
+		for i,v in pairs(shots.list) do
+			local x=nme.px-v.px
+			local y=nme.py-v.py
+			if x*x + y*y < 32*32 then
+				nme.state="dead"
+				v.state="dead"
+				
+					nme.rz=0+math.random(0,100)
+					nme.sx=200+math.random(0,100)
+					nme.sy=200+math.random(0,100)
+					
+					cake.beep("die")
+				break
+			end
+		end
+	end
+	
 		if nme.state=="live" then
 		
-			for i,v in pairs(shots.list) do
-				local x=nme.px-v.px
-				local y=nme.py-v.py
-				if x*x + y*y < 32*32 then
-					nme.state="dead"
-					v.state="dead"
-					break
-				end
+			if math.random(0,1000) < 5 then
+				nme.state="swoop"
 			end
+			
+			can_die()
+			
+		elseif nme.state=="swoop" then
+		
+			nme.py=nme.py+5
+			
+			if nme.py>480+64 then
+				nme.py=64
+				nme.state="live"
+			end
+		
+			can_die()
 		
 		elseif nme.state=="dead" then
 		
+			nme.rz=nme.rz-5
+			nme.sx=nme.sx-5
+			nme.sy=nme.sy-5
+			
+			if nme.sx<=0 or nme.sy<=0 then
+				nmes.list[nme]=nil
+			end
 		end
 	end
 	
 	function meta.draw(nme)
 		if nme.state=="live" then
 		
-			sheets.get("imgs/sub"):draw(1,nme.px,nme.py)
+			sheets.get(nme.img):draw(1,nme.px,nme.py)
+			
+		elseif nme.state=="swoop" then
+		
+			sheets.get(nme.img):draw(1,nme.px,nme.py)
 			
 		elseif nme.state=="dead" then
 		
-			sheets.get("imgs/boom"):draw(1,nme.px,nme.py)
+			sheets.get("imgs/boom"):draw(1,nme.px,nme.py,nme.rz,nme.sx,nme.sy)
 		end
 	end
 	
