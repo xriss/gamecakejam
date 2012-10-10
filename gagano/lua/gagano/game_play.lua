@@ -63,7 +63,7 @@ end
 
 play.draw=function(state)
 		
-	sheets.get("imgs/splash"):draw(1,720/2,480/2)
+--	sheets.get("imgs/splash"):draw(1,720/2,480/2)
 	
 	gui.draw()
 
