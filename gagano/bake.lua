@@ -1,4 +1,4 @@
-#!../../exe/dbg/lua
+#!../../bin/exe/lua
 
 local wbake=require("wetgenes.bake")
 local wstr=require("wetgenes.string")
