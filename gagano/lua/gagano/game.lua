@@ -57,6 +57,7 @@ game.setup=function(state)
 	game.gui.setup()
 	
 	game.next=state:rebake("gagano.game_menu")
+	game.next=state:rebake("gagano.game_play")
 	
 	game.change()
 end
@@ -99,6 +100,7 @@ game.msg=function(state,m)
 		m.x=m.x+(720/2)
 		m.y=m.y+(480/2)
 	end
+	
 
 	if game.now and game.now.msg then
 		game.now.msg(state,m)
