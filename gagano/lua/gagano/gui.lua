@@ -14,7 +14,7 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 M.bake=function(state,gui)
 
 	gui=gui or {} 
-	gui.modname=modname
+	gui.modname=M.modname
 
 	gui.pages={} -- put functions to fill in pages in here
 

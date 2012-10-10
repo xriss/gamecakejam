@@ -15,7 +15,7 @@ M.bake=function(state,play)
 	local play=play or {}
 	play.state=state
 	
-	play.modname=modname
+	play.modname=M.modname
 
 	local cake=state.cake
 	local sheets=cake.sheets
@@ -27,7 +27,6 @@ M.bake=function(state,play)
 	
 	local gui=state.game.gui
 
-	
 	
 play.loads=function(state)
 
@@ -45,8 +44,6 @@ play.setup=function(state)
 end
 
 play.clean=function(state)
-
-	gui.clean()
 
 end
 

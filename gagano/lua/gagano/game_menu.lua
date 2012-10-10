@@ -15,7 +15,7 @@ M.bake=function(state,menu)
 	local menu=menu or {}
 	menu.state=state
 	
-	menu.modname=modname
+	menu.modname=M.modname
 
 	local cake=state.cake
 	local sheets=cake.sheets
@@ -25,9 +25,10 @@ M.bake=function(state,menu)
 	local flat=canvas.flat
 	local gl=cake.gl
 	
-	local gui=state:rebake("gagano.gui")
+	local gui=state.game.gui
 
-	
+	print("menu",state.game,state.game.gui)
+
 	
 menu.loads=function(state)
 
@@ -45,8 +46,6 @@ menu.setup=function(state)
 end
 
 menu.clean=function(state)
-
-	gui.clean()
 
 end
 

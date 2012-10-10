@@ -13,6 +13,7 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 M.bake=function(state,game)
 	local game=game or {}
 	game.state=state
+	state.game=game
 	
 	local cake=state.cake
 	local opts=state.opts
@@ -21,7 +22,7 @@ M.bake=function(state,game)
 	local flat=canvas.flat
 	local gl=cake.gl
 
-	game.modname=modname
+	game.modname=M.modname
 	
 -- a substate
 	game.subs=require("wetgenes.gamecake.state").bake({
@@ -33,8 +34,8 @@ M.bake=function(state,game)
 	game.page="menu"
 	game.wait=60
 	
-	
-	
+	game.gui=state:rebake("gagano.gui")
+
 game.loads=function(state)
 
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
@@ -46,8 +47,6 @@ end
 		
 game.setup=function(state)
 	local cake=state.cake
-
-	state.game=state
 	
 	game.loads(state)
 	
@@ -55,9 +54,7 @@ game.setup=function(state)
 	game.now=nil
 	game.next=nil
 	
-	game.gui=state:rebake("gagano.gui")
-	
-	game.gui:setup()
+	game.gui.setup()
 	
 	game.next=state:rebake("gagano.game_menu")
 	
