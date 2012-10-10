@@ -47,6 +47,8 @@ end
 game.setup=function(state)
 	local cake=state.cake
 
+	state.game=state
+	
 	game.loads(state)
 	
 	game.last=nil
