@@ -21,6 +21,7 @@ M.bake=function(state,nmes)
 	
 	local meta={}
 	
+	local shots=state:rebake("gagano.shots")
 	
 	function nmes.setup()
 	
@@ -84,6 +85,8 @@ M.bake=function(state,nmes)
 		nme.px=opts.x or 200
 		nme.py=opts.y or 200
 		
+		nme.state="live"
+		
 		nmes.list[nme]=nme
 	end
 	
@@ -91,10 +94,32 @@ M.bake=function(state,nmes)
 	end
 	
 	function meta.update(nme)
+		if nme.state=="live" then
+		
+			for i,v in pairs(shots.list) do
+				local x=nme.px-v.px
+				local y=nme.py-v.py
+				if x*x + y*y < 32*32 then
+					nme.state="dead"
+					v.state="dead"
+					break
+				end
+			end
+		
+		elseif nme.state=="dead" then
+		
+		end
 	end
 	
 	function meta.draw(nme)
-		sheets.get("imgs/sub"):draw(1,nme.px,nme.py)
+		if nme.state=="live" then
+		
+			sheets.get("imgs/sub"):draw(1,nme.px,nme.py)
+			
+		elseif nme.state=="dead" then
+		
+			sheets.get("imgs/boom"):draw(1,nme.px,nme.py)
+		end
 	end
 	
 	return nmes

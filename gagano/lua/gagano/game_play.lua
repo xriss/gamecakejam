@@ -41,6 +41,7 @@ play.loads=function(state)
 		{"imgs/sub",1,1,0.5,0.5},
 		{"imgs/shark",1,1,0.5,0.5},
 		{"imgs/bullet",1,1,0.5,0.5},
+		{"imgs/boom",1,1,0.5,0.5},
 	}
 	
 	sounds.loads{
