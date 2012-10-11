@@ -41,6 +41,10 @@ end
 		
 menu.setup=function(state)
 
+	if game.best_score < game.last_score then
+		game.best_score = game.last_score
+	end
+
 	menu.loads(state)
 
 	gui.page("menu")
