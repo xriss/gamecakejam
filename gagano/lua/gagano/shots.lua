@@ -72,6 +72,8 @@ M.bake=function(state,shots)
 		shot.vx=opts.vx or 0
 		shot.vy=opts.vy or -1
 		
+		shot.state="live"
+		
 		shots.list[shot]=shot
 	end
 	
@@ -81,7 +83,7 @@ M.bake=function(state,shots)
 	function meta.update(shot)
 		shot.px=shot.px+shot.vx
 		shot.py=shot.py+shot.vy
-		if shot.px<-128 or shot.px>720+128 or shot.py<-128 or shot.py>480+128 then
+		if shot.px<-128 or shot.px>720+128 or shot.py<-128 or shot.py>480+128 or shot.state=="dead" then
 			shots.list[shot]=nil
 		end
 	end

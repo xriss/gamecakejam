@@ -17,6 +17,7 @@ M.bake=function(state,menu)
 	
 	menu.modname=M.modname
 
+	local game=state.game
 	local cake=state.cake
 	local sheets=cake.sheets
 	local opts=state.opts
@@ -69,6 +70,19 @@ menu.draw=function(state)
 	
 	gui.draw()
 
+
+	font.set(cake.fonts.get(1))
+	font.set_size(32,0)
+	local s=game.last_score..""
+	local sw=font.width(s)
+	font.set_xy( 180-(sw/2)-60 ,480-32)
+	font.draw(s)
+
+	local s=game.best_score..""
+	local sw=font.width(s)
+	font.set_xy( 360+180-(sw/2)+60 ,480-32)
+	font.draw(s)
+	
 end
 
 	return menu
