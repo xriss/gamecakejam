@@ -26,6 +26,7 @@ M.bake=function(state,play)
 	local flat=canvas.flat
 	local gl=cake.gl
 	
+	local game=state.game
 	local gui=state.game.gui
 
 	local ship=state:rebake("gagano.ship")
@@ -109,9 +110,18 @@ play.draw=function(state)
 
 	gui.draw()
 	
-	local s=play.score..""
+	game.last_score=play.score
+	
+	font.set(cake.fonts.get(1))
+	font.set_size(32,0)
+	local s=game.last_score..""
 	local sw=font.width(s)
-	font.set_xy( 360-(sw/2) ,480-32)
+	font.set_xy( 180-(sw/2)-60 ,480-32)
+	font.draw(s)
+
+	local s=game.best_score..""
+	local sw=font.width(s)
+	font.set_xy( 360+180-(sw/2)+60 ,480-32)
 	font.draw(s)
 
 end

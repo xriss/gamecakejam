@@ -27,7 +27,7 @@ M.bake=function(state,nmes)
 	
 	function nmes.setup()
 	
-		nmes.base_score=100
+		nmes.base_score=1
 	
 		nmes.list={}
 
@@ -135,7 +135,15 @@ M.bake=function(state,nmes)
 					
 					cake.beep("die")
 					
+					
+					if nme.img=="imgs/shark" then
+						nmes.base_score=nmes.base_score*2
+					else
+						nmes.base_score=1
+					end
+
 					play.score=play.score+nmes.base_score
+
 				break
 			end
 		end
