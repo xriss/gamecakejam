@@ -27,13 +27,16 @@ M.bake=function(state,play)
 	
 	local gui=state:rebake("lemonhunter.gui")
 	local hunter=state:rebake("lemonhunter.hunter")
+	local stake=state:rebake("lemonhunter.stake")
 	local level=state:rebake("lemonhunter.level")
 
 
 play.loads=function(state)
 
 	sheets.loads_and_chops{
-		{"imgs/hunter",1,1,0.5,0.5},
+		{"imgs/stake",1,1,0.5,0.5},
+		{"imgs/hero",1,1,0.5,0.5},
+		{"imgs/lemon",1,1,0.5,0.5},
 		{"imgs/gameback",1,1,0.5,0.5},
 	}
 	
@@ -48,11 +51,13 @@ play.setup=function(state)
 
 	level.setup()
 	hunter.setup()
+	stake.setup()
 
 end
 
 play.clean=function(state)
 
+	stake.clean()
 	hunter.clean()
 	level.clean()
 	gui.clean()
@@ -66,11 +71,11 @@ play.msg=function(state,m)
 	if gui.msg(m) then return end -- gui can eat msgs
 
 	if m.x and m.y then
-		hunter.gx=m.x
-		hunter.gy=m.y
+		hunter.mx=m.x
+		hunter.my=m.y
 		
 		if m.class=="mouse" and m.action==1 and m.keycode==1 then
-			hunter.do_shot=true
+			hunter.do_click=true
 		end
 	end
 	
@@ -80,8 +85,9 @@ play.update=function(state)
 
 	gui.update()
 
-	hunter.update()
 	level.update()
+	hunter.update()
+	stake.update()
 
 end
 
@@ -90,6 +96,7 @@ play.draw=function(state)
 
 	level.draw()
 	hunter.draw()
+	stake.draw()
 
 	gui.draw()
 
