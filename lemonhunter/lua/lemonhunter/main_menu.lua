@@ -23,12 +23,17 @@ M.bake=function(state,menu)
 	local font=canvas.font
 	local flat=canvas.flat
 	local gl=cake.gl
+	local sheets=cake.sheets
 	
 	local gui=state:rebake("lemonhunter.gui")
 
 
 menu.loads=function(state)
 
+	sheets.loads_and_chops{
+		{"imgs/splash",1,1,0.5,0.5},
+	}
+	
 end
 		
 menu.setup=function(state)
@@ -62,6 +67,8 @@ end
 
 menu.draw=function(state)
 		
+	sheets.get("imgs/splash"):draw(1,720/2,480/2)
+
 	gui.draw()
 
 end
