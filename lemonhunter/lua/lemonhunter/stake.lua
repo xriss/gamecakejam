@@ -45,9 +45,9 @@ M.bake=function(state,stake)
 	function stake.update()
 
 		
-		local mul=31/32
+		local mul=63/64
 		
-		stake.vy=stake.vy+1
+		stake.vy=stake.vy+1/4
 		
 		stake.vx=stake.vx*mul
 		stake.vy=stake.vy*mul

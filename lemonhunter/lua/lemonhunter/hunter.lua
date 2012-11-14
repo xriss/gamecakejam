@@ -152,7 +152,7 @@ M.bake=function(state,hunter)
 			return
 		end
 
-		sheets.get("imgs/hunter"):draw(1,hunter.px,hunter.py,0,64)
+		sheets.get("imgs/hero"):draw(1,hunter.px,hunter.py,0,64)
 
 	end
 	

@@ -35,7 +35,8 @@ play.loads=function(state)
 
 	sheets.loads_and_chops{
 		{"imgs/stake",1,1,0.5,0.5},
-		{"imgs/hunter",1,1,0.5,0.5},
+		{"imgs/hero",1,1,0.5,0.5},
+		{"imgs/lemon",1,1,0.5,0.5},
 		{"imgs/gameback",1,1,0.5,0.5},
 	}
 	
