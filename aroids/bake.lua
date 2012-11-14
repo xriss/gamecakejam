@@ -1,4 +1,4 @@
-#!/usr/local/bin/gamecake
+#!../../bin/exe/lua
 
 local wbake=require("wetgenes.bake")
 local wstr=require("wetgenes.string")
