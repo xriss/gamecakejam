@@ -26,12 +26,15 @@ M.bake=function(state,play)
 	local sheets=cake.sheets
 	
 	local gui=state:rebake("lemonhunter.gui")
+	local hunter=state:rebake("lemonhunter.hunter")
+	local level=state:rebake("lemonhunter.level")
 
 
 play.loads=function(state)
 
 	sheets.loads_and_chops{
---		{"imgs/splash",1,1,0.5,0.5},
+		{"imgs/hunter",1,1,0.5,0.5},
+		{"imgs/gameback",1,1,0.5,0.5},
 	}
 	
 end
@@ -43,10 +46,15 @@ play.setup=function(state)
 	gui.setup()
 	gui.page("play")
 
+	level.setup()
+	hunter.setup()
+
 end
 
 play.clean=function(state)
 
+	hunter.clean()
+	level.clean()
 	gui.clean()
 
 end
@@ -56,6 +64,15 @@ play.msg=function(state,m)
 --	print(wstr.dump(m))
 
 	if gui.msg(m) then return end -- gui can eat msgs
+
+	if m.x and m.y then
+		hunter.gx=m.x
+		hunter.gy=m.y
+		
+		if m.class=="mouse" and m.action==1 and m.keycode==1 then
+			hunter.do_shot=true
+		end
+	end
 	
 end
 
@@ -63,11 +80,16 @@ play.update=function(state)
 
 	gui.update()
 
+	hunter.update()
+	level.update()
+
 end
 
 play.draw=function(state)
 		
---	sheets.get("imgs/splash"):draw(1,720/2,480/2)
+
+	level.draw()
+	hunter.draw()
 
 	gui.draw()
 
