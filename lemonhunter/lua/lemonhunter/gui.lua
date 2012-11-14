@@ -15,6 +15,8 @@ M.bake=function(state,gui)
 
 	gui=gui or {} 
 	gui.modname=M.modname
+	
+	local main=state:rebake("lemonhunter.main")
 
 	gui.pages={} -- put functions to fill in pages in here
 
@@ -25,7 +27,17 @@ M.bake=function(state,gui)
 		gui.page()
 	end
 	
-
+	gui.hooks=function(act,widget)
+			
+		local id=widget and widget.id
+		
+		if act=="click" then
+			if id=="start" then
+				main.next=state:rebake("lemonhunter.main_play")
+			end
+		end
+	
+	end
 	
 	function gui.pages.menu(master)
 
@@ -33,12 +45,18 @@ M.bake=function(state,gui)
 
 		top:add({sx=720,sy=400})
 		
-		top:add({sx=720,sy=40,color=0xffcccccc,text="Start"})
+		top:add({sx=720,sy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
 		
 		top:add({sx=720,sy=40})
 		
 	end
 
+	function gui.pages.play(master)
+
+		local top=master:add({hx=720,hy=480,mx=720,my=480,class="flow",ax=0,ay=0,font="Vera",text_size=24})
+		
+	end
+	
 	function gui.page(pname)
 	
 		gui.master:clean_all()

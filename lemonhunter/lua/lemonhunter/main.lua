@@ -52,6 +52,11 @@ main.setup=function(state)
 	main.last=nil
 	main.now=nil
 	main.next=nil
+
+-- preload everything
+	state:rebake("lemonhunter.main_menu").loads(state)
+	state:rebake("lemonhunter.main_play").loads(state)
+	
 	
 	main.next=state:rebake("lemonhunter.main_menu")
 	
