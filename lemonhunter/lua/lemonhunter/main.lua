@@ -33,7 +33,8 @@ M.bake=function(state,main)
 	main.page="menu"
 	main.wait=60
 	
-	
+	main.last_score=0
+	main.best_score=0
 	
 main.loads=function(state)
 
@@ -148,6 +149,21 @@ main.draw=function(state)
 		main.now.draw(state)
 	end
 	
+	gl.Color(pack.argb4_pmf4(0xffff))
+
+	font.set(cake.fonts.get(1))
+	font.set_size(32,0)
+	local s=main.last_score..""
+	local sw=font.width(s)
+	font.set_xy( 180-(sw/2)-60 ,8)
+	font.draw(s)
+
+	local s=main.best_score..""
+	local sw=font.width(s)
+	font.set_xy( 360+180-(sw/2)+60 ,8)
+	font.draw(s)
+	
+		
 	gl.PopMatrix()
 	
 end

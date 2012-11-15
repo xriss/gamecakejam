@@ -25,6 +25,7 @@ M.bake=function(state,play)
 	local gl=cake.gl
 	local sheets=cake.sheets
 	
+	local main=state:rebake("lemonhunter.main")
 	local gui=state:rebake("lemonhunter.gui")
 	local hunter=state:rebake("lemonhunter.hunter")
 	local stake=state:rebake("lemonhunter.stake")
@@ -38,6 +39,7 @@ play.loads=function(state)
 		{"imgs/stake",1,1,0.5,0.5},
 		{"imgs/hero",1,1,0.5,0.5},
 		{"imgs/lemon",1,1,0.5,0.5},
+		{"imgs/lemondie",1,1,0.5,0.5},
 		{"imgs/gameback",1,1,0.5,0.5},
 	}
 	
@@ -54,6 +56,8 @@ play.setup=function(state)
 	hunter.setup()
 	stake.setup()
 	lemons.setup()
+	
+	play.score=0
 
 end
 
@@ -92,6 +96,14 @@ play.update=function(state)
 	hunter.update()
 	stake.update()
 	lemons.update()
+	
+	main.last_score=play.score
+
+end
+
+play.add_score=function(num)
+
+	play.score=play.score+num
 
 end
 
@@ -104,6 +116,10 @@ play.draw=function(state)
 	stake.draw()
 
 	gui.draw()
+
+	
+
+
 
 end
 

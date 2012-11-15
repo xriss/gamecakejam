@@ -112,8 +112,25 @@ M.bake=function(state,lemons)
 						if dx*dx + dy*dy < 64*64 then -- smash
 							v.state="fall"
 							v.vy=0
+							
+							stake.kills=(stake.kills*2)+1
+							
+							play.add_score(stake.kills)
 						end
 						
+					end
+					
+					if hunter.state~="dead" then
+					
+						local dx=hunter.px-v.px
+						local dy=hunter.py-v.py
+						
+						if dx*dx + dy*dy < 64*64 then -- smash
+							hunter.state="dead"
+							hunter.vx=v.vx
+							hunter.vy=-16
+						end
+
 					end
 				
 				end
@@ -144,11 +161,15 @@ M.bake=function(state,lemons)
 
 	function lemons.draw()
 	
-		local sht=sheets.get("imgs/lemon")
+		local shtl=sheets.get("imgs/lemon")
+		local shtd=sheets.get("imgs/lemondie")
 		
 		for i,v in ipairs(lemons.list) do
 			if v.state=="dead" then else
 		
+			local sht=shtl
+			if v.state=="fall" then sht=shtd end
+			
 			sht:draw(1,v.px,v.py,v.rot,v.siz*v.face,v.siz)
 
 			end

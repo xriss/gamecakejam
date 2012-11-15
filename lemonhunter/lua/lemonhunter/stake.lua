@@ -103,6 +103,7 @@ M.bake=function(state,stake)
 				
 				if dx*dx + dy*dy < 64*64 then
 					stake.held=1
+					stake.kills=0
 				end
 			end
 		
