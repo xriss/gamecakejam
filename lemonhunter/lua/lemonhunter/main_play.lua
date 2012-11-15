@@ -29,6 +29,7 @@ M.bake=function(state,play)
 	local hunter=state:rebake("lemonhunter.hunter")
 	local stake=state:rebake("lemonhunter.stake")
 	local level=state:rebake("lemonhunter.level")
+	local lemons=state:rebake("lemonhunter.lemons")
 
 
 play.loads=function(state)
@@ -52,11 +53,13 @@ play.setup=function(state)
 	level.setup()
 	hunter.setup()
 	stake.setup()
+	lemons.setup()
 
 end
 
 play.clean=function(state)
 
+	lemons.clean()
 	stake.clean()
 	hunter.clean()
 	level.clean()
@@ -88,6 +91,7 @@ play.update=function(state)
 	level.update()
 	hunter.update()
 	stake.update()
+	lemons.update()
 
 end
 
@@ -96,6 +100,7 @@ play.draw=function(state)
 
 	level.draw()
 	hunter.draw()
+	lemons.draw()
 	stake.draw()
 
 	gui.draw()

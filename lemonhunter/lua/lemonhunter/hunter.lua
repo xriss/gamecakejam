@@ -107,6 +107,7 @@ M.bake=function(state,hunter)
 					vx=vx/d
 					vy=vy/d
 
+					stake.state="fall"
 					stake.held=-10
 					stake.vx=vx*32
 					stake.vy=vy*32
