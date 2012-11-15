@@ -24,6 +24,7 @@ M.bake=function(state,play)
 	local flat=canvas.flat
 	local gl=cake.gl
 	local sheets=cake.sheets
+	local sounds=cake.sounds
 	
 	local main=state:rebake("lemonhunter.main")
 	local gui=state:rebake("lemonhunter.gui")
@@ -43,6 +44,12 @@ play.loads=function(state)
 		{"imgs/gameback",1,1,0.5,0.5},
 	}
 	
+	sounds.loads{
+		"sfx/die",
+		"sfx/beep",
+		"sfx/shoot",
+	}
+
 end
 		
 play.setup=function(state)

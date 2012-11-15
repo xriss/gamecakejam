@@ -18,6 +18,7 @@ M.bake=function(state,lemons)
 	lemons.modname=M.modname
 	
 	local cake=state.cake
+	local sounds=cake.sounds
 	local sheets=cake.sheets
 	
 --	local shots=state:rebake("gagano.shots")
@@ -116,6 +117,7 @@ M.bake=function(state,lemons)
 							stake.kills=(stake.kills*2)+1
 							
 							play.add_score(stake.kills)
+							sounds.beep(sounds.get("sfx/beep"))
 						end
 						
 					end
@@ -129,6 +131,7 @@ M.bake=function(state,lemons)
 							hunter.state="dead"
 							hunter.vx=v.vx
 							hunter.vy=-16
+							sounds.beep(sounds.get("sfx/die"))
 						end
 
 					end

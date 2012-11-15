@@ -48,6 +48,14 @@ menu.setup=function(state)
 		main.best_score = main.last_score
 	end
 
+	local qq=cake.sounds.queues[1]
+	if not qq.oggs then
+		qq.ogg_loop=true
+		qq.state="play_queue"
+		qq.oggs={"oggs/lemons"}
+		qq.gain=0.75
+		qq.pitch=1
+	end
 
 end
 

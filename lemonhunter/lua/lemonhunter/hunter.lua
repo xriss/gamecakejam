@@ -18,6 +18,7 @@ M.bake=function(state,hunter)
 	hunter.modname=M.modname
 	
 	local cake=state.cake
+	local sounds=cake.sounds
 	local sheets=cake.sheets
 	
 --	local shots=state:rebake("gagano.shots")
@@ -119,6 +120,8 @@ M.bake=function(state,hunter)
 					stake.vy=vy*32
 				end
 				
+				sounds.beep(sounds.get("sfx/beep"))
+
 			else --jump
 				hunter.gx=hunter.mx
 				hunter.gy=hunter.my
@@ -142,6 +145,9 @@ M.bake=function(state,hunter)
 					hunter.gy=level.bot-32
 					hunter.stand="bot"				
 				end
+
+				sounds.beep(sounds.get("sfx/shoot"))
+
 			end
 		end
 		
