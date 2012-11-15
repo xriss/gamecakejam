@@ -21,6 +21,7 @@ M.bake=function(state,hunter)
 	local sheets=cake.sheets
 	
 --	local shots=state:rebake("gagano.shots")
+	local main=state:rebake("lemonhunter.main")
 	local play=state:rebake("lemonhunter.main_play")
 	local level=state:rebake("lemonhunter.level")
 	local stake=state:rebake("lemonhunter.stake")
@@ -58,14 +59,19 @@ M.bake=function(state,hunter)
 	
 	function hunter.update()
 	
---		if hunter.state=="dead" then
---			hunter.deadcount=hunter.deadcount+1
---			if hunter.deadcount>100 then
---				state.game.last_score=play.score
---				state.game.next=state:rebake("gagano.game_menu")
---			end
---			return
---		end
+		if hunter.state=="dead" then
+
+			hunter.vy=hunter.vy+1
+			hunter.px=hunter.px+hunter.vx
+			hunter.py=hunter.py+hunter.vy
+
+			hunter.deadcount=hunter.deadcount+1
+			if hunter.deadcount>100 then
+				main.last_score=play.score
+				main.next=state:rebake("lemonhunter.main_menu")
+			end
+			return
+		end
 
 		if hunter.gy<0   then hunter.gy=0   end 
 		if hunter.gy>480 then hunter.gy=480 end 
@@ -107,6 +113,7 @@ M.bake=function(state,hunter)
 					vx=vx/d
 					vy=vy/d
 
+					stake.state="fall"
 					stake.held=-10
 					stake.vx=vx*32
 					stake.vy=vy*32
@@ -148,9 +155,9 @@ M.bake=function(state,hunter)
 
 	function hunter.draw()
 	
-		if hunter.state=="dead" then
-			return
-		end
+--		if hunter.state=="dead" then
+--			return
+--		end
 
 		sheets.get("imgs/hero"):draw(1,hunter.px,hunter.py,0,64)
 

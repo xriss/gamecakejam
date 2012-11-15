@@ -26,6 +26,7 @@ M.bake=function(state,menu)
 	local sheets=cake.sheets
 	
 	local gui=state:rebake("lemonhunter.gui")
+	local main=state:rebake("lemonhunter.main")
 
 
 menu.loads=function(state)
@@ -42,6 +43,11 @@ menu.setup=function(state)
 
 	gui.setup()
 	gui.page("menu")
+
+	if main.best_score < main.last_score then
+		main.best_score = main.last_score
+	end
+
 
 end
 

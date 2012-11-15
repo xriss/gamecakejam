@@ -34,6 +34,8 @@ M.bake=function(state,stake)
 		stake.vy=0
 		
 		stake.held=0
+		
+		stake.state="fall"
 
 	end
 	
@@ -44,22 +46,47 @@ M.bake=function(state,stake)
 	
 	function stake.update()
 
-		
-		local mul=63/64
-		
-		stake.vy=stake.vy+1/4
-		
-		stake.vx=stake.vx*mul
-		stake.vy=stake.vy*mul
+		if stake.state=="fall" and stake.held<1 then
 
-		stake.px=stake.px+stake.vx
-		stake.py=stake.py+stake.vy
-		
-		if stake.px<0   then stake.px=0   stake.vx=math.abs(stake.vx)    end
-		if stake.px>720 then stake.px=720 stake.vx=math.abs(stake.vx)*-1 end
-		if stake.py<0   then stake.py=0   stake.vy=math.abs(stake.vy)    end
-		if stake.py>480 then stake.py=480 stake.vy=math.abs(stake.vy)*-1 end
-		
+			local mul=63/64
+			
+			stake.vy=stake.vy+1/4
+			
+			stake.vx=stake.vx*mul
+			stake.vy=stake.vy*mul
+			
+			local ly=stake.py
+
+			stake.px=stake.px+stake.vx
+			stake.py=stake.py+stake.vy
+			
+			local siz=32
+			
+			if stake.px<0+siz   then stake.px=0+siz   stake.vx=math.abs(stake.vx)    end
+			if stake.px>720-siz then stake.px=720-siz stake.vx=math.abs(stake.vx)*-1 end
+			if stake.py<0+siz   then stake.py=0+siz   stake.vy=math.abs(stake.vy)    end
+			
+			if stake.py>224-siz and ly<=224-siz then
+				if math.abs(stake.vy) < 2 then -- rest
+					stake.py=224-siz
+					stake.state="rest"
+				elseif math.abs(stake.vy) < 16 then
+					stake.py=224-siz
+					stake.vy=math.abs(stake.vy)*-1
+				end
+			end
+			
+			if stake.py>464-siz then
+				if math.abs(stake.vy) < 2 then -- rest
+					stake.py=464-siz
+					stake.state="rest"
+				else
+					stake.py=464-siz
+					stake.vy=math.abs(stake.vy)*-1
+				end
+			end
+
+		end
 
 		
 		if stake.held>0 then
@@ -76,6 +103,7 @@ M.bake=function(state,stake)
 				
 				if dx*dx + dy*dy < 64*64 then
 					stake.held=1
+					stake.kills=0
 				end
 			end
 		
