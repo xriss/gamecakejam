@@ -1,11 +1,16 @@
-Some quick and dirty gamecake games, built in a few hours as test packages. you could try and play them or you could take them and use them as a base for your own creations. Play with them, change the grafix, have fun, that's why they exist.
+Some quick and dirty gamecake games, built in a few hours as test 
+packages. You could try and play them or you could take them and use 
+them as a base for your own creations. Play with them, change the 
+grafix, have fun, that's why they exist.
 
-This is my attempt to recreate the games I remember typing in from magazines when I was a kid. It was more fun to fiddle with the code than to play them.
+This is my attempt to recreate the experience of typing in games from 
+magazines in the 80s. It was much more fun to fiddle with the code than 
+to play the games.
 
-The code lives in the lua directory, change it, run it.
+The code lives in the lua directory of each game, change it and run it.
 
 
-The GameCake system enables these games to work on:
+The GameCake engine allows these games to work on:
 
 LINUX
 My main build is tested on ubuntu (+gnome3).
@@ -14,20 +19,25 @@ WINDOWS
 Wine and XP compatible only with the focus on wine.
 
 RASPBERRY PI
-With or without X11, this is a native raspbian build and can be run from the commandline.
-The RASPI is also "minimum required specs" if your machine is not as powerful as one of these then don't expect everything to work.
+With or without X11, this is a native raspbian build and can be run 
+from the commandline.
+The RASPI is also "minimum required specs" if your machine is not as 
+powerful as one of these then don't expect everything to work.
 
 ANDROID
 You have a keyboard/gamepad right?
 
 NACL
-The web solution...
+The web solution, currently chrome only.
+Play online at http://play.4lfa.com/gamecake
 
-The exact state of these platforms is currently in a state of flux due to on going development.
+The exact state of these platforms is currently in a state of flux due 
+to on going development.
 
-The windows build should always work under wine so it is perversely the most compatible cross platform build. 
+The windows build should always work under wine so it is perversely the 
+most compatible cross platform build. 
 
-Finally can I also add a big fuck you to MICROSOFT, METRO, IOS, APPLE, AMAZON, STEAM, PLAYSTATION, XBOX and NINTENDO platforms.  None of this would be possible without your continued and tireless attempts to destroy all unapproved creativity.
-
-
-
+Finally can I also add a big fuck you to MICROSOFT, METRO, IOS, APPLE, 
+AMAZON, STEAM, PLAYSTATION, XBOX and NINTENDO platforms.  None of this 
+would be possible without your continued and tireless attempts to 
+destroy all unapproved creativity.
