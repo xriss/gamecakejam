@@ -1,5 +1,10 @@
 Some quick and dirty gamecake games, built in a few hours as test packages. you could try and play them or you could take them and use them as a base for your own creations. Play with them, change the grafix, have fun, that's why they exist.
 
+This is my attempt to recreate the games I remember typing in from magazines when I was a kid. It was more fun to fiddle with the code than to play them.
+
+The code lives in the lua directory, change it, run it.
+
+
 The GameCake system enables these games to work on:
 
 LINUX
