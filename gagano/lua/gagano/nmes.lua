@@ -133,7 +133,7 @@ M.bake=function(state,nmes)
 					nme.sx=200+math.random(0,100)
 					nme.sy=200+math.random(0,100)
 					
-					cake.beep("die")
+					cake.beep("sfx/die")
 					
 					
 					if nme.img=="imgs/shark" then

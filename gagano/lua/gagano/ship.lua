@@ -63,7 +63,7 @@ M.bake=function(state,ship)
 		
 		if ship.do_shot then
 			shots.add({x=ship.px,y=ship.py-32,vx=0,vy=-4})
-			cake.beep("shoot")
+			cake.beep("sfx/shoot")
 		end
 		
 		ship.do_shot=false

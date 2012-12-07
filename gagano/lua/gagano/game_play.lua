@@ -46,9 +46,9 @@ play.loads=function(state)
 	}
 	
 	sounds.loads{
-		"die",
-		"beep",
-		"shoot",
+		"sfx/die",
+		"sfx/beep",
+		"sfx/shoot",
 	}
 
 end
