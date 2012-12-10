@@ -19,12 +19,12 @@ bake=function(state,play)
 	local game=state.game
 
 
-	local ship=state:rebake("aroids.ship")
-	local shots=state:rebake("aroids.shots")
-	local rocks=state:rebake("aroids.rocks")
+	local ship=state.rebake("aroids.ship")
+	local shots=state.rebake("aroids.shots")
+	local rocks=state.rebake("aroids.rocks")
 	
 
-play.setup=function(state)
+play.setup=function()
 
 	state.cake.sheets.loads_and_chops{
 		{"imgs/back",1,1,0.5,0.5},
@@ -35,31 +35,31 @@ play.setup=function(state)
 		{"imgs/chick1",1,1,0.5,0.5},
 	}
 	
-	ship.setup(state)
-	shots.setup(state)
-	rocks.setup(state)
+	ship.setup()
+	shots.setup()
+	rocks.setup()
 	
 end
 
 
-play.clean=function(state)
+play.clean=function()
 
-	ship.clean(state)
-	shots.clean(state)
-	rocks.clean(state)
+	ship.clean()
+	shots.clean()
+	rocks.clean()
 	
 end
 
 
-play.update=function(state)
+play.update=function()
 
 
-	ship.update(state)
-	shots.update(state)
-	rocks.update(state)
+	ship.update()
+	shots.update()
+	rocks.update()
 		
 end
-play.draw=function(state)
+play.draw=function()
 
 	local canvas=state.canvas
 	local font=canvas.font
@@ -70,9 +70,9 @@ play.draw=function(state)
 	font.set_xy(0,0)
 	font.draw("Level: "..game.level.." Score: "..game.score)
 
-	ship.draw(state)
-	shots.draw(state)
-	rocks.draw(state)
+	ship.draw()
+	shots.draw()
+	rocks.draw()
 
 
 end

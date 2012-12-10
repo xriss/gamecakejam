@@ -26,15 +26,15 @@ M.bake=function(state,play)
 	local sheets=cake.sheets
 	local sounds=cake.sounds
 	
-	local main=state:rebake("lemonhunter.main")
-	local gui=state:rebake("lemonhunter.gui")
-	local hunter=state:rebake("lemonhunter.hunter")
-	local stake=state:rebake("lemonhunter.stake")
-	local level=state:rebake("lemonhunter.level")
-	local lemons=state:rebake("lemonhunter.lemons")
+	local main=state.rebake("lemonhunter.main")
+	local gui=state.rebake("lemonhunter.gui")
+	local hunter=state.rebake("lemonhunter.hunter")
+	local stake=state.rebake("lemonhunter.stake")
+	local level=state.rebake("lemonhunter.level")
+	local lemons=state.rebake("lemonhunter.lemons")
 
 
-play.loads=function(state)
+play.loads=function()
 
 	sheets.loads_and_chops{
 		{"imgs/stake",1,1,0.5,0.5},
@@ -52,9 +52,9 @@ play.loads=function(state)
 
 end
 		
-play.setup=function(state)
+play.setup=function()
 
-	play.loads(state)
+	play.loads()
 
 	gui.setup()
 	gui.page("play")
@@ -68,7 +68,7 @@ play.setup=function(state)
 
 end
 
-play.clean=function(state)
+play.clean=function()
 
 	lemons.clean()
 	stake.clean()
@@ -78,7 +78,7 @@ play.clean=function(state)
 
 end
 
-play.msg=function(state,m)
+play.msg=function(m)
 
 --	print(wstr.dump(m))
 
@@ -95,7 +95,7 @@ play.msg=function(state,m)
 	
 end
 
-play.update=function(state)
+play.update=function()
 
 	gui.update()
 
@@ -114,7 +114,7 @@ play.add_score=function(num)
 
 end
 
-play.draw=function(state)
+play.draw=function()
 		
 
 	level.draw()

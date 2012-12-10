@@ -23,7 +23,7 @@ bake=function(state,play)
 	local game=state.game
 
 
-play.setup=function(state)
+play.setup=function()
 
 	state.cake.sheets.loads_and_chops{
 		{"imgs/title",1,1,0.5,0.5},
@@ -34,11 +34,11 @@ play.setup=function(state)
 end
 
 
-play.clean=function(state)
+play.clean=function()
 end
 
 
-play.update=function(state)
+play.update=function()
 
 	play.age=play.age+1
 	
@@ -46,13 +46,13 @@ play.update=function(state)
 		if game.input.fire then -- click to start
 			game.level=1
 			game.score=0
-			game.next=state:rebake("aroids.game_play")
+			game.next=state.rebake("aroids.game_play")
 		end
 	end
 end
 
 
-play.draw=function(state)
+play.draw=function()
 
 
 	state.cake.sheets.get("imgs/title"):draw(1,720/2,480/2)

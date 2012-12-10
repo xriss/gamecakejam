@@ -204,7 +204,7 @@ function new_plane(id)
 end
 
 
-play.reset=function(state)
+play.reset=function()
 	play.planes={}
 	new_plane(#play.planes+1)
 	new_plane(#play.planes+1)
@@ -213,14 +213,14 @@ play.reset=function(state)
 end
 
 
-play.update=function(state)
+play.update=function()
 
 	for i,v in ipairs(play.planes) do
 		v.update()
 	end
 end
 
-play.draw=function(state)
+play.draw=function()
 --print("draw")
 	
 
@@ -242,7 +242,7 @@ play.draw=function(state)
 	
 end
 
-play.drawscore=function(state)
+play.drawscore=function()
 	local max=0
 	if play.planes then
 		for i,v in ipairs{{32,32-16,0xffff},{640-32,32-16,0xf0f0},{32,480-32-16,0xff00},{640-32,480-32-16,0xff0f}}do

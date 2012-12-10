@@ -21,9 +21,9 @@ M.bake=function(state,nmes)
 	
 	local meta={}
 	
-	local shots=state:rebake("gagano.shots")
-	local ship=state:rebake("gagano.ship")
-	local play=state:rebake("gagano.game_play")
+	local shots=state.rebake("gagano.shots")
+	local ship=state.rebake("gagano.ship")
+	local play=state.rebake("gagano.game_play")
 	
 	function nmes.setup()
 	

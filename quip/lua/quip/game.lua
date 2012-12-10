@@ -10,8 +10,8 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 module(...)
 
 
-bake=function(state)
-	local game={}
+bake=function(state,game)
+	game=game or {}
 	game.state=state
 	
 	game.input={}
@@ -20,7 +20,7 @@ bake=function(state)
 	game.wait=60
 	
 	
-game.loads=function(state)
+game.loads=function()
 
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
@@ -39,10 +39,10 @@ game.loads=function(state)
 
 end
 		
-game.setup=function(state)
+game.setup=function()
 	local cake=state.cake
 
-	game.loads(state)
+	game.loads()
 
 	cake.sheets.createimg("splash"):chop(1,1)
 	cake.sheets.createimg("back"):chop(1,1)
@@ -57,18 +57,18 @@ game.setup=function(state)
 	
 end
 
-game.clean=function(state)
+game.clean=function()
 
 end
 
-game.msg=function(state,m)
+game.msg=function(m)
 --	print(wstr.dump(m))
 		
 	game.js.msg(m)
 	
 end
 
-game.update=function(state)
+game.update=function()
 
 	for i,v in pairs(game.input.volatile) do
 		game.input[i]=v 
@@ -79,15 +79,15 @@ game.update=function(state)
 
 		if ( game.input.p1_fire or game.input.p2_fire or game.input.p3_fire or game.input.p4_fire ) and game.wait<=0 then
 			game.page="play"
-			game.play.reset(state)
+			game.play.reset()
 		end
 	else
 	
-		game.play.update(state)
+		game.play.update()
 	end
 end
 
-game.draw=function(state)
+game.draw=function()
 --print("draw")
 	local cake=state.cake
 	local opts=state.opts
@@ -126,7 +126,7 @@ game.draw=function(state)
 	
 	else
 	
-		if game.play.draw(state) >=10 then game.page="menu" game.wait=60 end
+		if game.play.draw() >=10 then game.page="menu" game.wait=60 end
 	end
 	
 	gl.PopMatrix()

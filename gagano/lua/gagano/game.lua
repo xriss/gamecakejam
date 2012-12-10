@@ -37,9 +37,9 @@ M.bake=function(state,game)
 	game.last_score=0
 	game.best_score=0
 	
-	game.gui=state:rebake("gagano.gui")
+	game.gui=state.rebake("gagano.gui")
 
-game.loads=function(state)
+game.loads=function()
 
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
@@ -48,10 +48,10 @@ game.loads=function(state)
 	
 end
 		
-game.setup=function(state)
+game.setup=function()
 	local cake=state.cake
 	
-	game.loads(state)
+	game.loads()
 	
 	game.last=nil
 	game.now=nil
@@ -59,8 +59,8 @@ game.setup=function(state)
 	
 	game.gui.setup()
 	
-	game.next=state:rebake("gagano.game_menu")
---	game.next=state:rebake("gagano.game_play")
+	game.next=state.rebake("gagano.game_menu")
+--	game.next=state.rebake("gagano.game_play")
 	
 	game.change()
 end
@@ -72,7 +72,7 @@ function game.change()
 	if game.next then
 	
 		if game.now and game.now.clean then
-			game.now.clean(state)
+			game.now.clean()
 		end
 		
 		game.last=game.now
@@ -80,22 +80,22 @@ function game.change()
 		game.next=nil
 		
 		if game.now and game.now.setup then
-			game.now.setup(state)
+			game.now.setup()
 		end
 		
 	end
 	
 end		
 
-game.clean=function(state)
+game.clean=function()
 
 	if game.now and game.now.clean then
-		game.now.clean(state)
+		game.now.clean()
 	end
 
 end
 
-game.msg=function(state,m)
+game.msg=function(m)
 --	print(wstr.dump(m))
 
 	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
@@ -106,12 +106,12 @@ game.msg=function(state,m)
 	
 
 	if game.now and game.now.msg then
-		game.now.msg(state,m)
+		game.now.msg(m)
 	end
 	
 end
 
-game.update=function(state)
+game.update=function()
 
 	game.change()
 
@@ -121,12 +121,12 @@ game.update=function(state)
 	game.input.volatile={}
 
 	if game.now and game.now.update then
-		game.now.update(state)
+		game.now.update()
 	end
 
 end
 
-game.draw=function(state)
+game.draw=function()
 	
 	canvas.viewport() -- did our window change?
 	canvas.project23d(opts.width,opts.height,1/4,opts.height*4)
@@ -148,7 +148,7 @@ game.draw=function(state)
 	font.set_size(32,0) -- 32 pixels high
 
 	if game.now and game.now.draw then
-		game.now.draw(state)
+		game.now.draw()
 	end
 	
 	gl.PopMatrix()
