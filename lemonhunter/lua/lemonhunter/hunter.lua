@@ -21,11 +21,11 @@ M.bake=function(state,hunter)
 	local sounds=cake.sounds
 	local sheets=cake.sheets
 	
---	local shots=state:rebake("gagano.shots")
-	local main=state:rebake("lemonhunter.main")
-	local play=state:rebake("lemonhunter.main_play")
-	local level=state:rebake("lemonhunter.level")
-	local stake=state:rebake("lemonhunter.stake")
+--	local shots=state.rebake("gagano.shots")
+	local main=state.rebake("lemonhunter.main")
+	local play=state.rebake("lemonhunter.main_play")
+	local level=state.rebake("lemonhunter.level")
+	local stake=state.rebake("lemonhunter.stake")
 	
 	function hunter.setup()
 	
@@ -69,7 +69,7 @@ M.bake=function(state,hunter)
 			hunter.deadcount=hunter.deadcount+1
 			if hunter.deadcount>100 then
 				main.last_score=play.score
-				main.next=state:rebake("lemonhunter.main_menu")
+				main.next=state.rebake("lemonhunter.main_menu")
 			end
 			return
 		end

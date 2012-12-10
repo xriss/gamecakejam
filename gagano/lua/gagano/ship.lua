@@ -20,8 +20,8 @@ M.bake=function(state,ship)
 	local cake=state.cake
 	local sheets=cake.sheets
 	
-	local shots=state:rebake("gagano.shots")
-	local play=state:rebake("gagano.game_play")
+	local shots=state.rebake("gagano.shots")
+	local play=state.rebake("gagano.game_play")
 	
 	function ship.setup()
 	
@@ -48,7 +48,7 @@ M.bake=function(state,ship)
 			ship.deadcount=ship.deadcount+1
 			if ship.deadcount>100 then
 				state.game.last_score=play.score
-				state.game.next=state:rebake("gagano.game_menu")
+				state.game.next=state.rebake("gagano.game_menu")
 			end
 			return
 		end

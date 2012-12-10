@@ -26,12 +26,12 @@ bake=function(state,game)
 	game.input.volatile={}
 	
 	
---	local cards=state:rebake("dike.cards")
---	local stacks=state:rebake("dike.stacks")
---	local items=state:rebake("dike.items")
+--	local cards=state.rebake("dike.cards")
+--	local stacks=state.rebake("dike.stacks")
+--	local items=state.rebake("dike.items")
 	
 	
-game.loads=function(state)
+game.loads=function()
 
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
@@ -40,16 +40,16 @@ game.loads=function(state)
 	
 end
 		
-game.setup=function(state)
+game.setup=function()
 	local cake=state.cake
 
-	game.loads(state)
+	game.loads()
 	
 	game.last=nil
 	game.now=nil
 	game.next=nil
 	
-	game.next=state:rebake("aroids.game_menu")
+	game.next=state.rebake("aroids.game_menu")
 	
 	game.level=1
 	game.score=0
@@ -64,7 +64,7 @@ function game.change()
 	if game.next then
 	
 		if game.now and game.now.clean then
-			game.now.clean(state)
+			game.now.clean()
 		end
 		
 		game.last=game.now
@@ -72,22 +72,22 @@ function game.change()
 		game.next=nil
 		
 		if game.now and game.now.setup then
-			game.now.setup(state)
+			game.now.setup()
 		end
 		
 	end
 	
 end		
 
-game.clean=function(state)
+game.clean=function()
 
 	if game.now and game.now.clean then
-		game.now.clean(state)
+		game.now.clean()
 	end
 
 end
 
-game.msg=function(state,m)
+game.msg=function(m)
 --	print(wstr.dump(m))
 	
 	if m.class=="key" then
@@ -116,12 +116,12 @@ game.msg=function(state,m)
 --	game.js.msg(m)
 
 	if game.now and game.now.msg then
-		game.now.msg(state,m)
+		game.now.msg(m)
 	end
 	
 end
 
-game.update=function(state)
+game.update=function()
 
 	game.change()
 
@@ -131,14 +131,14 @@ game.update=function(state)
 	game.input.volatile={}
 
 	if game.now and game.now.update then
-		game.now.update(state)
+		game.now.update()
 	end
 
---	game.play.update(state)
+--	game.play.update()
 
 end
 
-game.draw=function(state)
+game.draw=function()
 --print("draw")
 	local cake=state.cake
 	local opts=state.opts
@@ -167,7 +167,7 @@ game.draw=function(state)
 	font.set_size(32,0) -- 32 pixels high
 
 	if game.now and game.now.draw then
-		game.now.draw(state)
+		game.now.draw()
 	end
 	
 --	gl.Color(pack.argb4_pmf4(0xffff)) -- draw drop shadow

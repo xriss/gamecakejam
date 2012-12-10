@@ -16,12 +16,12 @@ bake=function(state,ship)
 
 	ship.modname=modname
 	
-	local shots=state:rebake("aroids.shots")
-	local rocks=state:rebake("aroids.rocks")
+	local shots=state.rebake("aroids.shots")
+	local rocks=state.rebake("aroids.rocks")
 
 	local game=state.game
 	
-ship.setup=function(state)
+ship.setup=function()
 --	print("ship setup")
 	
 	ship.px=0
@@ -33,10 +33,10 @@ ship.setup=function(state)
 	ship.heat=0
 end
 
-ship.clean=function(state)
+ship.clean=function()
 end
 
-ship.update=function(state)
+ship.update=function()
 
 	local r=4
 	local v=4
@@ -89,7 +89,7 @@ ship.update=function(state)
 			local dy=v.py-ship.py
 			
 			if dx*dx + dy*dy < dd then
-				game.next=state:rebake("aroids.game_menu")
+				game.next=state.rebake("aroids.game_menu")
 			end
 		
 		end
@@ -97,7 +97,7 @@ ship.update=function(state)
 	
 end
 
-ship.draw=function(state)
+ship.draw=function()
 
 	state.cake.sheets.get("imgs/ship"):draw(1,(720/2)+ship.px,(480/2)+ship.py,ship.rz,ship.siz*173,ship.siz*256)
 

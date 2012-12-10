@@ -25,11 +25,11 @@ M.bake=function(state,menu)
 	local gl=cake.gl
 	local sheets=cake.sheets
 	
-	local gui=state:rebake("lemonhunter.gui")
-	local main=state:rebake("lemonhunter.main")
+	local gui=state.rebake("lemonhunter.gui")
+	local main=state.rebake("lemonhunter.main")
 
 
-menu.loads=function(state)
+menu.loads=function()
 
 	sheets.loads_and_chops{
 		{"imgs/splash",1,1,0.5,0.5},
@@ -37,9 +37,9 @@ menu.loads=function(state)
 	
 end
 		
-menu.setup=function(state)
+menu.setup=function()
 
-	menu.loads(state)
+	menu.loads()
 
 	gui.setup()
 	gui.page("menu")
@@ -59,13 +59,13 @@ menu.setup=function(state)
 
 end
 
-menu.clean=function(state)
+menu.clean=function()
 
 	gui.clean()
 
 end
 
-menu.msg=function(state,m)
+menu.msg=function(m)
 
 --	print(wstr.dump(m))
 
@@ -73,13 +73,13 @@ menu.msg=function(state,m)
 	
 end
 
-menu.update=function(state)
+menu.update=function()
 
 	gui.update()
 
 end
 
-menu.draw=function(state)
+menu.draw=function()
 		
 	sheets.get("imgs/splash"):draw(1,720/2,480/2)
 

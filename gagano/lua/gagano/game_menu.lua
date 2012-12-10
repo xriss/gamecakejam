@@ -31,7 +31,7 @@ M.bake=function(state,menu)
 	print("menu",state.game,state.game.gui)
 
 	
-menu.loads=function(state)
+menu.loads=function()
 
 	sheets.loads_and_chops{
 		{"imgs/splash",1,1,0.5,0.5},
@@ -39,22 +39,22 @@ menu.loads=function(state)
 	
 end
 		
-menu.setup=function(state)
+menu.setup=function()
 
 	if game.best_score < game.last_score then
 		game.best_score = game.last_score
 	end
 
-	menu.loads(state)
+	menu.loads()
 
 	gui.page("menu")
 end
 
-menu.clean=function(state)
+menu.clean=function()
 
 end
 
-menu.msg=function(state,m)
+menu.msg=function(m)
 
 --	print(wstr.dump(m))
 
@@ -62,13 +62,13 @@ menu.msg=function(state,m)
 	
 end
 
-menu.update=function(state)
+menu.update=function()
 
 	gui.update()
 
 end
 
-menu.draw=function(state)
+menu.draw=function()
 		
 	sheets.get("imgs/splash"):draw(1,720/2,480/2)
 	

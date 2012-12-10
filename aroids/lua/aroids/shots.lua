@@ -20,7 +20,7 @@ bake=function(state,shots)
 	local game=state.game
 
 	
-shots.setup=function(state)
+shots.setup=function()
 	print("shots setup")
 	
 	shots.items={}
@@ -90,10 +90,10 @@ shots.item_draw=function(it)
 end
 
 
-shots.clean=function(state)
+shots.clean=function()
 end
 
-shots.update=function(state)
+shots.update=function()
 
 	for _,v in pairs(shots.items) do
 		v:update()
@@ -101,7 +101,7 @@ shots.update=function(state)
 
 end
 
-shots.draw=function(state)
+shots.draw=function()
 
 	for _,v in pairs(shots.items) do
 		v:draw()

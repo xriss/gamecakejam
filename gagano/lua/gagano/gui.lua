@@ -20,7 +20,7 @@ M.bake=function(state,gui)
 
 	function gui.setup()
 	
-		gui.master=state:rebake("wetgenes.gamecake.widgets").setup({})
+		gui.master=state.rebake("wetgenes.gamecake.widgets").setup({})
 	
 		gui.page("menu")
 	end
@@ -31,7 +31,7 @@ M.bake=function(state,gui)
 		
 		if act=="click" then
 			if id=="start" then
-				state.game.next=state:rebake("gagano.game_play")
+				state.game.next=state.rebake("gagano.game_play")
 			end
 		end
 	

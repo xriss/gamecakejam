@@ -36,7 +36,7 @@ M.bake=function(state,main)
 	main.last_score=0
 	main.best_score=0
 	
-main.loads=function(state)
+main.loads=function()
 
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
@@ -45,21 +45,21 @@ main.loads=function(state)
 	
 end
 		
-main.setup=function(state)
+main.setup=function()
 	local cake=state.cake
 
-	main.loads(state)
+	main.loads()
 	
 	main.last=nil
 	main.now=nil
 	main.next=nil
 
 -- preload everything
-	state:rebake("lemonhunter.main_menu").loads(state)
-	state:rebake("lemonhunter.main_play").loads(state)
+	state.rebake("lemonhunter.main_menu").loads()
+	state.rebake("lemonhunter.main_play").loads()
 	
 	
-	main.next=state:rebake("lemonhunter.main_menu")
+	main.next=state.rebake("lemonhunter.main_menu")
 	
 	main.change()
 end
@@ -71,7 +71,7 @@ function main.change()
 	if main.next then
 	
 		if main.now and main.now.clean then
-			main.now.clean(state)
+			main.now.clean()
 		end
 		
 		main.last=main.now
@@ -79,22 +79,22 @@ function main.change()
 		main.next=nil
 		
 		if main.now and main.now.setup then
-			main.now.setup(state)
+			main.now.setup()
 		end
 		
 	end
 	
 end		
 
-main.clean=function(state)
+main.clean=function()
 
 	if main.now and main.now.clean then
-		main.now.clean(state)
+		main.now.clean()
 	end
 
 end
 
-main.msg=function(state,m)
+main.msg=function(m)
 --	print(wstr.dump(m))
 
 	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
@@ -104,12 +104,12 @@ main.msg=function(state,m)
 	end
 
 	if main.now and main.now.msg then
-		main.now.msg(state,m)
+		main.now.msg(m)
 	end
 	
 end
 
-main.update=function(state)
+main.update=function()
 
 	main.change()
 
@@ -119,12 +119,12 @@ main.update=function(state)
 	main.input.volatile={}
 
 	if main.now and main.now.update then
-		main.now.update(state)
+		main.now.update()
 	end
 
 end
 
-main.draw=function(state)
+main.draw=function()
 	
 	canvas.viewport() -- did our window change?
 	canvas.project23d(opts.width,opts.height,1/4,opts.height*4)
@@ -146,7 +146,7 @@ main.draw=function(state)
 	font.set_size(32,0) -- 32 pixels high
 
 	if main.now and main.now.draw then
-		main.now.draw(state)
+		main.now.draw()
 	end
 	
 	gl.Color(pack.argb4_pmf4(0xffff))

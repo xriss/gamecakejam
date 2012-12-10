@@ -19,10 +19,10 @@ bake=function(state,rocks)
 	
 	local game=state.game
 
-	local shots=state:rebake("aroids.shots")
+	local shots=state.rebake("aroids.shots")
 
 	
-rocks.setup=function(state)
+rocks.setup=function()
 	rocks.reset()
 end
 
@@ -162,10 +162,10 @@ rocks.item_draw=function(it)
 end
 
 
-rocks.clean=function(state)
+rocks.clean=function()
 end
 
-rocks.update=function(state)
+rocks.update=function()
 
 	rocks.age=rocks.age+1
 
@@ -182,7 +182,7 @@ rocks.update=function(state)
 
 end
 
-rocks.draw=function(state)
+rocks.draw=function()
 
 	for _,v in pairs(rocks.items) do
 		v:draw()

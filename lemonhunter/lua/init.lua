@@ -46,7 +46,7 @@ local bake=function()
 	state.require_mod("wetgenes.gamecake.mods.escmenu") -- escmenu gives us a doom style escape menu
 	state.require_mod("wetgenes.gamecake.mods.console") -- console gives us a quake style tilda console
 
-	state.next=state:rebake("lemonhunter.main")
+	state.next=state.rebake("lemonhunter.main")
 
 	return state
 end

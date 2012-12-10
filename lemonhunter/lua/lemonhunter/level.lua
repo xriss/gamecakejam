@@ -20,8 +20,8 @@ M.bake=function(state,level)
 	local cake=state.cake
 	local sheets=cake.sheets
 	
---	local shots=state:rebake("gagano.shots")
-	local play=state:rebake("lemonhunter.main_play")
+--	local shots=state.rebake("gagano.shots")
+	local play=state.rebake("lemonhunter.main_play")
 	
 	function level.setup()
 	

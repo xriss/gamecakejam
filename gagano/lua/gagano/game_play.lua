@@ -29,11 +29,11 @@ M.bake=function(state,play)
 	local game=state.game
 	local gui=state.game.gui
 
-	local ship=state:rebake("gagano.ship")
-	local nmes=state:rebake("gagano.nmes")
-	local shots=state:rebake("gagano.shots")
+	local ship=state.rebake("gagano.ship")
+	local nmes=state.rebake("gagano.nmes")
+	local shots=state.rebake("gagano.shots")
 	
-play.loads=function(state)
+play.loads=function()
 
 	sheets.loads_and_chops{
 		{"imgs/splash",1,1,0.5,0.5},
@@ -53,11 +53,11 @@ play.loads=function(state)
 
 end
 		
-play.setup=function(state)
+play.setup=function()
 
 	play.score=0
 
-	play.loads(state)
+	play.loads()
 
 	gui.page("play")
 	
@@ -66,14 +66,14 @@ play.setup=function(state)
 	nmes.setup()
 end
 
-play.clean=function(state)
+play.clean=function()
 
 	shots.clean()
 	ship.clean()
 	nmes.clean()
 end
 
-play.msg=function(state,m)
+play.msg=function(m)
 
 --	print(wstr.dump(m))
 
@@ -90,7 +90,7 @@ play.msg=function(state,m)
 		
 end
 
-play.update=function(state)
+play.update=function()
 
 	gui.update()
 
@@ -100,7 +100,7 @@ play.update=function(state)
 
 end
 
-play.draw=function(state)
+play.draw=function()
 		
 	sheets.get("imgs/starfield"):draw(1,720/2,480/2)
 	

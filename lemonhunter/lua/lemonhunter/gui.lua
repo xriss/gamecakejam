@@ -16,13 +16,13 @@ M.bake=function(state,gui)
 	gui=gui or {} 
 	gui.modname=M.modname
 	
-	local main=state:rebake("lemonhunter.main")
+	local main=state.rebake("lemonhunter.main")
 
 	gui.pages={} -- put functions to fill in pages in here
 
 	function gui.setup()
 	
-		gui.master=state:rebake("wetgenes.gamecake.widgets").setup({})
+		gui.master=state.rebake("wetgenes.gamecake.widgets").setup({})
 	
 		gui.page()
 	end
@@ -33,7 +33,7 @@ M.bake=function(state,gui)
 		
 		if act=="click" then
 			if id=="start" then
-				main.next=state:rebake("lemonhunter.main_play")
+				main.next=state.rebake("lemonhunter.main_play")
 			end
 		end
 	
