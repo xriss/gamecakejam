@@ -32,7 +32,7 @@ M.bake=function(state,game)
 	local grapes=state.rebake("cloids.grapes")
 	local splats=state.rebake("cloids.splats")
 	
-	local wscore=state.rebake("wetgenes.gamecake.spew.scores")
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
 
 game.loads=function()
 
@@ -49,8 +49,9 @@ game.setup=function()
 --	gui.setup()
 --	gui.page("game")
 
-	wscore.setup(1)
-
+	wscores.setup(1)
+	wscores.add(1000)
+	
 	ship.setup()
 	shots.setup()
 	grapes.setup()
@@ -84,7 +85,7 @@ game.clean=function()
 
 --	gui.clean()
 
-	wscore.clean()
+	wscores.clean()
 	ship.clean()
 	shots.clean()
 	grapes.clean()
@@ -114,13 +115,15 @@ end
 
 game.update=function()
 
-	wscore.update()
+	wscores.update()
 
 --	gui.update()
 	ship.update()
 	shots.update()
 	grapes.update()
 	splats.update()
+	
+	wscores.add(-1)
 
 end
 
@@ -135,7 +138,7 @@ game.draw=function()
 
 --	gui.draw()
 
-	wscore.draw("arcade2")
+	wscores.draw("arcade2")
 
 end
 

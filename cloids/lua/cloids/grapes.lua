@@ -19,6 +19,8 @@ M.bake=function(state,grapes)
 	local shots=state.rebake("cloids.shots")
 	local splats=state.rebake("cloids.splats")
 
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+
 	
 grapes.setup=function()
 
@@ -97,35 +99,43 @@ grapes.update=function()
 		
 		
 		for i,v in ipairs(shots.items) do
-			local dx=v.px - it.px
-			local dy=v.py - it.py
+			if not v.dead then
 			
-			if dx*dx + dy*dy < 32*32 then
-			
-				if it.link then
-					it.link=nil
-					it.vx=math.random(-200,200)/100
-					it.vy=math.random(-200,200)/100
-					
-					splats.add({
-						argb=it.argb,
-						px=it.px,
-						py=it.py,
-						})
+				local dx=v.px - it.px
+				local dy=v.py - it.py
+				
+				if dx*dx + dy*dy < 32*32 then
+				
+					if it.link then
+						it.link=nil
+						it.vx=it.vx+math.random(-200,200)/100
+						it.vy=it.vy+math.random(-200,200)/100
+						
+						splats.add({
+							argb=it.argb,
+							px=it.px,
+							py=it.py,
+							})
+							
+						wscores.add(100)
 
-				else
-					it.dead=true
-					splats.add({
-						argb=it.argb,
-						px=it.px,
-						py=it.py,
-						})
+					else
+					
+						it.dead=true
+						splats.add({
+							argb=it.argb,
+							px=it.px,
+							py=it.py,
+							})
+							
+						wscores.add(1000)
+						
+					end
+					
+					
+					v.dead=true
+					break
 				end
-				
-				
-				v.dead=true
-				break
-			
 			end
 		end
 		
