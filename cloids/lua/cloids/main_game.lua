@@ -35,6 +35,10 @@ end
 		
 game.setup=function()
 
+	game.px=0
+	game.py=0
+	game.but=false
+
 	game.loads()
 
 --	gui.setup()
@@ -55,6 +59,18 @@ end
 game.msg=function(m)
 
 --	print(wstr.dump(m))
+
+	if m.class=="mouse" then
+	
+		game.px=m.x-(720/2)
+		game.py=m.y-(480/2)
+		if m.action==1 then
+			game.but=true
+		elseif m.action==-1 then
+			game.but=false
+		end
+	
+	end
 
 --	if gui.msg(m) then return end -- gui can eat msgs
 	
