@@ -6,76 +6,40 @@ local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
 
-local function dprint(a) print(wstr.dump(a)) end
-
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,game)
-	local game=game or {}
-	game.state=state
+M.bake=function(state,ship)
+	local ship=ship or {}
+	ship.state=state
+
 	
-	game.modname=M.modname
-
-	local cake=state.cake
-	local sheets=cake.sheets
-	local opts=state.opts
-	local canvas=state.canvas
-	local font=canvas.font
-	local flat=canvas.flat
-	local gl=cake.gl
 	
-	local gui=state.rebake("cloids.gui")
-
-	local ship=state.rebake("cloids.ship")
-
-game.loads=function()
-
-end
-		
-game.setup=function()
-
-	game.loads()
-
---	gui.setup()
---	gui.page("game")
-
-	ship.setup()
-
-end
-
-game.clean=function()
-
---	gui.clean()
-
-	ship.clean()
+ship.setup=function()
+--	print("ship setup")
 	
+	ship.px=0
+	ship.py=0
+	ship.vx=0
+	ship.vy=0
+	ship.rz=0
+	ship.siz=128/256
+	ship.heat=0
 end
 
-game.msg=function(m)
+ship.clean=function()
+end
 
---	print(wstr.dump(m))
+ship.update=function()
 
---	if gui.msg(m) then return end -- gui can eat msgs
+end
+
+ship.draw=function()
+
+	state.cake.sheets.get("imgs/ship"):draw(1,(720/2)+ship.px,(480/2)+ship.py,ship.rz,ship.siz*128,ship.siz*128)
+
+end
 	
-end
-
-game.update=function()
-
---	gui.update()
-	ship.update()
-
-end
-
-game.draw=function()
-		
-	sheets.get("imgs/gameback"):draw(1,720/2,480/2)
-
-	ship.draw()
-
---	gui.draw()
-
-end
-
-	return game
+	
+	return ship
 end
