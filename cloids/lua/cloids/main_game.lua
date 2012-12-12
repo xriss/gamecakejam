@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,menu)
-	local menu=menu or {}
-	menu.state=state
+M.bake=function(state,game)
+	local game=game or {}
+	game.state=state
 	
-	menu.modname=M.modname
+	game.modname=M.modname
 
 	local cake=state.cake
 	local sheets=cake.sheets
@@ -28,46 +28,46 @@ M.bake=function(state,menu)
 	local gui=state.rebake("cloids.gui")
 
 
-menu.loads=function()
+game.loads=function()
 
 end
 		
-menu.setup=function()
+game.setup=function()
 
-	menu.loads()
+	game.loads()
 
-	gui.setup()
-	gui.page("menu")
-
-end
-
-menu.clean=function()
-
-	gui.clean()
+--	gui.setup()
+--	gui.page("game")
 
 end
 
-menu.msg=function(m)
+game.clean=function()
+
+--	gui.clean()
+
+end
+
+game.msg=function(m)
 
 --	print(wstr.dump(m))
 
-	if gui.msg(m) then return end -- gui can eat msgs
+--	if gui.msg(m) then return end -- gui can eat msgs
 	
 end
 
-menu.update=function()
+game.update=function()
 
-	gui.update()
+--	gui.update()
 
 end
 
-menu.draw=function()
+game.draw=function()
 		
 	sheets.get("imgs/title"):draw(1,720/2,480/2)
 
-	gui.draw()
+--	gui.draw()
 
 end
 
-	return menu
+	return game
 end

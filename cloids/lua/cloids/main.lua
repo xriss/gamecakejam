@@ -15,6 +15,7 @@ M.bake=function(state,main)
 	main.state=state
 	
 	local cake=state.cake
+	local sheets=cake.sheets
 	local opts=state.opts
 	local canvas=state.canvas
 	local font=canvas.font
@@ -42,6 +43,10 @@ main.loads=function()
 	state.cake.images.loads({
 	})
 	
+	sheets.loads_and_chops{
+		{"imgs/title",1,1,0.5,0.5},
+	}
+		
 end
 		
 main.setup=function()
