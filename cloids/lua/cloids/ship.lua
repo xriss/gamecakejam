@@ -15,7 +15,10 @@ M.bake=function(state,ship)
 
 	
 	local game=state.rebake("cloids.main_game")
+	local shots=state.rebake("cloids.shots")
+	local grapes=state.rebake("cloids.grapes")
 	
+		
 ship.setup=function()
 --	print("ship setup")
 	
@@ -58,6 +61,14 @@ ship.update=function()
 		ship.vy=ship.vy-(ny*4)
 		
 		ship.heat=16
+		
+		shots.add({
+			px=ship.px,
+			py=ship.py,
+			vx=nx*6,
+			vy=ny*6,
+			rz=ship.rz,
+			})
 	
 	end
 	

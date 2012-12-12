@@ -28,6 +28,8 @@ M.bake=function(state,game)
 	local gui=state.rebake("cloids.gui")
 
 	local ship=state.rebake("cloids.ship")
+	local shots=state.rebake("cloids.shots")
+	local grapes=state.rebake("cloids.grapes")
 	
 	local wscore=state.rebake("wetgenes.gamecake.spew.scores")
 
@@ -49,6 +51,18 @@ game.setup=function()
 	wscore.setup(1)
 
 	ship.setup()
+	shots.setup()
+	grapes.setup()
+	
+	for i=1,16 do
+		grapes.add({
+			px=math.random(-360,360),
+			py=math.random(-240,240),
+			vx=math.random(-100,100)/100,
+			vy=math.random(-100,100)/100,
+			rz=math.random(0,360),
+			})
+	end
 
 end
 
@@ -58,6 +72,8 @@ game.clean=function()
 
 	wscore.clean()
 	ship.clean()
+	shots.clean()
+	grapes.clean()
 	
 end
 
@@ -87,6 +103,8 @@ game.update=function()
 
 --	gui.update()
 	ship.update()
+	shots.update()
+	grapes.update()
 
 end
 
@@ -95,6 +113,8 @@ game.draw=function()
 	sheets.get("imgs/gameback"):draw(1,720/2,480/2)
 
 	ship.draw()
+	grapes.draw()
+	shots.draw()
 
 --	gui.draw()
 
