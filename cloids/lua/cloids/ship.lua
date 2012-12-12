@@ -33,7 +33,9 @@ end
 
 ship.update=function()
 
-	if game.but then
+	if ship.heat>0 then ship.heat=ship.heat-1 end
+
+	if game.but and ship.heat<=0 then
 	
 --		ship.px=game.px
 --		ship.py=game.py
@@ -52,8 +54,10 @@ ship.update=function()
 		
 		ship.rz=90 + (r/math.pi*180)
 		
-		ship.vx=ship.vx-(nx*1)
-		ship.vy=ship.vy-(ny*1)
+		ship.vx=ship.vx-(nx*4)
+		ship.vy=ship.vy-(ny*4)
+		
+		ship.heat=16
 	
 	end
 	
