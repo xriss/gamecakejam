@@ -55,7 +55,7 @@ ship.update=function()
 		
 		local r=math.atan2(dy,dx)
 		
-		ship.rz=90 + (r/math.pi*180)
+		ship.rz=180 + (r/math.pi*180)
 		
 		ship.vx=ship.vx-(nx*4)
 		ship.vy=ship.vy-(ny*4)
@@ -78,10 +78,10 @@ ship.update=function()
 	ship.px=ship.px+ship.vx
 	ship.py=ship.py+ship.vy
 	
-	if ship.px<-360 then ship.px=-360 if ship.vx<0 then ship.vx=ship.vx*-1 end end
-	if ship.px> 360 then ship.px= 360 if ship.vx>0 then ship.vx=ship.vx*-1 end end
-	if ship.py<-240 then ship.py=-240 if ship.vy<0 then ship.vy=ship.vy*-1 end end
-	if ship.py> 240 then ship.py= 240 if ship.vy>0 then ship.vy=ship.vy*-1 end end
+	if ship.px<-360 then ship.px=-360 if ship.vx<0 then ship.vx=ship.vx*-2 end end
+	if ship.px> 360 then ship.px= 360 if ship.vx>0 then ship.vx=ship.vx*-2 end end
+	if ship.py<-240 then ship.py=-240 if ship.vy<0 then ship.vy=ship.vy*-2 end end
+	if ship.py> 240 then ship.py= 240 if ship.vy>0 then ship.vy=ship.vy*-2 end end
 
 end
 

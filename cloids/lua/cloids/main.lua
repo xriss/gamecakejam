@@ -47,6 +47,7 @@ main.loads=function()
 		{"imgs/ship",1,1,0.5,0.5},
 		{"imgs/shoot",1,1,0.5,0.5},
 		{"imgs/grape",1,1,0.5,0.5},
+		{"imgs/splat",1,1,0.5,0.5},
 		
 		{"imgs/title",1,1,0.5,0.5},
 		{"imgs/gameback",1,1,0.5,0.5},
