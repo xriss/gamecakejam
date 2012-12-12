@@ -14,6 +14,7 @@ M.bake=function(state,ship)
 	ship.state=state
 
 	
+	local game=state.rebake("cloids.main_game")
 	
 ship.setup=function()
 --	print("ship setup")
@@ -31,6 +32,13 @@ ship.clean=function()
 end
 
 ship.update=function()
+
+	if game.but then
+	
+		ship.px=game.px
+		ship.py=game.py
+	
+	end
 
 end
 
