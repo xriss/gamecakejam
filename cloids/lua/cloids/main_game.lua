@@ -28,6 +28,8 @@ M.bake=function(state,game)
 	local gui=state.rebake("cloids.gui")
 
 	local ship=state.rebake("cloids.ship")
+	
+	local wscore=state.rebake("wetgenes.gamecake.spew.scores")
 
 game.loads=function()
 
@@ -44,6 +46,8 @@ game.setup=function()
 --	gui.setup()
 --	gui.page("game")
 
+	wscore.setup(1)
+
 	ship.setup()
 
 end
@@ -52,6 +56,7 @@ game.clean=function()
 
 --	gui.clean()
 
+	wscore.clean()
 	ship.clean()
 	
 end
@@ -78,6 +83,8 @@ end
 
 game.update=function()
 
+	wscore.update()
+
 --	gui.update()
 	ship.update()
 
@@ -90,6 +97,8 @@ game.draw=function()
 	ship.draw()
 
 --	gui.draw()
+
+	wscore.draw("arcade2")
 
 end
 

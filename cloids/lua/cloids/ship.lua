@@ -35,10 +35,38 @@ ship.update=function()
 
 	if game.but then
 	
-		ship.px=game.px
-		ship.py=game.py
+--		ship.px=game.px
+--		ship.py=game.py
+		
+		local dx=game.px-ship.px
+		local dy=game.py-ship.py
+		
+		local dd=dx*dx + dy*dy
+		local d=math.sqrt(dd)
+		if d==0 then d=1 end
+		
+		local nx=dx/d
+		local ny=dy/d
+		
+		local r=math.atan2(dy,dx)
+		
+		ship.rz=90 + (r/math.pi*180)
+		
+		ship.vx=ship.vx-(nx*1)
+		ship.vy=ship.vy-(ny*1)
 	
 	end
+	
+	ship.vx=ship.vx*31/32
+	ship.vy=ship.vy*31/32
+	
+	ship.px=ship.px+ship.vx
+	ship.py=ship.py+ship.vy
+	
+	if ship.px<-360 then ship.px=-360 if ship.vx<0 then ship.vx=ship.vx*-1 end end
+	if ship.px> 360 then ship.px= 360 if ship.vx>0 then ship.vx=ship.vx*-1 end end
+	if ship.py<-240 then ship.py=-240 if ship.vy<0 then ship.vy=ship.vy*-1 end end
+	if ship.py> 240 then ship.py= 240 if ship.vy>0 then ship.vy=ship.vy*-1 end end
 
 end
 
