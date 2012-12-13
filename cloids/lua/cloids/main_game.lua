@@ -32,6 +32,9 @@ M.bake=function(state,game)
 	local grapes=state.rebake("cloids.grapes")
 	local splats=state.rebake("cloids.splats")
 	
+	local beep=state.rebake("cloids.beep")
+	beep.loads()
+
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
 
 game.loads=function()
