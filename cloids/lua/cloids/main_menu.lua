@@ -26,6 +26,11 @@ M.bake=function(state,menu)
 	local gl=cake.gl
 	
 	local gui=state.rebake("cloids.gui")
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+
+
+	menu.won=false
+	menu.fail=false
 
 
 menu.loads=function()
@@ -71,10 +76,17 @@ menu.update=function()
 end
 
 menu.draw=function()
-		
-	sheets.get("imgs/title"):draw(1,720/2,480/2)
-
+	
+	if menu.won then
+		sheets.get("imgs/cured"):draw(1,720/2,480/2)
+	elseif menu.fail then
+		sheets.get("imgs/nocure"):draw(1,720/2,480/2)
+	else
+		sheets.get("imgs/title"):draw(1,720/2,480/2)
+	end
+	
 	gui.draw()
+	wscores.draw("arcade2")
 
 end
 

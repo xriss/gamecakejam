@@ -24,6 +24,9 @@ M.bake=function(state,main)
 
 	main.modname=M.modname
 	
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+	wscores.setup(1)
+	
 -- a substate
 	main.subs=require("wetgenes.gamecake.state").bake({
 		master=state,
@@ -49,6 +52,8 @@ main.loads=function()
 		{"imgs/grape",1,1,0.5,0.5},
 		{"imgs/splat",1,1,0.5,0.5},
 		
+		{"imgs/cured",1,1,0.5,0.5},
+		{"imgs/nocure",1,1,0.5,0.5},
 		{"imgs/title",1,1,0.5,0.5},
 		{"imgs/gameback",1,1,0.5,0.5},
 	}

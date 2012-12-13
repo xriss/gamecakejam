@@ -16,7 +16,8 @@ M.bake=function(state,splats)
 	local gl=state.cake.gl
 		
 	local game=state.rebake("cloids.main_game")
-	
+	local beep=state.rebake("cloids.beep")
+		
 splats.setup=function()
 
 	splats.items={}
@@ -37,6 +38,9 @@ splats.add=function(tab)
 	it.rz=tab.rz or 0
 	it.siz=1
 	it.age=0
+	
+	
+	beep.play("splat")
 	
 	splats.items[ #splats.items+1 ]=it
 	return it

@@ -15,7 +15,8 @@ M.bake=function(state,shots)
 
 	
 	local game=state.rebake("cloids.main_game")
-	
+	local beep=state.rebake("cloids.beep")
+		
 shots.setup=function()
 
 	shots.items={}
@@ -36,6 +37,8 @@ shots.add=function(tab)
 	it.siz=1
 	it.age=0
 	
+	beep.play("shoot")
+
 	shots.items[ #shots.items+1 ]=it
 	return it
 end

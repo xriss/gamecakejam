@@ -22,7 +22,10 @@ M.bake=function(state,beep)
 	local ids={
 	
 		["splat"]={
-			name="sfx/splat",
+			name="sfx/slurp",
+		},
+		["shoot"]={
+			name="sfx/giggle",
 		},
 	}
 

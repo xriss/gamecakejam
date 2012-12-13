@@ -15,7 +15,9 @@ M.bake=function(state,grapes)
 
 	local gl=state.cake.gl
 	
+	local main=state.rebake("cloids.main")
 	local game=state.rebake("cloids.main_game")
+	local menu=state.rebake("cloids.main_menu")
 	local shots=state.rebake("cloids.shots")
 	local splats=state.rebake("cloids.splats")
 
@@ -143,6 +145,11 @@ grapes.update=function()
 			table.remove(grapes.items,i)
 			i=i-1
 		end
+	end
+
+	if #grapes.items==0 then -- won
+		menu.won=true
+		main.next=state.rebake("cloids.main_menu")		
 	end
 
 end

@@ -36,7 +36,7 @@ M.bake=function(state,game)
 	beep.loads()
 
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
-
+	
 game.loads=function()
 
 end
@@ -52,8 +52,9 @@ game.setup=function()
 --	gui.setup()
 --	gui.page("game")
 
-	wscores.setup(1)
-	wscores.add(1000)
+
+	wscores.set(1000)
+--	wscores.add(1000)
 	
 	ship.setup()
 	shots.setup()
