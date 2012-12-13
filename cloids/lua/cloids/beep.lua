@@ -21,17 +21,8 @@ M.bake=function(state,beep)
 
 	local ids={
 	
-		["ball_side"]={
-			name="sfx/clear1",
-		},
-		["ball_land"]={
-			name="sfx/clear1",
-		},
-		["score"]={
-			name="sfx/slide",
-		},
-		["fall"]={
-			name="sfx/land",
+		["splat"]={
+			name="sfx/splat",
 		},
 	}
 
