@@ -61,11 +61,11 @@ game.setup=function()
 	local	py=math.random(-240,240)
 
 	local colors={
-		0xff00,
-		0xfff0,
-		0xf0f0,
-		0xf0ff,
-		0xf00f,
+		0xcf00,
+		0xcff0,
+		0xc0f0,
+		0xc0ff,
+		0xc00f,
 	}
 
 	for i=1,32 do
