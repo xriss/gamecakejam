@@ -38,11 +38,13 @@ bake=function(game)
 
 				if m.type==1 then
 					for i,v in ipairs{
-						{103,"p1_up"},		-- curser keys + right ctrl to shoots
+						{103,"p1_up"},		-- curser keys + right ctrl/shift/alt to shoots
 						{108,"p1_down"},
 						{105,"p1_left"},						
 						{106,"p1_right"},
+						{54,"p1_fire"},
 						{97,"p1_fire"},
+						{100,"p1_fire"},
 						
 						{72,"p2_up"},		-- number pad curser keys + enter to shoot
 						{80,"p2_down"},
@@ -50,10 +52,12 @@ bake=function(game)
 						{77,"p2_right"},
 						{96,"p2_fire"},
 						
-						{17,"p3_up"},		-- wasd + left alt to shoot
+						{17,"p3_up"},		-- wasd + left alt/shift/ctrl to shoot
 						{31,"p3_down"},
 						{30,"p3_left"},						
 						{32,"p3_right"},
+						{29,"p3_fire"},
+						{42,"p3_fire"},
 						{56,"p3_fire"},
 						
 						} do

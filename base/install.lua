@@ -1,4 +1,4 @@
-#!../lua
+#!../bin/exe/lua
 
 local wbake=require("wetgenes.bake")
 

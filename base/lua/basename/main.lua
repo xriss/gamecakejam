@@ -6,46 +6,38 @@ local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
 
-
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 M.bake=function(state,main)
 	local main=main or {}
-	main.state=state
 	
 	local cake=state.cake
 	local opts=state.opts
 	local canvas=state.canvas
+	
 	local font=canvas.font
 	local flat=canvas.flat
+
 	local gl=cake.gl
 
 	main.modname=M.modname
-	
--- a substate
-	main.subs=require("wetgenes.gamecake.state").bake({
-		master=state,
-	})
-	
-	main.input={}
-	main.input.volatile={}
-	main.page="menu"
-	main.wait=60
-	
-	
+		
+	local keys=state.rebake("wetgenes.gamecake.spew.keys").setup(1)
+	local recaps=state.rebake("wetgenes.gamecake.spew.recaps").setup(1)
+	local scores=state.rebake("wetgenes.gamecake.spew.scores").setup(1)
+
+
 	
 main.loads=function()
 
-	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
-	
-	state.cake.images.loads({
-	})
+	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
+--	state.cake.images.loads({
+--	})
 	
 end
 		
 main.setup=function()
-	local cake=state.cake
 
 	main.loads()
 	
@@ -93,9 +85,11 @@ main.msg=function(m)
 
 	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
 		m.x,m.y=state.canvas.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
-		m.x=m.x+(720/2)
-		m.y=m.y+(480/2)
+		m.x=m.x+(opts.width/2)
+		m.y=m.y+(opts.height/2)
 	end
+	
+	keys.msg(m) -- translate into controls
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -106,11 +100,10 @@ end
 main.update=function()
 
 	main.change()
-
-	for i,v in pairs(main.input.volatile) do
-		main.input[i]=v 
-	end
-	main.input.volatile={}
+	
+	recaps.step()
+	
+	if recaps.get("fire_set") then print("fire") end
 
 	if main.now and main.now.update then
 		main.now.update()

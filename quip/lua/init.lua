@@ -28,6 +28,16 @@ local bake=function()
 		local inf={width=opts.width,height=opts.height,title=opts.title}
 		inf.x=(screen.width-inf.width)/2
 		inf.y=(screen.height-inf.height)/2
+
+		if wwin.flavour=="raspi" then -- fullscreen it on raspi
+			inf.x=0
+			inf.y=0
+			inf.width=screen.width
+			inf.height=screen.height
+			inf.screen_width=screen.width
+			inf.screen_height=screen.height
+		end
+		
 		state.win=wwin.create(inf)
 		state.gl=require("gles").gles1
 		state.win:context({})
