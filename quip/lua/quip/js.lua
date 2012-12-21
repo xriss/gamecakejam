@@ -36,6 +36,12 @@ bake=function(game)
 		
 --			print(m.type,m.code,m.value)
 
+if wwin.flavour=="raspi" then
+	if m.type==1 and m.code==1 and m.value==1 then -- esc
+		os.exit(0) -- hack to exit when esc is pressed
+	end
+end
+
 				if m.type==1 then
 					for i,v in ipairs{
 						{103,"p1_up"},		-- curser keys + right ctrl/shift/alt to shoots
@@ -46,10 +52,12 @@ bake=function(game)
 						{97,"p1_fire"},
 						{100,"p1_fire"},
 						
-						{72,"p2_up"},		-- number pad curser keys + enter to shoot
+						{72,"p2_up"},		-- number pad curser keys + enter/return/space to shoot
 						{80,"p2_down"},
 						{75,"p2_left"},						
 						{77,"p2_right"},
+						{28,"p2_fire"},
+						{57,"p2_fire"},
 						{96,"p2_fire"},
 						
 						{17,"p3_up"},		-- wasd + left alt/shift/ctrl to shoot

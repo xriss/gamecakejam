@@ -37,7 +37,3 @@ to on going development.
 The windows build should always work under wine so it is perversely the 
 most compatible cross platform build. 
 
-Finally can I also add a big fuck you to MICROSOFT, METRO, IOS, APPLE, 
-AMAZON, STEAM, PLAYSTATION, XBOX and NINTENDO platforms.  None of this 
-would be possible without your continued and tireless attempts to 
-destroy all unapproved creativity.
