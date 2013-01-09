@@ -29,6 +29,7 @@ M.bake=function(state,game)
 
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
 
+	local recaps=state.rebake("wetgenes.gamecake.spew.recaps")
 
 
 game.loads=function()
@@ -67,6 +68,19 @@ end
 
 game.update=function()
 
+	if recaps.get("up") then
+		cells.move="up"
+	elseif recaps.get("down") then
+		cells.move="down"
+	elseif recaps.get("left") then
+		cells.move="left"
+	elseif recaps.get("right") then
+		cells.move="right"
+	else
+		cells.move=nil
+	end
+	
+	
 	cells.update()
 
 	wscores.update()
