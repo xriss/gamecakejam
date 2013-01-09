@@ -44,13 +44,13 @@ end
 
 				if m.type==1 then
 					for i,v in ipairs{
-						{103,"p1_up"},		-- curser keys + right ctrl/shift/alt to shoots
-						{108,"p1_down"},
-						{105,"p1_left"},						
-						{106,"p1_right"},
-						{54,"p1_fire"},
-						{97,"p1_fire"},
-						{100,"p1_fire"},
+						{103,"p4_up"},		-- curser keys + right ctrl/shift/alt to shoots
+						{108,"p4_down"},
+						{105,"p4_left"},						
+						{106,"p4_right"},
+						{54,"p4_fire"},
+						{97,"p4_fire"},
+						{100,"p4_fire"},
 						
 						{72,"p2_up"},		-- number pad curser keys + enter/return/space to shoot
 						{80,"p2_down"},
