@@ -40,6 +40,9 @@ main.loads=function()
 	sheets.loads_and_chops{
 		{"imgs/floor",1,1,0.5,0.5},
 		{"imgs/block",1,1,0.5,0.5},
+		{"imgs/egg1",1,1,0.5,0.5},
+		{"imgs/egg2",1,1,0.5,0.5},
+		{"imgs/hero",1,1,0.5,0.5},
 	}
 	
 end

@@ -36,7 +36,8 @@ cells.setup=function()
 	cells.tab={}
 	
 	cells.classes={}
-	
+	local classes=cells.classes
+		
 	cells.mx=12
 	cells.my=12
 	
@@ -44,33 +45,52 @@ cells.setup=function()
 
 	cells.px=cells.ss/2
 	cells.py=cells.ss/2
-	
 
 
 	local cdraw=function(c)
 		c.sheet:draw(1,cells.px+c.cx*cells.ss,cells.py+c.cy*cells.ss,0,cells.ss,cells.ss)	
 	end
-
+	local cupdate=function(c)
+	end
+	
 -- build cells table
 	cells.classes.none={
 		setup=function(c)
-			c.sheet=sheets.get("imgs/floor")
+--			c.sheet=sheets.get("imgs/floor")
 		end,
 		update=function(c)end,
 		draw=function(c)
-			cdraw(c)
+--			cdraw(c)
 		end,
 	}
-	cells.classes.test={
+	cells.classes.egg={
 		setup=function(c)
-			c.sheet=sheets.get("imgs/block")
+			c.sheet=sheets.get("imgs/egg1")
 		end,
 		update=function(c)end,
 		draw=function(c)
 			cdraw(c)
 		end,
 	}
-	local classes=cells.classes
+	cells.classes.hard={
+		setup=function(c)
+			c.sheet=sheets.get("imgs/egg2")
+		end,
+		update=function(c)end,
+		draw=function(c)
+			cdraw(c)
+		end,
+	}
+	cells.classes.hero={
+		setup=function(c)
+			c.sheet=sheets.get("imgs/hero")
+			cells.hero=c -- only one
+		end,
+		update=function(c)end,
+		draw=function(c)
+			cdraw(c)
+		end,
+	}
 	
 	local idx=1
 	for cx=0,cells.mx-1 do
@@ -81,21 +101,39 @@ cells.setup=function()
 			c.cx=cx
 			c.cy=cy
 			c.idx=idx
-			c.class=classes.none
+			if cx==0 or cx==cells.mx-1 or cy==0 or cy==cells.mx-1 then -- edge
+				c.class=classes.hard
+			else
+				c.class=classes.none
+			end
 			c.class.setup(c)
 			idx=idx+1
 		end
 	end
 	
-	for i=1,20 do
-		local idx=math.random(1,#cells.tab)
+	for i=1,50 do
+		local cx=math.random(1,cells.mx-2)
+		local cy=math.random(1,cells.mx-2)
+		local idx=cells.cxcy_to_idx(cx,cy)
 		local c=cells.tab[idx]
-		c.class=classes.test
+		c.class=classes.egg
+		c.class.setup(c)
+	end
+
+	for i=1,1 do
+		local cx=math.random(1,cells.mx-2)
+		local cy=math.random(1,cells.mx-2)
+		local idx=cells.cxcy_to_idx(cx,cy)
+		local c=cells.tab[idx]
+		c.class=classes.hero
 		c.class.setup(c)
 	end
 	
 end
 
+cells.cxcy_to_idx=function(cx,cy)
+	return 1+cx+(cy*cells.mx)
+end
 
 cells.clean=function()
 
