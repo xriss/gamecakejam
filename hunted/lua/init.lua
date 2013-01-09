@@ -15,7 +15,7 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 local opts={
 	times=true, -- request simple time keeping samples
 	
-	width=720,	-- display basics
+	width=480,	-- display basics
 	height=480,
 	title="hunted",
 	fps=60,
