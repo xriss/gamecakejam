@@ -25,8 +25,11 @@ M.bake=function(state,game)
 	local gl=cake.gl
 	
 	local gui=state.rebake("hunted.gui")
+	local cells=state.rebake("hunted.cells")
 
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+
+
 
 game.loads=function()
 
@@ -40,11 +43,15 @@ game.setup=function()
 
 	gui.setup()
 	gui.page("game")
+	
+	cells.setup()
 
 end
 
 game.clean=function()
 
+	cells.clean()
+	
 	wscores.clean()
 	gui.clean()
 
@@ -60,6 +67,8 @@ end
 
 game.update=function()
 
+	cells.update()
+
 	wscores.update()
 
 	gui.update()
@@ -68,6 +77,7 @@ end
 
 game.draw=function()
 
+	cells.draw()
 
 	wscores.draw("arcade2")
 

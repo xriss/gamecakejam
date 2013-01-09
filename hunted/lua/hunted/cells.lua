@@ -15,7 +15,8 @@ M.bake=function(state,cells)
 	
 	local font=canvas.font
 	local flat=canvas.flat
-
+	local sheets=cake.sheets
+	
 	local gl=cake.gl
 
 	cells.modname=M.modname
@@ -24,14 +25,51 @@ M.bake=function(state,cells)
 cells.loads=function()
 
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
---	state.cake.images.loads({
---	})
+
 	
 end
 		
 cells.setup=function()
 
 	cells.loads()
+	
+	cells.tab={}
+	
+	cells.classes={}
+
+-- build cells table
+	cells.classes.none={
+		update=function(c)end,
+		draw=function(c)
+		end,
+	}
+	cells.classes.test={
+		update=function(c)end,
+		draw=function(c)
+			
+		end,
+	}
+	local classes=cells.classes
+	
+	local idx=1
+	for cx=0,14 do
+		for cy=0,14 do
+		
+			local c={}
+			cells.tab[idx]=c
+			c.cx=cx
+			c.cy=cy
+			c.idx=idx
+			c.class=classes.none
+			c.sheet=sheets.get("imgs/floor")
+			idx=idx+1
+		end
+	end
+	
+	for i=1,20 do
+		local idx=math.random(1,#cells.tab)
+		cells.tab[idx].class=classes.test
+	end
 	
 end
 
@@ -44,12 +82,18 @@ end
 
 cells.update=function()
 
+	for i,v in ipairs(cells.tab) do
+		v.class.update(v)
+	end
 
 end
 
 cells.draw=function()
 	
-	
+	for i,v in ipairs(cells.tab) do
+		v.class.draw(v)
+	end
+
 end
 		
 	return cells

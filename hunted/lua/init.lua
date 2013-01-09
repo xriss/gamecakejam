@@ -19,9 +19,13 @@ local opts={
 	height=480,
 	title="hunted",
 	fps=60,
+	...
 }
 
 local bake=function()
+
+	math.randomseed(os.time())
+
 	local state=require("wetgenes.gamecake.state").bake(opts)
 	do
 		local screen=wwin.screen()

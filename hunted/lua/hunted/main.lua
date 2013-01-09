@@ -15,6 +15,7 @@ M.bake=function(state,main)
 	local cake=state.cake
 	local opts=state.opts
 	local canvas=state.canvas
+	local sheets=cake.sheets
 	
 	local font=canvas.font
 	local flat=canvas.flat
@@ -36,6 +37,10 @@ main.loads=function()
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
 --	state.cake.images.loads({
 --	})
+	sheets.loads_and_chops{
+		{"imgs/floor",1,1,0.5,0.5},
+		{"imgs/block",1,1,0.5,0.5},
+	}
 	
 end
 		
@@ -47,8 +52,12 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
-	main.next=state.rebake("hunted.main_menu")
-	
+	print(opts[2])
+	if opts[2]=="game" then
+		main.next=state.rebake("hunted.main_game")
+	else
+		main.next=state.rebake("hunted.main_menu")
+	end
 	main.change()
 end
 
