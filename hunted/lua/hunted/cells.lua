@@ -86,7 +86,7 @@ cells.setup=function()
 	}
 	cells.classes.hard={
 		setup=function(c)
-			c.sheet=sheets.get("imgs/egg2")
+			c.sheet=sheets.get("imgs/block")
 		end,
 		update=function(c)end,
 		draw=function(c)
