@@ -36,41 +36,166 @@ cells.setup=function()
 	cells.tab={}
 	
 	cells.classes={}
+	local classes=cells.classes
+		
+	cells.mx=12
+	cells.my=12
+	
+	cells.ss=40
 
+	cells.px=cells.ss/2
+	cells.py=cells.ss/2
+
+
+	local cdraw=function(c)
+		local x=cells.px+c.cx*cells.ss
+		local y=cells.py+c.cy*cells.ss
+		if c.dd then -- animate
+			x=x+c.dx*c.dd
+			y=y+c.dy*c.dd
+		end
+		c.sheet:draw(1,x,y,0,cells.ss,cells.ss)	
+	end
+	local cupdate=function(c)
+		if c.dd then -- animate
+			c.dd=c.dd-1
+			if c.dd<=0 then c.dd=nil end
+		end
+	end
+	
 -- build cells table
 	cells.classes.none={
+		setup=function(c)
+--			c.sheet=sheets.get("imgs/floor")
+		end,
 		update=function(c)end,
 		draw=function(c)
+--			cdraw(c)
 		end,
 	}
-	cells.classes.test={
+	cells.classes.egg={
+		setup=function(c)
+			c.sheet=sheets.get("imgs/egg1")
+		end,
+		update=function(c)
+			cupdate(c)
+		end,
+		draw=function(c)
+			cdraw(c)
+		end,
+	}
+	cells.classes.hard={
+		setup=function(c)
+			c.sheet=sheets.get("imgs/egg2")
+		end,
 		update=function(c)end,
 		draw=function(c)
-			
+			cdraw(c)
 		end,
 	}
-	local classes=cells.classes
-	
+	cells.classes.hero={
+		setup=function(c)
+			c.sheet=sheets.get("imgs/hero")
+			cells.hero=c -- only one
+		end,
+		update=function(c)
+			cupdate(c)
+		end,
+		draw=function(c)
+			cdraw(c)
+		end,
+		move=function(c,dx,dy)
+			if not c.dd then -- move again
+				if dx~=0 or dy~=0 then
+					local idx=cells.cxcy_to_idx(c.cx+dx,c.cy+dy)
+print(c.cx,c.cy,c.cx+dx,c.cy+dy)					
+					local c2=cells.tab[idx]
+					if c2 then -- try and move
+						cells.swap_cell(c,c2)
+					end
+				end
+			end
+		end,
+	}
+	cells.classes.alien={
+		setup=function(c)
+			c.sheet=sheets.get("imgs/alien")
+			cells.alien=c -- only one
+		end,
+		update=function(c)
+			cupdate(c)
+		end,
+		draw=function(c)
+			cdraw(c)
+		end,
+	}
+		
 	local idx=1
-	for cx=0,14 do
-		for cy=0,14 do
+	for cx=0,cells.mx-1 do
+		for cy=0,cells.my-1 do
 		
 			local c={}
 			cells.tab[idx]=c
 			c.cx=cx
 			c.cy=cy
 			c.idx=idx
-			c.class=classes.none
-			c.sheet=sheets.get("imgs/floor")
+			if cx==0 or cx==cells.mx-1 or cy==0 or cy==cells.mx-1 then -- edge
+				c.class=classes.hard
+			else
+				c.class=classes.none
+			end
+			c.class.setup(c)
 			idx=idx+1
 		end
 	end
 	
-	for i=1,20 do
-		local idx=math.random(1,#cells.tab)
-		cells.tab[idx].class=classes.test
+	for i=1,50 do
+		local cx=math.random(1,cells.mx-2)
+		local cy=math.random(1,cells.mx-2)
+		local idx=cells.cxcy_to_idx(cx,cy)
+		local c=cells.tab[idx]
+		c.class=classes.egg
+		c.class.setup(c)
+	end
+
+	for i=1,5 do
+		local cx=math.random(1,cells.mx-2)
+		local cy=math.random(1,cells.mx-2)
+		local idx=cells.cxcy_to_idx(cx,cy)
+		local c=cells.tab[idx]
+		c.class=classes.alien
+		c.class.setup(c)
 	end
 	
+	for i=1,1 do
+		local cx=math.random(1,cells.mx-2)
+		local cy=math.random(1,cells.mx-2)
+		local idx=cells.cxcy_to_idx(cx,cy)
+		local c=cells.tab[idx]
+		c.class=classes.hero
+		c.class.setup(c)
+	end
+	
+end
+
+cells.cxcy_to_idx=function(cx,cy)
+	return 1+cx+(cy*cells.mx)
+end
+
+cells.swap_cell=function(c1,c2)
+
+	c1.class,c2.class=c2.class,c1.class
+	
+	c1.dx=c2.cx-c1.cx
+	c1.dy=c2.cy-c1.cy
+	c1.dd=cells.ss
+	
+	c2.dx=c1.cx-c2.cx
+	c2.dy=c1.cy-c2.cy
+	c2.dd=cells.ss
+
+	c1.class.setup(c1)
+	c2.class.setup(c2)
 end
 
 
@@ -82,6 +207,20 @@ end
 
 cells.update=function()
 
+	if cells.hero and cells.hero.class.move then
+		local dx,dy=0,0
+		if cells.move=="up" then
+			dx,dy=0,-1
+		elseif cells.move=="down" then
+			dx,dy=0,1
+		elseif cells.move=="left" then
+			dx,dy=-1,0
+		elseif cells.move=="right" then
+			dx,dy=1,0
+		end
+		cells.hero.class.move(cells.hero,dx,dy)
+	end
+	
 	for i,v in ipairs(cells.tab) do
 		v.class.update(v)
 	end
