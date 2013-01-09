@@ -27,6 +27,8 @@ M.bake=function(state,main)
 	local recaps=state.rebake("wetgenes.gamecake.spew.recaps").setup(1)
 	local scores=state.rebake("wetgenes.gamecake.spew.scores").setup(1)
 
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+	wscores.setup(1)
 
 	
 main.loads=function()
@@ -117,7 +119,7 @@ main.draw=function()
 	canvas.project23d(opts.width,opts.height,1/4,opts.height*4)
 	canvas.gl_default() -- reset gl state
 		
-	gl.ClearColor(pack.argb4_pmf4(0xf000))
+	gl.ClearColor(pack.argb4_pmf4(0xf444))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
 	gl.MatrixMode(gl.PROJECTION)
