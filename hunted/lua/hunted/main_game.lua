@@ -23,7 +23,8 @@ M.bake=function(state,game)
 	local font=canvas.font
 	local flat=canvas.flat
 	local gl=cake.gl
-	
+	local sheets=cake.sheets
+
 	local gui=state.rebake("hunted.gui")
 	local cells=state.rebake("hunted.cells")
 
@@ -90,6 +91,8 @@ game.update=function()
 end
 
 game.draw=function()
+
+	sheets.get("imgs/floor"):draw(1,240,240,0,480,480)
 
 	cells.draw()
 

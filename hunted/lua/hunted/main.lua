@@ -44,6 +44,7 @@ main.loads=function()
 		{"imgs/egg2",1,1,0.5,0.5},
 		{"imgs/hero",1,1,0.5,0.5},
 		{"imgs/alien",1,1,0.5,0.5},
+		{"imgs/title",1,1,0.5,0.5},
 	}
 	
 end
@@ -132,7 +133,7 @@ main.draw=function()
 	canvas.project23d(opts.width,opts.height,1/4,opts.height*4)
 	canvas.gl_default() -- reset gl state
 		
-	gl.ClearColor(pack.argb4_pmf4(0xf444))
+	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
 	gl.MatrixMode(gl.PROJECTION)
