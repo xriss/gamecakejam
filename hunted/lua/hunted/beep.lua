@@ -21,6 +21,9 @@ M.bake=function(state,beep)
 
 	local ids={
 	
+		["squash"]={
+			name="sfx/squash1",
+		},
 		["die"]={
 			name="sfx/diehunted",
 		},

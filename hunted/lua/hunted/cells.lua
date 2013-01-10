@@ -313,6 +313,7 @@ cells.setup=function()
 				c.dy=0
 				c.dd=cells.ss
 				wscores.add(10*main.level)
+				beep.play("squash")
 			end
 		end,
 	}
