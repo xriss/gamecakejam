@@ -76,12 +76,53 @@ cells.setup=function()
 	cells.classes.egg={
 		setup=function(c)
 			c.sheet=sheets.get("imgs/egg1")
+			if not c.data then
+				c.data={}
+				c.data.speed=5
+			end
 		end,
 		update=function(c)
 			cupdate(c)
+			if c.data.state=="slide" then
+				if not c.dd then
+					local idx=cells.cxcy_to_idx(c.cx+c.data.dx,c.cy+c.data.dy)
+					local c2=cells.tab[idx]
+					if c2 then
+						if c2.class==classes.none then -- just move
+							cells.swap_cell(c,c2)
+						else
+							c.data.state=nil
+						end
+					end
+				end
+			end
 		end,
 		draw=function(c)
 			cdraw(c)
+		end,
+		move=function(c,dx,dy)
+			if not c.dd then -- move again
+				if dx~=0 or dy~=0 then
+					local idx=cells.cxcy_to_idx(c.cx+dx,c.cy+dy)
+					local c2=cells.tab[idx]
+					if c2 then
+						if c2.class==classes.none then -- just move
+							cells.swap_cell(c,c2)
+						end
+					end
+				end
+			end
+		end,
+		push=function(c,dx,dy)
+			if not c.data.state then
+				local idx=cells.cxcy_to_idx(c.cx+dx,c.cy+dy)
+				local c2=cells.tab[idx]
+				if c2 and (c2.class==classes.none) then
+					c.data.dx=dx
+					c.data.dy=dy
+					c.data.state="slide"
+				end
+			end
 		end,
 	}
 	cells.classes.hard={
@@ -116,6 +157,11 @@ cells.setup=function()
 					if c2 then
 						if c2.class==classes.none then -- just move
 							cells.swap_cell(c,c2)
+						elseif c2.class.push then
+							c2.class.push(c2,dx,dy)
+							c.dx=0
+							c.dy=0
+							c.dd=cells.ss
 						end
 					end
 				end
@@ -198,6 +244,7 @@ cells.setup=function()
 		local idx=cells.cxcy_to_idx(cx,cy)
 		local c=cells.tab[idx]
 		c.class=classes.egg
+		c.data=nil
 		c.class.setup(c)
 	end
 
@@ -207,6 +254,7 @@ cells.setup=function()
 		local idx=cells.cxcy_to_idx(cx,cy)
 		local c=cells.tab[idx]
 		c.class=classes.alien
+		c.data=nil
 		c.class.setup(c)
 	end
 	
@@ -216,6 +264,7 @@ cells.setup=function()
 		local idx=cells.cxcy_to_idx(cx,cy)
 		local c=cells.tab[idx]
 		c.class=classes.hero
+		c.data=nil
 		c.class.setup(c)
 	end
 	
