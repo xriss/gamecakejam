@@ -24,6 +24,7 @@ M.bake=function(state,main)
 
 	main.modname=M.modname
 		
+	
 	local keys=state.rebake("wetgenes.gamecake.spew.keys").setup(1)
 	local recaps=state.rebake("wetgenes.gamecake.spew.recaps").setup(1)
 	local scores=state.rebake("wetgenes.gamecake.spew.scores").setup(1)
@@ -31,10 +32,13 @@ M.bake=function(state,main)
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
 	wscores.setup(1)
 
-	
+	local beep=state.rebake("hunted.beep")
+
 main.loads=function()
 
-	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
+	beep.loads()
+
+	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 --	state.cake.images.loads({
 --	})
 	sheets.loads_and_chops{

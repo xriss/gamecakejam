@@ -24,7 +24,9 @@ M.bake=function(state,cells)
 	local main=state.rebake("hunted.main")
 	local menu=state.rebake("hunted.main_menu")
 		
-	
+	local beep=state.rebake("hunted.beep")
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+
 cells.loads=function()
 
 	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
@@ -144,8 +146,10 @@ cells.setup=function()
 						c.data.dx=dx
 						c.data.dy=dy
 						c.data.state="slide"
+						beep.play("slide1")
 					else
 						c.class.die(c)
+						beep.play("slide")
 					end
 				end
 			end
@@ -156,6 +160,7 @@ cells.setup=function()
 			c.dx=0
 			c.dy=0
 			c.dd=cells.ss
+			wscores.add(1*main.level)
 		end,
 	}
 	cells.classes.hard={
@@ -230,6 +235,7 @@ cells.setup=function()
 				c.dx=0
 				c.dy=0
 				c.dd=cells.ss
+				beep.play("die")
 			end
 		end,
 	}
@@ -306,6 +312,7 @@ cells.setup=function()
 				c.dx=0
 				c.dy=0
 				c.dd=cells.ss
+				wscores.add(10*main.level)
 			end
 		end,
 	}
@@ -420,6 +427,7 @@ cells.update=function()
 	if cells.aliens<=0 then
 		if not cells.next then
 			cells.next=state.rebake("hunted.main_game") -- next level
+			beep.play("win")
 		end
 	end
 	

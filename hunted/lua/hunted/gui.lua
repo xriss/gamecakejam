@@ -21,6 +21,7 @@ M.bake=function(state,gui)
 
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
 
+	local beep=state.rebake("hunted.beep")
 	
 	local main=state.rebake("hunted.main")
 

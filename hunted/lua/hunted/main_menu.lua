@@ -44,6 +44,15 @@ menu.setup=function()
 	gui.setup()
 	gui.page("menu")
 
+	local qq=cake.sounds.queues[1]
+	if not qq.oggs then
+		qq.ogg_loop=true
+		qq.state="play_queue"
+		qq.oggs={"oggs/hunted"}
+		qq.gain=0.75
+		qq.pitch=1
+	end
+
 end
 
 menu.clean=function()
