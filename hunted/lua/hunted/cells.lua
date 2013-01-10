@@ -58,7 +58,7 @@ cells.setup=function()
 	end
 	local cupdate=function(c)
 		if c.dd then -- animate
-			c.dd=c.dd - (cells.ss/10)
+			c.dd=c.dd - ( cells.ss/(c.data and c.data.speed or 1) )
 			if c.dd<=0 then c.dd=nil end
 		end
 	end
@@ -97,6 +97,10 @@ cells.setup=function()
 		setup=function(c)
 			c.sheet=sheets.get("imgs/hero")
 			cells.hero=c -- only one
+			if not c.data then
+				c.data={}
+				c.data.speed=10
+			end
 		end,
 		update=function(c)
 			cupdate(c)
@@ -126,6 +130,7 @@ cells.setup=function()
 				c.data={}
 				c.data.dx=0
 				c.data.dy=0
+				c.data.speed=20
 			end
 		end,
 		update=function(c)
