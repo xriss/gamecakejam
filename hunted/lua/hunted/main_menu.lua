@@ -30,6 +30,10 @@ M.bake=function(state,menu)
 
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
 
+	local recaps=state.rebake("wetgenes.gamecake.spew.recaps")
+
+
+
 menu.back="imgs/title"
 
 menu.loads=function()
@@ -82,6 +86,13 @@ menu.draw=function()
 	wscores.draw("arcade2")
 
 	gui.draw()
+	
+	if recaps.get("fire_set") then -- start on spacebar
+
+		gui.hooks("click",{id="start"})
+
+	end
+	
 
 end
 

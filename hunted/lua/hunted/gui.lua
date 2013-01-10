@@ -25,6 +25,7 @@ M.bake=function(state,gui)
 	
 	local main=state.rebake("hunted.main")
 
+
 	function gui.setup()
 	
 		gui.master=state.rebake("wetgenes.gamecake.widgets").setup({})
@@ -34,7 +35,7 @@ M.bake=function(state,gui)
 	
 	function gui.hooks(act,w)
 	
-		print(act,w.id)
+--		print(act,w.id)
 		
 		if act=="click" then
 			if w.id=="start" then

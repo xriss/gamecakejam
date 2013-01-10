@@ -126,7 +126,7 @@ main.update=function()
 	
 	recaps.step()
 	
-	if recaps.get("fire_set") then print("fire") end
+--	if recaps.get("fire_set") then print("fire") end
 
 	if main.now and main.now.update then
 		main.now.update()
