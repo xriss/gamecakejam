@@ -20,6 +20,9 @@ M.bake=function(state,cells)
 	local gl=cake.gl
 
 	cells.modname=M.modname
+
+	local main=state.rebake("hunted.main")
+	local menu=state.rebake("hunted.main_menu")
 		
 	
 cells.loads=function()
@@ -30,6 +33,8 @@ cells.loads=function()
 end
 		
 cells.setup=function()
+
+	cells.next=nil
 
 	cells.loads()
 	
@@ -45,6 +50,8 @@ cells.setup=function()
 
 	cells.px=cells.ss/2
 	cells.py=cells.ss/2
+	
+	cells.aliens=0
 
 
 	local cdraw=function(c)
@@ -91,14 +98,29 @@ cells.setup=function()
 						if c2.class==classes.none then -- just move
 							cells.swap_cell(c,c2)
 						else
-							c.data.state=nil
+							if c2.class.die then
+								c2.class.die(c2)
+							end
+							c.data.state=nil							
 						end
 					end
+				end
+			elseif c.data.state=="die" then
+				if not c.dd then
+					c.class=cells.classes.none
+					c.data=nil
 				end
 			end
 		end,
 		draw=function(c)
-			cdraw(c)
+			if c.data.state=="die" then
+				local a=c.dd/cells.ss
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			else
+				cdraw(c)
+			end
 		end,
 		move=function(c,dx,dy)
 			if not c.dd then -- move again
@@ -117,12 +139,23 @@ cells.setup=function()
 			if not c.data.state then
 				local idx=cells.cxcy_to_idx(c.cx+dx,c.cy+dy)
 				local c2=cells.tab[idx]
-				if c2 and (c2.class==classes.none) then
-					c.data.dx=dx
-					c.data.dy=dy
-					c.data.state="slide"
+				if c2 then
+					if (c2.class==classes.none) or (c2.class==classes.alien) then
+						c.data.dx=dx
+						c.data.dy=dy
+						c.data.state="slide"
+					else
+						c.class.die(c)
+					end
 				end
 			end
+		end,
+		die=function(c)
+			c.sheet=sheets.get("imgs/egg2")
+			c.data.state="die"
+			c.dx=0
+			c.dy=0
+			c.dd=cells.ss
 		end,
 	}
 	cells.classes.hard={
@@ -141,13 +174,34 @@ cells.setup=function()
 			if not c.data then
 				c.data={}
 				c.data.speed=10
+				c.data.safe=60*2
 			end
 		end,
 		update=function(c)
 			cupdate(c)
+			if c.data.safe>0 then c.data.safe=c.data.safe-1 end
+			if c.data.state=="die" then
+				if not c.dd then
+					c.class=cells.classes.none
+					c.data=nil
+					cells.hero=nil
+				end
+			end
 		end,
 		draw=function(c)
-			cdraw(c)
+			if c.data.state=="die" then
+				local a=c.dd/cells.ss
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			elseif c.data.safe>0 then
+				local a=1/3
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			else
+				cdraw(c)
+			end
 		end,
 		move=function(c,dx,dy)
 			if not c.dd then -- move again
@@ -162,9 +216,20 @@ cells.setup=function()
 							c.dx=0
 							c.dy=0
 							c.dd=cells.ss
+						elseif c2.class==classes.alien then
+							c.class.die(c)
 						end
 					end
 				end
+			end
+		end,
+		die=function(c)
+			if c.data.safe==0 then
+				c.sheet=sheets.get("imgs/herodie")
+				c.data.state="die"
+				c.dx=0
+				c.dy=0
+				c.dd=cells.ss
 			end
 		end,
 	}
@@ -180,29 +245,46 @@ cells.setup=function()
 			end
 		end,
 		update=function(c)
+			cells.aliens=cells.aliens+1
 			cupdate(c)
-			if not c.dd then
-				if c.data.dx==0 and c.data.dx==0 then -- new random direction
-					local r=math.random(1,4)
-					if     r==1 then c.data.dx,c.data.dy=-1,0
-					elseif r==2 then c.data.dx,c.data.dy= 1,0
-					elseif r==3 then c.data.dx,c.data.dy= 0,-1
-					elseif r==4 then c.data.dx,c.data.dy= 0,1
-					end
+			if c.data.state=="die" then
+				if not c.dd then
+					c.class=cells.classes.none
+					c.data=nil
 				end
-				local idx=cells.cxcy_to_idx(c.cx+c.data.dx,c.cy+c.data.dy)
-				local c2=cells.tab[idx]
-				if c2 then
-					if c2.class==classes.none then -- just move
-						cells.swap_cell(c,c2)
-						return
+			else
+				if not c.dd then
+					if c.data.dx==0 and c.data.dx==0 then -- new random direction
+						local r=math.random(1,4)
+						if     r==1 then c.data.dx,c.data.dy=-1,0
+						elseif r==2 then c.data.dx,c.data.dy= 1,0
+						elseif r==3 then c.data.dx,c.data.dy= 0,-1
+						elseif r==4 then c.data.dx,c.data.dy= 0,1
+						end
 					end
+					local idx=cells.cxcy_to_idx(c.cx+c.data.dx,c.cy+c.data.dy)
+					local c2=cells.tab[idx]
+					if c2 then
+						if c2.class==classes.none then -- just move
+							cells.swap_cell(c,c2)
+							return
+						elseif c2.class==classes.hero then -- gameover
+							c2.class.die(c2)
+						end
+					end
+					c.data.dx,c.data.dy=0,0 -- try another direction next time
 				end
-				c.data.dx,c.data.dy=0,0 -- try another direction next time
 			end
 		end,
 		draw=function(c)
-			cdraw(c)
+			if c.data.state=="die" then
+				local a=c.dd/cells.ss
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			else
+				cdraw(c)
+			end
 		end,
 		move=function(c,dx,dy)
 			if not c.dd then -- move again
@@ -215,6 +297,15 @@ cells.setup=function()
 						end
 					end
 				end
+			end
+		end,
+		die=function(c)
+			if c.data.state~="die" then
+				c.sheet=sheets.get("imgs/aliendie")
+				c.data.state="die"
+				c.dx=0
+				c.dy=0
+				c.dd=cells.ss
 			end
 		end,
 	}
@@ -248,7 +339,7 @@ cells.setup=function()
 		c.class.setup(c)
 	end
 
-	for i=1,5 do
+	for i=1,4+main.level do
 		local cx=math.random(1,cells.mx-2)
 		local cy=math.random(1,cells.mx-2)
 		local idx=cells.cxcy_to_idx(cx,cy)
@@ -301,6 +392,7 @@ end
 cells.update=function()
 
 	if cells.hero and cells.hero.class.move then
+	
 		local dx,dy=0,0
 		if cells.move=="up" then
 			dx,dy=0,-1
@@ -312,16 +404,30 @@ cells.update=function()
 			dx,dy=1,0
 		end
 		cells.hero.class.move(cells.hero,dx,dy)
+		
+	else -- gameover
+		if not cells.next then
+			menu.back="imgs/end"
+			cells.next=menu
+		end
 	end
 	
+	cells.aliens=0
 	for i,v in ipairs(cells.tab) do
 		v.class.update(v)
 	end
+	
+	if cells.aliens<=0 then
+		if not cells.next then
+			cells.next=state.rebake("hunted.main_game") -- next level
+		end
+	end
+	
 
 end
 
 cells.draw=function()
-	
+
 	for i,v in ipairs(cells.tab) do
 		v.class.draw(v)
 	end

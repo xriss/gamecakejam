@@ -26,13 +26,18 @@ M.bake=function(state,menu)
 	local sheets=cake.sheets
 	
 	local gui=state.rebake("hunted.gui")
+	local main=state.rebake("hunted.main")
 
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+
+menu.back="imgs/title"
 
 menu.loads=function()
 
 end
 		
 menu.setup=function()
+
 
 	menu.loads()
 
@@ -63,8 +68,10 @@ end
 
 menu.draw=function()
 	
-	sheets.get("imgs/title"):draw(1,240,240,0,480,480)
+	sheets.get(menu.back):draw(1,240,240,0,480,480)
 	
+	wscores.draw("arcade2")
+
 	gui.draw()
 
 end

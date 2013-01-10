@@ -18,6 +18,9 @@ M.bake=function(state,gui)
 
 	gui.pages={} -- put functions to fill in pages in here
 	
+
+	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+
 	
 	local main=state.rebake("hunted.main")
 
@@ -34,6 +37,9 @@ M.bake=function(state,gui)
 		
 		if act=="click" then
 			if w.id=="start" then
+
+				wscores.set(0)
+				main.level=0
 				main.next=state.rebake("hunted.main_game")
 			end
 		end
