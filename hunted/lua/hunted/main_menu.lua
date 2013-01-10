@@ -77,6 +77,12 @@ menu.update=function()
 
 	gui.update()
 
+	if recaps.get("fire_set") then -- start on spacebar
+
+		gui.hooks("click",{id="start"})
+
+	end
+	
 end
 
 menu.draw=function()
@@ -85,14 +91,7 @@ menu.draw=function()
 	
 	wscores.draw("arcade2")
 
-	gui.draw()
-	
-	if recaps.get("fire_set") then -- start on spacebar
-
-		gui.hooks("click",{id="start"})
-
-	end
-	
+	gui.draw()	
 
 end
 
