@@ -20,6 +20,9 @@ M.bake=function(state,cells)
 	local gl=cake.gl
 
 	cells.modname=M.modname
+
+	local main=state.rebake("hunted.main")
+	local menu=state.rebake("hunted.main_menu")
 		
 	
 cells.loads=function()
@@ -30,6 +33,8 @@ cells.loads=function()
 end
 		
 cells.setup=function()
+
+	cells.next=nil
 
 	cells.loads()
 	
@@ -45,6 +50,8 @@ cells.setup=function()
 
 	cells.px=cells.ss/2
 	cells.py=cells.ss/2
+	
+	cells.aliens=0
 
 
 	local cdraw=function(c)
@@ -167,10 +174,12 @@ cells.setup=function()
 			if not c.data then
 				c.data={}
 				c.data.speed=10
+				c.data.safe=60*2
 			end
 		end,
 		update=function(c)
 			cupdate(c)
+			if c.data.safe>0 then c.data.safe=c.data.safe-1 end
 			if c.data.state=="die" then
 				if not c.dd then
 					c.class=cells.classes.none
@@ -182,6 +191,11 @@ cells.setup=function()
 		draw=function(c)
 			if c.data.state=="die" then
 				local a=c.dd/cells.ss
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			elseif c.data.safe>0 then
+				local a=1/3
 				gl.Color(a,a,a,a)
 				cdraw(c)
 				gl.Color(1,1,1,1)
@@ -210,11 +224,13 @@ cells.setup=function()
 			end
 		end,
 		die=function(c)
-			c.sheet=sheets.get("imgs/aliendie")
-			c.data.state="die"
-			c.dx=0
-			c.dy=0
-			c.dd=cells.ss
+			if c.data.safe==0 then
+				c.sheet=sheets.get("imgs/herodie")
+				c.data.state="die"
+				c.dx=0
+				c.dy=0
+				c.dd=cells.ss
+			end
 		end,
 	}
 	cells.classes.alien={
@@ -229,6 +245,7 @@ cells.setup=function()
 			end
 		end,
 		update=function(c)
+			cells.aliens=cells.aliens+1
 			cupdate(c)
 			if c.data.state=="die" then
 				if not c.dd then
@@ -283,11 +300,13 @@ cells.setup=function()
 			end
 		end,
 		die=function(c)
-			c.sheet=sheets.get("imgs/aliendie")
-			c.data.state="die"
-			c.dx=0
-			c.dy=0
-			c.dd=cells.ss
+			if c.data.state~="die" then
+				c.sheet=sheets.get("imgs/aliendie")
+				c.data.state="die"
+				c.dx=0
+				c.dy=0
+				c.dd=cells.ss
+			end
 		end,
 	}
 		
@@ -320,7 +339,7 @@ cells.setup=function()
 		c.class.setup(c)
 	end
 
-	for i=1,5 do
+	for i=1,4+main.level do
 		local cx=math.random(1,cells.mx-2)
 		local cy=math.random(1,cells.mx-2)
 		local idx=cells.cxcy_to_idx(cx,cy)
@@ -373,6 +392,7 @@ end
 cells.update=function()
 
 	if cells.hero and cells.hero.class.move then
+	
 		local dx,dy=0,0
 		if cells.move=="up" then
 			dx,dy=0,-1
@@ -384,16 +404,30 @@ cells.update=function()
 			dx,dy=1,0
 		end
 		cells.hero.class.move(cells.hero,dx,dy)
+		
+	else -- gameover
+		if not cells.next then
+			menu.back="imgs/end"
+			cells.next=menu
+		end
 	end
 	
+	cells.aliens=0
 	for i,v in ipairs(cells.tab) do
 		v.class.update(v)
 	end
+	
+	if cells.aliens<=0 then
+		if not cells.next then
+			cells.next=state.rebake("hunted.main_game") -- next level
+		end
+	end
+	
 
 end
 
 cells.draw=function()
-	
+
 	for i,v in ipairs(cells.tab) do
 		v.class.draw(v)
 	end

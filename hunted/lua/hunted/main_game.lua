@@ -25,6 +25,7 @@ M.bake=function(state,game)
 	local gl=cake.gl
 	local sheets=cake.sheets
 
+	local main=state.rebake("hunted.main")
 	local gui=state.rebake("hunted.gui")
 	local cells=state.rebake("hunted.cells")
 
@@ -39,7 +40,9 @@ end
 		
 game.setup=function()
 
-	wscores.set(1000)
+	game.count=100
+
+	main.level=main.level+1
 	
 	game.loads()
 
@@ -87,6 +90,12 @@ game.update=function()
 	wscores.update()
 
 	gui.update()
+	
+	if cells.next then
+		if game.count>0 then game.count=game.count-1 else
+			main.next=cells.next
+		end
+	end
 
 end
 

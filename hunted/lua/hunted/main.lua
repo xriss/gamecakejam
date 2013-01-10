@@ -43,9 +43,11 @@ main.loads=function()
 		{"imgs/egg1",1,1,0.5,0.5},
 		{"imgs/egg2",1,1,0.5,0.5},
 		{"imgs/hero",1,1,0.5,0.5},
+		{"imgs/herodie",1,1,0.5,0.5},
 		{"imgs/alien",1,1,0.5,0.5},
 		{"imgs/aliendie",1,1,0.5,0.5},
 		{"imgs/title",1,1,0.5,0.5},
+		{"imgs/end",1,1,0.5,0.5},
 	}
 	
 end
