@@ -91,14 +91,29 @@ cells.setup=function()
 						if c2.class==classes.none then -- just move
 							cells.swap_cell(c,c2)
 						else
-							c.data.state=nil
+							if c2.class.die then
+								c2.class.die(c2)
+							end
+							c.data.state=nil							
 						end
 					end
+				end
+			elseif c.data.state=="die" then
+				if not c.dd then
+					c.class=cells.classes.none
+					c.data=nil
 				end
 			end
 		end,
 		draw=function(c)
-			cdraw(c)
+			if c.data.state=="die" then
+				local a=c.dd/cells.ss
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			else
+				cdraw(c)
+			end
 		end,
 		move=function(c,dx,dy)
 			if not c.dd then -- move again
@@ -117,12 +132,23 @@ cells.setup=function()
 			if not c.data.state then
 				local idx=cells.cxcy_to_idx(c.cx+dx,c.cy+dy)
 				local c2=cells.tab[idx]
-				if c2 and (c2.class==classes.none) then
-					c.data.dx=dx
-					c.data.dy=dy
-					c.data.state="slide"
+				if c2 then
+					if (c2.class==classes.none) or (c2.class==classes.alien) then
+						c.data.dx=dx
+						c.data.dy=dy
+						c.data.state="slide"
+					else
+						c.class.die(c)
+					end
 				end
 			end
+		end,
+		die=function(c)
+			c.sheet=sheets.get("imgs/egg2")
+			c.data.state="die"
+			c.dx=0
+			c.dy=0
+			c.dd=cells.ss
 		end,
 	}
 	cells.classes.hard={
@@ -145,9 +171,23 @@ cells.setup=function()
 		end,
 		update=function(c)
 			cupdate(c)
+			if c.data.state=="die" then
+				if not c.dd then
+					c.class=cells.classes.none
+					c.data=nil
+					cells.hero=nil
+				end
+			end
 		end,
 		draw=function(c)
-			cdraw(c)
+			if c.data.state=="die" then
+				local a=c.dd/cells.ss
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			else
+				cdraw(c)
+			end
 		end,
 		move=function(c,dx,dy)
 			if not c.dd then -- move again
@@ -162,10 +202,19 @@ cells.setup=function()
 							c.dx=0
 							c.dy=0
 							c.dd=cells.ss
+						elseif c2.class==classes.alien then
+							c.class.die(c)
 						end
 					end
 				end
 			end
+		end,
+		die=function(c)
+			c.sheet=sheets.get("imgs/aliendie")
+			c.data.state="die"
+			c.dx=0
+			c.dy=0
+			c.dd=cells.ss
 		end,
 	}
 	cells.classes.alien={
@@ -181,28 +230,44 @@ cells.setup=function()
 		end,
 		update=function(c)
 			cupdate(c)
-			if not c.dd then
-				if c.data.dx==0 and c.data.dx==0 then -- new random direction
-					local r=math.random(1,4)
-					if     r==1 then c.data.dx,c.data.dy=-1,0
-					elseif r==2 then c.data.dx,c.data.dy= 1,0
-					elseif r==3 then c.data.dx,c.data.dy= 0,-1
-					elseif r==4 then c.data.dx,c.data.dy= 0,1
-					end
+			if c.data.state=="die" then
+				if not c.dd then
+					c.class=cells.classes.none
+					c.data=nil
 				end
-				local idx=cells.cxcy_to_idx(c.cx+c.data.dx,c.cy+c.data.dy)
-				local c2=cells.tab[idx]
-				if c2 then
-					if c2.class==classes.none then -- just move
-						cells.swap_cell(c,c2)
-						return
+			else
+				if not c.dd then
+					if c.data.dx==0 and c.data.dx==0 then -- new random direction
+						local r=math.random(1,4)
+						if     r==1 then c.data.dx,c.data.dy=-1,0
+						elseif r==2 then c.data.dx,c.data.dy= 1,0
+						elseif r==3 then c.data.dx,c.data.dy= 0,-1
+						elseif r==4 then c.data.dx,c.data.dy= 0,1
+						end
 					end
+					local idx=cells.cxcy_to_idx(c.cx+c.data.dx,c.cy+c.data.dy)
+					local c2=cells.tab[idx]
+					if c2 then
+						if c2.class==classes.none then -- just move
+							cells.swap_cell(c,c2)
+							return
+						elseif c2.class==classes.hero then -- gameover
+							c2.class.die(c2)
+						end
+					end
+					c.data.dx,c.data.dy=0,0 -- try another direction next time
 				end
-				c.data.dx,c.data.dy=0,0 -- try another direction next time
 			end
 		end,
 		draw=function(c)
-			cdraw(c)
+			if c.data.state=="die" then
+				local a=c.dd/cells.ss
+				gl.Color(a,a,a,a)
+				cdraw(c)
+				gl.Color(1,1,1,1)
+			else
+				cdraw(c)
+			end
 		end,
 		move=function(c,dx,dy)
 			if not c.dd then -- move again
@@ -216,6 +281,13 @@ cells.setup=function()
 					end
 				end
 			end
+		end,
+		die=function(c)
+			c.sheet=sheets.get("imgs/aliendie")
+			c.data.state="die"
+			c.dx=0
+			c.dy=0
+			c.dd=cells.ss
 		end,
 	}
 		
