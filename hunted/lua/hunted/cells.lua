@@ -58,7 +58,7 @@ cells.setup=function()
 	end
 	local cupdate=function(c)
 		if c.dd then -- animate
-			c.dd=c.dd-1
+			c.dd=c.dd - (cells.ss/10)
 			if c.dd<=0 then c.dd=nil end
 		end
 	end
@@ -108,10 +108,11 @@ cells.setup=function()
 			if not c.dd then -- move again
 				if dx~=0 or dy~=0 then
 					local idx=cells.cxcy_to_idx(c.cx+dx,c.cy+dy)
-print(c.cx,c.cy,c.cx+dx,c.cy+dy)					
 					local c2=cells.tab[idx]
-					if c2 then -- try and move
-						cells.swap_cell(c,c2)
+					if c2 then
+						if c2.class==classes.none then -- just move
+							cells.swap_cell(c,c2)
+						end
 					end
 				end
 			end
@@ -121,18 +122,55 @@ print(c.cx,c.cy,c.cx+dx,c.cy+dy)
 		setup=function(c)
 			c.sheet=sheets.get("imgs/alien")
 			cells.alien=c -- only one
+			if not c.data then
+				c.data={}
+				c.data.dx=0
+				c.data.dy=0
+			end
 		end,
 		update=function(c)
 			cupdate(c)
+			if not c.dd then
+				if c.data.dx==0 and c.data.dx==0 then -- new random direction
+					local r=math.random(1,4)
+					if     r==1 then c.data.dx,c.data.dy=-1,0
+					elseif r==2 then c.data.dx,c.data.dy= 1,0
+					elseif r==3 then c.data.dx,c.data.dy= 0,-1
+					elseif r==4 then c.data.dx,c.data.dy= 0,1
+					end
+				end
+				local idx=cells.cxcy_to_idx(c.cx+c.data.dx,c.cy+c.data.dy)
+				local c2=cells.tab[idx]
+				if c2 then
+					if c2.class==classes.none then -- just move
+						cells.swap_cell(c,c2)
+						return
+					end
+				end
+				c.data.dx,c.data.dy=0,0 -- try another direction next time
+			end
 		end,
 		draw=function(c)
 			cdraw(c)
 		end,
+		move=function(c,dx,dy)
+			if not c.dd then -- move again
+				if dx~=0 or dy~=0 then
+					local idx=cells.cxcy_to_idx(c.cx+dx,c.cy+dy)
+					local c2=cells.tab[idx]
+					if c2 then
+						if c2.class==classes.none then -- just move
+							cells.swap_cell(c,c2)
+						end
+					end
+				end
+			end
+		end,
 	}
 		
 	local idx=1
-	for cx=0,cells.mx-1 do
-		for cy=0,cells.my-1 do
+	for cy=0,cells.my-1 do
+		for cx=0,cells.mx-1 do
 		
 			local c={}
 			cells.tab[idx]=c
@@ -185,6 +223,7 @@ end
 cells.swap_cell=function(c1,c2)
 
 	c1.class,c2.class=c2.class,c1.class
+	c1.data,c2.data=c2.data,c1.data
 	
 	c1.dx=c2.cx-c1.cx
 	c1.dy=c2.cy-c1.cy
