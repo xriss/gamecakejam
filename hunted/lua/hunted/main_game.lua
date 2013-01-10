@@ -25,6 +25,7 @@ M.bake=function(state,game)
 	local gl=cake.gl
 	local sheets=cake.sheets
 
+	local beep=state.rebake("hunted.beep")
 	local main=state.rebake("hunted.main")
 	local gui=state.rebake("hunted.gui")
 	local cells=state.rebake("hunted.cells")
@@ -50,6 +51,8 @@ game.setup=function()
 	gui.page("game")
 	
 	cells.setup()
+
+	beep.play("start")
 
 end
 
