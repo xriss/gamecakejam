@@ -23,6 +23,7 @@ M.bake=function(state,menu)
 	local font=canvas.font
 	local flat=canvas.flat
 	local gl=cake.gl
+	local sheets=cake.sheets
 	
 	local gui=state.rebake("hunted.gui")
 
@@ -61,7 +62,9 @@ menu.update=function()
 end
 
 menu.draw=function()
-		
+	
+	sheets.get("imgs/title"):draw(1,240,240,0,480,480)
+	
 	gui.draw()
 
 end
