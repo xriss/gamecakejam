@@ -87,7 +87,7 @@ end
 
 menu.draw=function()
 	
-	sheets.get(menu.back):draw(1,240,240,0,480,480)
+	sheets.get(menu.back):draw(1,240,240,nil,480,480)
 	
 	wscores.draw("arcade2")
 

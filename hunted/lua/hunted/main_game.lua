@@ -104,7 +104,7 @@ end
 
 game.draw=function()
 
-	sheets.get("imgs/floor"):draw(1,240,240,0,480,480)
+	sheets.get("imgs/floor"):draw(1,240,240,nil,480,480)
 
 	cells.draw()
 

@@ -63,7 +63,7 @@ cells.setup=function()
 			x=x+c.dx*c.dd
 			y=y+c.dy*c.dd
 		end
-		c.sheet:draw(1,x,y,0,cells.ss,cells.ss)	
+		c.sheet:draw(1,x,y,nil,cells.ss,cells.ss)	
 	end
 	local cupdate=function(c)
 		if c.dd then -- animate
