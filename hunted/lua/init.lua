@@ -32,6 +32,20 @@ local bake=function()
 		local inf={width=opts.width,height=opts.height,title=opts.title}
 		inf.x=(screen.width-inf.width)/2
 		inf.y=(screen.height-inf.height)/2
+
+		if wwin.flavour=="raspi" then
+			inf.x=0
+			inf.y=0
+			inf.width=screen.width
+			inf.height=screen.height
+			inf.dest_width=screen.width
+			inf.dest_height=screen.height
+			if inf.height>=480*2 then
+				inf.width=inf.width/2
+				inf.height=inf.height/2
+			end
+		end
+
 		state.win=wwin.create(inf)
 		state.gl=require("gles").gles1
 		state.win:context({})
