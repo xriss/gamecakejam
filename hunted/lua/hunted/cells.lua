@@ -260,7 +260,7 @@ cells.setup=function()
 				end
 			else
 				if not c.dd then
-					if c.data.dx==0 and c.data.dx==0 then -- new random direction
+					if c.data.dx==0 and c.data.dy==0 then -- new random direction
 						local r=math.random(1,4)
 						if     r==1 then c.data.dx,c.data.dy=-1,0
 						elseif r==2 then c.data.dx,c.data.dy= 1,0
