@@ -11,7 +11,7 @@ local pack=require("wetgenes.pack")
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 
-M.bake=function(state,gui)
+M.bake=function(oven,gui)
 
 	gui=gui or {} 
 	gui.modname=M.modname
@@ -19,16 +19,16 @@ M.bake=function(state,gui)
 	gui.pages={} -- put functions to fill in pages in here
 	
 
-	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
-	local beep=state.rebake("hunted.beep")
+	local beep=oven.rebake("hunted.beep")
 	
-	local main=state.rebake("hunted.main")
+	local main=oven.rebake("hunted.main")
 
 
 	function gui.setup()
 	
-		gui.master=state.rebake("wetgenes.gamecake.widgets").setup({})
+		gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
 	
 		gui.page()
 	end
@@ -42,7 +42,7 @@ M.bake=function(state,gui)
 
 				wscores.set(0)
 				main.level=0
-				main.next=state.rebake("hunted.main_game")
+				main.next=oven.rebake("hunted.main_game")
 			end
 		end
 		

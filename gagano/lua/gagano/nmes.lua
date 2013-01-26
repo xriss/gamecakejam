@@ -11,19 +11,19 @@ local pack=require("wetgenes.pack")
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 
-M.bake=function(state,nmes)
+M.bake=function(oven,nmes)
 
 	nmes=nmes or {} 
 	nmes.modname=M.modname
 	
-	local cake=state.cake
+	local cake=oven.cake
 	local sheets=cake.sheets
 	
 	local meta={}
 	
-	local shots=state.rebake("gagano.shots")
-	local ship=state.rebake("gagano.ship")
-	local play=state.rebake("gagano.game_play")
+	local shots=oven.rebake("gagano.shots")
+	local ship=oven.rebake("gagano.ship")
+	local play=oven.rebake("gagano.game_play")
 	
 	function nmes.setup()
 	

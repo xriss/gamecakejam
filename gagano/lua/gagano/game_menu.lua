@@ -11,24 +11,24 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,menu)
+M.bake=function(oven,menu)
 	local menu=menu or {}
-	menu.state=state
+	menu.oven=oven
 	
 	menu.modname=M.modname
 
-	local game=state.game
-	local cake=state.cake
+	local game=oven.game
+	local cake=oven.cake
 	local sheets=cake.sheets
-	local opts=state.opts
-	local canvas=state.canvas
+	local opts=oven.opts
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=oven.gl
 	
-	local gui=state.game.gui
+	local gui=oven.game.gui
 
-	print("menu",state.game,state.game.gui)
+	print("menu",oven.game,oven.game.gui)
 
 	
 menu.loads=function()

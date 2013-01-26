@@ -11,12 +11,12 @@ local pack=require("wetgenes.pack")
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 
-M.bake=function(state,beep)
+M.bake=function(oven,beep)
 
 	beep=beep or {} 
 	beep.modname=M.modname
 
-	local cake=state.cake
+	local cake=oven.cake
 	local sounds=cake.sounds
 
 	local ids={

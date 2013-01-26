@@ -12,16 +12,16 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 
 
-M.bake=function(state,ship)
+M.bake=function(oven,ship)
 
 	ship=ship or {} 
 	ship.modname=M.modname
 	
-	local cake=state.cake
+	local cake=oven.cake
 	local sheets=cake.sheets
 	
-	local shots=state.rebake("gagano.shots")
-	local play=state.rebake("gagano.game_play")
+	local shots=oven.rebake("gagano.shots")
+	local play=oven.rebake("gagano.game_play")
 	
 	function ship.setup()
 	
@@ -47,8 +47,8 @@ M.bake=function(state,ship)
 		if ship.state=="dead" then
 			ship.deadcount=ship.deadcount+1
 			if ship.deadcount>100 then
-				state.game.last_score=play.score
-				state.game.next=state.rebake("gagano.game_menu")
+				oven.game.last_score=play.score
+				oven.game.next=oven.rebake("gagano.game_menu")
 			end
 			return
 		end

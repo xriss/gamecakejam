@@ -9,37 +9,37 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,main)
+M.bake=function(oven,main)
 	local main=main or {}
 	
-	local cake=state.cake
-	local opts=state.opts
-	local canvas=state.canvas
+	local cake=oven.cake
+	local opts=oven.opts
+	local canvas=cake.canvas
 	local sheets=cake.sheets
 	
 	local font=canvas.font
 	local flat=canvas.flat
 
-	local gl=cake.gl
+	local gl=oven.gl
 
 	main.modname=M.modname
 		
 	
-	local keys=state.rebake("wetgenes.gamecake.spew.keys").setup(1)
-	local recaps=state.rebake("wetgenes.gamecake.spew.recaps").setup(1)
-	local scores=state.rebake("wetgenes.gamecake.spew.scores").setup(1)
+	local keys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
+	local recaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
+	local scores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 
-	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	wscores.setup(1)
 
-	local beep=state.rebake("hunted.beep")
+	local beep=oven.rebake("hunted.beep")
 
 main.loads=function()
 
 	beep.loads()
 
-	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
---	state.cake.images.loads({
+	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+--	oven.cake.images.loads({
 --	})
 	sheets.loads_and_chops{
 		{"imgs/floor",1,1,0.5,0.5},
@@ -66,16 +66,16 @@ main.setup=function()
 	
 	print(opts[2])
 	if opts[2]=="game" then
-		main.next=state.rebake("hunted.main_game")
+		main.next=oven.rebake("hunted.main_game")
 	else
-		main.next=state.rebake("hunted.main_menu")
+		main.next=oven.rebake("hunted.main_menu")
 	end
 	main.change()
 end
 
 function main.change()
 
--- handle state changes
+-- handle oven changes
 
 	if main.next then
 	
@@ -107,7 +107,7 @@ main.msg=function(m)
 --	print(wstr.dump(m))
 
 	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
-		m.x,m.y=state.canvas.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
+		m.x,m.y=canvas.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
 		m.x=m.x+(opts.width/2)
 		m.y=m.y+(opts.height/2)
 	end

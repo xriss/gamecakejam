@@ -11,7 +11,7 @@ local pack=require("wetgenes.pack")
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 
-M.bake=function(state,gui)
+M.bake=function(oven,gui)
 
 	gui=gui or {} 
 	gui.modname=M.modname
@@ -20,7 +20,7 @@ M.bake=function(state,gui)
 
 	function gui.setup()
 	
-		gui.master=state.rebake("wetgenes.gamecake.widgets").setup({})
+		gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
 	
 		gui.page("menu")
 	end
@@ -31,7 +31,7 @@ M.bake=function(state,gui)
 		
 		if act=="click" then
 			if id=="start" then
-				state.game.next=state.rebake("gagano.game_play")
+				oven.game.next=oven.rebake("gagano.game_play")
 			end
 		end
 	

@@ -11,28 +11,28 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,game)
+M.bake=function(oven,game)
 	local game=game or {}
-	game.state=state
+	game.oven=oven
 	
 	game.modname=M.modname
 
-	local cake=state.cake
-	local opts=state.opts
-	local canvas=state.canvas
+	local cake=oven.cake
+	local opts=oven.opts
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=oven.gl
 	local sheets=cake.sheets
 
-	local beep=state.rebake("hunted.beep")
-	local main=state.rebake("hunted.main")
-	local gui=state.rebake("hunted.gui")
-	local cells=state.rebake("hunted.cells")
+	local beep=oven.rebake("hunted.beep")
+	local main=oven.rebake("hunted.main")
+	local gui=oven.rebake("hunted.gui")
+	local cells=oven.rebake("hunted.cells")
 
-	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
-	local recaps=state.rebake("wetgenes.gamecake.spew.recaps")
+	local recaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 
 game.loads=function()
@@ -98,7 +98,7 @@ game.update=function()
 	elseif recaps.get("right") then
 		cells.move="right"
 	elseif game.swipe then
-		function acc() game.swipe[1]=game.swipe[3]  game.swipe[2]=game.swipe[4] end
+		local function acc() game.swipe[1]=game.swipe[3]  game.swipe[2]=game.swipe[4] end
 		local x=game.swipe[3]-game.swipe[1]
 		local y=game.swipe[4]-game.swipe[2]
 		local xx=x*x

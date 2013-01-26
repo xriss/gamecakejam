@@ -6,30 +6,30 @@ local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,get
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,cells)
+M.bake=function(oven,cells)
 	local cells=cells or {}
 	
-	local cake=state.cake
-	local opts=state.opts
-	local canvas=state.canvas
+	local cake=oven.cake
+	local opts=oven.opts
+	local canvas=cake.canvas
 	
 	local font=canvas.font
 	local flat=canvas.flat
 	local sheets=cake.sheets
 	
-	local gl=cake.gl
+	local gl=oven.gl
 
 	cells.modname=M.modname
 
-	local main=state.rebake("hunted.main")
-	local menu=state.rebake("hunted.main_menu")
+	local main=oven.rebake("hunted.main")
+	local menu=oven.rebake("hunted.main_menu")
 		
-	local beep=state.rebake("hunted.beep")
-	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
+	local beep=oven.rebake("hunted.beep")
+	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
 cells.loads=function()
 
-	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
+	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
 
 	
 end
@@ -427,7 +427,7 @@ cells.update=function()
 	
 	if cells.aliens<=0 then
 		if not cells.next then
-			cells.next=state.rebake("hunted.main_game") -- next level
+			cells.next=oven.rebake("hunted.main_game") -- next level
 			beep.play("win")
 		end
 	end

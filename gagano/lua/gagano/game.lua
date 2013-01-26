@@ -10,25 +10,20 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,game)
+M.bake=function(oven,game)
 	local game=game or {}
-	game.state=state
-	state.game=game
+	game.oven=oven
+	oven.game=game
 	
-	local cake=state.cake
-	local opts=state.opts
-	local canvas=state.canvas
+	local cake=oven.cake
+	local opts=oven.opts
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=oven.gl
 
 	game.modname=M.modname
-	
--- a substate
-	game.subs=require("wetgenes.gamecake.state").bake({
-		master=state,
-	})
-	
+		
 	game.input={}
 	game.input.volatile={}
 	game.page="menu"
@@ -37,19 +32,19 @@ M.bake=function(state,game)
 	game.last_score=0
 	game.best_score=0
 	
-	game.gui=state.rebake("gagano.gui")
+	game.gui=oven.rebake("gagano.gui")
 
 game.loads=function()
 
-	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
-	state.cake.images.loads({
+	oven.cake.images.loads({
 	})
 	
 end
 		
 game.setup=function()
-	local cake=state.cake
+	local cake=oven.cake
 	
 	game.loads()
 	
@@ -59,15 +54,15 @@ game.setup=function()
 	
 	game.gui.setup()
 	
-	game.next=state.rebake("gagano.game_menu")
---	game.next=state.rebake("gagano.game_play")
+	game.next=oven.rebake("gagano.game_menu")
+--	game.next=oven.rebake("gagano.game_play")
 	
 	game.change()
 end
 
 function game.change()
 
--- handle state changes
+-- handle oven changes
 
 	if game.next then
 	
@@ -99,7 +94,7 @@ game.msg=function(m)
 --	print(wstr.dump(m))
 
 	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
-		m.x,m.y=state.canvas.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
+		m.x,m.y=cake.canvas.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
 		m.x=m.x+(720/2)
 		m.y=m.y+(480/2)
 	end
