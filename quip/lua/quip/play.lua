@@ -14,10 +14,10 @@ bake=function(game)
 	local state=game.state
 	local cake=state.cake
 	local opts=state.opts
-	local canvas=state.canvas
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=state.gl
 
 	local play={}
 	game.play=play

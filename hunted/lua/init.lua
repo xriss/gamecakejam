@@ -7,7 +7,7 @@ local opts={
 	
 	width=480,	-- display basics
 	height=480,
---	show="full",
+	show="full",
 	title="Hunted",
 	start="hunted.main", -- rebake this mod
 	fps=60,

@@ -91,10 +91,10 @@ game.draw=function()
 --print("draw")
 	local cake=state.cake
 	local opts=state.opts
-	local canvas=state.canvas
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=state.gl
 	
 	canvas.viewport() -- did our window change?
 	canvas.project23d(opts.width,opts.height,0.25,opts.height*4)
