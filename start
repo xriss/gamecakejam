@@ -1,1 +1,1 @@
-../../bin/exe/lua -lstart $*
+../../bin/dbg/lua -lstart $*
