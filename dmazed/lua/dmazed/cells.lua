@@ -58,10 +58,6 @@ cells.setup=function()
 	
 	local blocks={}
 	local links={}
-	for i=1,9*9 do
-		links[i]={i} -- list of blocks
-		blocks[i]=i -- which link we are part of
-	end
 
 	local function peek(x,y)
 		if x<0 or x>29 or y<0 or y>29 then return 0 end
@@ -240,13 +236,21 @@ cells.setup=function()
 
 	local function connect_everything()
 	
+		-- reset links
+		links={}
+		blocks={}
+		for i=1,9*9 do
+			links[i]={i} -- list of blocks
+			blocks[i]=i -- which link we are part of
+		end
+
 		merge_all()
 		while count_links()>1 do -- then make sure all blocks are connected
-			merge_all()
 			for i,ls in pairs(links) do
 				local l=ls[math.random(1,#ls)]
 				break_a_wall(l)
 			end
+			merge_all()
 		end
 	end
 
@@ -268,8 +272,8 @@ cells.setup=function()
 	end
 	
 	repeat
-		remove_deadends()
 		connect_everything()
+		remove_deadends()
 	until repair_islands()==0
 	
 	local map={
