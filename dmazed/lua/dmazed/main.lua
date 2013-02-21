@@ -42,6 +42,7 @@ main.loads=function()
 --	oven.cake.images.loads({
 --	})
 	sheets.loads_and_chops{
+		{"imgs/walls",1/6,1/4,0,0},
 		{"imgs/floor",1,1,0.5,0.5},
 		{"imgs/block",1,1,0.5,0.5},
 		{"imgs/egg1",1,1,0.5,0.5},
