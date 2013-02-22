@@ -29,6 +29,7 @@ M.bake=function(oven,game)
 	local main=oven.rebake("dmazed.main")
 	local gui=oven.rebake("dmazed.gui")
 	local cells=oven.rebake("dmazed.cells")
+	local hero=oven.rebake("dmazed.hero")
 
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
@@ -51,6 +52,7 @@ game.setup=function()
 	gui.page("game")
 	
 	cells.setup()
+	hero.setup()
 
 	beep.play("start")
 
@@ -58,6 +60,7 @@ end
 
 game.clean=function()
 
+	hero.clean()
 	cells.clean()
 	
 	wscores.clean()
@@ -90,13 +93,13 @@ game.update=function()
 
 
 	if recaps.get("up") then
-		cells.move="up"
+		hero.move="up"
 	elseif recaps.get("down") then
-		cells.move="down"
+		hero.move="down"
 	elseif recaps.get("left") then
-		cells.move="left"
+		hero.move="left"
 	elseif recaps.get("right") then
-		cells.move="right"
+		hero.move="right"
 	elseif game.swipe then
 		local function acc() game.swipe[1]=game.swipe[3]  game.swipe[2]=game.swipe[4] end
 		local x=game.swipe[3]-game.swipe[1]
@@ -106,38 +109,39 @@ game.update=function()
 		if xx+yy > 8*8 then
 			if xx > yy then
 				if x>=0 then
-					cells.move="right"
+					hero.move="right"
 					acc()
 				else
-					cells.move="left"
+					hero.move="left"
 					acc()
 				end
 			else
 				if y>=0 then
-					cells.move="down"
+					hero.move="down"
 					acc()
 				else
-					cells.move="up"
+					hero.move="up"
 					acc()
 				end
 			end
 		end
 	else
-		cells.move=nil
+		hero.move=nil
 	end
 	
 	
 	cells.update()
+	hero.update()
 
 	wscores.update()
 
 	gui.update()
 	
-	if cells.next then
-		if game.count>0 then game.count=game.count-1 else
-			main.next=cells.next
-		end
-	end
+--	if cells.next then
+--		if game.count>0 then game.count=game.count-1 else
+--			main.next=cells.next
+--		end
+--	end
 
 end
 
@@ -146,6 +150,7 @@ game.draw=function()
 	sheets.get("imgs/floor"):draw(1,240,240,nil,480,480)
 
 	cells.draw()
+	hero.draw()
 
 	wscores.draw("arcade2")
 

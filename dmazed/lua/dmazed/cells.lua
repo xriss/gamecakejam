@@ -284,6 +284,28 @@ cells.setup=function()
 		 9,17,10,15,	-- up+down
 	}
 	
+	cells.blocks={} -- build final maze info
+	for i=1,9*9 do
+		local b=binfo(i)
+		cells.blocks[i]=b
+	end
+	for i=1,9*9 do
+		local b=cells.blocks[i]
+		local w=walls(b.x,b.y)
+		b.links={}
+		if w[1]==0 then
+			b.links[1]=cells.blocks[binfo(b.x-1,b.y).idx]
+		end
+		if w[2]==0 then
+			b.links[2]=cells.blocks[binfo(b.x+1,b.y).idx]
+		end
+		if w[3]==0 then
+			b.links[3]=cells.blocks[binfo(b.x,b.y-1).idx]
+		end
+		if w[4]==0 then
+			b.links[4]=cells.blocks[binfo(b.x,b.y+1).idx]
+		end
+	end
 
 	cells.tab={}
 	idx=1
