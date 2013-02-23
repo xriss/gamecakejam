@@ -45,6 +45,10 @@ end
 game.setup=function()
 
 	game.count=100
+	
+-- sanity
+	main.herospeed=main.herospeed or 0
+	main.level=main.level or 0
 
 	main.level=main.level+1
 	
@@ -168,9 +172,20 @@ game.draw=function()
 	if hero.item==3 then
 		local sheet=sheets.get("imgs/items")
 		oven.gl.Color(1,1,1,1)
-		sheet:draw(3,480-24,24,nil,48,48)
+		sheet:draw(3,480-24,24+16,nil,48,48)
 	end
-
+	
+	do
+		local x=480-80
+		local y=8
+		local s=hero.held.."/78"
+		oven.gl.Color(1,1,1,1)
+		font.set(cake.fonts.get(1))
+		font.set_size(16)
+		font.set_xy( x,y )
+		font.draw(s)
+	end
+	
 	wscores.draw("arcade2")
 
 	gui.draw()

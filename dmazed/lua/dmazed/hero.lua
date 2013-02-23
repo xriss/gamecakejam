@@ -55,6 +55,8 @@ hero.setup=function()
 	hero.rate=1.125
 	hero.viewbase=100
 	hero.item=0
+	hero.held=0
+	hero.speed=2+main.herospeed
 end
 
 hero.clean=function()
@@ -75,9 +77,9 @@ hero.update=function()
 
 		if m then
 		if ( m.vy~=0 and hero.block.links[m.dir] ) or ( ( m.vy<0 and hero.y>0 ) or ( m.vy>0 and hero.y<0 ) ) then
-			if hero.x > 2 then
+			if hero.x > hero.speed then
 				d=movedirs.left
-			elseif hero.x < -2 then
+			elseif hero.x < -hero.speed then
 				d=movedirs.right
 			else
 				hero.x=0
@@ -85,9 +87,9 @@ hero.update=function()
 				hero.lastmove=m
 			end
 		elseif  ( m.vx~=0 and hero.block.links[m.dir] ) or ( ( m.vx<0 and hero.x>0 ) or ( m.vx>0 and hero.x<0 ) ) then
-			if hero.y > 2 then
+			if hero.y > hero.speed then
 				d=movedirs.up
-			elseif hero.y < -2 then
+			elseif hero.y < -hero.speed then
 				d=movedirs.down
 			else
 				hero.y=0
@@ -98,8 +100,8 @@ hero.update=function()
 		end
 		
 		if d then -- perform valid move
-			hero.x=hero.x+(d.vx*2)
-			hero.y=hero.y+(d.vy*2)
+			hero.x=hero.x+(d.vx*hero.speed)
+			hero.y=hero.y+(d.vy*hero.speed)
 			
 			moved=true
 		end
@@ -149,6 +151,14 @@ hero.update=function()
 		if b.item==1 then
 			b.item=0
 			wscores.add(main.level)
+
+-- 77 of these on each level
+-- if you collect everything on everylevel you will stay faster than the monster
+-- who speeds up by 0.1 each level
+			main.herospeed=main.herospeed+(0.1/78)
+			hero.speed=hero.speed+(1/78) -- also apply super speed instantly
+			
+			hero.held=hero.held+1
 
 		elseif b.item==2 then -- exit
 			if hero.item==3 then
