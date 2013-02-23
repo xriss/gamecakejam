@@ -165,6 +165,12 @@ game.draw=function()
 	monster.draw()
 	darkness.draw()
 
+	if hero.item==3 then
+		local sheet=sheets.get("imgs/items")
+		oven.gl.Color(1,1,1,1)
+		sheet:draw(3,480-24,24,nil,48,48)
+	end
+
 	wscores.draw("arcade2")
 
 	gui.draw()
