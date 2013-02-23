@@ -53,6 +53,7 @@ main.loads=function()
 		{"imgs/aliendie",1,1,0.5,0.5},
 		{"imgs/title",1,1,0.5,0.5},
 		{"imgs/end",1,1,0.5,0.5},
+		{"imgs/items",1/2,1/2,1/4,1/4},
 	}
 	
 end

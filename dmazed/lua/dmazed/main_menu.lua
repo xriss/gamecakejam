@@ -44,7 +44,6 @@ end
 		
 menu.setup=function()
 
-
 	menu.loads()
 
 	gui.setup()

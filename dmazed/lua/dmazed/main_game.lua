@@ -30,6 +30,8 @@ M.bake=function(oven,game)
 	local gui=oven.rebake("dmazed.gui")
 	local cells=oven.rebake("dmazed.cells")
 	local hero=oven.rebake("dmazed.hero")
+	local monster=oven.rebake("dmazed.monster")
+	local darkness=oven.rebake("dmazed.darkness")
 
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
@@ -53,13 +55,18 @@ game.setup=function()
 	
 	cells.setup()
 	hero.setup()
+	monster.setup()
+	darkness.setup()
 
 	beep.play("start")
 
+	game.time=0
 end
 
 game.clean=function()
 
+	darkness.clean()
+	monster.clean()
 	hero.clean()
 	cells.clean()
 	
@@ -90,6 +97,8 @@ game.msg=function(m)
 end
 
 game.update=function()
+
+	game.time=game.time+1
 
 
 	if recaps.get("up") then
@@ -132,6 +141,8 @@ game.update=function()
 	
 	cells.update()
 	hero.update()
+	monster.update()
+	darkness.update()
 
 	wscores.update()
 
@@ -151,6 +162,8 @@ game.draw=function()
 
 	cells.draw()
 	hero.draw()
+	monster.draw()
+	darkness.draw()
 
 	wscores.draw("arcade2")
 

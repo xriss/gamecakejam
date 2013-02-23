@@ -51,6 +51,10 @@ hero.setup=function()
 	hero.y=0
 	hero.block=cells.blocks[1]
 	hero.lastmove=movedirs[1]
+	hero.pulse=1
+	hero.rate=1.125
+	hero.viewbase=100
+	hero.item=0
 end
 
 hero.clean=function()
@@ -59,6 +63,8 @@ end
 	
 hero.update=function()
 
+	local moved=false
+	
 	if hero.move then
 		local m=movedirs[hero.move]
 		local d
@@ -94,36 +100,87 @@ hero.update=function()
 		if d then -- perform valid move
 			hero.x=hero.x+(d.vx*2)
 			hero.y=hero.y+(d.vy*2)
+			
+			moved=true
 		end
 	end
+
+	if moved then
+
+		hero.viewbase=hero.viewbase+1
+		if hero.viewbase>100 then hero.viewbase=100 end
+
+	else
+
+		hero.viewbase=hero.viewbase-1
+		if hero.viewbase<50 then hero.viewbase=50 end
 	
+	end
+
+	local newblock=false
 	if hero.lastmove.vx<0 and hero.x<0 and hero.block.links[1] then
 		hero.x=hero.x+48
 		hero.block=hero.block.links[1]
+		hero.block.time=game.time
+		newblock=true
 	end
 	if hero.lastmove.vx>0 and hero.x>0 and hero.block.links[2] then
 		hero.x=hero.x-48
 		hero.block=hero.block.links[2]
+		hero.block.time=game.time
+		newblock=true
 	end
 	if hero.lastmove.vy<0 and hero.y<0 and hero.block.links[3] then
 		hero.y=hero.y+48
 		hero.block=hero.block.links[3]
+		hero.block.time=game.time
+		newblock=true
 	end
 	if hero.lastmove.vy>0 and hero.y>0 and hero.block.links[4] then
 		hero.y=hero.y-48
 		hero.block=hero.block.links[4]
+		hero.block.time=game.time
+		newblock=true
 	end
 	
+	if newblock then
+		local b=hero.block
+		
+		if b.item==1 then
+			b.item=0
+			wscores.add(main.level)
+
+		elseif b.item==2 then -- exit
+			if hero.item==3 then
+				b.item=0
+				wscores.add(111*main.level*main.level)
+				main.next=game
+			end
+		elseif b.item==3 then -- key
+			b.item=0
+			hero.item=3
+			wscores.add(11*main.level*main.level)
+		end
+	end
+
+	hero.block.sniff=0
 	
+	hero.px=hero.x+48+(hero.block.x-1)*48
+	hero.py=hero.y+48+(hero.block.y-1)*48
+	
+	if hero.pulse>1/256 then
+		hero.pulse=hero.pulse/hero.rate
+	else
+		hero.pulse=1
+	end
+	
+	hero.view=hero.viewbase+hero.pulse*hero.viewbase
 	
 end
 
 hero.draw=function()
 	local sheet=sheets.get("imgs/hero")
-	
-	local x=48+(hero.block.x-1)*48
-	local y=48+(hero.block.y-1)*48
-	sheet:draw(1,x+hero.x,y+hero.y,nil,32+8,32+8)
+	sheet:draw(1,hero.px,hero.py,nil,32+8,32+8)
 end
 
 	return hero
