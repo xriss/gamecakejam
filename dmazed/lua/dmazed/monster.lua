@@ -30,6 +30,10 @@ M.bake=function(oven,monster)
 	local beep=oven.rebake("dmazed.beep")
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
+	local wgui=oven.rebake("wetgenes.gamecake.spew.gui")
+
+	local gui=oven.rebake("dmazed.gui")
+
 
 	local movedirs={
 		{name="left",	vx=-1,vy= 0,dir=1,back=2},
@@ -182,7 +186,11 @@ monster.update=function()
 	local dy=monster.py-hero.py
 	local dd=dx*dx+dy*dy
 	if dd<(24*24) then
+		wscores.final_score({})
 		main.next=menu
+		gui.page()
+		gui.next="menu"
+		wgui.page("score")
 	end
 	
 	if dd<(hero.viewbase*2)*(hero.viewbase*2) then -- if you can see the monster then the monster can see you
