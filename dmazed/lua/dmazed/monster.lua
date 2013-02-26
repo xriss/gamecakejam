@@ -31,7 +31,6 @@ M.bake=function(oven,monster)
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
 	local wgui=oven.rebake("wetgenes.gamecake.spew.gui")
-
 	local gui=oven.rebake("dmazed.gui")
 
 
@@ -69,6 +68,8 @@ end
 
 	
 monster.update=function()
+
+if hero.state=="live" then
 
 	monster.move=monster.lastmove.dir
 
@@ -186,11 +187,7 @@ monster.update=function()
 	local dy=monster.py-hero.py
 	local dd=dx*dx+dy*dy
 	if dd<(24*24) then
-		wscores.final_score({})
-		main.next=menu
-		gui.page()
-		gui.next="menu"
-		wgui.page("score")
+		hero.state="die"
 	end
 	
 	if dd<(hero.viewbase*2)*(hero.viewbase*2) then -- if you can see the monster then the monster can see you
@@ -198,7 +195,9 @@ monster.update=function()
 	else
 		monster.smart=false
 	end
-	
+
+end
+
 end
 
 monster.draw=function()

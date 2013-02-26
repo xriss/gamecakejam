@@ -19,7 +19,7 @@ M.bake=function(oven,gui)
 	gui.pages={} -- put functions to fill in pages in here
 	
 
-	local wgui=oven.rebake("wetgenes.gamecake.spew.gui")
+	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
 	
 	local wprofiles=oven.rebake("wetgenes.gamecake.spew.profiles")
 	local wsettings=oven.rebake("wetgenes.gamecake.spew.settings")
@@ -47,15 +47,12 @@ print(act,w.id)
 
 				wscores.set(0)
 				main.level=0
+				main.herospeed=0
 				main.next=oven.rebake("dmazed.main_game")
 			elseif w.id=="settings" then
-				gui.page()
-				gui.next="menu"
-				wgui.page("settings")
+				gui.spage("settings")
 			elseif w.id=="profiles" then
-				gui.page()
-				gui.next="menu"
-				wgui.page("profiles")
+				gui.spage("profiles")
 			end
 		end
 		
@@ -100,15 +97,18 @@ print(act,w.id)
 		
 	end
 
+	function gui.spage(pname)
+		sgui.page_hook=gui.page
+		gui.page()
+		sgui.page(pname)
+	end
+	
+
 	function gui.clean()
 		gui.master=nil	
 	end
 	
 	function gui.update()
-		if gui.next then
-			gui.page(gui.next)
-			gui.next=nil
-		end
 		gui.master:update()
 	end
 	

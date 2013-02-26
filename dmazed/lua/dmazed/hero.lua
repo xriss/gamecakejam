@@ -29,6 +29,8 @@ M.bake=function(oven,hero)
 	local beep=oven.rebake("dmazed.beep")
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
+	local wgui=oven.rebake("wetgenes.gamecake.spew.gui")
+	local gui=oven.rebake("dmazed.gui")
 
 	local movedirs={
 		{name="left",	vx=-1,vy= 0,dir=1},
@@ -53,10 +55,14 @@ hero.setup=function()
 	hero.lastmove=movedirs[1]
 	hero.pulse=1
 	hero.rate=1.125
-	hero.viewbase=100
+	hero.viewbase=1
 	hero.item=0
 	hero.held=0
 	hero.speed=2+main.herospeed
+	hero.state="start" -- start , live, die , exit
+	hero.gone=0
+	hero.size=1
+	hero.rotate=0
 end
 
 hero.clean=function()
@@ -64,6 +70,43 @@ end
 
 	
 hero.update=function()
+
+if hero.state=="start" then
+
+	hero.viewbase=hero.viewbase*1.1
+	if hero.viewbase>100 then
+		hero.state="live"
+	end
+
+elseif hero.state=="die" then
+
+	hero.gone=hero.gone+1
+	hero.size=hero.size*1.1
+	hero.viewbase=hero.viewbase+1
+	hero.rotate=hero.rotate+5
+
+	if hero.gone==100 then
+		wscores.final_score({})
+		main.next=menu
+		gui.page()
+		gui.next="menu"
+		wgui.page("score")
+	end
+
+elseif hero.state=="exit" then
+
+	hero.x=hero.x*0.5
+	hero.y=hero.y*0.5
+	hero.gone=hero.gone+1
+	hero.size=hero.size*0.95
+	hero.viewbase=hero.viewbase+5
+--	hero.rotate=hero.rotate+5
+
+	if hero.gone==100 then
+		main.next=game
+	end
+
+elseif hero.state=="live" then
 
 	local moved=false
 	
@@ -156,7 +199,7 @@ hero.update=function()
 -- if you collect everything on everylevel you will stay faster than the monster
 -- who speeds up by 0.1 each level
 			main.herospeed=main.herospeed+(0.1/78)
-			hero.speed=hero.speed+(1/78) -- also apply super speed instantly
+			hero.speed=hero.speed+(1/78) -- also apply super speed (x10 bonus) instantly
 			
 			hero.held=hero.held+1
 
@@ -164,7 +207,7 @@ hero.update=function()
 			if hero.item==3 then
 				b.item=0
 				wscores.add(111*main.level*main.level)
-				main.next=game
+				hero.state="exit"
 			end
 		elseif b.item==3 then -- key
 			b.item=0
@@ -173,24 +216,26 @@ hero.update=function()
 		end
 	end
 
-	hero.block.sniff=0
-	
-	hero.px=hero.x+48+(hero.block.x-1)*48
-	hero.py=hero.y+48+(hero.block.y-1)*48
-	
 	if hero.pulse>1/256 then
 		hero.pulse=hero.pulse/hero.rate
 	else
 		hero.pulse=1
 	end
+
+	hero.block.sniff=0
+
+end
 	
+	hero.px=hero.x+48+(hero.block.x-1)*48
+	hero.py=hero.y+48+(hero.block.y-1)*48
+
 	hero.view=hero.viewbase+hero.pulse*hero.viewbase
 	
 end
 
 hero.draw=function()
 	local sheet=sheets.get("imgs/hero")
-	sheet:draw(1,hero.px,hero.py,nil,32+8,32+8)
+	sheet:draw(1,hero.px,hero.py,hero.rotate,(32+8)*hero.size,(32+8)*hero.size)
 end
 
 	return hero

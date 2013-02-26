@@ -107,12 +107,16 @@ game.update=function()
 
 	if recaps.get("up") then
 		hero.move="up"
+		hero.lastswipe=nil
 	elseif recaps.get("down") then
 		hero.move="down"
+		hero.lastswipe=nil
 	elseif recaps.get("left") then
 		hero.move="left"
+		hero.lastswipe=nil
 	elseif recaps.get("right") then
 		hero.move="right"
+		hero.lastswipe=nil
 	elseif game.swipe then
 		local function acc() game.swipe[1]=game.swipe[3]  game.swipe[2]=game.swipe[4] end
 		local x=game.swipe[3]-game.swipe[1]
@@ -123,23 +127,27 @@ game.update=function()
 			if xx > yy then
 				if x>=0 then
 					hero.move="right"
-					acc()
+					hero.lastswipe=hero.move
+					acc()		
 				else
 					hero.move="left"
+					hero.lastswipe=hero.move
 					acc()
 				end
 			else
 				if y>=0 then
 					hero.move="down"
+					hero.lastswipe=hero.move
 					acc()
 				else
 					hero.move="up"
+					hero.lastswipe=hero.move
 					acc()
 				end
 			end
 		end
 	else
-		hero.move=nil
+		hero.move=hero.lastswipe
 	end
 	
 	
@@ -176,9 +184,9 @@ game.draw=function()
 	end
 	
 	do
-		local x=480-80
+		local x=480-80-48-16
 		local y=8
-		local s=hero.held.."/78"
+		local s="L"..main.level.." "..hero.held.."/78"
 		oven.gl.Color(1,1,1,1)
 		font.set(cake.fonts.get(1))
 		font.set_size(16)

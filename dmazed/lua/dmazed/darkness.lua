@@ -78,11 +78,11 @@ void main(void)
 {
 	vec2  dd;
 	float w;
-	float w2=center.w*center.w;
+	float w2=center.w*center.w*(1.0/256.0);
 	
 	dd=v_texcoord.xy-center.xy;
 	
-	w=dd.x*dd.x + dd.y*dd.y ;
+	w=dd.x*dd.x*(1.0/256.0) + dd.y*dd.y*(1.0/256.0) ;
 	
 	gl_FragColor=v_color ;
 	
