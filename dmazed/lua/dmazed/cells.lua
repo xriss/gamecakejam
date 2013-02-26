@@ -1,7 +1,9 @@
 -- copy all globals into locals, some locals are prefixed with a G to reduce name clashes
 local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,Gload,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require=coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require
 
-
+local grd=require("wetgenes.grd")
+local pack=require("wetgenes.pack")
+local wstr=require("wetgenes.string")
 
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
@@ -16,6 +18,7 @@ M.bake=function(oven,cells)
 	local font=canvas.font
 	local flat=canvas.flat
 	local sheets=cake.sheets
+	local fbs=cake.framebuffers
 	
 	local gl=oven.gl
 
@@ -382,6 +385,51 @@ cells.update=function()
 	end
 end
 
+cells.image=function()
+
+	local fbo=assert(fbs.create(480,480,0))
+	local layout=cake.layouts.create{w=480,h=480,x=0,y=0}
+	
+	fbs.bind_frame(fbo)
+	layout.viewport(480,480)
+	layout.project23d(480,480,1/4,480*4) -- build projection
+
+	gl.ClearColor(pack.argb4_pmf4(0xf000))
+	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
+
+	gl.MatrixMode(gl.PROJECTION)
+	gl.LoadMatrix( layout.pmtx )
+
+	gl.MatrixMode(gl.MODELVIEW)
+	gl.LoadIdentity()
+	gl.Translate(-480/2,-480/2,-480*2) -- top left corner is origin
+
+	gl.PushMatrix()
+	
+		cells.draw()
+
+	gl.PopMatrix()
+	
+	local gd = fbo:download()
+	assert(gd:convert(grd.FMT_U8_ARGB))
+	
+	gl.BindFramebuffer(gl.FRAMEBUFFER, 0)
+
+	return gd
+end
+
+cells.examples=function()
+	
+	for i=0,9 do
+		local gd
+
+		cells.setup()
+		gd=cells.image()
+		gd:save("dmazed0"..i..".png")
+
+	end
+end
+
 cells.draw=function()
 	local sheet=sheets.get("imgs/walls")
 	
@@ -422,6 +470,8 @@ cells.draw=function()
 
 
 end
+
+--cells.examples()
 
 	return cells
 end

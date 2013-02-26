@@ -63,6 +63,7 @@ hero.setup=function()
 	hero.gone=0
 	hero.size=1
 	hero.rotate=0
+	hero.anim=0
 end
 
 hero.clean=function()
@@ -155,6 +156,8 @@ elseif hero.state=="live" then
 		hero.viewbase=hero.viewbase+1
 		if hero.viewbase>100 then hero.viewbase=100 end
 
+		hero.anim=hero.anim+1
+
 	else
 
 		hero.viewbase=hero.viewbase-1
@@ -234,8 +237,16 @@ end
 end
 
 hero.draw=function()
-	local sheet=sheets.get("imgs/hero")
-	sheet:draw(1,hero.px,hero.py,hero.rotate,(32+8)*hero.size,(32+8)*hero.size)
+	local sheet=sheets.get("imgs/pilu")
+	local f=hero.anim
+	
+	f=(math.floor(f/8)%4)
+	if     f==0 then f=2
+	elseif f==1 then f=1
+	elseif f==2 then f=3
+	elseif f==3 then f=1
+	end
+	sheet:draw(f,hero.px,hero.py-8,hero.rotate,(64)*hero.size,(64)*hero.size)
 end
 
 	return hero

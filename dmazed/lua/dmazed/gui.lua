@@ -99,7 +99,7 @@ print(act,w.id)
 
 	function gui.spage(pname)
 		sgui.page_hook=gui.page
-		gui.page()
+		gui.page("menu")
 		sgui.page(pname)
 	end
 	

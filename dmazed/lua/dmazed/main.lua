@@ -55,6 +55,7 @@ main.loads=function()
 		{"imgs/title",1,1,0.5,0.5},
 		{"imgs/end",1,1,0.5,0.5},
 		{"imgs/items",1/2,1/2,1/4,1/4},
+		{"imgs/pilu",1/3,1/1,1/6,1/2},
 	}
 	
 end
