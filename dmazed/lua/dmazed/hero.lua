@@ -32,6 +32,9 @@ M.bake=function(oven,hero)
 	local wgui=oven.rebake("wetgenes.gamecake.spew.gui")
 	local gui=oven.rebake("dmazed.gui")
 
+	local floaters=oven.rebake("dmazed.floaters")
+	local monster=oven.rebake("dmazed.monster")
+
 	local movedirs={
 		{name="left",	vx=-1,vy= 0,dir=1},
 		{name="right",	vx= 1,vy= 0,dir=2},
@@ -52,7 +55,7 @@ hero.setup=function()
 	hero.x=0
 	hero.y=0
 	hero.block=cells.blocks[1]
-	hero.lastmove=movedirs[1]
+	hero.lastmove=movedirs[4]
 	hero.pulse=1
 	hero.rate=1.125
 	hero.viewbase=1
@@ -195,8 +198,9 @@ elseif hero.state=="live" then
 		local b=hero.block
 		
 		if b.item==1 then
+			local scr=main.level
 			b.item=0
-			wscores.add(main.level)
+			wscores.add(scr)
 
 -- 77 of these on each level
 -- if you collect everything on everylevel you will stay faster than the monster
@@ -205,17 +209,35 @@ elseif hero.state=="live" then
 			hero.speed=hero.speed+(1/78) -- also apply super speed (x10 bonus) instantly
 			
 			hero.held=hero.held+1
+			
+			floaters.newnum(b.x*48,b.y*48,scr)
+
 
 		elseif b.item==2 then -- exit
 			if hero.item==3 then
+				local scr=11*main.level*main.level
 				b.item=0
-				wscores.add(111*main.level*main.level)
+				wscores.add(scr)
 				hero.state="exit"
+				floaters.newnum(b.x*48,b.y*48,scr)
+				
+				local dx=monster.px-hero.px
+				local dy=monster.py-hero.py
+				local dd=dx*dx+dy*dy
+				local d=math.sqrt(dd) -- distance between hero and monster
+				d=d/256
+				d=1-d
+				if d<0 then d=0 end
+				scr=math.floor(scr*d*11)
+				wscores.add(scr)
+				floaters.newnum(monster.px,monster.py,scr)
 			end
 		elseif b.item==3 then -- key
+			local scr=11*main.level*main.level
 			b.item=0
 			hero.item=3
 			wscores.add(11*main.level*main.level)
+			floaters.newnum(b.x*48,b.y*48,scr)
 		end
 	end
 
@@ -246,6 +268,13 @@ hero.draw=function()
 	elseif f==2 then f=3
 	elseif f==3 then f=1
 	end
+	
+	if     hero.lastmove.dir==1 then f=f+9
+	elseif hero.lastmove.dir==2 then f=f+6
+	elseif hero.lastmove.dir==3 then f=f+3
+	elseif hero.lastmove.dir==4 then f=f+0
+	end
+	
 	sheet:draw(f,hero.px,hero.py-8,hero.rotate,(64)*hero.size,(64)*hero.size)
 end
 

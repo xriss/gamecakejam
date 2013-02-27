@@ -43,19 +43,13 @@ main.loads=function()
 --	oven.cake.images.loads({
 --	})
 	sheets.loads_and_chops{
-		{"imgs/walls",1/6,1/4,0,0},
-		{"imgs/floor",1,1,0.5,0.5},
-		{"imgs/block",1,1,0.5,0.5},
-		{"imgs/egg1",1,1,0.5,0.5},
-		{"imgs/egg2",1,1,0.5,0.5},
-		{"imgs/hero",1,1,0.5,0.5},
-		{"imgs/herodie",1,1,0.5,0.5},
-		{"imgs/alien",1,1,0.5,0.5},
-		{"imgs/aliendie",1,1,0.5,0.5},
 		{"imgs/title",1,1,0.5,0.5},
 		{"imgs/end",1,1,0.5,0.5},
+		{"imgs/floor",1,1,0.5,0.5},
+		{"imgs/walls",1/6,1/4,0,0},
 		{"imgs/items",1/2,1/2,1/4,1/4},
-		{"imgs/pilu",1/3,1/1,1/6,1/2},
+		{"imgs/pilu",1/3,1/4,1/6,1/8},
+		{"imgs/bear",1/3,1/4,1/6,1/8},
 	}
 	
 end
@@ -68,7 +62,7 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
-	print(opts[2])
+--	print(opts[2])
 	if opts[2]=="game" then
 		main.next=oven.rebake("dmazed.main_game")
 	else

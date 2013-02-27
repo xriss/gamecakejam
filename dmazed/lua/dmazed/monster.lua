@@ -60,6 +60,9 @@ monster.setup=function()
 --	monster.speed=2
 	monster.thinktime=10
 	monster.speed=2+(main.level/10)
+	monster.rotate=0
+	monster.anim=0
+	monster.size=1
 	
 end
 
@@ -156,6 +159,7 @@ if hero.state=="live" then
 		if d then -- perform valid move
 			monster.x=monster.x+(d.vx*monster.speed)
 			monster.y=monster.y+(d.vy*monster.speed)
+			monster.anim=monster.anim+1
 		end
 	end
 	
@@ -196,16 +200,31 @@ if hero.state=="live" then
 		monster.smart=false
 	end
 
+
 end
+	monster.px=monster.x+48+(monster.block.x-1)*48
+	monster.py=monster.y+48+(monster.block.y-1)*48
 
 end
 
 monster.draw=function()
-	local sheet=sheets.get("imgs/alien")
+	local sheet=sheets.get("imgs/bear")
+	local f=monster.anim
 	
-	local x=48+(monster.block.x-1)*48
-	local y=48+(monster.block.y-1)*48
-	sheet:draw(1,x+monster.x,y+monster.y,nil,32+8,32+8)
+	f=(math.floor(f/8)%4)
+	if     f==0 then f=2
+	elseif f==1 then f=1
+	elseif f==2 then f=3
+	elseif f==3 then f=1
+	end
+	
+	if     monster.lastmove.dir==1 then f=f+9
+	elseif monster.lastmove.dir==2 then f=f+6
+	elseif monster.lastmove.dir==3 then f=f+3
+	elseif monster.lastmove.dir==4 then f=f+0
+	end
+	
+	sheet:draw(f,monster.px,monster.py-(8),monster.rotate,(64)*monster.size,(64)*monster.size)
 end
 
 	return monster

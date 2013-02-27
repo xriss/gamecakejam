@@ -32,6 +32,7 @@ M.bake=function(oven,game)
 	local hero=oven.rebake("dmazed.hero")
 	local monster=oven.rebake("dmazed.monster")
 	local darkness=oven.rebake("dmazed.darkness")
+	local floaters=oven.rebake("dmazed.floaters")
 
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
@@ -61,6 +62,7 @@ game.setup=function()
 	hero.setup()
 	monster.setup()
 	darkness.setup()
+	floaters.setup()
 
 	beep.play("start")
 
@@ -69,6 +71,7 @@ end
 
 game.clean=function()
 
+	floaters.clean()
 	darkness.clean()
 	monster.clean()
 	hero.clean()
@@ -155,6 +158,7 @@ game.update=function()
 	hero.update()
 	monster.update()
 	darkness.update()
+	floaters.update()
 
 	wscores.update()
 
@@ -176,6 +180,8 @@ game.draw=function()
 	hero.draw()
 	monster.draw()
 	darkness.draw()
+
+	floaters.draw()
 
 	if hero.item==3 then
 		local sheet=sheets.get("imgs/items")
