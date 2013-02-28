@@ -18,6 +18,9 @@ bake=function(state,game)
 	game.input.volatile={}
 	game.page="menu"
 	game.wait=60
+
+	local cake=state.cake
+	local layout=cake.layouts.create{}
 	
 	
 game.loads=function()
@@ -96,15 +99,15 @@ game.draw=function()
 	local flat=canvas.flat
 	local gl=state.gl
 	
-	canvas.viewport() -- did our window change?
-	canvas.project23d(opts.width,opts.height,0.25,opts.height*4)
+	layout.viewport(opts.width,opts.height) -- did our window change?
+	layout.project23d(opts.width,opts.height,0.25,opts.height*4)
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
 	gl.MatrixMode(gl.PROJECTION)
-	gl.LoadMatrix( canvas.pmtx )
+	gl.LoadMatrix( layout.pmtx )
 
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()
