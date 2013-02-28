@@ -69,28 +69,63 @@ void main()
 		gl.shaders.dmazed_f_darkness={
 		source=gl.defines.shaderprefix..[[
 
+uniform float time;
+
 uniform vec4 center;
 
 varying vec2  v_texcoord;
 varying vec4  v_color;
+
+float noise( in float n )
+{
+    return fract(cos(n)*43758.5453123);
+}
+
+float noise3( in vec3 p )
+{
+    return noise(p.x + p.y*57.0 + 113.0*p.z);
+}
 
 void main(void)
 {
 	vec2  dd;
 	float w;
 	float w2=center.w*center.w*(1.0/256.0);
+	float t=center.z*(1.0/64.0);
+	float n=( noise( v_texcoord.x*v_texcoord.y*t ) - noise( v_texcoord.y*t ) ) *0.25;
+	float a;
 	
 	dd=v_texcoord.xy-center.xy;
 	
 	w=dd.x*dd.x*(1.0/256.0) + dd.y*dd.y*(1.0/256.0) ;
+	a=clamp((w-n)/w2,0.0,1.0);
 	
-	gl_FragColor=v_color ;
-	
-	gl_FragColor.a=(w/w2); // adjust alpha
+	gl_FragColor=v_color*n*a ;
+	gl_FragColor.a=a;
 }
 
 	]]
 }
+
+--[[
+
+
+float noise( in float n )
+{
+    return fract(cos(n)*43758.5453123);
+}
+
+float noise3( in vec3 p )
+{
+    return noise(p.x + p.y*57.0 + 113.0*p.z);
+}
+
+void main(void)
+{
+	gl_FragColor=vec4( noise( gl_FragCoord.x*gl_FragCoord.y*t ) - noise( gl_FragCoord.y*t ) );
+}
+
+]]
 
 		gl.programs.dmazed_darkness={
 			vshaders={"dmazed_v_darkness"},
@@ -150,9 +185,9 @@ darkness.draw=function()
 
 	gl.UniformMatrix4f(p:uniform("modelview"), gl.matrix(gl.MODELVIEW) )
 	gl.UniformMatrix4f(p:uniform("projection"), gl.matrix(gl.PROJECTION) )
-	gl.Uniform4f( p:uniform("color"), 0,0,0,1 )
+	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
 
-	gl.Uniform4f( p:uniform("center"), hero.px,hero.py,0,hero.view )
+	gl.Uniform4f( p:uniform("center"), hero.px,hero.py,game.time,hero.view )
 
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
 	gl.EnableVertexAttribArray(p:attrib("a_vertex"))
