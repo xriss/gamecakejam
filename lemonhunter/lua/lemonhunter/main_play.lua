@@ -19,10 +19,10 @@ M.bake=function(state,play)
 
 	local cake=state.cake
 	local opts=state.opts
-	local canvas=state.canvas
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=state.gl
 	local sheets=cake.sheets
 	local sounds=cake.sounds
 	

@@ -80,7 +80,7 @@ M.bake=function(state,lemons)
 		lemons.time=lemons.time+1
 		
 
-		count=0
+		local count=0
 		for i,v in ipairs(lemons.list) do
 			if v.state=="dead" then	else
 				count=count+1
