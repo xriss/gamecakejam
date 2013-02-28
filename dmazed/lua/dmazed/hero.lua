@@ -162,6 +162,7 @@ elseif hero.state=="live" then
 		hero.anim=hero.anim+1
 
 	else
+		hero.anim=0
 
 		hero.viewbase=hero.viewbase-1
 		if hero.viewbase<50 then hero.viewbase=50 end
@@ -197,24 +198,9 @@ elseif hero.state=="live" then
 	if newblock then
 		local b=hero.block
 		
-		if b.item==1 then
-			local scr=main.level
-			b.item=0
-			wscores.add(scr)
-
--- 77 of these on each level
--- if you collect everything on everylevel you will stay faster than the monster
--- who speeds up by 0.1 each level
-			main.herospeed=main.herospeed+(0.1/78)
-			hero.speed=hero.speed+(1/78) -- also apply super speed (x10 bonus) instantly
-			
-			hero.held=hero.held+1
-			
-			floaters.newnum(b.x*48,b.y*48,scr)
-
-
-		elseif b.item==2 then -- exit
-			if hero.item==3 then
+		if b.item==4 then -- exit
+		
+			if hero.item==5 then
 				local scr=11*main.level*main.level
 				b.item=0
 				wscores.add(scr)
@@ -232,12 +218,32 @@ elseif hero.state=="live" then
 				wscores.add(scr)
 				floaters.newnum(monster.px,monster.py,scr)
 			end
-		elseif b.item==3 then -- key
+			
+		elseif b.item==5 then -- key
+		
 			local scr=11*main.level*main.level
 			b.item=0
-			hero.item=3
+			hero.item=5
 			wscores.add(11*main.level*main.level)
 			floaters.newnum(b.x*48,b.y*48,scr)
+			
+		elseif b.item>0 then
+		
+			local scr=main.level
+			b.item=0
+			wscores.add(scr)
+
+-- 77 of these on each level
+-- if you collect everything on everylevel you will stay faster than the monster
+-- who speeds up by 0.1 each level
+			main.herospeed=main.herospeed+(0.1/78)
+			hero.speed=hero.speed+(1/78) -- also apply super speed (x10 bonus) instantly
+			
+			hero.held=hero.held+1
+			
+			floaters.newnum(b.x*48,b.y*48,scr)
+
+
 		end
 	end
 

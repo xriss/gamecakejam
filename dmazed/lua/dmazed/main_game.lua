@@ -45,6 +45,10 @@ end
 		
 game.setup=function()
 
+	local walls={"imgs/walls","imgs/walls1","imgs/walls2","imgs/walls3"}
+	game.walls=walls[math.random(1,#walls)]
+
+
 	game.count=100
 	
 -- sanity
@@ -183,10 +187,10 @@ game.draw=function()
 
 	floaters.draw()
 
-	if hero.item==3 then
+	if hero.item>0 then
 		local sheet=sheets.get("imgs/items")
 		oven.gl.Color(1,1,1,1)
-		sheet:draw(3,480-24,24+16,nil,48,48)
+		sheet:draw(hero.item,480-24,24+16,nil,48,48)
 	end
 	
 	do

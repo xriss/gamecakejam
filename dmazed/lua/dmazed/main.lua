@@ -47,7 +47,10 @@ main.loads=function()
 		{"imgs/end",1,1,0.5,0.5},
 		{"imgs/floor",1,1,0.5,0.5},
 		{"imgs/walls",1/6,1/4,0,0},
-		{"imgs/items",1/2,1/2,1/4,1/4},
+		{"imgs/walls1",1/6,1/4,0,0},
+		{"imgs/walls2",1/6,1/4,0,0},
+		{"imgs/walls3",1/6,1/4,0,0},
+		{"imgs/items",1/4,1/4,1/8,1/8},
 		{"imgs/pilu",1/3,1/4,1/6,1/8},
 		{"imgs/bear",1/3,1/4,1/6,1/8},
 	}

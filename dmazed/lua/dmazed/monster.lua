@@ -124,9 +124,9 @@ if hero.state=="live" then
 --		monster.move=monster.lastmove.dir
 --	end
 
+	local d
 	if monster.move then
 		local m=movedirs[monster.move]
-		local d
 		
 		if not monster.block.links[m.dir] then
 			m=monster.lastmove
@@ -155,12 +155,13 @@ if hero.state=="live" then
 			end
 		end
 		end
-		
-		if d then -- perform valid move
-			monster.x=monster.x+(d.vx*monster.speed)
-			monster.y=monster.y+(d.vy*monster.speed)
-			monster.anim=monster.anim+1
-		end
+	end
+	if d then -- perform valid move
+		monster.x=monster.x+(d.vx*monster.speed)
+		monster.y=monster.y+(d.vy*monster.speed)
+		monster.anim=monster.anim+1
+	else
+		monster.anim=0
 	end
 	
 	if monster.lastmove.vx<0 and monster.x<=-48 and monster.block.links[1] then

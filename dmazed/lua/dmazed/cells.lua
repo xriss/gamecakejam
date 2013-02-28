@@ -26,6 +26,7 @@ M.bake=function(oven,cells)
 
 	local main=oven.rebake("dmazed.main")
 	local menu=oven.rebake("dmazed.main_menu")
+	local game=oven.rebake("dmazed.main_game")
 		
 	local beep=oven.rebake("dmazed.beep")
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -292,6 +293,7 @@ cells.setup=function()
 		local b=binfo(i)
 		cells.blocks[i]=b
 	end
+	local sweets={1,2,3,7}
 	for i=1,9*9 do
 		local b=cells.blocks[i]
 		local w=walls(b.x,b.y)
@@ -310,7 +312,7 @@ cells.setup=function()
 		end
 		b.time=0
 		b.sniff=0
-		b.item=1
+		b.item=sweets[math.random(1,#sweets)]
 	end
 	
 	cells.blocks[1].item=0
@@ -319,8 +321,8 @@ cells.setup=function()
 		local r1=math.random(2,9*9-1)
 		local r2=math.random(2,9*9-1)
 		if r1~=r2 then
-			cells.blocks[r1].item=2
-			cells.blocks[r2].item=3
+			cells.blocks[r1].item=4
+			cells.blocks[r2].item=5
 			done=true
 		end
 	until done
@@ -423,7 +425,7 @@ cells.examples=function()
 end
 
 cells.draw=function()
-	local sheet=sheets.get("imgs/walls")
+	local sheet=sheets.get(game.walls)
 	
 	local idx=1
 	local t
@@ -456,7 +458,9 @@ cells.draw=function()
 		if b.item>0 then
 			local x=48+(b.x-1)*48
 			local y=48+(b.y-1)*48
-			sheet:draw(b.item,x,y,nil,24,24)
+			local s=1
+			if b.item==4 or b.item==5 then s=1.5 end
+			sheet:draw(b.item,x,y,nil,24*s,24*s)
 		end
 	end
 
