@@ -59,6 +59,10 @@ print(act,w.id)
 	end
 
 	
+	function gui.pages.settings_game(master)
+		gui.pages.menu(master)
+	end
+	
 	function gui.pages.menu(master)
 
 		local top=master:add({hx=480,hy=480,mx=480,my=480,class="flow",ax=0,ay=0,font="Vera",text_size=24})
@@ -83,18 +87,21 @@ print(act,w.id)
 	end
 
 	function gui.page(pname)
-	
+		local ret=false
+
 		gui.master:clean_all()
 		
 		if pname then
 			local f=gui.pages[pname]
 			if f then
 				f(gui.master) -- pass in the master so we could fill up other widgets
+				ret=true
 			end
 		end
 
 		gui.master:layout()
 		
+		return ret
 	end
 
 	function gui.spage(pname)

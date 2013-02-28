@@ -388,32 +388,24 @@ end
 cells.image=function()
 
 	local fbo=assert(fbs.create(480,480,0))
-	local layout=cake.layouts.create{w=480,h=480,x=0,y=0}
+	local layout=cake.layouts.create{parent={w=480,h=480,x=0,y=0}}
 	
 	fbs.bind_frame(fbo)
 	layout.viewport(480,480)
 	layout.project23d(480,480,1/4,480*4) -- build projection
-
+	
+	layout.setup()
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
-
-	gl.MatrixMode(gl.PROJECTION)
-	gl.LoadMatrix( layout.pmtx )
-
-	gl.MatrixMode(gl.MODELVIEW)
-	gl.LoadIdentity()
-	gl.Translate(-480/2,-480/2,-480*2) -- top left corner is origin
-
-	gl.PushMatrix()
 	
-		cells.draw()
+	cells.draw()
 
-	gl.PopMatrix()
-	
+	layout.clean()
+
 	local gd = fbo:download()
 	assert(gd:convert(grd.FMT_U8_ARGB))
 	
-	gl.BindFramebuffer(gl.FRAMEBUFFER, 0)
+	fbs.bind_frame(nil)
 
 	return gd
 end
@@ -425,7 +417,7 @@ cells.examples=function()
 
 		cells.setup()
 		gd=cells.image()
-		gd:save("dmazed0"..i..".png")
+		gd:save("files/dmazed0"..i..".png")
 
 	end
 end

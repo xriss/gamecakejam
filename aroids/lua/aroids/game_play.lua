@@ -16,6 +16,12 @@ bake=function(state,play)
 
 	play.modname=modname
 
+
+	local cake=state.cake
+	local canvas=cake.canvas
+	local font=canvas.font
+
+
 	local game=state.game
 
 
@@ -61,10 +67,8 @@ play.update=function()
 end
 play.draw=function()
 
-	local canvas=state.canvas
-	local font=canvas.font
 
-	state.cake.sheets.get("imgs/back"):draw(1,720/2,480/2)
+	cake.sheets.get("imgs/back"):draw(1,720/2,480/2)
 
 	font.set_size(32,0) -- 32 pixels high
 	font.set_xy(0,0)

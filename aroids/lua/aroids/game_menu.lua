@@ -16,10 +16,10 @@ bake=function(state,play)
 
 	play.modname=modname
 	
-	local canvas=state.canvas
-	local font=canvas.font
 	local cake=state.cake
-	local gl=cake.gl
+	local canvas=cake.canvas
+	local font=canvas.font
+	local gl=state.gl
 	local game=state.game
 
 

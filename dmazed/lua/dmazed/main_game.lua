@@ -193,9 +193,12 @@ game.draw=function()
 		local x=480-80-48-16
 		local y=8
 		local s="L"..main.level.." "..hero.held.."/78"
-		oven.gl.Color(1,1,1,1)
 		font.set(cake.fonts.get(1))
 		font.set_size(16)
+		oven.gl.Color(0,0,0,1)
+		font.set_xy( x+2,y+2 )
+		font.draw(s)
+		oven.gl.Color(1,1,1,1)
 		font.set_xy( x,y )
 		font.draw(s)
 	end

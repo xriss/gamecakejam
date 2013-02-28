@@ -10,20 +10,29 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 module(...)
 modname=(...)
 
-bake=function(state,game)
+bake=function(oven,game)
 	local game=game or {}
-	game.state=state
-	state.game=game
+	game.oven=oven
+	oven.game=game
 	
 	game.modname=modname
 	
 -- a substate
-	game.subs=require("wetgenes.gamecake.state").bake({
-		master=state,
+	game.subs=require("wetgenes.gamecake.oven").bake({
+		master=oven,
 	})
 	
 	game.input={}
 	game.input.volatile={}
+
+	local cake=oven.cake
+	local opts=oven.opts
+	local canvas=cake.canvas
+	local font=canvas.font
+	local flat=canvas.flat
+	local gl=oven.gl
+	local layout=cake.layouts.create{}
+
 	
 	
 --	local cards=state.rebake("dike.cards")
@@ -33,15 +42,14 @@ bake=function(state,game)
 	
 game.loads=function()
 
-	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
-	state.cake.images.loads({
+	oven.cake.images.loads({
 	})
 	
 end
 		
 game.setup=function()
-	local cake=state.cake
 
 	game.loads()
 	
@@ -49,7 +57,7 @@ game.setup=function()
 	game.now=nil
 	game.next=nil
 	
-	game.next=state.rebake("aroids.game_menu")
+	game.next=oven.rebake("aroids.game_menu")
 	
 	game.level=1
 	game.score=0
@@ -140,22 +148,16 @@ end
 
 game.draw=function()
 --print("draw")
-	local cake=state.cake
-	local opts=state.opts
-	local canvas=state.canvas
-	local font=canvas.font
-	local flat=canvas.flat
-	local gl=cake.gl
 	
-	canvas.viewport() -- did our window change?
-	canvas.project23d(opts.width,opts.height,1/4,opts.height*4)
+	layout.viewport() -- did our window change?
+	layout.project23d(opts.width,opts.height,1/4,opts.height*4)
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
 	gl.MatrixMode(gl.PROJECTION)
-	gl.LoadMatrix( canvas.pmtx )
+	gl.LoadMatrix( layout.pmtx )
 
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()

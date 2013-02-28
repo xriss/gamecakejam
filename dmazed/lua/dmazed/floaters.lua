@@ -32,6 +32,8 @@ M.bake=function(oven,floaters)
 	function floaters.update()
 		
 		for i=#floaters.tab,1,-1 do local v=floaters.tab[i]
+			v.vx=v.vx*((256+5)/256)
+			v.vy=v.vy*((256+5)/256)
 			v.px=v.px+v.vx
 			v.py=v.py+v.vy
 			v.alpha=v.alpha-(1/60)
