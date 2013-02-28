@@ -18,9 +18,9 @@ bake=function(oven,game)
 	game.modname=modname
 	
 -- a substate
-	game.subs=require("wetgenes.gamecake.oven").bake({
-		master=oven,
-	})
+--	game.subs=require("wetgenes.gamecake.oven").bake({
+--		master=oven,
+--	})
 	
 	game.input={}
 	game.input.volatile={}

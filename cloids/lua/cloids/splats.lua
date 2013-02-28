@@ -13,7 +13,7 @@ M.bake=function(state,splats)
 	local splats=splats or {}
 	splats.state=state
 
-	local gl=state.cake.gl
+	local gl=state.gl
 		
 	local game=state.rebake("cloids.main_game")
 	local beep=state.rebake("cloids.beep")

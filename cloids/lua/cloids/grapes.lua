@@ -13,7 +13,7 @@ M.bake=function(state,grapes)
 	local grapes=grapes or {}
 	grapes.state=state
 
-	local gl=state.cake.gl
+	local gl=state.gl
 	
 	local main=state.rebake("cloids.main")
 	local game=state.rebake("cloids.main_game")

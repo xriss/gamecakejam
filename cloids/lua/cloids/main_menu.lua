@@ -20,10 +20,10 @@ M.bake=function(state,menu)
 	local cake=state.cake
 	local sheets=cake.sheets
 	local opts=state.opts
-	local canvas=state.canvas
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=state.gl
 	
 	local gui=state.rebake("cloids.gui")
 	local wscores=state.rebake("wetgenes.gamecake.spew.scores")
