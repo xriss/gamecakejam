@@ -92,7 +92,7 @@ void main(void)
 	float w;
 	float w2=center.w*center.w*(1.0/256.0);
 	float t=center.z*(1.0/64.0);
-	float n=( noise( v_texcoord.x*v_texcoord.y*t ) - noise( v_texcoord.y*t ) ) *0.25;
+	float n=( noise( v_texcoord.x*v_texcoord.y*t ) - noise( v_texcoord.y*t ) ) *(1.0/16.0);
 	float a;
 	
 	dd=v_texcoord.xy-center.xy;
