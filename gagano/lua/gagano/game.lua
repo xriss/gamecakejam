@@ -22,6 +22,8 @@ M.bake=function(oven,game)
 	local flat=canvas.flat
 	local gl=oven.gl
 
+	local layout=cake.layouts.create{}
+
 	game.modname=M.modname
 		
 	game.input={}
@@ -94,7 +96,7 @@ game.msg=function(m)
 --	print(wstr.dump(m))
 
 	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
-		m.x,m.y=cake.canvas.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
+		m.x,m.y=layout.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
 		m.x=m.x+(720/2)
 		m.y=m.y+(480/2)
 	end
@@ -123,15 +125,15 @@ end
 
 game.draw=function()
 	
-	canvas.viewport() -- did our window change?
-	canvas.project23d(opts.width,opts.height,1/4,opts.height*4)
+	layout.viewport() -- did our window change?
+	layout.project23d(opts.width,opts.height,1/4,opts.height*4)
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
 	gl.MatrixMode(gl.PROJECTION)
-	gl.LoadMatrix( canvas.pmtx )
+	gl.LoadMatrix( layout.pmtx )
 
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()
