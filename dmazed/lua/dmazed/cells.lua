@@ -348,10 +348,15 @@ cells.setup=function()
 			idx=idx+1
 		end
 	end
+	
+	
+	cells.fbo=fbs.create()
 
 end
 
 cells.clean=function()
+	cells.fbo:clean()
+	cells.fbo=nil
 end
 
 cells.update=function()
@@ -393,9 +398,6 @@ cells.image=function()
 	local layout=cake.layouts.create{parent={w=480,h=480,x=0,y=0}}
 	
 	fbs.bind_frame(fbo)
-	layout.viewport(480,480)
-	layout.project23d(480,480,1/4,480*4) -- build projection
-	
 	layout.setup()
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
@@ -408,6 +410,8 @@ cells.image=function()
 	assert(gd:convert(grd.FMT_U8_ARGB))
 	
 	fbs.bind_frame(nil)
+	
+	fbo:clean()
 
 	return gd
 end
@@ -455,9 +459,47 @@ cells.draw_walls=function()
 
 end
 
+cells.draw_into_texture=function()
+
+	if not cells.fbo.texture then -- build our texture (happens after any stop/start)
+
+		cells.fbo:resize(1024,1024,0)
+		
+		local layout=cake.layouts.create{parent={w=1024,h=1024,x=0,y=0}}
+		
+		fbs.bind_frame(cells.fbo)
+		layout.setup(480,480,1/4,480*4)
+		
+		gl.ClearColor(pack.argb4_pmf4(0x0000))
+		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
+		
+		cells.draw_walls()
+
+		layout.clean()
+
+		fbs.bind_frame(nil)
+		
+		cells.fbo:free_depth()
+		cells.fbo:free_frame()
+		-- but keep the texture
+
+	end
+	
+end
+
 cells.draw=function()
 
-	cells.draw_walls()
+	cells.draw_into_texture()
+	cells.fbo:bind_texture()
+	gl.Color(pack.argb4_pmf4(0xffff))
+	flat.tristrip("xyzuv",{
+		0,		0,		0,		0,	1,
+		480,	0,		0,		1,	1,
+		0,		480,	0,		0,	0,
+		480,	480,	0,		1,	0,
+	})
+
+--	cells.draw_walls()
 
 -- draw sniff values
 --[[
