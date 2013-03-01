@@ -424,7 +424,8 @@ cells.examples=function()
 	end
 end
 
-cells.draw=function()
+cells.draw_walls=function()
+
 	local sheet=sheets.get(game.walls)
 	
 	oven.gl.Color(0,0,0,1)
@@ -451,6 +452,12 @@ cells.draw=function()
 			idx=idx+1
 		end
 	end
+
+end
+
+cells.draw=function()
+
+	cells.draw_walls()
 
 -- draw sniff values
 --[[
