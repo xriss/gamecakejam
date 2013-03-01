@@ -48,6 +48,9 @@ game.setup=function()
 	local walls={"imgs/walls","imgs/walls1","imgs/walls2","imgs/walls3"}
 	game.walls=walls[math.random(1,#walls)]
 
+	local f={"imgs/floor","imgs/floor1","imgs/floor2","imgs/floor6","imgs/floor9","imgs/floor10"}
+	game.floor=f[math.random(1,#f)]
+
 
 	game.count=100
 	
@@ -178,7 +181,7 @@ end
 
 game.draw=function()
 
-	sheets.get("imgs/floor"):draw(1,240,240,nil,480,480)
+	sheets.get(game.floor):draw(1,240,240,nil,480,480)
 
 	cells.draw()
 	hero.draw()

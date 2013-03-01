@@ -427,6 +427,19 @@ end
 cells.draw=function()
 	local sheet=sheets.get(game.walls)
 	
+	oven.gl.Color(0,0,0,1)
+	local idx=1
+	local t
+	for y=0,29 do
+		for x=0,29 do
+			t=cells.tab[idx]
+			if t>0 then
+				sheet:draw(t,x*16+2,y*16+2,nil,16,16)
+			end
+			idx=idx+1
+		end
+	end
+	oven.gl.Color(1,1,1,1)
 	local idx=1
 	local t
 	for y=0,29 do
