@@ -45,12 +45,6 @@ end
 		
 game.setup=function()
 
-	local walls={"imgs/walls","imgs/walls1","imgs/walls2","imgs/walls3"}
-	game.walls=walls[math.random(1,#walls)]
-
-	local f={"imgs/floor","imgs/floor1","imgs/floor2","imgs/floor6","imgs/floor9","imgs/floor10"}
-	game.floor=f[math.random(1,#f)]
-
 
 	game.count=100
 	
@@ -59,7 +53,34 @@ game.setup=function()
 	main.level=main.level or 0
 
 	main.level=main.level+1
-	
+
+	local rs={
+		{"floor","walls"},
+		{"floor4","walls1"},
+		{"floor4","walls2"},
+		{"floor3","walls"},
+		{"floor5","walls"},
+		{"floor5","walls1"},
+		{"floor6","walls"},
+		{"floor7","walls2"},
+		{"floor7","walls1"},
+		{"floor8","walls"},
+		{"floor8","walls2"},
+		{"floor9","walls"},
+		{"floor9","walls1"},
+		{"floor9","walls3"},
+		{"floor10","walls3"},
+		{"floor10","walls1"},
+		{"floor2","walls3"},
+		{"floor2","walls2"},
+		{"floor1","walls3"},
+		{"floor1","walls2"},
+	}
+	local r=main.level
+	while r>#rs do r=r-#rs end
+	game.floor="imgs/"..rs[r][1]
+	game.walls="imgs/"..rs[r][2]
+		
 	game.loads()
 
 	gui.setup()
