@@ -225,7 +225,7 @@ monster.draw=function()
 	elseif monster.lastmove.dir==4 then f=f+0
 	end
 	
-	sheet:draw(f,monster.px,monster.py-(8),monster.rotate,(64)*monster.size,(64)*monster.size)
+	sheet:draw(f,monster.px,monster.py-(8+16),monster.rotate,(64+32)*monster.size,(64+32)*monster.size)
 end
 
 	return monster
