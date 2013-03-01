@@ -44,7 +44,7 @@ main.loads=function()
 --	})
 	sheets.loads_and_chops{
 		{"imgs/title",1,1,0.5,0.5},
-		{"imgs/end",1,1,0.5,0.5},
+--		{"imgs/end",1,1,0.5,0.5},
 		{"imgs/floor",1,1,0.5,0.5},
 		{"imgs/floor1",1,1,0.5,0.5},
 		{"imgs/floor2",1,1,0.5,0.5},
