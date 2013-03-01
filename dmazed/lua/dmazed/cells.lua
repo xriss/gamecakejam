@@ -463,9 +463,8 @@ cells.draw_into_texture=function()
 
 	if not cells.fbo.texture then -- build our texture (happens after any stop/start)
 
-		cells.fbo:resize(1024,1024,0)
-		
-		local layout=cake.layouts.create{parent={w=1024,h=1024,x=0,y=0}}
+		cells.fbo:resize(512,512,0)
+		local layout=cake.layouts.create{parent={w=512,h=512,x=0,y=0}}
 		
 		fbs.bind_frame(cells.fbo)
 		layout.setup(480,480,1/4,480*4)
