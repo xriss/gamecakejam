@@ -55,6 +55,8 @@ M.bake=function(oven,beep)
 			tab[#tab+1]=n
 		end
 		cake.sounds.loads(tab)
+
+--		cake.sounds.load_ogg("oggs/hunted","ogghunt")
 	end
 
 	function beep.lookup(id)
