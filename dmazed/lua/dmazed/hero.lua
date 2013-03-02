@@ -260,7 +260,7 @@ elseif hero.state=="live" then
 			floaters.newnum(b.x*48,b.y*48,scr)
 
 			beep.play("munch")
-			cake.sounds.queues[1].gain=0
+--			cake.sounds.queues[1].gain=0
 
 		end
 	end
