@@ -26,6 +26,7 @@ M.bake=function(oven,beep)
 --		},
 		["munch"]={
 			name="oggs/munch",
+			idx=4,
 		},
 		["death1"]={
 			name="oggs/death1",
@@ -101,6 +102,8 @@ M.bake=function(oven,beep)
 
 	}
 
+	sounds.beep_max=3
+
 -- load all the sample referenced in the ids table
 	function beep.loads()
 		local t={}
@@ -130,7 +133,7 @@ M.bake=function(oven,beep)
 		
 		if t then
 		
-			sounds.beep(sounds.get(t.name))
+			sounds.beep(sounds.get(t.name),t.idx)
 		
 		end
 	
