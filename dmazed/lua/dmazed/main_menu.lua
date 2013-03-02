@@ -51,6 +51,14 @@ menu.setup=function()
 	gui.setup()
 	gui.page("menu")
 
+	local qq=cake.sounds.queues[2]
+	if not qq.oggs then
+		qq.ogg_loop=true
+		qq.state="play_queue"
+		qq.oggs={"oggs/bearsong"}
+	end
+	qq.gain=1
+	qq.pitch=1
 	cake.sounds.queues[1].gain=0
 
 end

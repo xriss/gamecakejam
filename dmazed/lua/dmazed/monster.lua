@@ -197,6 +197,7 @@ if hero.state=="live" then
 			local r=math.random(1,4)
 			beep.play("death"..r)
 			cake.sounds.queues[1].gain=0
+			cake.sounds.queues[2].gain=0
 		end
 	end
 	

@@ -101,8 +101,9 @@ game.setup=function()
 		qq.state="play_queue"
 		qq.oggs={"oggs/hum"}
 	end
-	qq.gain=0.75
+	qq.gain=1
 	qq.pitch=1
+	cake.sounds.queues[2].gain=0
 	
 	game.time=0
 end

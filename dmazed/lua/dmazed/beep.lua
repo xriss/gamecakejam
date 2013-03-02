@@ -128,12 +128,18 @@ M.bake=function(oven,beep)
 		return id
 	end
 
-	function beep.play(id)
+	function beep.play(id,gain,pitch)
 		local t=beep.lookup(id)
 		
 		if t then
-		
-			sounds.beep(sounds.get(t.name),t.idx)
+			t.buff=sounds.get(t.name).buff -- update buffer id
+			local n=t
+			if gain or pitch then -- tempory adjust
+				n={} for i,v in pairs(t) do n[i]=v end
+				n.gain=gain or n.gain
+				n.pitch=pitch or n.pitch
+			end
+			sounds.beep(n)
 		
 		end
 	

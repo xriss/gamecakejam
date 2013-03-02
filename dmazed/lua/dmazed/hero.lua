@@ -67,7 +67,7 @@ hero.setup=function()
 	hero.size=1
 	hero.rotate=0
 	hero.anim=0
-
+	hero.fear=0
 end
 
 hero.clean=function()
@@ -114,11 +114,36 @@ elseif hero.state=="exit" then
 
 elseif hero.state=="live" then
 
+	do
+		local dx=monster.px-hero.px
+		local dy=monster.py-hero.py
+		local dd=dx*dx+dy*dy
+		local d=(math.sqrt(dd))
+		local r=1-((d-40)/(300))
+		if r<0 then r=0 elseif r>1 then r=1 end
+		hero.fear=r
+
 -- slowly restore the huming sound if it has been hushed
-	local g=cake.sounds.queues[1].gain
-	if g<1 then g=g+0.01 end
-	if g>1 then g=1 end
-	cake.sounds.queues[1].gain=g
+	
+		local q1=cake.sounds.queues[1] -- girl
+		local q2=cake.sounds.queues[2] -- bear
+		local g=q1.gain
+		if g<1 then g=g+0.01 end
+		if g>1 then g=1 end
+		q1.gain=g
+
+-- adjust bear sound depending on how close
+
+		if q1.gain>(1-hero.fear) then q1.gain=1-hero.fear end
+		q2.gain=hero.fear
+		q2.pitch=1+(monster.speed-2)
+		if q2.pitch>3 then q2.pitch=3 end  -- max (level 20)
+
+	end
+
+
+
+
 
 	local moved=false
 	
@@ -229,6 +254,7 @@ elseif hero.state=="live" then
 				local r=math.random(1,7)
 				beep.play("exit"..r)
 				cake.sounds.queues[1].gain=0
+				cake.sounds.queues[2].gain=0
 			end
 			
 		elseif b.item==5 then -- key
@@ -259,21 +285,14 @@ elseif hero.state=="live" then
 			
 			floaters.newnum(b.x*48,b.y*48,scr)
 
-			beep.play("munch")
+			beep.play("munch",1-hero.fear)
 --			cake.sounds.queues[1].gain=0
 
 		end
 	end
 
 	if hero.pulse>1/256 then
-		local dx=monster.px-hero.px
-		local dy=monster.py-hero.py
-		local dd=dx*dx+dy*dy
-		local d=(math.sqrt(dd))
-		local r=1-(d/(512))
-		if r<0 then r=0 elseif r>1 then r=1 end
-		r=1 + (1/16) + (r*1/8)
-
+		local r=1 + (1/16) + (hero.fear*1/8)
 		hero.pulse=hero.pulse/r
 	else
 		hero.pulse=1
