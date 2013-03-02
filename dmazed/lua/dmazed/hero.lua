@@ -114,6 +114,12 @@ elseif hero.state=="exit" then
 
 elseif hero.state=="live" then
 
+-- slowly restore the huming sound if it has been hushed
+	local g=cake.sounds.queues[1].gain
+	if g<1 then g=g+0.01 end
+	if g>1 then g=1 end
+	cake.sounds.queues[1].gain=g
+
 	local moved=false
 	
 	if hero.move then
@@ -222,6 +228,7 @@ elseif hero.state=="live" then
 
 				local r=math.random(1,7)
 				beep.play("exit"..r)
+				cake.sounds.queues[1].gain=0
 			end
 			
 		elseif b.item==5 then -- key
@@ -234,6 +241,7 @@ elseif hero.state=="live" then
 			
 			local r=math.random(1,7)
 			beep.play("key"..r)
+			cake.sounds.queues[1].gain=0
 
 		elseif b.item>0 then
 		
@@ -252,6 +260,7 @@ elseif hero.state=="live" then
 			floaters.newnum(b.x*48,b.y*48,scr)
 
 			beep.play("munch")
+			cake.sounds.queues[1].gain=0
 
 		end
 	end
