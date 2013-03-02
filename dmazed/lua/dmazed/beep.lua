@@ -39,6 +39,48 @@ M.bake=function(oven,beep)
 		["death4"]={
 			name="oggs/death4",
 		},
+		["exit1"]={
+			name="oggs/exit1",
+		},
+		["exit2"]={
+			name="oggs/exit2",
+		},
+		["exit3"]={
+			name="oggs/exit3",
+		},
+		["exit4"]={
+			name="oggs/exit4",
+		},
+		["exit5"]={
+			name="oggs/exit5",
+		},
+		["exit6"]={
+			name="oggs/exit6",
+		},
+		["exit7"]={
+			name="oggs/exit7",
+		},
+		["key1"]={
+			name="oggs/key1",
+		},
+		["key2"]={
+			name="oggs/key2",
+		},
+		["key3"]={
+			name="oggs/key3",
+		},
+		["key4"]={
+			name="oggs/key4",
+		},
+		["key5"]={
+			name="oggs/key5",
+		},
+		["key6"]={
+			name="oggs/key6",
+		},
+		["key7"]={
+			name="oggs/key7",
+		},
 --[[
 		["die"]={
 			name="sfx/diehunted",

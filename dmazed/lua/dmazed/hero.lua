@@ -219,6 +219,9 @@ elseif hero.state=="live" then
 				scr=math.floor(scr*d*11)
 				wscores.add(scr)
 				floaters.newnum(monster.px,monster.py,scr)
+
+				local r=math.random(1,7)
+				beep.play("exit"..r)
 			end
 			
 		elseif b.item==5 then -- key
@@ -229,6 +232,9 @@ elseif hero.state=="live" then
 			wscores.add(11*main.level*main.level)
 			floaters.newnum(b.x*48,b.y*48,scr)
 			
+			local r=math.random(1,7)
+			beep.play("key"..r)
+
 		elseif b.item>0 then
 		
 			local scr=main.level
