@@ -21,9 +21,9 @@ M.bake=function(oven,beep)
 
 	local ids={
 	
-		["heartbeat"]={
-			name="oggs/heart",
-		},
+--		["heartbeat"]={
+--			name="oggs/heart",
+--		},
 		["munch"]={
 			name="oggs/munch",
 		},
