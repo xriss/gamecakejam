@@ -67,6 +67,7 @@ hero.setup=function()
 	hero.size=1
 	hero.rotate=0
 	hero.anim=0
+
 end
 
 hero.clean=function()
@@ -80,6 +81,7 @@ if hero.state=="start" then
 	hero.viewbase=hero.viewbase*1.1
 	if hero.viewbase>100 then
 		hero.state="live"
+		beep.play("heartbeat")
 	end
 
 elseif hero.state=="die" then
@@ -248,9 +250,18 @@ elseif hero.state=="live" then
 	end
 
 	if hero.pulse>1/256 then
-		hero.pulse=hero.pulse/hero.rate
+		local dx=monster.px-hero.px
+		local dy=monster.py-hero.py
+		local dd=dx*dx+dy*dy
+		local d=(math.sqrt(dd))
+		local r=1-(d/(512))
+		if r<0 then r=0 elseif r>1 then r=1 end
+		r=1 + (1/16) + (r*1/8)
+
+		hero.pulse=hero.pulse/r
 	else
 		hero.pulse=1
+		beep.play("heartbeat")
 	end
 
 	hero.block.sniff=0

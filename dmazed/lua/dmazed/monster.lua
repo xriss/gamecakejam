@@ -192,7 +192,12 @@ if hero.state=="live" then
 	local dy=monster.py-hero.py
 	local dd=dx*dx+dy*dy
 	if dd<(24*24) then
-		hero.state="die"
+		if hero.state~="die" then
+			hero.state="die"
+			local r=math.random(1,4)
+			beep.play("death"..r)
+			cake.sounds.queues[1].gain=0
+		end
 	end
 	
 	if dd<(hero.viewbase*2)*(hero.viewbase*2) then -- if you can see the monster then the monster can see you

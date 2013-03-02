@@ -92,8 +92,18 @@ game.setup=function()
 	darkness.setup()
 	floaters.setup()
 
-	beep.play("start")
+--	beep.play("start")
 
+
+	local qq=cake.sounds.queues[1]
+	if not qq.oggs then
+		qq.ogg_loop=true
+		qq.state="play_queue"
+		qq.oggs={"oggs/hum"}
+	end
+	qq.gain=0.75
+	qq.pitch=1
+	
 	game.time=0
 end
 

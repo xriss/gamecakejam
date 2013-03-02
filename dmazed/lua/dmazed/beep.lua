@@ -21,10 +21,22 @@ M.bake=function(oven,beep)
 
 	local ids={
 	
---[[
-		["squash"]={
-			name="sfx/squash1",
+		["heartbeat"]={
+			name="oggs/heart",
 		},
+		["death1"]={
+			name="oggs/death1",
+		},
+		["death2"]={
+			name="oggs/death2",
+		},
+		["death3"]={
+			name="oggs/death3",
+		},
+		["death4"]={
+			name="oggs/death4",
+		},
+--[[
 		["die"]={
 			name="sfx/diehunted",
 		},
