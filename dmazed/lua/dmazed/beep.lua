@@ -24,6 +24,9 @@ M.bake=function(oven,beep)
 		["heartbeat"]={
 			name="oggs/heart",
 		},
+		["munch"]={
+			name="oggs/munch",
+		},
 		["death1"]={
 			name="oggs/death1",
 		},
