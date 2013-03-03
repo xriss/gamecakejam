@@ -519,9 +519,10 @@ cells.draw=function()
 		if b.item>0 then
 			local x=48+(b.x-1)*48
 			local y=48+(b.y-1)*48
+			local f=math.sin( (-b.x-b.y)*(math.pi/4) - game.time*math.pi*(1/64) )*3
 			local s=1
 			if b.item==4 or b.item==5 then s=1.5 end
-			sheet:draw(b.item,x,y,nil,24*s,24*s)
+			sheet:draw(b.item,x,y+f,nil,24*s,24*s)
 		end
 	end
 

@@ -229,7 +229,7 @@ end
 
 intermission.draw=function()
 
-	layout.viewport()
+--	layout.viewport()
 	
 --	sheets.get(intermission.back):draw(1,240,240,nil,480,480)
 	
