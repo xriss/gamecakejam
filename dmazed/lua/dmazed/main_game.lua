@@ -95,15 +95,7 @@ game.setup=function()
 --	beep.play("start")
 
 
-	local qq=cake.sounds.queues[1]
-	if not qq.oggs then
-		qq.ogg_loop=true
-		qq.state="play_queue"
-		qq.oggs={"oggs/hum"}
-	end
-	qq.gain=1
-	qq.pitch=1
-	cake.sounds.queues[2].gain=0
+	beep.stream("game")
 	
 	game.time=0
 end

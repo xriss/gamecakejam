@@ -34,6 +34,8 @@ M.bake=function(oven,main)
 	wscores.setup(1)
 
 	local beep=oven.rebake("dmazed.beep")
+	
+	main.level=0
 
 main.loads=function()
 
@@ -75,11 +77,13 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
---	print(opts[2])
-	if opts[2]=="game" then
-		main.next=oven.rebake("dmazed.main_game")
-	else
-		main.next=oven.rebake("dmazed.main_menu")
+	main.next=oven.rebake("dmazed.main_menu")
+	for i,v in ipairs(opts) do
+		if v=="intermission" then
+			main.next=oven.rebake("dmazed.main_intermission")
+		elseif v=="game" then
+			main.next=oven.rebake("dmazed.main_game")
+		end
 	end
 	main.change()
 end

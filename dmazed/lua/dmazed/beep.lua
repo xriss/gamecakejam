@@ -145,5 +145,47 @@ M.bake=function(oven,beep)
 	
 	end
 
+	function beep.stream(name)
+	
+		local q1=cake.sounds.queues[1]
+		local q2=cake.sounds.queues[2]
+
+		local function default()
+		
+			q1.ogg_loop=true
+			q1.state="play_queue"
+			q1.oggs={"oggs/hum"}
+			q1.gain=0
+			q1.pitch=1
+
+			q2.ogg_loop=true
+			q2.state="play_queue"
+			q2.oggs={"oggs/bearsong"}
+			q2.gain=0
+			q2.pitch=1
+			
+		end
+		
+		if name=="menu" then
+
+			default()
+			q1.gain=0
+			q2.gain=1
+
+		elseif name=="game" then
+
+			default()
+			q1.gain=1
+			q2.gain=0
+
+		elseif name=="intermission" then
+
+			q1.gain=0
+			q2.gain=0
+			
+		end
+
+	end
+
 	return beep
 end

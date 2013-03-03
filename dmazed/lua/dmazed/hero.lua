@@ -81,6 +81,7 @@ if hero.state=="start" then
 	hero.viewbase=hero.viewbase*1.1
 	if hero.viewbase>100 then
 		hero.state="live"
+--		hero.state="exit"
 		beep.play("heartbeat")
 	end
 
@@ -109,7 +110,11 @@ elseif hero.state=="exit" then
 --	hero.rotate=hero.rotate+5
 
 	if hero.gone==100 then
-		main.next=game
+		if main.level%4 == 0 then
+			main.next=oven.rebake("dmazed.main_intermission")
+		else
+			main.next=game
+		end
 	end
 
 elseif hero.state=="live" then
