@@ -17,6 +17,7 @@ M.bake=function(oven,main)
 	local canvas=cake.canvas
 	local sheets=cake.sheets
 	local layout=cake.layouts.create{}
+	main.layout=layout
 	
 	local font=canvas.font
 	local flat=canvas.flat

@@ -463,6 +463,11 @@ cells.draw_into_texture=function()
 
 	if not cells.fbo.texture then -- build our texture (happens after any stop/start)
 
+		gl.MatrixMode(gl.PROJECTION)
+		gl.PushMatrix()
+		gl.MatrixMode(gl.MODELVIEW)
+		gl.PushMatrix()
+
 		cells.fbo:resize(512,512,0)
 		local layout=cake.layouts.create{parent={w=512,h=512,x=0,y=0}}
 		
@@ -482,6 +487,13 @@ cells.draw_into_texture=function()
 		cells.fbo:free_frame()
 		-- but keep the texture
 
+		gl.MatrixMode(gl.PROJECTION)
+		gl.PopMatrix()
+		gl.MatrixMode(gl.MODELVIEW)
+		gl.PopMatrix()
+		
+		main.layout.restore()
+
 	end
 	
 end
@@ -497,6 +509,8 @@ cells.draw=function()
 		0,		480,	0,		0,	0,
 		480,	480,	0,		1,	0,
 	})
+
+	cells.fbo:free_texture()
 
 --	cells.draw_walls()
 

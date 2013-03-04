@@ -26,6 +26,7 @@ M.bake=function(oven,monster)
 	local menu=oven.rebake("dmazed.main_menu")
 	local game=oven.rebake("dmazed.main_game")
 	local hero=oven.rebake("dmazed.hero")
+	local talkers=oven.rebake("dmazed.talkers")
 		
 	local beep=oven.rebake("dmazed.beep")
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -63,12 +64,25 @@ monster.setup=function()
 	monster.rotate=0
 	monster.anim=0
 	monster.size=1
+	monster.sayit=1
 	
 end
 
 monster.clean=function()
 end
 
+
+local sayit={
+	"I'm the bear.",
+	"The bounty bear.",
+	"I find them here.",
+	"I find them there.",
+	"I can find them..",
+	"...anywhere.",
+	"Searching.",
+	"Searching..",
+	"Searching...",
+}
 	
 monster.update=function()
 
@@ -80,6 +94,21 @@ if hero.state=="live" then
 		local count=0
 		for i,v in pairs( monster.block.links ) do count=count+1 end
 		if count>2 then -- stop and think at crossroads
+
+			if monster.think==monster.thinktime then -- first tick
+				if #talkers.tab==0 then
+					talkers.add{
+						anchor=monster,
+						px=monster.px-1,
+						py=monster.py-96,
+						length=96,
+						str=sayit[monster.sayit],
+						}
+					monster.sayit=monster.sayit+1
+					if monster.sayit > #sayit then monster.sayit=1 end
+				end
+			end
+
 			monster.think=monster.think-1
 			monster.move=nil
 		else
@@ -163,6 +192,7 @@ if hero.state=="live" then
 	else
 		monster.anim=0
 	end
+	
 	
 	if monster.lastmove.vx<0 and monster.x<=-48 and monster.block.links[1] then
 		monster.x=monster.x+48
