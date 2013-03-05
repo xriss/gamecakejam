@@ -82,6 +82,7 @@ local sayit={
 	"Searching.",
 	"Searching..",
 	"Searching...",
+	"Give me a minute.",
 }
 	
 monster.update=function()

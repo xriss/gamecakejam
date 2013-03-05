@@ -472,14 +472,12 @@ cells.draw_into_texture=function()
 		local layout=cake.layouts.create{parent={w=512,h=512,x=0,y=0}}
 		
 		fbs.bind_frame(cells.fbo)
-		layout.setup(480,480,1/4,480*4)
+		layout.apply(480,480,1/4,480*4)
 		
 		gl.ClearColor(pack.argb4_pmf4(0x0000))
 		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 		
 		cells.draw_walls()
-
-		layout.clean()
 
 		fbs.bind_frame(nil)
 		
@@ -510,7 +508,7 @@ cells.draw=function()
 		480,	480,	0,		1,	0,
 	})
 
-	cells.fbo:free_texture()
+--	cells.fbo:free_texture()
 
 --	cells.draw_walls()
 

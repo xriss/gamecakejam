@@ -66,6 +66,8 @@ void main()
 	]]
 }
 
+--gles2 has rather limited numbers, not sure how to handle a simple noise function...
+--so turing it off for now :(
 		gl.shaders.dmazed_f_darkness={
 		source=gl.defines.shaderprefix..[[
 
@@ -76,31 +78,14 @@ uniform vec4 center;
 varying vec2  v_texcoord;
 varying vec4  v_color;
 
-float noise( in float n )
-{
-    return fract(cos(n)*43758.5453123);
-}
-
-float noise3( in vec3 p )
-{
-    return noise(p.x + p.y*57.0 + 113.0*p.z);
-}
-
 void main(void)
 {
-	vec2  dd;
-	float w;
-	float w2=center.w*center.w*(1.0/256.0);
-	float t=center.z*(1.0/64.0);
-	float n=( noise( v_texcoord.x*v_texcoord.y*t ) - noise( v_texcoord.y*t ) ) *(1.0/16.0);
-	float a;
-	
-	dd=v_texcoord.xy-center.xy;
-	
-	w=dd.x*dd.x*(1.0/256.0) + dd.y*dd.y*(1.0/256.0) ;
-	a=clamp((w-n)/w2,0.0,1.0);
-	
-	gl_FragColor=v_color*n*a ;
+	float w2=center.w*(1.0/512.0); w2*=w2;
+	vec2 dd=v_texcoord.xy-center.xy;
+	float wx=(dd.x*(1.0/512.0)); wx*=wx;
+	float wy=(dd.y*(1.0/512.0)); wy*=wy;
+	float a=clamp(((wx+wy)/w2),0.0,1.0);
+	gl_FragColor=v_color*a ;
 	gl_FragColor.a=a;
 }
 
@@ -108,6 +93,28 @@ void main(void)
 }
 
 --[[
+
+float noise( in float n )
+{
+    return fract(sin(n*1024.0));
+}
+
+void main(void)
+{
+	float w2=center.w*(1.0/512.0); w2*=w2;
+	float t=fract(center.z*(1.0/321.0));
+	float x=fract(v_texcoord.x*(1.0/512.0));
+	float y=fract(v_texcoord.y*(1.0/512.0));
+	float n=noise(x+y+t) - noise( (y+t) ) ;
+	vec2 dd=v_texcoord.xy-center.xy;
+	float wx=(dd.x*(1.0/512.0)); wx*=wx;
+	float wy=(dd.y*(1.0/512.0)); wy*=wy;
+	float a=clamp(((wx+wy)/w2)-n,0.0,1.0);
+	
+	gl_FragColor=v_color*n*a ;
+	gl_FragColor.a=a;
+}
+
 
 
 float noise( in float n )
@@ -185,7 +192,8 @@ darkness.draw=function()
 
 	gl.UniformMatrix4f(p:uniform("modelview"), gl.matrix(gl.MODELVIEW) )
 	gl.UniformMatrix4f(p:uniform("projection"), gl.matrix(gl.PROJECTION) )
-	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
+--	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
+	gl.Uniform4f( p:uniform("color"), 0,0,0,1 )
 
 	gl.Uniform4f( p:uniform("center"), hero.px,hero.py,game.time,hero.view )
 
