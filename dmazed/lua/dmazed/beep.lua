@@ -180,7 +180,12 @@ M.bake=function(oven,beep)
 
 		elseif name=="intermission" then
 
-			q1.gain=0
+			q1.ogg_loop=true
+			q1.state="play_queue"
+			q1.oggs={"oggs/intermission"}
+			q1.gain=1
+			q1.pitch=1
+
 			q2.gain=0
 			
 		end

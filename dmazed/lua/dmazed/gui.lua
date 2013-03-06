@@ -10,6 +10,8 @@ local pack=require("wetgenes.pack")
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
+local brag="I just ate over {score} pixels dodging the bear in #DmazeD #PLAY #THE #GAME! http://play.4lfa.com/gamecake/dmazed {check}"
+
 
 M.bake=function(oven,gui)
 
@@ -49,7 +51,7 @@ print(act,w.id)
 				main.level=0
 				main.herospeed=0
 				main.next=oven.rebake("dmazed.main_game")
-			elseif w.id=="settings" then
+			elseif w.id=="menu" then
 				gui.spage("settings")
 			elseif w.id=="profiles" then
 				gui.spage("profiles")
@@ -77,7 +79,7 @@ print(act,w.id)
 		top:add({sx=480,sy=20})
 
 		top:add({sx=20,sy=40})
-		top:add({sx=200,sy=40,color=0xffcccccc,text="Settings",id="settings",hooks=gui.hooks})
+		top:add({sx=200,sy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
 		top:add({sx=40,sy=40})
 		top:add({sx=200,sy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
 		top:add({sx=20,sy=40})
