@@ -29,7 +29,6 @@ M.bake=function(oven,hero)
 	local beep=oven.rebake("dmazed.beep")
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
-	local wgui=oven.rebake("wetgenes.gamecake.spew.gui")
 	local gui=oven.rebake("dmazed.gui")
 
 	local floaters=oven.rebake("dmazed.floaters")
@@ -97,7 +96,7 @@ elseif hero.state=="die" then
 		main.next=menu
 		gui.page()
 		gui.next="menu"
-		wgui.page("score")
+		gui.spage("score")
 	end
 
 elseif hero.state=="exit" then
@@ -130,20 +129,22 @@ elseif hero.state=="live" then
 
 -- slowly restore the huming sound if it has been hushed
 	
-		local q1=cake.sounds.queues[1] -- girl
-		local q2=cake.sounds.queues[2] -- bear
-		local g=q1.gain
-		if g<1 then g=g+0.01 end
-		if g>1 then g=1 end
-		q1.gain=g
+		if not cake.sounds.disabled then
+			local q1=cake.sounds.queues[1] -- girl
+			local q2=cake.sounds.queues[2] -- bear
+			local g=q1.gain
+			if g<1 then g=g+0.01 end
+			if g>1 then g=1 end
+			q1.gain=g
 
 -- adjust bear sound depending on how close
 
-		if q1.gain>(1-hero.fear) then q1.gain=1-hero.fear end
-		q2.gain=hero.fear
-		q2.pitch=1+(monster.speed-2)
-		if q2.pitch>3 then q2.pitch=3 end  -- max (level 20)
-
+			if q1.gain>(1-hero.fear) then q1.gain=1-hero.fear end
+			q2.gain=hero.fear
+			q2.pitch=1+(monster.speed-2)
+			if q2.pitch>3 then q2.pitch=3 end  -- max (level 20)
+		end
+		
 	end
 
 

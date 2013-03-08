@@ -129,23 +129,30 @@ M.bake=function(oven,beep)
 	end
 
 	function beep.play(id,gain,pitch)
+
+		if cake.sounds.disabled then return end -- disabled
+
 		local t=beep.lookup(id)
 		
 		if t then
-			t.buff=sounds.get(t.name).buff -- update buffer id
-			local n=t
-			if gain or pitch then -- tempory adjust
-				n={} for i,v in pairs(t) do n[i]=v end
-				n.gain=gain or n.gain
-				n.pitch=pitch or n.pitch
+			local snd=sounds.get(t.name)
+			if snd then
+				t.buff=snd.buff -- update buffer id
+				local n=t
+				if gain or pitch then -- tempory adjust
+					n={} for i,v in pairs(t) do n[i]=v end
+					n.gain=gain or n.gain
+					n.pitch=pitch or n.pitch
+				end
+				sounds.beep(n)
 			end
-			sounds.beep(n)
-		
 		end
 	
 	end
 
 	function beep.stream(name)
+	
+		if cake.sounds.disabled then return end -- disabled
 	
 		local q1=cake.sounds.queues[1]
 		local q2=cake.sounds.queues[2]
