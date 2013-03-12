@@ -33,20 +33,21 @@ function M.bake(opts)
 		return ret
 	end
 
-	function basket.preheat()
-
+	function basket.preheat(p)
+		p=p or {}
+		
 		basket.canvas=basket.rebake("yarn.canvas")
 		basket.levels=basket.rebake("yarn.levels")
 		
-		basket.level=basket.rebake("yarn.levels").get("level")
+		basket.level=basket.rebake("yarn.levels").get(p.levelname or "level")
 		basket.player=basket.rebake("yarn.items").get("player")
 		basket.menu=basket.rebake("yarn.menu")
 
-		basket.level.setup({})
+		basket.level.setup(p.levelopts or {})
+
 		basket.player.set_cell(basket.level.rand_room_cell())
-		
-	
-		basket.menu.show_player_menu(basket.player)
+
+--		basket.menu.show_player_menu(basket.player)
 
 		return basket
 	end

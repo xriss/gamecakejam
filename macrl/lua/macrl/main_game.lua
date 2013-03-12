@@ -68,6 +68,8 @@ game.draw=function()
 	gl.Color(pack.argb4_pmf4(0xf5f5))
 	gl.Color(pack.argb4_pmf4(0xf0a0))
 
+	gl.Color(pack.argb4_pmf4(0xffff))
+
 	font.set(cake.fonts.get(1))
 	font.set(cake.fonts.get("Vera")) -- may fail, if so it will not change nothing
 
@@ -84,14 +86,28 @@ game.draw=function()
 				local v=basket.level.cells[i]
 				local f
 				if v then
-					v.image(t) -- writes into t
+					v.img(t) -- writes into t
 
-					if t.asc==yarn_ascii.hash then
+					if t.img=="colson" then
+						f=4
+					elseif t.img=="burke" then
+						f=4
+					elseif t.img=="gantner" then
+						f=4
+					elseif t.img=="tech1" then
+						f=4
+					elseif t.img=="tech2" then
+						f=4
+					elseif t.img=="tech3" then
+						f=4
+					elseif t.img=="console" then
+						f=9
+					elseif t.asc==yarn_ascii.hash then
 						f=2
 					elseif t.asc==yarn_ascii.dot then
 						f=3
 					elseif t.asc==yarn_ascii.at then
-						f=4
+						f=20
 					end
 					
 					if f then

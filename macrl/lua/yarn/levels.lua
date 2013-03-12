@@ -15,7 +15,7 @@ M.bake=function(basket,levels)
 	local yarn_map  =basket.rebake("yarn.map")
 	local yarn_rooms=basket.rebake("yarn.rooms")
 	local yarn_cells=basket.rebake("yarn.cells")
---	local yarn_items=basket.rebake("yarn.items")
+	local yarn_items=basket.rebake("yarn.items")
 	local yarn_attrs=basket.rebake("yarn.attrs")
 
 
@@ -118,8 +118,8 @@ M.bake=function(basket,levels)
 			local item=yarn_items.create( at ,level)
 			level.items[item]=true -- everything lives in items list
 			
-			for i,v in pairs(item.can) do -- every item puts its can functions in the levels can table
-				level.can[i]=v
+			for i,v in pairs(item.is.can) do -- every item puts its can functions in the levels can table
+				level.is.can[i]=v
 			end
 			-- this means we can easily add uniquely named can functions to a level using any item
 
@@ -224,7 +224,7 @@ M.bake=function(basket,levels)
 
 
 		-- set opts using rooms,this is where most of the brainwork happens	
-			level.opts=yarn_attrs.get(level.is.name,level.is.pow)
+			level.opts=basket.call.get_map(level.is.name,level.is.pow)
 			level.flags=level.opts.flags -- these are importatn level state and should be saved
 			level.opts.xh=level.xh
 			level.opts.yh=level.yh
@@ -244,6 +244,7 @@ M.bake=function(basket,levels)
 		-- find link door locations	
 			for i,v in ipairs(level.rooms) do v.find_doors() end
 		
+--print(wstr.dump(level.rooms))
 		-- fill in cells
 			for i,r in ipairs(level.rooms) do
 				if r.opts then -- special?
@@ -253,33 +254,35 @@ M.bake=function(basket,levels)
 						for x=1,#v do
 							local n=v[x]
 							
-							if n=="space" then -- do nothing
-							else
-								local c=get_cell(r.xp+x-1,r.yp+y-1)
---								if r.opts.callback then
---									r.opts.callback({call="cell",cell=c,name=n,room=r})
---								end
-							end
+--							if n=="floor" then -- do nothing
+--								local c=level.get_cell(r.xp+x-1,r.yp+y-1)
+--								c.is.set.name("floor")
+--							else
+								local c=level.get_cell(r.xp+x-1,r.yp+y-1)
+								if r.opts.callback then
+									r.opts.callback({call="cell",cell=c,name=n,room=r,level=level})
+								end
+--							end
 						end
 					end
---					if r.opts.callback then
---						r.opts.callback({call="room",room=r})
---					end
+					if r.opts.callback then
+						r.opts.callback({call="room",room=r,level=level})
+					end
 				end
 			end
 			
---[[
+
 			if level.opts.bigroom then
 
-				for y=0,yh-1 do
-					for x=0,xh-1 do
-						local i=x+y*xh
+				for y=0,level.yh-1 do
+					for x=0,level.xh-1 do
+						local i=x+y*level.xh
 						local cell=level.cells[i]
-						if level.map.room_find(x,y)==map.bigroom then
-							cell.set.name("floor")
+						if level.build.room_find(x,y)==level.build.bigroom then
+							cell.is.set.name("floor")
 							cell.is.set.visible(true)
 						end
-						if y==0 or y==yh-1 or x==0 or x==xh-1 then
+						if y==0 or y==level.yh-1 or x==0 or x==level.xh-1 then
 							cell.is.set.visible(true)
 						end
 					end
@@ -297,7 +300,7 @@ M.bake=function(basket,levels)
 					end
 				end
 			end
-]]
+
 			return level
 		end
 		

@@ -1,6 +1,8 @@
 -- copy all globals into locals, some locals are prefixed with a G to reduce name clashes
 local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,Gload,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require=coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require
 
+local wstr=require("wetgenes.string")
+
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
@@ -26,33 +28,27 @@ add_item{
 	name="level",
 	desc="level {pow}",
 	addjunk={
-		["wood_chair"]=0.5,
-		["wood_plank"]=0.5,
-		["wood_fag"]=0.5,
-		["wood_log"]=0.5,
-		["pointy_stick"]=0.5,
+--		["wood_chair"]=0.5,
+--		["wood_plank"]=0.5,
+--		["wood_fag"]=0.5,
+--		["wood_log"]=0.5,
+--		["pointy_stick"]=0.5,
 	}
 }
+
 add_item{
-	name="level.home",
-	desc="Home level {pow}",
-}
-add_item{
-	name="level.town",
-	desc="Town level {pow}",
-}
-add_item{
-	name="level.dump",
-	desc="Dump level {pow}",
+	name="level.control",
+	desc="The control room.",
 }
 
 end
 
 
 function levels.callback(d) -- default callback when building maps
+--print("callback",wstr.dump(d))
 	if d.call=="cell" then
 	
-		for _,n in ipairs(yarn_attr.keys_name_and_subnames(d.name)) do
+		for _,n in ipairs(yarn_attrs.keys_name_and_subnames(d.name)) do
 		
 			d.level.cellfind[n]=d.cell -- last generated cell of this type
 			
@@ -64,7 +60,9 @@ function levels.callback(d) -- default callback when building maps
 		
 		local at
 		if d.name=="wall" then
-			d.cell.set.name("wall")
+			d.cell.is.set.name("wall")
+		elseif d.name=="floor" then
+			d.cell.is.set.name("floor")
 		else
 			at=yarn_attrs.get(d.name)
 		end
@@ -177,7 +175,7 @@ end
 -----------------------------------------------------------------------------
 function levels.get_map(name,pow)
 
-	local aa=strings.split(name,"%.")
+	local aa=wstr.split(name,"%.")
 	
 	if #aa>1 then -- must be two parts or more
 		local p=tonumber(aa[#aa]) -- the last bit may be a number
@@ -195,7 +193,7 @@ function levels.get_map(name,pow)
 	function opts.add_room(s)
 		local r=maps.get_room(s)
 		opts.rooms[#opts.rooms+1]=r
-		r.callback=callback
+		r.callback=levels.callback
 		return r
 	end
 	local add_room=opts.add_room
@@ -203,61 +201,26 @@ function levels.get_map(name,pow)
 
 --default generation	
 	opts.generate=function(level)
-		levels.generate_player(level)
-		levels.generate_ants(level)
-		levels.generate_blobs(level)
+--		levels.generate_player(level)
+--		levels.generate_ants(level)
+--		levels.generate_blobs(level)
 	end
 	
 	local r
-	if pow==0 then -- level 0 is always town no matter what the name
+--print("check level",name)
+	if name=="level.control" then
 	
-		r=add_room("home_stairs")
-		r=add_room("dump_stairs")
-		r=add_room("test_stairs")
-		r=add_room("redroom")
+		r=add_room("control")
+		r=add_room("shaft")
+		r=add_room("entrance")
 				
 		opts.mode="town"
 		opts.only_these_rooms=true
 
 		opts.generate=function(level)
-			levels.generate_player_bystairs(level)
-			levels.generate_junk(level)
+--			levels.generate_player_bystairs(level)
+--			levels.generate_junk(level)
 		end
-	
-	elseif name=="level.home" then
-	
-		r=add_room("home_stairs")
-		r=add_room("home_bedroom")
-		r=add_room("home_mainroom")
-		
-		opts.generate=function(level)
-				
-			if level.soul.capsule_done then
-				levels.generate_player_bystairs(level)
-			else
-				levels.generate_player(level)
-			end
-			
-			levels.generate_junk(level)
-
-			level.soul.capsule_done=true
-
-		end
-		
-		
-	elseif name=="level.dump" then
-
-		r=add_room("dump_stairs")
-
-			opts.generate=function(level)
-			
-				levels.generate_player(level)
-				levels.generate_ants(level)
-				levels.generate_blobs(level)
-				
-				levels.generate_junk(level)
-				
-			end
 	
 	else
 

@@ -46,6 +46,81 @@ a{
 	
 }
 
+a{
+	name="control",
+	desc="a fat controler",
+	asc=ascii("C"),
+	form="char",
+	hp=100,
+	
+	wheel=0,
+	dam_min=1,
+	dam_max=2,
+	def_add=0,
+	def_mul=1,
+	
+--	can=
+--	{
+--		fight=true,
+--		loot=true,
+--		make_room_visible=true,
+--		operate=true,
+--	},
+	
+}
+
+a{
+	name="control.colson",
+	desc="a fat balding controler",
+	img="colson",
+	asc=ascii("C"),
+	form="char",
+}
+a{
+	name="control.burke",
+	desc="a moustache in a suit",
+	img="burke",
+	asc=ascii("B"),
+	form="char",
+}
+a{
+	name="control.gantner",
+	desc="an old man in a suit",
+	img="gantner",
+	asc=ascii("G"),
+	form="char",
+}
+
+a{
+	name="control.tech1",
+	desc="a fat balding technician",
+	img="tech1",
+	asc=ascii("X"),
+	form="char",
+}
+a{
+	name="control.tech2",
+	desc="a short hairy technician",
+	img="tech2",
+	asc=ascii("Y"),
+	form="char",
+}
+a{
+	name="control.tech3",
+	desc="a tall skinny technician",
+	img="tech3",
+	asc=ascii("Z"),
+	form="char",
+}
+
+a{
+	name="console",
+	desc="an keyboard and CRT",
+	img="console",
+	asc=ascii("="),
+	form="char",
+}
+
 end
 
 	return items

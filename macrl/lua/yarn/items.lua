@@ -98,12 +98,13 @@ M.bake=function(basket,items)
 			end
 		end
 
-		function item.image(t)
+		function item.img(t)
 			t=t or {}
-			local image=item.is.image
-			if image then -- image is always smart
-				image(item,t) -- expect to always set t.asc and t.img
+			local img=item.is.img
+			if type(img)=="function" then
+				img(item,t) -- expect to always set t.asc and t.img
 			else
+				t.img=img -- may be nil
 				t.asc=item.asc()
 				return t
 			end
@@ -157,21 +158,21 @@ M.bake=function(basket,items)
 				local char=c.get_char()
 
 				if char then -- interact with another char?
-					if char.can.use and can.operate then
+					if char.is.can.use and item.is.can.operate then
 
-						local usename=char.can.use
+						local usename=char.is.can.use
 						
-						if char.can[usename] then
-							char.can[usename](char , item )
+						if char.is.can[usename] then
+							char.is.can[usename](char , item )
 						elseif usename=="menu" then
-							if char.can.menu then
-								char.can.menu(char,item)
+							if char.is.can.menu then
+								char.is.can.menu(char,item)
 							else
 								basket.level.main.menu.show_item_menu(char)
 							end
 						end
 						
-					elseif char.can.fight and can.fight then
+					elseif char.is.can.fight and item.is.can.fight then
 					
 						if char.is.player or item.is.player then -- do not fight amongst selfs				
 							yarn_fight.hit(item,char)

@@ -37,7 +37,7 @@ print("yarn setup")
 	main.basket=require("yarn.basket").bake({})
 	main.basket.modgame=oven.modgame
 	main.basket.rebake(oven.modgame..".rules.code").setup()
-	main.basket.preheat()
+	main.basket.preheat({levelname="level.control"})
 
 
 --	main.page="menu"

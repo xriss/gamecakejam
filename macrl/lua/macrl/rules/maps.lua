@@ -1,6 +1,8 @@
 -- copy all globals into locals, some locals are prefixed with a G to reduce name clashes
 local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,Gload,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require=coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require
 
+local wstr=require("wetgenes.string")
+
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
@@ -45,8 +47,8 @@ function maps.string_to_room(s,key)
 
 	local r={}
 
-	local lines=strings.split_lines(s)
-	for i,v in ipairs(lines) do lines[i]=strings.trim(v).." " end -- trim, but add space back on end
+	local lines=wstr.split_lines(s)
+	for i,v in ipairs(lines) do lines[i]=wstr.trim(v).." " end -- trim, but add space back on end
 	
 	local xh=0
 	for i,v in ipairs(lines) do if #v>xh then xh=#v end end -- find maximum line length
@@ -103,7 +105,7 @@ end
 -- basic key, every map string uses this by default and then adds more or overides
 keys.base={
 	["# "]="wall",
-	[". "]="space",
+	[". "]="floor",
 	["- "]="item_spawn",
 	["= "]="bigitem_spawn",
 	["@ "]="player_spawn",
@@ -142,114 +144,45 @@ room("bigroom",[[
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ]])
 
-room("pub",[[
-# # # # # # # #
-# . . . . . . #
-# . = = = = . #
-# . = = = = . #
-# . . . . . . #
-# # # # # # # #
-]])
 
-room("bank",[[
-# # # # # #
-# . . . . #
-# . = = . #
-# . = = . #
-# . . . . #
-# # # # # #
-]])
-
-room("shop",[[
-# # # # # #
-# . . . . #
-# . = = . #
-# . = = . #
-# . = = . #
-# . = = . #
-# . . . . #
-# # # # # #
-]])
-
-room("hotel",[[
-# # # # # # #
-# . . . . . #
-# . = = = . #
-# . = = = . #
-# . = = = . #
-# . . . . . #
-# # # # # # #
-]])
-
-
-room("home_bedroom",[[
+room("control",[[
 # # # # # # # # # #
 # . . . . . . . . #
-# . # # # # # # . #
-# . # =1@ . . =2. #
-# . # # # # # # . #
+# . @1. @2. @3. . #
+# . . . . . . . . #
+# . @4. @5. @6. . #
+# . = = = = = = . #
 # . . . . . . . . #
 # # # # # # # # # #
 ]],{
-	["=1"]="cryo_bed",
-	["=2"]="cryo_door",
+	["@1"]="control.colson",
+	["@2"]="control.burke",
+	["@3"]="control.gantner",
+	["@4"]="control.tech1",
+	["@5"]="control.tech2",
+	["@6"]="control.tech3",
+	["= "]="console",
 })
 
-room("home_mainroom",[[
-# # # # # # # # # #
-# . . . . . . . . #
-# . = = . . = = . #
-# . = = . . = = . #
-# . = = . . = = . #
-# . = = . . = = . #
-# . . . . . . . . #
-# # # # # # # # # #
-]])
-
-room("home_stairs",[[
-# # # # # # #
-# . . . . . #
-# . # # # . #
-# . . < # . #
-# . # # # . #
-# . . . . . #
-# # # # # # #
-]],{
-	["< "]="stairs.home",
-})
-
-room("dump_stairs",[[
-# # # # # #
-# . . . . #
-# . < @1. #
-# . . . . #
-# # # # # #
-]],{   
-	["< "]="stairs.dump",
-	["@1"]="sensei.dump",
-})
-
-
-
-room("stairs",[[
+room("shaft",[[
 # # # # #
 # . . . #
-# . < . #
+# . = . #
 # . . . #
 # # # # #
 ]],{
-	["< "]="stairs",
+	["= "]="lift_vent",
 })
 
-room("redroom",[[
-# # # # # #
-# . . . . #
-# . @1@2. #
-# . . . . #
-# # # # # #
+room("entrance",[[
+. . . . .
+. . . . .
+. . = @ .
+. . . . .
+. . . . .
 ]],{
-	["@1"]="sensei.twin1",
-	["@2"]="sensei.twin2",
+	["= "]="helipad",
+	["@ "]="spawn",
 })
 
 	return maps

@@ -492,7 +492,7 @@ M.bake=function(basket,map)
 		if opts.rooms then
 			for i,v in ipairs(opts.rooms) do
 				if not gotroom[v] then
-					return build_map(opts) -- try again
+					return map.build(opts) -- try again
 				end
 			end
 		end

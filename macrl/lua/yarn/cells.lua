@@ -28,6 +28,7 @@ M.bake=function(basket,cells)
 		
 		cell.is.set.name("wall")
 		cell.is.set.visible(false)
+--		cell.is.set.visible(true)
 		
 		function cell.neighbours()
 			local n_x_look={  0 , -1 , 1 , 0 }
@@ -105,55 +106,55 @@ M.bake=function(basket,cells)
 			return yarn_ascii.hash
 		end
 
-		local function image_dark(t)
+		local function img_dark(t)
 			t.img="dark"
 			t.asc=yarn_ascii.space
 			return t
 		end
-		local function image_empty(t)
-			t.img="empty"
+		local function img_floor(t)
+			t.img="floor"
 			t.asc=yarn_ascii.dot
 			return t
 		end
-		local function image_wall(t)
+		local function img_wall(t)
 			t.img="wall"
 			t.asc=yarn_ascii.hash
 			return t
 		end
 
-		function cell.image(t)
+		function cell.img(t)
 			t=t or {}
 
 			if not cell.is.get.visible() then
-				return image_dark(t)
+				return img_dark(t)
 			end
 			
 			local char=cell.get_char()
 			local item=cell.get_item()
 			
 			if char then
-				return char.image(t)
+				return char.img(t)
 			end
 			
 			if item then
-				return item.image(t)
+				return item.img(t)
 			end
 			
-			if cell.is.image then -- image is always smart
-				return cell.is.image(cell,t) -- expect to always set t.asc and t.img
-			elseif cell.is.asc then
-				t.img=nil
+			if type(cell.is.img)=="function" then
+				return cell.is.img(cell,t) -- expect to always set t.asc and t.img
+			else
+				t.img=cell.img
 				t.asc=cell.asc()
 				return t
 			end
 			
 			if cell.is.name=="wall" then -- some cells are just walls
-				return image_wall(t)
+				return img_wall(t)
 			else
-				return image_empty(t)
+				return img_floor(t)
 			end
 				
-			return image_dark(t)
+			return img_dark(t)
 		end
 
 	-- create a save state for this data
