@@ -1,0 +1,131 @@
+-- copy all globals into locals, some locals are prefixed with a G to reduce name clashes
+local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,Gload,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require=coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require
+
+
+local function print(...) _G.print(...) end
+
+local wstr=require("wetgenes.string")
+local pack=require("wetgenes.pack")
+
+--module
+local M={ modname=(...) } ; package.loaded[M.modname]=M
+
+local brag="I just ate over {score} pixels dodging the bear in #DmazeD #PLAY #THE #GAME! https://play.google.com/store/apps/details?id=com.wetgenes.dmazed"
+
+
+M.bake=function(oven,gui)
+
+	gui=gui or {} 
+	gui.modname=M.modname
+
+	gui.pages={} -- put functions to fill in pages in here
+	
+
+	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
+	local sprofiles=oven.rebake("wetgenes.gamecake.spew.profiles")
+	local ssettings=oven.rebake("wetgenes.gamecake.spew.settings")
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
+
+--	local beep=oven.rebake(oven.modgame..".beep")
+	local main=oven.rebake(oven.modgame..".main")
+
+
+	function gui.setup()
+	
+		gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
+	
+		gui.page()
+	end
+	
+	function gui.hooks(act,w)
+	
+print(act,w.id)
+		
+		if act=="click" then
+			if w.id=="start" then
+				sscores.set(0)
+				main.next=oven.rebake(oven.modgame..".main_game")
+			elseif w.id=="menu" then
+				gui.spage("settings")
+			elseif w.id=="profiles" then
+				gui.spage("profiles")
+			end
+		end
+		
+	end
+
+	
+	function gui.pages.settings_game(master)
+		gui.pages.menu(master)
+	end
+	
+	function gui.pages.menu(master)
+
+		local top=master:add({hx=640,hy=480,mx=640,my=480,class="flow",ax=0,ay=0,font="Vera",text_size=24})
+
+		top:add({sx=640,sy=360})
+		
+		top:add({sx=40,sy=40})
+		top:add({sx=180,sy=40,color=0xffcccccc,text="Hello",style="indent"})
+		top:add({sx=380,sy=40,color=0xffcccccc,text=sprofiles.get("name"),id="profiles",hooks=gui.hooks})
+		top:add({sx=40,sy=40})
+
+		top:add({sx=640,sy=20})
+
+		top:add({sx=20,sy=40})
+		top:add({sx=280,sy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({sx=40,sy=40})
+		top:add({sx=280,sy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({sx=20,sy=40})
+
+		top:add({sx=640,sy=20})
+		
+	end
+
+	function gui.page(pname)
+		local ret=false
+
+		gui.master:clean_all()
+		
+		if pname then
+			local f=gui.pages[pname]
+			if f then
+				f(gui.master) -- pass in the master so we could fill up other widgets
+				ret=true
+			end
+		end
+
+		gui.master:layout()
+		
+		return ret
+	end
+
+	function gui.spage(pname)
+
+		sgui.strings.brag=brag
+
+		sgui.page_hook=gui.page
+		gui.page("menu")
+		sgui.page(pname)
+	end
+	
+
+	function gui.clean()
+		sgui.page_hook=nil
+		gui.master=nil	
+	end
+	
+	function gui.update()
+		gui.master:update()
+	end
+	
+	function gui.msg(m)
+		gui.master:msg(m)
+	end
+
+	function gui.draw()
+		gui.master:draw()		
+	end
+	
+	return gui
+end

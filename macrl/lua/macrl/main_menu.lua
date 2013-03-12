@@ -25,15 +25,14 @@ M.bake=function(oven,menu)
 	local gl=oven.gl
 	local sheets=cake.sheets
 	
-	local wgui=oven.rebake("wetgenes.gamecake.spew.gui")
+	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
 
-	local gui=oven.rebake("dmazed.gui")
-	local main=oven.rebake("dmazed.main")
-	local beep=oven.rebake("dmazed.beep")
+	local gui=oven.rebake(oven.modgame..".gui")
+	local main=oven.rebake(oven.modgame..".main")
+--	local beep=oven.rebake(oven.modgame..".beep")
 
-	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
-
-	local recaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local layout=cake.layouts.create{}
 
@@ -52,7 +51,7 @@ menu.setup=function()
 	gui.setup()
 	gui.page("menu")
 
-	beep.stream("menu")
+--	beep.stream("menu")
 
 end
 
@@ -66,8 +65,8 @@ menu.msg=function(m)
 
 --	print(wstr.dump(m))
 
-	if wgui.active then
-		wgui.msg(m)	
+	if sgui.active then
+		sgui.msg(m)	
 	else
 		gui.msg(m)
 	end
@@ -76,8 +75,8 @@ end
 
 menu.update=function()
 
-	if wgui.active then
-		wgui.update()	
+	if sgui.active then
+		sgui.update()	
 	else
 		gui.update()
 	end
@@ -86,18 +85,18 @@ end
 
 menu.draw=function()
 	
-	if wgui.active then
+	if sgui.active then
 
 		layout.viewport() -- clear clip area
 
 		gl.ClearColor(pack.argb4_pmf4(0xf004))
 		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
-		wgui.draw()	
+		sgui.draw()	
 	else
-		sheets.get(menu.back):draw(1,240,240,nil,480,480)
+--		sheets.get(menu.back):draw(1,240,240,nil,480,480)
 		
-		wscores.draw("arcade2")
+		sscores.draw("arcade2")
 
 		gui.draw()	
 	end
