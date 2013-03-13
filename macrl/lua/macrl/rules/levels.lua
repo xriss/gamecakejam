@@ -18,8 +18,6 @@ local rooms=basket.rebake(basket.modgame..".rules.rooms")
 
 function levels.setup()
 	basket.call.get_map=levels.get_map
-	basket.call.generate_player=levels.generate_player
-	basket.call.generate_player_bystairs=levels.generate_player_bystairs
 
 local add_item=code.add_item
 
@@ -45,6 +43,11 @@ end
 
 function levels.callback(d) -- default callback when building maps
 --print("callback",wstr.dump(d))
+
+	if d.call=="room" then
+--print(room,d)
+	end
+	
 	if d.call=="cell" then
 	
 		for _,n in ipairs(yarn_attrs.keys_name_and_subnames(d.name)) do
@@ -62,7 +65,7 @@ function levels.callback(d) -- default callback when building maps
 			d.cell.is.set.name("wall")
 		elseif d.name=="floor" then
 			d.cell.is.set.name("floor")
-		else
+		elseif d.name then
 			at=yarn_attrs.get(d.name)
 		end
 		if at then
@@ -72,104 +75,17 @@ function levels.callback(d) -- default callback when building maps
 			end
 		end
 	end
-end
-
-
-
-function levels.generate_player(level)
-	if level.flags.clean_slate then
-		level.player=level.new_item( "player" )
-	else
-		level.player=level.player or level.main.player or level.new_item( "player" )
-		level.main.player=level.player
-	end
-	level.main.player=level.player		
-	level.player.level=level
-	level.player.is.soul=level.main.soul -- we got soul
-	level.player.set_cell( level.cellfind["player_spawn"] or level.rand_room_cell({}) )
-end
-
-function levels.generate_player_bystairs(level)
-	if level.flags.clean_slate then
-		level.player=level.new_item( "player" )
-	else
-		level.player=level.player or level.main.player or level.new_item( "player" )
-		level.main.player=level.player
-	end
-	level.player.level=level
-	level.player.is.soul=level.main.soul -- we got soul
 	
-	local stairs
-	if level.soul.last_stairs then -- aim to stick to the same stairs
-		stairs=level.cellfind[level.soul.last_stairs]
-dbg("fond real stairs : "..tostring(stairs))
-	end
-	if not stairs then stairs=level.cellfind["stairs"] end
-	
-	if stairs then
-		for i,v in stairs.neighbours() do
-			if v.is_empty() then --empty so place palyer here
-				level.player.set_cell( v )
-				break
-			end
-		end
-	else -- if we got here then just pick a random place
-		level.player.set_cell( level.rand_room_cell({}) )
-	end
 end
-
-function levels.generate_ants(level)
-	for i=1,10 do
-		local c=level.rand_room_cell({})
-		if not c.char then
-			local p=level.new_item( "ant" )
-			p.set_cell( c )
-		end
-	end
-end
-
-function levels.generate_blobs(level)
-	for i=1,5 do
-		local c=level.rand_room_cell({})
-		if not c.char then
-			local p=level.new_item( "blob" )
-			p.set_cell( c )
-		end
-	end
-end
-
-function levels.generate_junk(level)
-
--- first count number of empty cells
-
-local empty_cells={}
-
-local add
-
-	for i=0,#level.cells do local v=level.cells[i]
-		if v.is_empty() then empty_cells[#empty_cells+1]=v end
-	end
-
-	for n,v in pairs(level.addjunk) do
-		local count=math.floor(#empty_cells * v/100)
-		if count>0 then
-			for i=1,count do
-				local idx=math.random(1,#empty_cells)
-				local c=table.remove(empty_cells,idx)
-				local p=level.new_item( n )
-				p.set_cell( c )
-			end
-		end
-	end
-
-end
-
-
 
 -----------------------------------------------------------------------------
 --
--- this handles the creation of levels by building options to be fed
--- to the level creator
+-- this handles the creation of a levels map by building options to be fed
+-- to the map creator
+--
+-- after the map is created call backs are used to tidy things up
+-- for instance room callbacks fill the room with required items
+-- level callbacks make sure the player is located in the map (at an apropriate spawn point)
 --
 -----------------------------------------------------------------------------
 function levels.get_map(name,pow)
@@ -189,24 +105,17 @@ function levels.get_map(name,pow)
 	opts.rooms={} -- required rooms for this map
 	opts.flags={} -- this stuff MUST be remembered on save, the rest is inconsequential
 
-	function opts.add_room(s)
+	opts.callback=levels.callback -- call this function when finshed building each real cell/room/level
+
+	local function add_room(s)
 		local r=rooms.get_room(s)
 		opts.rooms[#opts.rooms+1]=r
-		r.callback=levels.callback
 		return r
-	end
-	local add_room=opts.add_room
-
-
---default generation	
-	opts.generate=function(level)
---		levels.generate_player(level)
---		levels.generate_ants(level)
---		levels.generate_blobs(level)
 	end
 	
 	local r
 --print("check level",name)
+
 	if name=="level.control" then
 	
 		r=add_room("control")
@@ -216,15 +125,6 @@ function levels.get_map(name,pow)
 		opts.mode="town"
 		opts.only_these_rooms=true
 
-		opts.generate=function(level)
---			levels.generate_player_bystairs(level)
---			levels.generate_junk(level)
-		end
-	
-	else
-
-		r=add_room("stairs")
-	
 	end
 	
 	

@@ -62,8 +62,13 @@ main.setup=function()
 	main.next=nil
 	
 	main.next=oven.rebake(oven.modgame..".main_menu")
---	main.next=oven.rebake(oven.modgame..".main_game")
-		
+
+	for i,v in ipairs(opts) do
+		if v=="game" then
+			main.next=oven.rebake(oven.modgame..".main_game")
+		end
+	end
+	
 	main.change()
 end
 

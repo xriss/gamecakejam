@@ -33,10 +33,6 @@ a{
 }
 
 a{
-	name="room",
-}
-
-a{
 	name="wood_chair",
 	desc="a small wooden chair",
 	asc=ascii("~"),

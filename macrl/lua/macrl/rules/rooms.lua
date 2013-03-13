@@ -9,12 +9,6 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 M.bake=function(basket,maps)
 	maps=maps or {}
 	maps.modname=M.modname
-	
-function maps.setup()
-end
-
-
-
 
 local strings={}
 local keys={}
@@ -184,6 +178,16 @@ room("entrance",[[
 	["= "]="helipad",
 	["@ "]="spawn",
 })
+
+
+function maps.setup()
+
+basket.call.add{
+	name="room",
+}
+
+end
+
 
 	return maps
 end
