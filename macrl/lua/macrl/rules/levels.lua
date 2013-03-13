@@ -14,8 +14,7 @@ local yarn_attrs=basket.rebake("yarn.attrs")
 local yarn_fight=basket.rebake("yarn.fight")
 
 local code=basket.rebake(basket.modgame..".rules.code")
-local maps=basket.rebake(basket.modgame..".rules.maps")
-local get_room=maps.get_room
+local rooms=basket.rebake(basket.modgame..".rules.rooms")
 
 function levels.setup()
 	basket.call.get_map=levels.get_map
@@ -191,7 +190,7 @@ function levels.get_map(name,pow)
 	opts.flags={} -- this stuff MUST be remembered on save, the rest is inconsequential
 
 	function opts.add_room(s)
-		local r=maps.get_room(s)
+		local r=rooms.get_room(s)
 		opts.rooms[#opts.rooms+1]=r
 		r.callback=levels.callback
 		return r

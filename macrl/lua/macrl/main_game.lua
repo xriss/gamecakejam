@@ -28,6 +28,7 @@ M.bake=function(oven,game)
 	local yarn_canvas=basket.rebake("yarn.canvas")
 	local yarn_menu=basket.rebake("yarn.menu")
 	local yarn_ascii=basket.rebake("yarn.ascii")
+	local yarn_levels=basket.rebake("yarn.levels")
 
 game.loads=function()
 
@@ -102,6 +103,10 @@ game.draw=function()
 						f=4
 					elseif t.img=="console" then
 						f=9
+					elseif t.img=="helipad" then
+						f=10
+					elseif t.img=="vent" then
+						f=11
 					elseif t.asc==yarn_ascii.hash then
 						f=2
 					elseif t.asc==yarn_ascii.dot then
@@ -151,6 +156,14 @@ game.draw=function()
 		font.draw(">")
 		
 	end
+
+--[[
+	local s=yarn_levels.get_msg()
+	print(s)
+	local w=font.width(s)
+	font.set_xy(320-w/2,240-32)
+	font.draw(s)
+]]
 
 end
 

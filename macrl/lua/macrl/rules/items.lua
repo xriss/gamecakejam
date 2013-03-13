@@ -66,6 +66,14 @@ a{
 	wood=true,
 }
 
+a{
+	name="helipad",
+	desc="a helipad",
+	img="helipad",
+	asc=ascii("O"),
+	form="item",
+}
+
 end
 
 	return items

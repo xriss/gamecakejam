@@ -121,6 +121,14 @@ a{
 	form="char",
 }
 
+a{
+	name="lift_vent",
+	desc="a vent",
+	img="vent",
+	asc=ascii("#"),
+	form="char",
+}
+
 end
 
 	return items

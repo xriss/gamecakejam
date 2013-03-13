@@ -93,7 +93,7 @@ function code.setup()
 -- and setup everything else, everything is an item its all just broken into files to make it easier to find
 	basket.rebake(basket.modgame..".rules.items").setup()
 	basket.rebake(basket.modgame..".rules.chars").setup()
-	basket.rebake(basket.modgame..".rules.maps").setup()
+	basket.rebake(basket.modgame..".rules.rooms").setup()
 	basket.rebake(basket.modgame..".rules.levels").setup()
 
 
