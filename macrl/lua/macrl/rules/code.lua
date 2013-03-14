@@ -20,7 +20,7 @@ local can=basket.rebake(basket.modgame..".rules.can")
 -----------------------------------------------------------------------------
 function code.get_item(dd,name,pow,xtra)
 --print("get item",name)
-	local aa=wstring.split(name,"%.")
+	local aa=wstring.split(name,".")
 	
 	if #aa>1 then -- must be two parts or more
 		local p=tonumber(aa[#aa]) -- the last bit may be a number

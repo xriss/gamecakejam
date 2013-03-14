@@ -11,6 +11,7 @@ function M.bake(opts)
 	local basket={}
 
 	basket.opts=opts
+	basket.version={number=13.001,string="13.001"}
 	
 	basket.data={} -- squirt game data into here
 	basket.call={} -- squirt game functions into here
@@ -45,8 +46,7 @@ function M.bake(opts)
 
 		basket.level.setup(p.levelopts or {})
 
-		basket.player.set_cell(basket.level.rand_room_cell())
-
+--		basket.player.set_cell(basket.level.rand_room_cell())
 --		basket.menu.show_player_menu(basket.player)
 
 		return basket
@@ -63,11 +63,20 @@ function M.bake(opts)
 	end
 
 
+	function basket.step(t)
+		basket.levels.step(t)
+	end
 
 function basket.update()
 --	return level.update() + menu.update()
 end
 
+	function basket.set_msg(a)
+		basket.display_msg=a
+	end
+	function basket.get_msg()
+		return basket.display_msg or ""
+	end
 
 
 --[[

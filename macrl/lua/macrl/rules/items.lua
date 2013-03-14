@@ -33,6 +33,36 @@ a{
 }
 
 a{
+	name="sak",
+	desc="a Swiss Army Knife",
+	longdesc=[[
+
+Probably your favourite knife. An original red Victorinox Tinker, weighing in at a little over 60 grams and 90mm long. The various blades all swing out effortlessly at the slightest sugestion.
+]],
+	img="knife",
+	asc=ascii("y"),
+	form="item",
+	can=can.sak,
+	weight=1,
+	metal=true,
+}
+a{
+	name="watch",
+	desc="a Swiss Wrist Watch",
+	longdesc=[[
+
+Simple time keeping device with a terrible accuracy. It seems to be counting down.
+]],
+	img="watch",
+	asc=ascii("0"),
+	form="item",
+	can=can.watch,
+	weight=1,
+	metal=true,
+}
+
+
+a{
 	name="wood_chair",
 	desc="a small wooden chair",
 	asc=ascii("~"),
@@ -65,9 +95,16 @@ a{
 a{
 	name="helipad",
 	desc="a helipad",
+	longdesc=[[
+
+This is just a symbol painted on the ground.
+
+No, you may not pick it up. It realy is just paint.
+]],
 	img="helipad",
 	asc=ascii("O"),
 	form="item",
+	can=can.look,
 }
 
 end

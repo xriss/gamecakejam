@@ -1,7 +1,7 @@
 -- copy all globals into locals, some locals are prefixed with a G to reduce name clashes
 local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,Gload,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require=coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require
 
-local wstring=require("wetgenes.string")
+local wstr=require("wetgenes.string")
 
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
@@ -64,7 +64,7 @@ local yarn_fight=basket.rebake("yarn.fight")
 
 	function menu.msg(m)
 
---print(wstring.dump(m))
+--print(wstr.dump(m))
 	
 		if not menu.display then return end
 
@@ -172,7 +172,7 @@ local yarn_fight=basket.rebake("yarn.fight")
 		local lines={}
 		local pos=1
 		for id=1,#t do
-			local ls=wstring.smart_wrap(t[id].text,40-4)
+			local ls=wstr.smart_wrap(t[id].text,40-4)
 			for i=1,#ls do lines[#lines+1]={s=ls[i],id=id,tab=t[id]} end
 		end
 		
@@ -232,8 +232,9 @@ print("show player")
 					end				
 				end
 			end
-			
+print("use",items,#items)			
 			for i,v in ipairs(items) do
+print("use",items,i,v.is.name,v.is.can)			
 				if v.is.can.acts or v.form=="item"then				
 					tab[#tab+1]={
 						text=v.desc_text(),
@@ -285,10 +286,10 @@ print("show player top")
 				end
 			end
 			
-			table.sort(items,function(a,b) return a.name<b.name end)
+			table.sort(items,function(a,b) return a.is.name<b.is.name end)
 			
 			for i,v in ipairs(items) do
-				if v.can.acts or v.form=="item"then				
+				if v.is.can.acts or v.is.form=="item"then				
 					tab[#tab+1]={
 						text=v.desc_text(),
 						call=function(t)
@@ -331,7 +332,7 @@ print("show player top")
 			table.sort(items,function(a,b) return a.name<b.name end)
 			
 			for i,v in ipairs(items) do
-				if v.can.acts or v.form=="item"then				
+				if v.is.can.acts or v.form=="item"then				
 					tab[#tab+1]={
 						text=v.desc_text(),
 						call=function(t)
@@ -398,6 +399,14 @@ print("show player top")
 	function menu.show_item_menu(item)
 		local top={}
 
+		if type(item.is.can.acts)=="function" then
+			local acts=item.is.can.acts(item,basket.player)
+			if #acts==1 then
+				item.is.can[ acts[1] ](item,basket.player)
+				return
+			end
+		end
+		
 		top.title=item.desc_text()
 		
 		top.call=function(tab)
@@ -413,18 +422,24 @@ print("show player top")
 			}
 			
 
-			if type(item.can.acts)=="function" then
-				local acts=item.can.acts(item,player)
-				for i,v in ipairs(acts) do
-					tab[#tab+1]={
-						text=v,
-						call=function(t)
-							if type(item.can[v])=="function" then
-								item.can[v](item,player)
+			if type(item.is.can.acts)=="function" then
+				local acts=item.is.can.acts(item,player)
+				
+--				if #acts==1 and type( item.is.can[ acts[1] ] )=="function" then -- just do it as it is the only possible act?
+--					item.is.can[ acts[1] ](item,player)
+--					return
+--				else
+					for i,v in ipairs(acts) do
+						tab[#tab+1]={
+							text=v,
+							call=function(t)
+								if type(item.is.can[v])=="function" then
+									item.is.can[v](item,player)
+								end
 							end
-						end
-					}
-				end
+						}
+					end
+--				end
 			end
 
 			top.display=menu.build_request(tab)
@@ -532,7 +547,7 @@ dbg(basket.level.pow)
 	function menu.show_talk_menu(item,by,chatname)
 		chatname=chatname or "welcome"
 		local top={}
-		local chat=item.chat[chatname]
+		local chat=item.is.chat and item.is.chat[chatname]
 		if not chat then return menu.hide() end
 		if type(chat)=="function" then chat=chat(item,by,chatname) end
 		
@@ -540,7 +555,7 @@ dbg(basket.level.pow)
 			basket.level.is[chat.flag]=true
 		end
 		
-		top.title=strings.replace(chat.title or item.desc_text(),menu)
+		top.title=wstr.replace(chat.title or item.desc_text(),menu)
 		
 		top.call=function(tab)
 		
@@ -549,7 +564,7 @@ dbg(basket.level.pow)
 	-- add cancel option?
 
 			tab[#tab+1]={
-				text=strings.trim(strings.replace(chat.text,item)).."\n\n", -- keep one blank line at end
+				text=wstr.trim(wstr.replace(chat.text,item)).."\n\n", -- keep one blank line at end
 				call=function()
 					menu.hide()
 				end
@@ -562,10 +577,10 @@ dbg(basket.level.pow)
 				local text,cal
 				local showsay=true
 				if t=="string" then
-					text="\""..strings.replace(v,item).."\""
+					text="\""..wstr.replace(v,item).."\""
 					cal=function() menu.show_talk_menu(item,by,v) end
 				elseif t=="table" then
-					text="\""..strings.replace(v.text,item).."\""
+					text="\""..wstr.replace(v.text,item).."\""
 					cal=function() menu.show_talk_menu(item,by,v.say) end
 					if v.test then
 						if basket.level.is[v.test] then

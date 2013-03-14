@@ -101,6 +101,8 @@ game.draw=function()
 						f=4
 					elseif t.img=="tech3" then
 						f=4
+					elseif t.img=="rubble" then
+						f=7
 					elseif t.img=="console" then
 						f=9
 					elseif t.img=="helipad" then
@@ -131,39 +133,38 @@ game.draw=function()
 
 	if yarn_menu.display then
 
+		local xw=16
+		local ys=((480-32)-((#yarn_menu.display+4)*16))/2
 		local top=yarn_menu.stack[#yarn_menu.stack]
 
 		gl.Color(pack.argb4_pmf4(0xf008))
-		flat.quad(0,0,640,(#yarn_menu.display+4)*16)
+		flat.quad(0+160-xw-24,ys+0-8,640-160+xw+24,ys+(#yarn_menu.display+4)*16+8)
 
 		gl.Color(pack.argb4_pmf4(0xf000))
-		flat.quad(0+16,0+16,640-16,(#yarn_menu.display+4-1)*16)
+		flat.quad(0+160-xw,ys+0+16,640-160+xw,ys+(#yarn_menu.display+4-1)*16)
 
 		gl.Color(pack.argb4_pmf4(0xffff))
 		
 		if top.title then
 			local w=font.width(top.title)
-			font.set_xy(320-w/2,0)
+			font.set_xy(320-w/2,ys+0-6)
 			font.draw(top.title)
 		end
 		
 		for i,v in ipairs(yarn_menu.display) do
-			font.set_xy(16*2,(i+1)*16)
+			font.set_xy(160-xw+16*2,ys+(i+1)*16-4)
 			font.draw(v.s)
 		end
 
-		font.set_xy(16*1,(yarn_menu.cursor+1)*16)
+		font.set_xy(160-xw+16*1,ys+(yarn_menu.cursor+1)*16-4)
 		font.draw(">")
 		
 	end
 
---[[
-	local s=yarn_levels.get_msg()
-	print(s)
+	local s=basket.get_msg()
 	local w=font.width(s)
-	font.set_xy(320-w/2,240-32)
+	font.set_xy(320-w/2,480-32)
 	font.draw(s)
-]]
 
 end
 

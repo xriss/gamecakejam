@@ -44,6 +44,41 @@ end
 function levels.callback(d) -- default callback when building maps
 --print("callback",wstr.dump(d))
 
+	if d.call=="level" then
+	
+		if d.name=="level.control" then
+		
+			local c=basket.level.cellfind["spawn"] or basket.level.rand_room_cell()
+			
+			basket.player.set_cell(c)
+			basket.player.hp=basket.player.is.hp
+
+			-- default equipment
+			
+			local it=basket.level.new_item( yarn_attrs.get("sak") )
+			it.set_cell(basket.player)
+			it.is.equiped=true
+
+			local it=basket.level.new_item( yarn_attrs.get("watch") )
+			it.set_cell(basket.player)
+			it.is.equiped=true
+			
+			basket.menu.show_text("YARN v"..basket.version.number or 0,
+[[
+
+Press the CURSOR keys to move up/down/left/right.
+
+Press SPACE bar for a menu or to select a menu item.
+
+If you are standing near anything interesting press SPACE bar to interact with it.
+
+Press SPACE to continue.
+]])
+
+		end
+
+	end
+	
 	if d.call=="room" then
 --print(room,d)
 	end
@@ -52,11 +87,11 @@ function levels.callback(d) -- default callback when building maps
 	
 		for _,n in ipairs(yarn_attrs.keys_name_and_subnames(d.name)) do
 		
-			d.level.cellfind[n]=d.cell -- last generated cell of this type
+			basket.level.cellfind[n]=d.cell -- last generated cell of this type
 			
-			local l=d.level.celllist[n] or {} -- all generated cells of this type
+			local l=basket.level.celllist[n] or {} -- all generated cells of this type
 			l[#l+1]=d.cell
-			d.level.celllist[n]=l
+			basket.level.celllist[n]=l
 			
 		end
 		
@@ -69,7 +104,7 @@ function levels.callback(d) -- default callback when building maps
 			at=yarn_attrs.get(d.name)
 		end
 		if at then
-			local it=d.level.new_item( at )
+			local it=basket.level.new_item( at )
 			if it then
 				it.set_cell( d.cell)
 			end
@@ -118,9 +153,10 @@ function levels.get_map(name,pow)
 
 	if name=="level.control" then
 	
-		r=add_room("control")
+		r=add_room("controls")
 		r=add_room("shaft")
 		r=add_room("entrance")
+		r=add_room("collapsed")
 				
 		opts.mode="town"
 		opts.only_these_rooms=true

@@ -260,13 +260,13 @@ M.bake=function(basket,levels)
 --							else
 								local c=level.get_cell(r.xp+x-1,r.yp+y-1)
 								if level.opts.callback then
-									level.opts.callback({call="cell",cell=c,name=n,room=r,level=level})
+									level.opts.callback({call="cell",cell=c,name=n,room=r})
 								end
 --							end
 						end
 					end
 					if level.opts.callback then
-						level.opts.callback({call="room",room=r,level=level})
+						level.opts.callback({call="room",room=r})
 					end
 				end
 			end
@@ -282,7 +282,7 @@ M.bake=function(basket,levels)
 							cell.is.set.name("floor")
 							cell.is.set.visible(true)
 							if level.opts.callback then
-								level.opts.callback({call="cell",cell=cell,name="floor",room=level.build.bigroom,level=level})
+								level.opts.callback({call="cell",cell=cell,name="floor",room=level.build.bigroom})
 							end
 						end
 						if y==0 or y==level.yh-1 or x==0 or x==level.xh-1 then
@@ -305,7 +305,7 @@ M.bake=function(basket,levels)
 			end
 
 			if level.opts.callback then
-				level.opts.callback({call="level",level=level})
+				level.opts.callback({call="level",name=level.is.name})
 			end
 
 			return level

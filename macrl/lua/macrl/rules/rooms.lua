@@ -6,9 +6,9 @@ local wstr=require("wetgenes.string")
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(basket,maps)
-	maps=maps or {}
-	maps.modname=M.modname
+M.bake=function(basket,rooms)
+	rooms=rooms or {}
+	rooms.modname=M.modname
 
 local strings={}
 local keys={}
@@ -19,7 +19,7 @@ local keys={}
 -- add new room data
 --
 -----------------------------------------------------------------------------
-function maps.add_room(name,map,key)
+function rooms.add_room(name,map,key)
 	if map then
 		strings[name]=map
 	end
@@ -27,7 +27,7 @@ function maps.add_room(name,map,key)
 		keys[name]=key
 	end
 end
-local room=maps.add_room
+local room=rooms.add_room
 
 
 -----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ local room=maps.add_room
 -- build room info from an ascii map and a key
 --
 -----------------------------------------------------------------------------
-function maps.string_to_room(s,key)
+function rooms.string_to_room(s,key)
 
 	if not key then key=keys.base end
 
@@ -82,12 +82,12 @@ end
 -- get room info by name
 --
 -----------------------------------------------------------------------------
-function maps.get_room(name)
+function rooms.get_room(name)
 
 	local r
 
 	if strings[name] then	
-		r=maps.string_to_room( strings[name] , keys[name] )
+		r=rooms.string_to_room( strings[name] , keys[name] )
 	end
 
 	return r
@@ -139,7 +139,7 @@ room("bigroom",[[
 ]])
 
 
-room("control",[[
+room("controls",[[
 # # # # # # # # # # #
 # . . . . . . . . . #
 # . . @1. @2. @3. . #
@@ -169,18 +169,30 @@ room("shaft",[[
 })
 
 room("entrance",[[
-. . . . .
-. . . . .
-. . = @ .
-. . . . .
-. . . . .
+# # # # #
+# . . . #
+# . = @ #
+# . . . #
+# # # # #
 ]],{
 	["= "]="helipad",
 	["@ "]="spawn",
 })
 
+room("collapsed",[[
+# # # # # # #
+# . x . x . #
+# x x x x x #
+# . x x x . #
+# x x x x x #
+# . x . x . #
+# # # # # # #
+]],{
+	["= "]="helipad",
+	["x "]="rubble",
+})
 
-function maps.setup()
+function rooms.setup()
 
 basket.call.add{
 	name="room",
@@ -189,5 +201,5 @@ basket.call.add{
 end
 
 
-	return maps
+	return rooms
 end

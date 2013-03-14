@@ -30,15 +30,15 @@ a{
 	player=true,
 	hp=100,
 	
-	wheel=0,
-	dam_min=1,
-	dam_max=2,
-	def_add=0,
-	def_mul=1,
+--	wheel=0,
+--	dam_min=1,
+--	dam_max=2,
+--	def_add=0,
+--	def_mul=1,
 	
 	can=
 	{
-		fight=true,
+--		fight=true,
 		loot=true,
 		make_room_visible=true,
 		operate=true,
@@ -52,43 +52,58 @@ a{
 	asc=ascii("C"),
 	form="char",
 	hp=100,
-	
-	wheel=0,
-	dam_min=1,
-	dam_max=2,
-	def_add=0,
-	def_mul=1,
-	
---	can=
---	{
---		fight=true,
---		loot=true,
---		make_room_visible=true,
---		operate=true,
---	},
-	
+	can=can.talk,
 }
 
 a{
 	name="control.colson",
-	desc="a fat balding controler",
+	desc="Andy Colson",
+	longdesc="This fat balding controler looks exactly like another fat balding controler you know.",
 	img="colson",
 	asc=ascii("C"),
 	form="char",
+	chat={
+		["welcome"]={
+			text=[[We have people trapped down there who need your help.]],
+			says={{say="OK",text="OK"}},
+		},
+	},
 }
 a{
 	name="control.burke",
-	desc="a moustache in a suit",
+	desc="Dr. Charlie Burke",
 	img="burke",
 	asc=ascii("B"),
 	form="char",
+	longdesc="The moustache catches your eye and distracts you from all the other details.",
+	chat={
+		["welcome"]={
+			text=[[We have people trapped down there who need your help.]],
+			says={{say="how",text="How does it stand right now?"}},
+		},
+		["how"]={
+			text=[[Well, Marlowe's fine, Steubens was unconscious for a while but he's coming around, we've been unable to maintain any communication for more than a few seconds at a time.]],
+			says={"OK."},
+		},
+	},
 }
 a{
 	name="control.gantner",
-	desc="an old man in a suit",
+	desc="Ed Gantner",
+	longdesc="An old man in a suit, one of your few surviving friends",
 	img="gantner",
 	asc=ascii("G"),
 	form="char",
+	chat={
+		["welcome"]={
+			text=[[
+Charlie Burke, is director of the lab and will be able to answer all you questions.
+			
+Thanks for coming Mac and I know If anyone can help us, it will be you.
+]],
+			says={{say="OK",text="OK"}},
+		},
+	},
 }
 
 a{
@@ -114,19 +129,46 @@ a{
 }
 
 a{
+	name="rubble",
+	desc="a pile of rubble",
+	longdesc=[[
+
+A large pile of rubble blocks your way.
+]],
+	img="rubble",
+	asc=ascii("X"),
+	form="char",
+	can=can.look,
+}
+
+a{
 	name="console",
-	desc="an keyboard and CRT",
+	desc="a keyboard and CRT",
+	longdesc=[[
+	
+Before you is a state of the art computer interface circa 1984.
+
+Probably best not to mess with it. These seem capable of exploding at the slightest malfunction.
+]],
 	img="console",
 	asc=ascii("="),
 	form="char",
+	can=can.look,
 }
 
 a{
 	name="lift_vent",
 	desc="a vent",
 	img="vent",
+	longdesc=[[
+	
+Set into the dirt is a strong steel grate mounted in concrete.
+
+This leads down the lift shaft which is the only available entrance into the Kiva complex.
+]],
 	asc=ascii("#"),
 	form="char",
+	can=can.look,
 }
 
 end

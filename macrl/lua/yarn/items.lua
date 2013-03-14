@@ -68,8 +68,18 @@ M.bake=function(basket,items)
 			end
 			
 			item.cell=c
-			if not item.cell.items then it.cell.items={} end -- make space in non cells
+			if not item.cell.items then item.cell.items={} end -- make space in non cells
 			item.cell.items[item]=true
+			
+			if item==basket.player then
+				local it=c.get_item() -- see something on the floor?
+				if it==item then it=nil end --not us
+				if it then
+					basket.set_msg( it.view_text() )
+				else
+					basket.set_msg( "" )
+				end
+			end
 			
 			if item.is.can.make_room_visible then -- this item makes the room visible (ie its the player)
 				if item.cell.room then
@@ -121,7 +131,7 @@ M.bake=function(basket,items)
 			
 			if item.is.pow>0 then
 				ss[#ss+1]="+"..(item.is.pow).."\n"
-			elseif is.pow<0 then
+			elseif item.is.pow<0 then
 				ss[#ss+1]="-"..(-item.is.pow).."\n"
 			end
 			
@@ -163,13 +173,13 @@ M.bake=function(basket,items)
 						local usename=char.is.can.use
 						
 						if char.is.can[usename] then
+
 							char.is.can[usename](char , item )
-						elseif usename=="menu" then
-							if char.is.can.menu then
-								char.is.can.menu(char,item)
-							else
-								basket.level.main.menu.show_item_menu(char)
-							end
+							
+						elseif usename=="menu" then -- alternative menu
+
+							basket.level.main.menu.show_item_menu(char)
+
 						end
 						
 					elseif char.is.can.fight and item.is.can.fight then
@@ -248,7 +258,7 @@ M.bake=function(basket,items)
 					
 					vs=vs[basket.level.rand(1,4)]
 					
-					move(vs[1],vs[2])
+					item.move(vs[1],vs[2])
 					
 					item.time_passed=time_passed+1
 				end
