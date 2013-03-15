@@ -232,9 +232,8 @@ print("show player")
 					end				
 				end
 			end
-print("use",items,#items)			
+--print("use",items,#items)	
 			for i,v in ipairs(items) do
-print("use",items,i,v.is.name,v.is.can)			
 				if v.is.can.acts or v.form=="item"then				
 					tab[#tab+1]={
 						text=v.desc_text(),
@@ -329,7 +328,7 @@ print("show player top")
 				end
 			end
 			
-			table.sort(items,function(a,b) return a.name<b.name end)
+			table.sort(items,function(a,b) return a.is.name<b.is.name end)
 			
 			for i,v in ipairs(items) do
 				if v.is.can.acts or v.form=="item"then				
@@ -576,6 +575,9 @@ dbg(basket.level.pow)
 				local t=type(v)
 				local text,cal
 				local showsay=true
+				if t=="function" then -- call a function to return the string or table
+					t=t(item,by)
+				end
 				if t=="string" then
 					text="\""..wstr.replace(v,item).."\""
 					cal=function() menu.show_talk_menu(item,by,v) end
@@ -600,7 +602,7 @@ dbg(basket.level.pow)
 			
 			top.display=menu.build_request(tab)
 			for i,v in ipairs(top.display) do
-				if v.id==menu.cursor then
+				if v.id==cursor then
 					top.cursor=i
 					break
 				end

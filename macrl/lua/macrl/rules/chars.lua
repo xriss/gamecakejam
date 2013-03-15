@@ -10,6 +10,8 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 M.bake=function(basket,items)
 	items=items or {}
 	items.modname=M.modname
+
+local yarn_attrs=basket.rebake("yarn.attrs")
 	
 local function ascii(a) return string.byte(a,1) end
 
@@ -63,9 +65,32 @@ a{
 	asc=ascii("C"),
 	form="char",
 	chat={
-		["welcome"]={
-			text=[[We have people trapped down there who need your help.]],
-			says={{say="OK",text="OK"}},
+		["welcome"]=function(it,by)
+			if basket.level.is["got_cigs"] then
+				return it.is.chat.pack
+			else
+				return it.is.chat.welcome1
+			end
+		end,
+		["welcome1"]={
+			text=[[The only way to get down to the first level right now is through the elevator and we can't even open the doors up here. The whole shaft is protected by laser.]],
+			says={{say="welcome2",text="Infrared or gas discharge?"}},
+		},
+		["welcome2"]={
+			text=[[Gas. CO2, 10,000 watts.]],
+			says={{say="exit",text="You boys take your elevator shafts pretty seriously."},
+			{say="cig",text="Spare a cigarette?"},},
+		},
+		["cig"]=function(it,by)
+			basket.level.is["got_cigs"]=true
+			basket.level.new_item( yarn_attrs.get("cigs") ).set_cell(basket.player)
+			return{
+			text=[[Oh sure.]],
+			says={{say="pack",text="Thanks."},},}
+		end,
+		["pack"]={
+			text=[[Take the pack why don't ya? Want my lighter too?]],
+			says={{say="exit",text="No thanks, I carry my own matches."}},
 		},
 	},
 }
@@ -82,8 +107,16 @@ a{
 			says={{say="how",text="How does it stand right now?"}},
 		},
 		["how"]={
-			text=[[Well, Marlowe's fine, Steubens was unconscious for a while but he's coming around, we've been unable to maintain any communication for more than a few seconds at a time.]],
-			says={"OK."},
+			text=[[Well, Marlowe's fine, Steubens was unconscious for a while but he's coming around, we've been unable to maintain any communication for more than a few seconds at a time and they are both trapped 300ft down. There are 20 other people down there and we have no idea how or where they are.]],
+			says={{say="more",text="Have you got somebody I can talk building specifics with?"}},
+		},
+		["more"]={
+			text=[[Andy Colson is our chief of operations, you can ask him anything about the building layout.]],
+			says={{say="time",text="What about time."}},
+		},
+		["time"]={
+			text=[[We have an acid leak and in a little under 5 hours we will need to take drastic acion to stop it poluting the aquafer.]],
+			says={{say="ok",text="I best be going then."}},
 		},
 	},
 }
@@ -165,6 +198,8 @@ a{
 Set into the dirt is a strong steel grate mounted in concrete.
 
 This leads down the lift shaft which is the only available entrance into the Kiva complex.
+
+Maybe you could use your tools to open it.
 ]],
 	asc=ascii("#"),
 	form="char",

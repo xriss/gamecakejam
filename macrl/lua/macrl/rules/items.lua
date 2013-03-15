@@ -60,7 +60,20 @@ Simple time keeping device with a terrible accuracy. It seems to be counting dow
 	weight=1,
 	metal=true,
 }
+a{
+	name="cigs",
+	desc="a packet of cigarettes",
+	longdesc=[[
 
+One day these will be considered a thought crime.
+]],
+	img="cigs",
+	asc=ascii("0"),
+	form="item",
+	can=can.item,
+	weight=1,
+	paper=true,
+}
 
 a{
 	name="wood_chair",

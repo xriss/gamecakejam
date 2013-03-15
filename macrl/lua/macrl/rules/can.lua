@@ -121,25 +121,27 @@ can.item={
 -- special use items
 --
 -----------------------------------------------------------------------------
-can.sak={}
-for i,v in pairs(can.item) do can.sak[i]=v end -- item base
-	can.sak.acts=function(it,by)
+local c={}
+can.sak=c
+for i,v in pairs(can.item) do c[i]=v end -- item base
+	c.acts=function(it,by)
 		local r=can.item.acts(it,by)
 		table.insert(r,1,"use")
 		return r
 	end
-	can.sak.use=function(it,by)
+	c.use=function(it,by)
 		basket.menu.show_text(it.desc_text(),"There is nothing close by that your Swiss Army Knife can be used on.")
 	end
 
-can.watch={}
-for i,v in pairs(can.item) do can.watch[i]=v end -- item base
-	can.watch.acts=function(it,by)
+local c={}
+can.watch=c
+for i,v in pairs(can.item) do c[i]=v end -- item base
+	c.acts=function(it,by)
 		local r=can.item.acts(it,by)
 		table.insert(r,1,"use")
 		return r
 	end
-	can.watch.use=function(it,by)
+	c.use=function(it,by)
 		basket.menu.show_text(it.desc_text(),"There are 300 minutes remaining.")
 	end
 -----------------------------------------------------------------------------
@@ -156,5 +158,6 @@ can.look={
 		basket.menu.show_text(it.desc_text(),it.look_text())
 	end,
 }
+
 	return can
 end
