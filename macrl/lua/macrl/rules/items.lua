@@ -94,6 +94,7 @@ a{
 	name="wood_plank",
 	desc="a small plank of wood",
 	asc=ascii("~"),
+	img="plank",
 	can=can.item,
 	weight=1,
 	wood=true,
