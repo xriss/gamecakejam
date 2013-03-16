@@ -140,14 +140,6 @@ M.bake=function(basket,cells)
 				return item.img(t)
 			end
 			
-			if type(cell.is.img)=="function" then
-				return cell.is.img(cell,t) -- expect to always set t.asc and t.img
-			else
-				t.img=cell.img
-				t.asc=cell.asc()
-				return t
-			end
-			
 			if cell.is.name=="wall" then -- some cells are just walls
 				return img_wall(t)
 			else

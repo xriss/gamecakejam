@@ -22,6 +22,8 @@ M.bake=function(oven,game)
 	local font=canvas.font
 	local flat=canvas.flat
 	
+	local imgs=require(oven.modgame..".imgs") -- just data
+	
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 	local basket=main.basket
@@ -64,6 +66,8 @@ game.draw=function()
 	local sheet0=cake.sheets.get("imgs/tiles.6x6")
 	local sheet1=cake.sheets.get("imgs/tiles")
 	
+	local ss={sheet0,sheet1}
+	
 --	local t=yarn_canvas.tostring({table=true}) -- we want a table of strings
 	
 	font.set(cake.fonts.get(1))
@@ -91,37 +95,20 @@ game.draw=function()
 				local f
 				if v then
 					v.img(t) -- writes into t
-
-					if t.img=="colson" then
-						f=4
-					elseif t.img=="burke" then
-						f=4
-					elseif t.img=="gantner" then
-						f=4
-					elseif t.img=="tech1" then
-						f=4
-					elseif t.img=="tech2" then
-						f=4
-					elseif t.img=="tech3" then
-						f=4
-					elseif t.img=="rubble" then
-						f=7
-					elseif t.img=="console" then
-						f=9
-					elseif t.img=="helipad" then
-						f=10
-					elseif t.img=="vent" then
-						f=11
-					elseif t.asc==yarn_ascii.hash then
-						f=2
-					elseif t.asc==yarn_ascii.dot then
-						f=3
-					elseif t.asc==yarn_ascii.at then
-						f=20
-					end
 					
+					f=imgs.names[t.img] -- try a basic look up
+					if not f then -- generic
+						if v.is.big then
+							f=imgs.names["bigitem"]
+						else
+							f=imgs.names["item"]
+						end
+					end
+
 					if f then
-						sheet0:draw(f,x*16+8,y*16+8,0,16,16)
+						local s=ss[f[1]+1]
+						local i=1+f[2]+(f[3]*16)
+						s:draw(i,x*16+8,y*16+8,0,16,16)
 					end
 				end
 			end

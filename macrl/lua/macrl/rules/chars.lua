@@ -29,6 +29,7 @@ local a=basket.call.add
 a{
 	name="player",
 	desc="the MacGyver",
+	img="macgyver",
 	asc=ascii("@"),
 	big=true,
 	player=true,
