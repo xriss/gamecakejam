@@ -61,7 +61,8 @@ end
 
 game.draw=function()
 
-	local sheet=cake.sheets.get("imgs/tiles")
+	local sheet0=cake.sheets.get("imgs/tiles.6x6")
+	local sheet1=cake.sheets.get("imgs/tiles")
 	
 --	local t=yarn_canvas.tostring({table=true}) -- we want a table of strings
 	
@@ -75,7 +76,8 @@ game.draw=function()
 	font.set(cake.fonts.get(1))
 	font.set(cake.fonts.get("Vera")) -- may fail, if so it will not change nothing
 
-	sheet:batch_start()
+	sheet0:batch_start()
+	sheet1:batch_start()
 
 	-- create default blank cells
 
@@ -119,16 +121,18 @@ game.draw=function()
 					end
 					
 					if f then
-						sheet:draw(f,x*16+8,y*16+8,0,16,16)
+						sheet0:draw(f,x*16+8,y*16+8,0,16,16)
 					end
 				end
 			end
 		end
 	end
 	
-	sheet:batch_stop()
-	sheet:batch_draw()
+	sheet0:batch_stop()
+	sheet0:batch_draw()
 
+	sheet1:batch_stop()
+	sheet1:batch_draw()
 
 	-- display a menu
 

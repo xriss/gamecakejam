@@ -122,9 +122,38 @@ end
 function code.sak(it,by)
 	local sak=it.is.sak
 	if not sak then return end
-
-	basket.menu.show_text(it.desc_text(),"This is a test.")
 	
+	local menu=basket.menu
+
+	local top={}
+	local tab={}
+
+	top.title=it.desc_text()
+
+-- add cancel option
+	tab[#tab+1]={
+		text=[[..]],
+		call=function(t)
+			menu.back()
+		end
+	}
+	
+	tab[#tab+1]={
+		text=[[
+Force open the grate and climb inside.
+This will take 10 minutes and use up the following loots:
+a small plank of wood
+]],
+		call=function(t)
+			menu.back()
+		end
+	}
+
+	top.display=menu.build_request(tab)
+		
+	menu.show(top)
+
+
 end
 
 function code.find_sak(cell)
