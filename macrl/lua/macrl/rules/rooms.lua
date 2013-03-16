@@ -160,12 +160,13 @@ room("controls",[[
 
 room("shaft",[[
 # # # # #
-# . . . #
+# . L . #
 # . = . #
 # . . . #
 # # # # #
 ]],{
 	["= "]="lift_vent",
+	["L "]="wood_plank",
 })
 
 room("entrance",[[
