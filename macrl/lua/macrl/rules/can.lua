@@ -11,6 +11,8 @@ M.bake=function(basket,can)
 local yarn_fight=basket.rebake("yarn.fight")
 local yarn_levels=basket.rebake("yarn.levels")
 
+local code=basket.rebake(basket.modgame..".rules.code")
+
 -----------------------------------------------------------------------------
 --
 -- base can flags and functions for a fighter
@@ -26,7 +28,7 @@ can.fight={
 	hit=function(it,by)
 		if it.can.fight and by.can.fight then yarn_fight.hit(by,it) end
 		basket.menu.hide()
-		basket.step(1)
+		code.step(1)
 	end,
 	look=function(it,by)
 		basket.menu.show_text(it.desc_text(),it.look_text())
@@ -88,28 +90,28 @@ can.item={
 		it.set_cell(by)
 		it.is.equiped=true
 		basket.menu.hide()
-		basket.step(1)
+		code.step(1)
 	end,
 	get=function(it,by)
 		it.set_cell(by)
 		basket.menu.hide()
-		basket.step(1)
+		code.step(1)
 	end,
 	drop=function(it,by)
 		it.is.equiped=false
 		it.set_cell(by.cell)
 		basket.menu.hide()
-		basket.step(1)
+		code.step(1)
 	end,
 	equip=function(it,by)
 		it.is.equiped=true
 		basket.menu.hide()
-		basket.step(1)
+		code.step(1)
 	end,
 	unequip=function(it,by)
 		it.is.equiped=false
 		basket.menu.hide()
-		basket.step(1)
+		code.step(1)
 	end,
 	look=function(it,by)
 		basket.menu.show_text(it.desc_text(),it.look_text())
@@ -130,7 +132,12 @@ for i,v in pairs(can.item) do c[i]=v end -- item base
 		return r
 	end
 	c.use=function(it,by)
-		basket.menu.show_text(it.desc_text(),"There is nothing close by that your Swiss Army Knife can be used on.")
+		local t=code.find_sak(by.cell)
+		if t then
+			code.sak(t,by)
+		else
+			basket.menu.show_text(it.desc_text(),"There is nothing close by that your Swiss Army Knife can be used on.")
+		end
 	end
 
 local c={}
@@ -138,11 +145,15 @@ can.watch=c
 for i,v in pairs(can.item) do c[i]=v end -- item base
 	c.acts=function(it,by)
 		local r=can.item.acts(it,by)
-		table.insert(r,1,"use")
+		if it.is.equiped then
+			table.insert(r,1,"There are "..code.time_remaining().." remaining.")
+		else
+			table.insert(r,1,"use")
+		end
 		return r
 	end
 	c.use=function(it,by)
-		basket.menu.show_text(it.desc_text(),"There are 300 minutes remaining.")
+		basket.menu.show_text(it.desc_text(),"There are "..code.time_remaining().." remaining.")
 	end
 -----------------------------------------------------------------------------
 --

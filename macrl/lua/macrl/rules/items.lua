@@ -36,12 +36,10 @@ a{
 	name="sak",
 	desc="a Swiss Army Knife",
 	longdesc=[[
-
 Probably your favourite knife. An original red Victorinox Tinker, weighing in at a little over 60 grams and 90mm long. The various blades all swing out effortlessly at the slightest sugestion.
 ]],
 	img="knife",
 	asc=ascii("y"),
-	form="item",
 	can=can.sak,
 	weight=1,
 	metal=true,
@@ -50,36 +48,43 @@ a{
 	name="watch",
 	desc="a Swiss Wrist Watch",
 	longdesc=[[
-
 Simple time keeping device with a terrible accuracy. It seems to be counting down.
 ]],
 	img="watch",
 	asc=ascii("0"),
-	form="item",
 	can=can.watch,
 	weight=1,
-	metal=true,
+	lense=true,
+}
+a{
+	name="binoculars",
+	desc="a pair of Swiss Binoculars",
+	longdesc=[[
+A twitchers best friend.
+]],
+	img="binoculars",
+	asc=ascii(","),
+	can=can.item,
+	weight=1,
+	lense=true,
 }
 a{
 	name="cigs",
 	desc="a packet of cigarettes",
 	longdesc=[[
-
 One day these will be considered a thought crime.
 ]],
 	img="cigs",
 	asc=ascii("0"),
-	form="item",
 	can=can.item,
 	weight=1,
-	paper=true,
+	smoke=true,
 }
 
 a{
 	name="wood_chair",
 	desc="a small wooden chair",
 	asc=ascii("~"),
-	form="item",
 	can=can.item,
 	weight=1,
 	wood=true,
@@ -89,7 +94,6 @@ a{
 	name="wood_plank",
 	desc="a small plank of wood",
 	asc=ascii("~"),
-	form="item",
 	can=can.item,
 	weight=1,
 	wood=true,
@@ -99,7 +103,6 @@ a{
 	name="wood_log",
 	desc="a friendly wooden log",
 	asc=ascii("~"),
-	form="item",
 	can=can.item,
 	weight=1,
 	wood=true,
@@ -116,7 +119,6 @@ No, you may not pick it up. It realy is just paint.
 ]],
 	img="helipad",
 	asc=ascii("O"),
-	form="item",
 	can=can.look,
 }
 

@@ -15,6 +15,7 @@ M.bake=function(basket,items)
 	local yarn_fight=basket.rebake("yarn.fight")
 	local yarn_levels=basket.rebake("yarn.levels")
 
+	local code=basket.rebake(basket.modgame..".rules.code")
 
 	items.get=function(name,pow,xtra)
 		return items.create(yarn_attrs.get(name,pow,xtra))
@@ -186,17 +187,18 @@ M.bake=function(basket,items)
 					
 						if char.is.player or item.is.player then -- do not fight amongst selfs				
 							yarn_fight.hit(item,char)
-							return 1
+--							return 1
 						end
 						
 					end
 				else -- just move
 					item.set_cell(c)
-					return 1 -- time taken to move
+					code.step(1,item)
+--					return 1 -- time taken to move
 				end
 				
 			end
-			return 0
+--			return 0
 		end
 
 		function item.die()
@@ -267,6 +269,14 @@ M.bake=function(basket,items)
 			
 		end
 
+		function item.isholding(n)
+			if item.items then -- can hold
+				for v,b in pairs(item.items) do
+					if v.is.name==n then return v end
+				end
+			end
+		end
+		
 	-- create a save state for this data
 		function item.save()
 			local sd={}

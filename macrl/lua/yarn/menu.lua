@@ -118,7 +118,7 @@ local yarn_fight=basket.rebake("yarn.fight")
 					local cacheid=getmenuitem()
 					repeat
 						menu.cursor=menu.cursor+1
-					until menu.cursor>#menu.display or getmenuitem()~=menu.cacheid
+					until menu.cursor>#menu.display or getmenuitem()~=cacheid
 					
 					if menu.cursor>#menu.display then menu.cursor=1 end --wrap
 				
@@ -234,7 +234,7 @@ print("show player")
 			end
 --print("use",items,#items)	
 			for i,v in ipairs(items) do
-				if v.is.can.acts or v.form=="item"then				
+				if v.is.can.acts then				
 					tab[#tab+1]={
 						text=v.desc_text(),
 						call=function(t)
@@ -288,7 +288,7 @@ print("show player top")
 			table.sort(items,function(a,b) return a.is.name<b.is.name end)
 			
 			for i,v in ipairs(items) do
-				if v.is.can.acts or v.is.form=="item"then				
+				if v.is.can.acts then				
 					tab[#tab+1]={
 						text=v.desc_text(),
 						call=function(t)
@@ -331,7 +331,7 @@ print("show player top")
 			table.sort(items,function(a,b) return a.is.name<b.is.name end)
 			
 			for i,v in ipairs(items) do
-				if v.is.can.acts or v.form=="item"then				
+				if v.is.can.acts then				
 					tab[#tab+1]={
 						text=v.desc_text(),
 						call=function(t)
@@ -638,6 +638,19 @@ dbg(basket.level.pow)
 		menu.show(top)
 	end
 	
+	function menu.show_action(title,it)
+		local top={}
+
+		local tab={}
+			
+		tab[#tab+1]=it
+
+		top.title=title
+		top.display=menu.build_request(tab)
+		top.cursor=2
+		
+		menu.show(top)
+	end
 
 	return menu
 end

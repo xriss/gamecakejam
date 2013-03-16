@@ -171,12 +171,13 @@ room("shaft",[[
 room("entrance",[[
 # # # # #
 # . . . #
-# . = @ #
+# B = @ #
 # . . . #
 # # # # #
 ]],{
 	["= "]="helipad",
 	["@ "]="spawn",
+	["B "]="binoculars",
 })
 
 room("collapsed",[[

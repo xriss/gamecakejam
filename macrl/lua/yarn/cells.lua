@@ -66,15 +66,15 @@ M.bake=function(basket,cells)
 			end , d , 1
 		end
 
-		function cell.get_item() -- although there are multiple item slots, just pick one
-			for v,b in pairs(cell.items) do
-				if v.is.form=="item" then return v end
+		function cell.get_item() -- find any not big item
+		for v,b in pairs(cell.items) do
+				if not v.is.big then return v end
 			end
 		end
 		
-		function cell.get_char() -- find the char in the items list or nil if no char
+		function cell.get_char() -- there should only be one big item per cell
 			for v,b in pairs(cell.items) do
-				if v.is.form=="char" then return v end
+				if v.is.big then return v end
 			end
 		end
 		

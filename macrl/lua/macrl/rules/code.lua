@@ -78,6 +78,63 @@ function code.add_item(v)
 	end
 end
 
+-----------------------------------------------------------------------------
+-- step time forward with slowness modifier
+-----------------------------------------------------------------------------
+function code.step(n,c)
+	if not c then c=basket.player end -- player by default
+	local s=code.speed(c)
+	basket.step(n*s)
+	return n*s
+end
+function code.speed(c) -- returns speed, higher is slower...
+	local count=0
+	for v,b in pairs(c.items or {}) do
+		count=count+1
+	end
+	return count
+end
+
+-----------------------------------------------------------------------------
+-- convert time in ticks into an englidh string
+-----------------------------------------------------------------------------
+function code.time_str(t)
+	local r=t
+	local sc=r%60
+	r=math.floor(r/60)
+	local mn=r%60
+	r=math.floor(r/60)
+	local hr=r%60
+	r=math.floor(r/60)
+
+	return hr.." hours, "..mn.." minutes and "..sc.." seconds"
+end
+
+function code.time_remaining()
+	if basket.level then
+		return code.time_str( 18000 - (basket.level.time_update) )
+	else return "" end
+end
+
+-----------------------------------------------------------------------------
+-- display a sak menu, when item it is used by the player by
+-----------------------------------------------------------------------------
+function code.sak(it,by)
+	local sak=it.is.sak
+	if not sak then return end
+
+	basket.menu.show_text(it.desc_text(),"This is a test.")
+	
+end
+
+function code.find_sak(cell)
+	for i,v in cell.neighboursplus() do
+		for item,b in pairs(v.items) do
+			if item.is.sak then return item end
+		end				
+	end
+end
+
 
 -----------------------------------------------------------------------------
 -- setup everythings attributes

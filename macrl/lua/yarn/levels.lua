@@ -454,13 +454,14 @@ M.bake=function(basket,levels)
 		end
 		
 		if vx~=0 or vy~=0 then
-			basket.level.time_update=basket.level.time_update+basket.player.move(vx,vy)
+--			basket.level.time_update=basket.level.time_update+
+			basket.player.move(vx,vy)
 			return true
 		end
 	end
 	
 	function levels.step(t,item)
-		if item then t=t end -- advance level time relative to actor..
+--		if item then t=t end -- advance level time relative to actor..
 		basket.level.time_update=basket.level.time_update+t
 	end
 	
@@ -485,52 +486,11 @@ M.bake=function(basket,levels)
 		
 	function levels.update()
 		levels.key_check()
-		
-		if basket.level.time_update==0 then return 0 end
-		
-		basket.level.is.time_total=(basket.level.is.time_total or 0)+basket.level.time_update
-		
---print(time_passed)
-
--- regen health?
---		player.attr.hp=math.floor(player.attr.hp+time_update)
---		if player.attr.hp > player.attr.hpmax then player.attr.hp = player.attr.hpmax end
-		
+				
 		for v,b in pairs(basket.level.items) do
 			v.update()
 		end
 		
-		if levels.display_msg_time<levels.time_passed then -- report your most important stats in msg form
-		
-			local item=basket.player.cell.get_item()
-			
-			if item then -- standing on an item
-				levels.set_msg(item.view_text())
-			else
-				levels.set_msg("Your health is ".. basket.level.player.hp .."/".. basket.level.player.is.hp )
-			end
-		end
-
-		local t=basket.level.time_update
-		levels.time_passed=levels.time_passed+basket.level.time_update
-		basket.level.time_update=0
-		return t
-	end
-	
-	levels.display_msg=nil
-	levels.display_msg_time=0
-	function levels.set_msg(a)
-		levels.display_msg=a
-		levels.display_msg_time=levels.time_passed
-	end
-	function levels.add_msg(a)
-		if levels.display_msg_time<levels.time_passed then levels.display_msg=nil end -- do not add to previously displayed msgs
-		if levels.display_msg then levels.display_msg=levels.display_msg.." " else levels.display_msg="" end
-		levels.display_msg=levels.display_msg..a
-		levels.display_msg_time=levels.time_passed
-	end
-	function levels.get_msg()
-		return levels.display_msg or ""
 	end
 
 

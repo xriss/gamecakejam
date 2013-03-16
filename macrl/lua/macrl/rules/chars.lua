@@ -16,6 +16,8 @@ local yarn_attrs=basket.rebake("yarn.attrs")
 local function ascii(a) return string.byte(a,1) end
 
 local can=basket.rebake(basket.modgame..".rules.can")
+local code=basket.rebake(basket.modgame..".rules.code")
+
 
 -----------------------------------------------------------------------------
 -- setup items into attrs
@@ -28,7 +30,7 @@ a{
 	name="player",
 	desc="the MacGyver",
 	asc=ascii("@"),
-	form="char",
+	big=true,
 	player=true,
 	hp=100,
 	
@@ -52,7 +54,7 @@ a{
 	name="control",
 	desc="a fat controler",
 	asc=ascii("C"),
-	form="char",
+	big=true,
 	hp=100,
 	can=can.talk,
 }
@@ -63,10 +65,10 @@ a{
 	longdesc="This fat balding controler looks exactly like another fat balding controler you know.",
 	img="colson",
 	asc=ascii("C"),
-	form="char",
+	big=true,
 	chat={
 		["welcome"]=function(it,by)
-			if basket.level.is["got_cigs"] then
+			if basket.level.is["got_cigs"] then -- he only has one pack of cigs to give
 				return it.is.chat.pack
 			else
 				return it.is.chat.welcome1
@@ -84,12 +86,16 @@ a{
 		["cig"]=function(it,by)
 			basket.level.is["got_cigs"]=true
 			basket.level.new_item( yarn_attrs.get("cigs") ).set_cell(basket.player)
+			code.step(1)
+			basket.set_msg( "You got a packet of cigarettes!" )
 			return{
 			text=[[Oh sure.]],
 			says={{say="pack",text="Thanks."},},}
 		end,
 		["pack"]={
-			text=[[Take the pack why don't ya? Want my lighter too?]],
+			text=[[
+Take the pack why don't ya?
+Want my lighter too?]],
 			says={{say="exit",text="No thanks, I carry my own matches."}},
 		},
 	},
@@ -99,7 +105,7 @@ a{
 	desc="Dr. Charlie Burke",
 	img="burke",
 	asc=ascii("B"),
-	form="char",
+	big=true,
 	longdesc="The moustache catches your eye and distracts you from all the other details.",
 	chat={
 		["welcome"]={
@@ -108,7 +114,7 @@ a{
 		},
 		["how"]={
 			text=[[Well, Marlowe's fine, Steubens was unconscious for a while but he's coming around, we've been unable to maintain any communication for more than a few seconds at a time and they are both trapped 300ft down. There are 20 other people down there and we have no idea how or where they are.]],
-			says={{say="more",text="Have you got somebody I can talk building specifics with?"}},
+			says={{say="more",text="Have you got somebody I can talk building layout with?"}},
 		},
 		["more"]={
 			text=[[Andy Colson is our chief of operations, you can ask him anything about the building layout.]],
@@ -126,15 +132,19 @@ a{
 	longdesc="An old man in a suit, one of your few surviving friends",
 	img="gantner",
 	asc=ascii("G"),
-	form="char",
+	big=true,
 	chat={
 		["welcome"]={
 			text=[[
-Charlie Burke, is director of the lab and will be able to answer all you questions.
-			
 Thanks for coming Mac and I know If anyone can help us, it will be you.
 ]],
-			says={{say="OK",text="OK"}},
+			says={{say="who",text="Who should I talk to around here?"}},
+		},
+		["who"]={
+			text=[[
+Charlie Burke, is director of the lab and will be able to answer your questions.
+]],
+			says={{say="exit",text="OK"}},
 		},
 	},
 }
@@ -144,21 +154,21 @@ a{
 	desc="a fat balding technician",
 	img="tech1",
 	asc=ascii("X"),
-	form="char",
+	big=true,
 }
 a{
 	name="control.tech2",
 	desc="a short hairy technician",
 	img="tech2",
 	asc=ascii("Y"),
-	form="char",
+	big=true,
 }
 a{
 	name="control.tech3",
 	desc="a tall skinny technician",
 	img="tech3",
 	asc=ascii("Z"),
-	form="char",
+	big=true,
 }
 
 a{
@@ -170,7 +180,7 @@ A large pile of rubble blocks your way.
 ]],
 	img="rubble",
 	asc=ascii("X"),
-	form="char",
+	big=true,
 	can=can.look,
 }
 
@@ -185,7 +195,7 @@ Probably best not to mess with it. These seem capable of exploding at the slight
 ]],
 	img="console",
 	asc=ascii("="),
-	form="char",
+	big=true,
 	can=can.look,
 }
 
@@ -199,11 +209,16 @@ Set into the dirt is a strong steel grate mounted in concrete.
 
 This leads down the lift shaft which is the only available entrance into the Kiva complex.
 
-Maybe you could use your tools to open it.
+Maybe you could use your Swiss Army Knife to open it.
 ]],
 	asc=ascii("#"),
-	form="char",
+	big=true,
 	can=can.look,
+	sak={
+		basetime=10*60,
+		done=function(it,by)
+		end,
+	},
 }
 
 end

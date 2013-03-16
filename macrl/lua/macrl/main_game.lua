@@ -29,6 +29,7 @@ M.bake=function(oven,game)
 	local yarn_menu=basket.rebake("yarn.menu")
 	local yarn_ascii=basket.rebake("yarn.ascii")
 	local yarn_levels=basket.rebake("yarn.levels")
+	local code=basket.rebake(oven.modgame..".rules.code")
 
 game.loads=function()
 
@@ -166,6 +167,14 @@ game.draw=function()
 	font.set_xy(320-w/2,480-32)
 	font.draw(s)
 
+	local w=basket.player.isholding("watch")
+	if w and w.is.equiped then
+		local s=code.time_remaining().." remaining"
+		local w=font.width(s)
+		gl.Color(pack.argb4_pmf4(0xf888))
+		font.set_xy(320-w/2,480-16)
+		font.draw(s)
+	end
 end
 
 	return game

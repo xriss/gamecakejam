@@ -85,7 +85,8 @@ Press SPACE to continue.
 	
 	if d.call=="cell" then
 	
-		for _,n in ipairs(yarn_attrs.keys_name_and_subnames(d.name)) do
+		local names=yarn_attrs.keys_name_and_subnames(d.name)
+		for _,n in ipairs(names) do
 		
 			basket.level.cellfind[n]=d.cell -- last generated cell of this type
 			
@@ -100,8 +101,9 @@ Press SPACE to continue.
 			d.cell.is.set.name("wall")
 		elseif d.name=="floor" then
 			d.cell.is.set.name("floor")
+		elseif names[1]=="spawn" then -- just a spawn point
 		elseif d.name then
-			at=yarn_attrs.get(d.name)
+			at=yarn_attrs.get(d.name)	
 		end
 		if at then
 			local it=basket.level.new_item( at )
