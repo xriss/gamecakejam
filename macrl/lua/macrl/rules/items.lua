@@ -97,9 +97,29 @@ a{
 	name="wood_log",
 	desc="a friendly wooden log",
 	asc=ascii("~"),
+	img="log",
 	can=can.item,
 	weight=1,
 	wood=true,
+}
+
+a{
+	name="kettle",
+	desc="a small kettle",
+	asc=ascii("k"),
+	img="kettle",
+	can=can.item,
+	weight=1,
+	metal=true,
+}
+a{
+	name="brick",
+	desc="a brick",
+	asc=ascii("b"),
+	img="brick",
+	can=can.item,
+	weight=1,
+	heavy=true,
 }
 
 a{

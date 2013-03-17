@@ -96,6 +96,10 @@ function levels.callback(d) -- default callback when building maps
 
 			randfill{
 				{"wood_chair",5},
+				{"kettle",5},
+				{"brick",5},
+				{"wood_log",5},
+				{"wood_plank",5},
 			}
 
 			basket.menu.show_notice(basket.level.desc_text(),
@@ -118,11 +122,14 @@ Press SPACE to continue.
 			basket.menu.show_notice(basket.level.desc_text(),
 [[
 That was a tight squeeze! Now we just have to find and disable the lazer security.
+
+HINT: From now on you should know to use your Swiss Army Knife to access your special MacGyver powers.
 ]])
 		end
 
 		if d.name=="level.blockage" then
 			randfill{
+				{"victim.tech4",3},
 				{"wood_chair",40},
 				{"wood_plank",40},
 			}

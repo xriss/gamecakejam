@@ -287,8 +287,8 @@ a{
 	can=can.scrump,
 	scrump={
 		items={
-			{"wood_plank",0.5},
-			{"wood_log",0.5},
+			{"wood_plank",0.25},
+			{"wood_log",0.25},
 		},
 		score=1000,
 	},
@@ -305,8 +305,26 @@ a{
 	can=can.scrump,
 	scrump={
 		items={
-			{"wood_plank",0.5},
-			{"wood_log",0.5},
+			{"wood_plank",0.25},
+			{"wood_log",0.25},
+		},
+		score=1000,
+	},
+	weight=1,
+	wood=true,
+}
+
+a{
+	name="cabinate",
+	desc="a small wooden crate, every game must have one",
+	img="crate",
+	asc=ascii("b"),
+	big=true,
+	can=can.scrump,
+	scrump={
+		items={
+			{"wood_plank",0.25},
+			{"wood_log",0.25},
 		},
 		score=1000,
 	},
@@ -317,18 +335,30 @@ a{
 a{
 	name="victim",
 	desc="A random scientist",
-	img="burke",
-	asc=ascii("B"),
+	img="tech4",
+	asc=ascii("S"),
 	big=true,
 	longdesc="Although you are sure they have some distinguishing features you cant quite put your finger on what they are",
 	chat={
 		["welcome"]={
-			text=[[Can you help us get out of here?]],
-			says={{say="rescue",text="Just head back the way I came and people will be there to help you the rest of the way."}},
+			text=[[Can you help me get out of here?]],
+			says={{say="rescue",text="Sure, just head back the way I came and people will be there to help you the rest of the way."}},
 		},
 	},
+	big=true,
+	hp=100,
+	can=can.talk,
 }
+
+a{
+	name="victim.tech4",
+	img="tech4",
+	asc=ascii("S"),
+}
+
+
 end
+
 
 	return items
 end
