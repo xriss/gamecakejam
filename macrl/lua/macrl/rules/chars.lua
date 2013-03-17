@@ -221,7 +221,7 @@ Maybe you could use your Swiss Army Knife to open it.
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.shaft"})
-			sscores.add(1000)
+			sscores.add(10000)
 		end,
 	},
 }
@@ -238,7 +238,7 @@ a{
 			{"wood_plank",0.5},
 			{"wood_log",0.5},
 		},
-		score=10,
+		score=1000,
 	},
 	weight=1,
 	wood=true,

@@ -79,9 +79,8 @@ function levels.callback(d) -- default callback when building maps
 					basket.level.new_item( yarn_attrs.get("wood_chair") ).set_cell( c )
 				end
 			end
-			basket.menu.show_text("YARN v"..basket.version.number or 0,
+			basket.menu.show_notice("YARN v"..basket.version.number or 0,
 [[
-
 Press the CURSOR keys to move up/down/left/right.
 
 Press SPACE bar for a menu or to select a menu item.
@@ -92,6 +91,10 @@ Press SPACE to continue.
 ]])
 		end
 		if d.name=="level.shaft" then
+			basket.menu.show_notice("YARN v"..basket.version.number or 0,
+[[
+That was a tight squeeze! Now we just have to find and disable the lazer security.
+]])
 		end
 
 	end
