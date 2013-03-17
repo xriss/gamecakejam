@@ -53,6 +53,9 @@ main.loads=function()
 	cake.sheets.loads_and_chops{
 		{"imgs/tiles.6x6",8/128,8/128,4/128,4/128,1/128,1/128},
 	}
+	cake.sheets.loads_and_chops{
+		{"imgs/title",1,1,1/2,1/2},
+	}
 	
 end
 		
