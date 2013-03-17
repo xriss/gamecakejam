@@ -34,9 +34,9 @@ a{
 
 a{
 	name="sak",
-	desc="a Swiss Army Knife",
+	desc="A Swiss Army Knife.",
 	longdesc=[[
-Probably your favourite knife. An original red Victorinox Tinker, weighing in at a little over 60 grams and 90mm long. The various blades all swing out effortlessly at the slightest sugestion.
+Probably your favourite knife. An original red Victorinox Tinker, weighing in at a little over 60 grams and 90mm long. The various blades all swing out effortlessly at the slightest suggestion.
 ]],
 	img="knife",
 	asc=ascii("y"),
@@ -46,9 +46,9 @@ Probably your favourite knife. An original red Victorinox Tinker, weighing in at
 }
 a{
 	name="watch",
-	desc="a Swiss Wrist Watch",
+	desc="A Swiss Wrist Watch.",
 	longdesc=[[
-Simple time keeping device with a terrible accuracy. It seems to be counting down.
+Simple time keeping device with terrible accuracy. It seems to be counting down.
 ]],
 	img="watch",
 	asc=ascii("0"),
@@ -58,7 +58,7 @@ Simple time keeping device with a terrible accuracy. It seems to be counting dow
 }
 a{
 	name="binoculars",
-	desc="a pair of Swiss Binoculars",
+	desc="A pair of Swiss Binoculars.",
 	longdesc=[[
 A twitchers best friend.
 ]],
@@ -70,7 +70,7 @@ A twitchers best friend.
 }
 a{
 	name="cigs",
-	desc="a packet of cigarettes",
+	desc="A packet of cigarettes.",
 	longdesc=[[
 One day these will be considered a thought crime.
 ]],
@@ -85,7 +85,7 @@ One day these will be considered a thought crime.
 
 a{
 	name="wood_plank",
-	desc="a small plank of wood",
+	desc="A small plank of wood.",
 	asc=ascii("~"),
 	img="plank",
 	can=can.item,
@@ -95,7 +95,7 @@ a{
 
 a{
 	name="wood_log",
-	desc="a friendly wooden log",
+	desc="A friendly wooden log.",
 	asc=ascii("~"),
 	img="log",
 	can=can.item,
@@ -105,7 +105,7 @@ a{
 
 a{
 	name="hose",
-	desc="a fire hose",
+	desc="A fire hose.",
 	asc=ascii("0"),
 	img="hose",
 	can=can.item,
@@ -115,7 +115,10 @@ a{
 
 a{
 	name="kettle",
-	desc="a small kettle",
+	desc="A small kettle.",
+	longdesc=[[
+A small kettle that does not whistle no matter how hard you rub it.
+]],
 	asc=ascii("k"),
 	img="kettle",
 	can=can.item,
@@ -124,7 +127,10 @@ a{
 }
 a{
 	name="brick",
-	desc="a brick",
+	desc="A brick like any other.",
+	longdesc=[[
+Cold to the touch, hard to the feel.
+]],
 	asc=ascii("b"),
 	img="brick1",
 	can=can.item,
@@ -133,28 +139,40 @@ a{
 }
 a{
 	name="brick.1",
-	desc="a brick",
+	desc="A brick.",
+	longdesc=[[
+A brick is a brick is a brick is a brick.
+]],
 	img="brick1",
 }
 a{
 	name="brick.2",
-	desc="a brick",
+	desc="A brick.",
+	longdesc=[[
+It has bits of other brick stuck to it.
+]],
 	img="brick2",
 }
 a{
 	name="brick.3",
-	desc="a brick",
+	desc="A brick.",
+	longdesc=[[
+You can build a house with these.
+]],
 	img="brick3",
 }
 a{
 	name="brick.4",
-	desc="a brick",
+	desc="A brick.",
+	longdesc=[[
+Just the one lonely brick.
+]],
 	img="brick4",
 }
 
 a{
 	name="helipad",
-	desc="a helipad",
+	desc="A helipad.",
 	longdesc=[[
 
 This is just a symbol painted on the ground.
@@ -168,7 +186,7 @@ No, you may not pick it up. It realy is just paint.
 
 a{
 	name="debri",
-	desc="a small chunk of debri",
+	desc="A small chunk of debri.",
 	asc=ascii("_"),
 	img="debri1",
 	can=can.item,
@@ -177,27 +195,27 @@ a{
 }
 a{
 	name="debri.1",
-	desc="a small chunk of debri",
+	desc="A small chunk of debri.",
 	img="debri1",
 }
 a{
 	name="debri.2",
-	desc="a tiny chunk of debri",
+	desc="A tiny chunk of debri.",
 	img="debri2",
 }
 a{
 	name="debri.3",
-	desc="a small bit of debri",
+	desc="A small bit of debri.",
 	img="debri3",
 }
 a{
 	name="debri.4",
-	desc="a tiny bit of debri",
+	desc="A tiny bit of debri.",
 	img="debri4",
 }
 a{
 	name="debri.5",
-	desc="a small plop of debri",
+	desc="A small plop of debri.",
 	img="debri5",
 }
 
