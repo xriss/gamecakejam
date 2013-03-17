@@ -44,8 +44,13 @@ add_item{
 }
 
 add_item{
-	name="level.cavein",
+	name="level.blockage",
 	desc="The blockage.",
+}
+
+add_item{
+	name="level.rescue",
+	desc="The Rescue.",
 }
 
 end
@@ -93,7 +98,7 @@ function levels.callback(d) -- default callback when building maps
 				{"wood_chair",5},
 			}
 
-			basket.menu.show_notice("YARN v"..basket.version.number or 0,
+			basket.menu.show_notice(basket.level.desc_text(),
 [[
 Press the CURSOR keys to move up/down/left/right.
 
@@ -105,9 +110,28 @@ Press SPACE to continue.
 ]])
 		end
 		if d.name=="level.shaft" then
-			basket.menu.show_notice("YARN v"..basket.version.number or 0,
+			randfill{
+				{"wood_chair",20},
+				{"wood_plank",20},
+			}
+
+			basket.menu.show_notice(basket.level.desc_text(),
 [[
 That was a tight squeeze! Now we just have to find and disable the lazer security.
+]])
+		end
+
+		if d.name=="level.blockage" then
+			randfill{
+				{"wood_chair",40},
+				{"wood_plank",40},
+			}
+			
+			basket.menu.show_notice(basket.level.desc_text(),
+[[
+Wowzers, did you see that lazer explode? It was all smoke and fire and special effects everywhere!
+
+Now that we are finally into the complex its time to start looking for survivors.
 ]])
 		end
 
@@ -209,6 +233,15 @@ function levels.get_map(name,pow)
 		
 	end
 	
+	if name=="level.blockage" then
+	
+		r=add_room("blockage")
+		r.max_doors=1
+		
+		r=add_room("entrance3")
+		r.max_doors=1
+		
+	end
 	
 	return opts
 

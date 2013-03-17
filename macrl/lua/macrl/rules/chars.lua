@@ -246,7 +246,33 @@ Whatyagonna do about it?
 			{"lens",10*60},
 		},
 		done=function(it,by)
-			basket.change_level({levelname="level.cavein"})
+			basket.change_level({levelname="level.blockage"})
+			sscores.add(50000)
+		end,
+	},
+}
+
+a{
+	name="blockage",
+	desc="a blockage caused by a cavein",
+	img="blockage",
+	longdesc=[[
+This area has suffered from a cavein and is impassable.
+
+However you can hear a tapping coming from the otherside. You should find a way to get through and rescue the people traped there.
+]],
+	asc=ascii("#"),
+	big=true,
+	can=can.look,
+	sak={
+		basetime=10*60,
+		action="Use water presure from a fire hoze to lift an iron girder a few inches, once lifted you will be able to swing the girder to one side and hopefully open up a way through.",
+		needs={
+			{"wood",10*60},
+			{"hose",10*60},
+		},
+		done=function(it,by)
+			basket.change_level({levelname="level.rescue"})
 			sscores.add(50000)
 		end,
 	},
@@ -288,7 +314,20 @@ a{
 	wood=true,
 }
 
-
+a{
+	name="victim",
+	desc="A random scientist",
+	img="burke",
+	asc=ascii("B"),
+	big=true,
+	longdesc="Although you are sure they have some distinguishing features you cant quite put your finger on what they are",
+	chat={
+		["welcome"]={
+			text=[[Can you help us get out of here?]],
+			says={{say="rescue",text="Just head back the way I came and people will be there to help you the rest of the way."}},
+		},
+	},
+}
 end
 
 	return items

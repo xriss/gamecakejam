@@ -214,6 +214,17 @@ room("entrance3",[[
 	["@ "]="spawn",
 })
 
+room("blockage",[[
+# # # # # #
+# x . . x #
+# . x x . #
+# . x x . #
+# x . . x #
+# # # # # #
+]],{
+	["x "]="blockage",
+})
+
 function rooms.setup()
 
 basket.call.add{

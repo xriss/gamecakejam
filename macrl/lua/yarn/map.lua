@@ -315,12 +315,19 @@ M.bake=function(basket,map)
 				local r=g[ build.rand(1,#g) ]
 				local door=build.rand_xy_door(r)
 				local door_hit=0
+
+				if not fail and r and r.max_doors then
+					if #r.doors >= r.max_doors then -- too many doors
+						door=nil
+					end
+				end
+
 			
 		--		if not r.doors[door] then -- only one room per room side
 				
 				local fail=true
 				--	print("start "..build.x.." , "..build.y)
-				if build.get_asc(build.x,build.y)==yarn_ascii.hash then -- can start digging
+				if door and build.get_asc(build.x,build.y)==yarn_ascii.hash then -- can start digging
 					if build.vx~=0 then
 						local y=build.y
 						for x=build.x,build.x+build.vx*1000 do
