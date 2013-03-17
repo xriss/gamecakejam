@@ -419,7 +419,7 @@ M.bake=function(basket,levels)
 	end
 		
 	function levels.update()
-		levels.key_check()
+--		levels.key_check()
 				
 		for v,b in pairs(basket.level.items) do
 			v.update()

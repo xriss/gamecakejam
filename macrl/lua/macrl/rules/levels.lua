@@ -138,22 +138,25 @@ HINT: From now on you should know to use your Swiss Army Knife to access your sp
 
 		if d.name=="level.blockage" then
 			randfill{
-				{"victim.tech4",3},
-				{"wood_chair",20},
-				{"kettle",5},
+				{"victim.tech4",1},
+				{"victim.tech5",1},
+				{"victim.tech6",1},
+				{"wood_chair",5},
+				{"kettle",1},
 				{"brick.1",5},
 				{"brick.2",5},
 				{"brick.3",5},
 				{"brick.4",5},
-				{"wood_log",5},
-				{"wood_plank",5},
-				{"cabinet",20},
-				{"crate",20},
+--				{"wood_log",5},
+--				{"wood_plank",5},
+				{"cabinet",5},
+				{"crate",5},
 				{"debri.1",5},
 				{"debri.2",5},
 				{"debri.3",5},
 				{"debri.4",5},
 				{"debri.5",5},
+				{"hose",1},
 			}
 			
 			basket.menu.show_notice(basket.level.desc_text(),
@@ -161,6 +164,37 @@ HINT: From now on you should know to use your Swiss Army Knife to access your sp
 Wowzers, did you see that lazer explode? It was all smoke and fire and special effects everywhere!
 
 Now that we are finally into the complex its time to start looking for survivors.
+]])
+		end
+
+		if d.name=="level.rescue" then
+			randfill{
+				{"victim.tech4",2},
+				{"victim.tech5",2},
+				{"victim.tech6",2},
+				{"wood_chair",5},
+				{"kettle",1},
+				{"brick.1",5},
+				{"brick.2",5},
+				{"brick.3",5},
+				{"brick.4",5},
+--				{"wood_log",5},
+--				{"wood_plank",5},
+				{"cabinet",5},
+				{"crate",5},
+				{"debri.1",5},
+				{"debri.2",5},
+				{"debri.3",5},
+				{"debri.4",5},
+				{"debri.5",5},
+				{"hose",5},
+			}
+			
+			basket.menu.show_notice(basket.level.desc_text(),
+[[
+I am really suprised that that worked.
+
+Lets go find the tapping people.
 ]])
 		end
 
@@ -265,6 +299,19 @@ function levels.get_map(name,pow)
 	if name=="level.blockage" then
 	
 		r=add_room("blockage")
+		r.max_doors=1
+		
+		r=add_room("entrance3")
+		r.max_doors=1
+		
+	end
+
+	if name=="level.rescue" then
+	
+		r=add_room("rescue1")
+		r.max_doors=1
+
+		r=add_room("rescue_exit")
 		r.max_doors=1
 		
 		r=add_room("entrance3")

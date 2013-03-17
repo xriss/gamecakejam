@@ -82,6 +82,9 @@ function M.bake(opts)
 	end
 
 	function basket.update()
+		if basket.level then
+			basket.levels.update()
+		end
 	end
 
 	function basket.set_msg(a)

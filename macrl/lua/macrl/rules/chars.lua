@@ -59,6 +59,7 @@ a{
 	big=true,
 	hp=100,
 	can=can.talk,
+--	can=can.talkroam,
 }
 
 a{
@@ -179,7 +180,7 @@ a{
 	longdesc=[[
 A large pile of rubble blocks your way.
 ]],
-	img="rubble",
+	img="rubble1",
 	asc=ascii("X"),
 	big=true,
 	can=can.look,
@@ -269,7 +270,7 @@ However you can hear a tapping coming from the otherside. You should find a way 
 		action="Use water presure from a fire hoze to lift an iron girder a few inches, once lifted you will be able to swing the girder to one side and hopefully open up a way through.",
 		needs={
 			{"wood",10*60},
-			{"hose",10*60},
+			{"hose",30*60},
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.rescue"})
@@ -307,6 +308,7 @@ a{
 		items={
 			{"wood_plank",0.25},
 			{"wood_log",0.25},
+			{"hose",0.25},
 		},
 		score=1000,
 	},
@@ -356,13 +358,42 @@ a{
 	},
 	big=true,
 	hp=100,
-	can=can.talk,
+	can=can.talkroam,
 }
 
 a{
 	name="victim.tech4",
 	img="tech4",
 	asc=ascii("S"),
+}
+a{
+	name="victim.tech5",
+	img="tech5",
+	asc=ascii("S"),
+}
+a{
+	name="victim.tech6",
+	img="tech6",
+	asc=ascii("S"),
+}
+
+
+a{
+	name="spencer",
+	desc="Barbara Spencer",
+	img="burke",
+	asc=ascii("B"),
+	big=true,
+	longdesc="They are coming to get her.",
+	chat={
+		["welcome"]={
+			text=[[We have people trapped down here who need your help.]],
+			says={{say="how",text="OK"}},
+		},
+	},
+	big=true,
+	hp=100,
+	can=can.talk,
 }
 
 

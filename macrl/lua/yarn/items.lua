@@ -32,7 +32,7 @@ M.bake=function(basket,items)
 
 		item.class=t.class
 		
-		item.time_passed=basket.level.time_passed
+		item.time=basket.time or 0
 		
 		function item.del()
 			if item.cell then -- remove link from old cell
@@ -255,9 +255,9 @@ M.bake=function(basket,items)
 
 		function item.update()
 		
-			if item.can.roam=="random" then
-			
-				if 	item.time_passed<basket.level.time_passed then
+			if item.is.can.roam=="random" then
+--print("roam")			
+				if 	item.time<basket.time then
 			
 					local vs={ {1,0} , {-1,0} , {0,1} , {0,-1} }
 					
@@ -265,7 +265,7 @@ M.bake=function(basket,items)
 					
 					item.move(vs[1],vs[2])
 					
-					item.time_passed=time_passed+1
+					item.time=item.time+4
 				end
 				
 			end
