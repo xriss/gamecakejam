@@ -181,7 +181,25 @@ can.scrump={
 		return {"scrump"}
 	end,
 	scrump=function(it,by)
-		basket.menu.show_text(it.desc_text(),it.look_text())
+		code.step(2)
+		local items={}
+		for i,v in pairs(it.is.scrump) do
+			if math.random()<v[2] then
+				local t=basket.level.new_item(v[1])
+				t.set_cell( it.cell )
+				items[#items+1]=t
+			end
+		end
+		basket.level.del_item(it) -- destroy items we used
+		if #items>0 then
+			local t="You search "..it.desc_text().." and found the following useful components:\n"
+			for i,v in ipairs(items) do
+				t=t.."\n"..v.desc_text()
+			end
+			basket.menu.show_notice(it.desc_text(),t)
+		else
+			basket.menu.show_notice(it.desc_text(),"You search "..it.desc_text().." and found nothing useful.")
+		end
 	end,
 }
 

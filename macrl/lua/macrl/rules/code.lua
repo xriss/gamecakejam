@@ -177,7 +177,7 @@ function code.sak(it,by)
 		call=function(t)
 			menu.hide()
 			for i,v in ipairs(items) do
-				by.items[v]=nil -- destroy items we used
+				basket.level.del_item(v) -- destroy items we used
 			end
 			basket.step(tim)
 			sak.done(by,it)
