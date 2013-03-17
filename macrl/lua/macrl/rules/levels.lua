@@ -96,12 +96,6 @@ function levels.callback(d) -- default callback when building maps
 
 			randfill{
 				{"wood_chair",5},
-				{"kettle",5},
-				{"brick",5},
-				{"wood_log",5},
-				{"wood_plank",5},
-				{"cabinet",5},
-				{"crate",5},
 			}
 
 			basket.menu.show_notice(basket.level.desc_text(),
@@ -119,11 +113,19 @@ Press SPACE to continue.
 			randfill{
 --				{"wood_chair",5},
 --				{"kettle",5},
-				{"brick",5},
-				{"wood_log",5},
-				{"wood_plank",5},
+				{"brick.1",5},
+				{"brick.2",5},
+				{"brick.3",5},
+				{"brick.4",5},
+--				{"wood_log",5},
+--				{"wood_plank",5},
 --				{"cabinet",5},
-				{"crate",5},
+--				{"crate",5},
+				{"debri.1",5},
+				{"debri.2",5},
+				{"debri.3",5},
+				{"debri.4",5},
+				{"debri.5",5},
 			}
 
 			basket.menu.show_notice(basket.level.desc_text(),
@@ -139,11 +141,19 @@ HINT: From now on you should know to use your Swiss Army Knife to access your sp
 				{"victim.tech4",3},
 				{"wood_chair",20},
 				{"kettle",5},
-				{"brick",5},
+				{"brick.1",5},
+				{"brick.2",5},
+				{"brick.3",5},
+				{"brick.4",5},
 				{"wood_log",5},
 				{"wood_plank",5},
 				{"cabinet",20},
 				{"crate",20},
+				{"debri.1",5},
+				{"debri.2",5},
+				{"debri.3",5},
+				{"debri.4",5},
+				{"debri.5",5},
 			}
 			
 			basket.menu.show_notice(basket.level.desc_text(),

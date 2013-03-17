@@ -116,10 +116,30 @@ a{
 	name="brick",
 	desc="a brick",
 	asc=ascii("b"),
-	img="brick",
+	img="brick1",
 	can=can.item,
 	weight=1,
 	heavy=true,
+}
+a{
+	name="brick.1",
+	desc="a brick",
+	img="brick1",
+}
+a{
+	name="brick.2",
+	desc="a brick",
+	img="brick2",
+}
+a{
+	name="brick.3",
+	desc="a brick",
+	img="brick3",
+}
+a{
+	name="brick.4",
+	desc="a brick",
+	img="brick4",
 }
 
 a{
@@ -134,6 +154,41 @@ No, you may not pick it up. It realy is just paint.
 	img="helipad",
 	asc=ascii("O"),
 	can=can.look,
+}
+
+a{
+	name="debri",
+	desc="a small chunk of debri",
+	asc=ascii("_"),
+	img="debri1",
+	can=can.item,
+	weight=1,
+	stone=true,
+}
+a{
+	name="debri.1",
+	desc="a small chunk of debri",
+	img="debri1",
+}
+a{
+	name="debri.2",
+	desc="a tiny chunk of debri",
+	img="debri2",
+}
+a{
+	name="debri.3",
+	desc="a small bit of debri",
+	img="debri3",
+}
+a{
+	name="debri.4",
+	desc="a tiny bit of debri",
+	img="debri4",
+}
+a{
+	name="debri.5",
+	desc="a small plop of debri",
+	img="debri5",
 }
 
 end

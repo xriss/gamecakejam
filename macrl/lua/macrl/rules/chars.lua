@@ -297,7 +297,7 @@ a{
 }
 
 a{
-	name="wood_crate",
+	name="crate",
 	desc="a small wooden crate, every game must have one",
 	img="crate",
 	asc=ascii("b"),
@@ -344,6 +344,15 @@ a{
 			text=[[Can you help me get out of here?]],
 			says={{say="rescue",text="Sure, just head back the way I came and people will be there to help you the rest of the way."}},
 		},
+		["rescue"]=function(it,by)
+			basket.level.del_item(it)
+			code.step(1)
+			sscores.add(10000)
+			basket.set_msg( "Rescue!" )
+			return{
+			text=[[Thank you!]],
+			says={{say="exit",text="No problem."},},}
+		end,
 	},
 	big=true,
 	hp=100,
