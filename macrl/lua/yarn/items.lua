@@ -88,11 +88,14 @@ M.bake=function(basket,items)
 						if v.room and ( not v.room.is.get.visible() ) then -- if room is not visible
 --print("setting room visible")
 							local n=v.room.set_visible(true)
-							if item.is.can.explore_heal then
-								if n>0 then
-									yarn_fight.heal(item,n) -- restore when we explore
+--							if item.is.can.explore then
+								if basket.call.explore then
+									basket.call.explore(item,n)
 								end
-							end
+--								if n>0 then
+--									yarn_fight.heal(item,n) -- restore when we explore
+--								end
+--							end
 						end
 					end
 				end

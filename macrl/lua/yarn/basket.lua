@@ -10,6 +10,8 @@ function M.bake(opts)
 
 	local basket={}
 
+	basket.oven=opts.oven
+
 	basket.opts=opts
 	basket.version={number=13.001,string="13.001"}
 	
@@ -36,6 +38,7 @@ function M.bake(opts)
 
 	function basket.preheat(p)
 		p=p or {}
+		
 		
 		basket.canvas=basket.rebake("yarn.canvas")
 		basket.levels=basket.rebake("yarn.levels")

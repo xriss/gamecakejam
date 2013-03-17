@@ -13,6 +13,8 @@ local yarn_levels=basket.rebake("yarn.levels")
 
 local code=basket.rebake(basket.modgame..".rules.code")
 
+local sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores")
+
 -----------------------------------------------------------------------------
 --
 -- base can flags and functions for a fighter
@@ -183,7 +185,7 @@ can.scrump={
 	scrump=function(it,by)
 		code.step(2)
 		local items={}
-		for i,v in pairs(it.is.scrump) do
+		for i,v in pairs(it.is.scrump.items) do
 			if math.random()<v[2] then
 				local t=basket.level.new_item(v[1])
 				t.set_cell( it.cell )
@@ -200,6 +202,7 @@ can.scrump={
 		else
 			basket.menu.show_notice(it.desc_text(),"You search "..it.desc_text().." and found nothing useful.")
 		end
+		sscores.add(it.is.scrump.score)
 	end,
 }
 

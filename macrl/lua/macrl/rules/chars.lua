@@ -18,6 +18,7 @@ local function ascii(a) return string.byte(a,1) end
 local can=basket.rebake(basket.modgame..".rules.can")
 local code=basket.rebake(basket.modgame..".rules.code")
 
+local sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores")
 
 -----------------------------------------------------------------------------
 -- setup items into attrs
@@ -220,6 +221,7 @@ Maybe you could use your Swiss Army Knife to open it.
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.shaft"})
+			sscores.add(1000)
 		end,
 	},
 }
@@ -232,8 +234,11 @@ a{
 	big=true,
 	can=can.scrump,
 	scrump={
-		{"wood_plank",0.5},
-		{"wood_log",0.5},
+		items={
+			{"wood_plank",0.5},
+			{"wood_log",0.5},
+		},
+		score=10,
 	},
 	weight=1,
 	wood=true,

@@ -15,6 +15,8 @@ local function ascii(a) return string.byte(a,1) end
 
 local can=basket.rebake(basket.modgame..".rules.can")
 
+local sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores")
+
 -----------------------------------------------------------------------------
 -- look up an items attrs data
 -----------------------------------------------------------------------------
@@ -199,6 +201,9 @@ function code.find_sak(cell)
 	end
 end
 
+function code.explore(it,n)
+	sscores.add(n)
+end
 
 -----------------------------------------------------------------------------
 -- setup everythings attributes
@@ -209,6 +214,7 @@ function code.setup()
 	
 	basket.call.get=code.get_item -- everything is an item
 	basket.call.add=code.add_item
+	basket.call.explore=code.explore
 
 
 -- and setup everything else, everything is an item its all just broken into files to make it easier to find

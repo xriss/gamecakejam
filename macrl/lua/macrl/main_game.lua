@@ -33,6 +33,8 @@ M.bake=function(oven,game)
 	local yarn_levels=basket.rebake("yarn.levels")
 	local code=basket.rebake(oven.modgame..".rules.code")
 
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
+
 game.loads=function()
 
 end
@@ -167,6 +169,9 @@ game.draw=function()
 		font.set_xy(320-w/2,480-16)
 		font.draw(s)
 	end
+
+	sscores.draw("arcade2")
+
 end
 
 	return game
