@@ -66,6 +66,14 @@ M.bake=function(basket,cells)
 			end , d , 1
 		end
 
+		function cell.count_items() -- find any not big item
+			local c=0
+			for v,b in pairs(cell.items) do
+				c=c+1
+			end
+			return c
+		end
+
 		function cell.get_item() -- find any not big item
 		for v,b in pairs(cell.items) do
 				if not v.is.big then return v end

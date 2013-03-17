@@ -81,14 +81,7 @@ One day these will be considered a thought crime.
 	smoke=true,
 }
 
-a{
-	name="wood_chair",
-	desc="a small wooden chair",
-	asc=ascii("~"),
-	can=can.item,
-	weight=1,
-	wood=true,
-}
+
 
 a{
 	name="wood_plank",

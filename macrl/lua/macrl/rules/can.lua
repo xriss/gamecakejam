@@ -170,5 +170,20 @@ can.look={
 	end,
 }
 
+-----------------------------------------------------------------------------
+--
+-- base can flags and functions for an non interactive item
+--
+-----------------------------------------------------------------------------
+can.scrump={
+	use="scrump",
+	acts=function(it,by)
+		return {"scrump"}
+	end,
+	scrump=function(it,by)
+		basket.menu.show_text(it.desc_text(),it.look_text())
+	end,
+}
+
 	return can
 end

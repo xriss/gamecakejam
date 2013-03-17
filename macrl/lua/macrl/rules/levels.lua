@@ -72,6 +72,13 @@ function levels.callback(d) -- default callback when building maps
 		end
 
 		if d.name=="level.control" then
+
+			for i=1,10 do
+				local c=basket.level.rand_room_cell()
+				if c.count_items()==0 then -- empty only
+					basket.level.new_item( yarn_attrs.get("wood_chair") ).set_cell( c )
+				end
+			end
 			basket.menu.show_text("YARN v"..basket.version.number or 0,
 [[
 

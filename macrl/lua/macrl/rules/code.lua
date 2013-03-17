@@ -180,7 +180,7 @@ function code.sak(it,by)
 				by.items[v]=nil -- destroy items we used
 			end
 			basket.step(tim)
-			basket.change_level({levelname="level.shaft"})
+			sak.done(by,it)
 		end
 	}
 
