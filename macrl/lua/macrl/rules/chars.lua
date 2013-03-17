@@ -217,6 +217,10 @@ Maybe you could use your Swiss Army Knife to open it.
 	can=can.look,
 	sak={
 		basetime=10*60,
+		action="Force open the grate and climb inside.",
+		needs={
+			{"wood",10*60},
+		},
 		done=function(it,by)
 		end,
 	},

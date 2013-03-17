@@ -218,6 +218,9 @@ M.bake=function(basket,levels)
 		
 -- setup stuff below
 
+		function level.clean()
+		end
+		
 		function level.setup(opts)
 		
 		print("creating new level for -> ",level.is.name," : ",level.is.pow)	

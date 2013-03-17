@@ -127,7 +127,7 @@ local c={}
 can.sak=c
 for i,v in pairs(can.item) do c[i]=v end -- item base
 	c.acts=function(it,by)
-		local r=can.item.acts(it,by)
+		local r={}--can.item.acts(it,by)
 		table.insert(r,1,"use")
 		return r
 	end
@@ -145,11 +145,11 @@ can.watch=c
 for i,v in pairs(can.item) do c[i]=v end -- item base
 	c.acts=function(it,by)
 		local r=can.item.acts(it,by)
-		if it.is.equiped then
-			table.insert(r,1,"There are "..code.time_remaining().." remaining.")
-		else
+--		if it.is.equiped then
+--			table.insert(r,1,"There are "..code.time_remaining().." remaining.")
+--		else
 			table.insert(r,1,"use")
-		end
+--		end
 		return r
 	end
 	c.use=function(it,by)

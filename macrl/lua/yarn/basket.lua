@@ -52,6 +52,15 @@ function M.bake(opts)
 		return basket
 	end
 
+	function basket.change_level(p)
+		p=p or {}
+		basket.player.cell=nil -- clear location
+		basket.level.clean()
+		basket.level=basket.rebake("yarn.levels").get(p.levelname or "level")
+		basket.level.setup(p.levelopts or {})
+		return basket
+	end
+
 
 	function basket.msg(m)
 	--ascii,key,act
