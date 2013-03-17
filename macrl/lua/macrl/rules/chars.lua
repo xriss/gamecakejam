@@ -315,16 +315,16 @@ a{
 }
 
 a{
-	name="cabinate",
-	desc="a small wooden crate, every game must have one",
-	img="crate",
+	name="cabinet",
+	desc="an office cabinet",
+	img="cabinet",
 	asc=ascii("b"),
 	big=true,
 	can=can.scrump,
 	scrump={
 		items={
 			{"wood_plank",0.25},
-			{"wood_log",0.25},
+			{"brick",0.25},
 		},
 		score=1000,
 	},
@@ -338,7 +338,7 @@ a{
 	img="tech4",
 	asc=ascii("S"),
 	big=true,
-	longdesc="Although you are sure they have some distinguishing features you cant quite put your finger on what they are",
+	longdesc="Although you are sure they have some distinguishing features you can't quite put your finger on exactly what they are.",
 	chat={
 		["welcome"]={
 			text=[[Can you help me get out of here?]],

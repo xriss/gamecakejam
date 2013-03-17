@@ -100,6 +100,8 @@ function levels.callback(d) -- default callback when building maps
 				{"brick",5},
 				{"wood_log",5},
 				{"wood_plank",5},
+				{"cabinet",5},
+				{"crate",5},
 			}
 
 			basket.menu.show_notice(basket.level.desc_text(),
@@ -115,8 +117,13 @@ Press SPACE to continue.
 		end
 		if d.name=="level.shaft" then
 			randfill{
-				{"wood_chair",20},
-				{"wood_plank",20},
+--				{"wood_chair",5},
+--				{"kettle",5},
+				{"brick",5},
+				{"wood_log",5},
+				{"wood_plank",5},
+--				{"cabinet",5},
+				{"crate",5},
 			}
 
 			basket.menu.show_notice(basket.level.desc_text(),
@@ -130,8 +137,13 @@ HINT: From now on you should know to use your Swiss Army Knife to access your sp
 		if d.name=="level.blockage" then
 			randfill{
 				{"victim.tech4",3},
-				{"wood_chair",40},
-				{"wood_plank",40},
+				{"wood_chair",20},
+				{"kettle",5},
+				{"brick",5},
+				{"wood_log",5},
+				{"wood_plank",5},
+				{"cabinet",20},
+				{"crate",20},
 			}
 			
 			basket.menu.show_notice(basket.level.desc_text(),
