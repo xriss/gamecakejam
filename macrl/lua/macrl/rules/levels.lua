@@ -192,7 +192,7 @@ Now that we are finally into the complex its time to start looking for survivors
 			
 			basket.menu.show_notice(basket.level.desc_text(),
 [[
-I am really suprised that that worked.
+I am really suprised that worked!
 
 Lets go find the tapping people.
 ]])

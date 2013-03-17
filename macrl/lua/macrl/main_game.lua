@@ -41,6 +41,8 @@ end
 		
 game.setup=function()
 
+	main.basket.preheat({levelname="level.control"})
+
 	game.loads()
 
 end

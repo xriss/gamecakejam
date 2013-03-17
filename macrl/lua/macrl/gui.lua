@@ -10,7 +10,7 @@ local pack=require("wetgenes.pack")
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-local brag="I just ate over {score} pixels dodging the bear in #DmazeD #PLAY #THE #GAME! https://play.google.com/store/apps/details?id=com.wetgenes.dmazed"
+local brag="I just MacGyvered over {score} points in #MacRL #PLAY #THE #GAME! http://play.4lfa.com/gamecake/macrl"
 
 
 M.bake=function(oven,gui)
@@ -30,9 +30,11 @@ M.bake=function(oven,gui)
 	local main=oven.rebake(oven.modgame..".main")
 
 
+	gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
+
 	function gui.setup()
 	
-		gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
+--		gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
 	
 		gui.page()
 	end
@@ -111,8 +113,8 @@ print(act,w.id)
 	
 
 	function gui.clean()
-		sgui.page_hook=nil
-		gui.master=nil	
+--		sgui.page_hook=nil
+--		gui.master=nil
 	end
 	
 	function gui.update()

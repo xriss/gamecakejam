@@ -551,6 +551,7 @@ dbg(basket.level.pow)
 		local chat=item.is.chat and item.is.chat[chatname]
 		if not chat then return menu.hide() end
 		if type(chat)=="function" then chat=chat(item,by,chatname) end
+		if not chat then return end
 		
 		if chat.flag then
 			basket.level.is[chat.flag]=true
@@ -662,7 +663,7 @@ dbg(basket.level.pow)
 
 		top.title=title
 		top.display=menu.build_request(tab)
-		top.cursor=2
+		top.cursor=1
 		
 		menu.show(top)
 	end
