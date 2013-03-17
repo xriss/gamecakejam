@@ -176,7 +176,6 @@ a{
 	name="rubble",
 	desc="a pile of rubble",
 	longdesc=[[
-
 A large pile of rubble blocks your way.
 ]],
 	img="rubble",
@@ -189,7 +188,6 @@ a{
 	name="console",
 	desc="a keyboard and CRT",
 	longdesc=[[
-	
 Before you is a state of the art computer interface circa 1984.
 
 Probably best not to mess with it. These seem capable of exploding at the slightest malfunction.
@@ -205,7 +203,6 @@ a{
 	desc="a vent",
 	img="vent",
 	longdesc=[[
-	
 Set into the dirt is a strong steel grate mounted in concrete.
 
 This leads down the lift shaft which is the only available entrance into the Kiva complex.
@@ -217,10 +214,31 @@ Maybe you could use your Swiss Army Knife to open it.
 	can=can.look,
 	sak={
 		basetime=10*60,
+		action="Force open the grate and climb inside.",
+		needs={
+			{"wood",10*60},
+		},
 		done=function(it,by)
+			basket.change_level({levelname="level.shaft"})
 		end,
 	},
 }
+
+a{
+	name="wood_chair",
+	desc="a small wooden chair",
+	img="chair",
+	asc=ascii("h"),
+	big=true,
+	can=can.scrump,
+	scrump={
+		{"wood_plank",0.5},
+		{"wood_log",0.5},
+	},
+	weight=1,
+	wood=true,
+}
+
 
 end
 

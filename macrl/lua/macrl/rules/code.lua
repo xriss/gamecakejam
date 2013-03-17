@@ -107,7 +107,14 @@ function code.time_str(t)
 	local hr=r%60
 	r=math.floor(r/60)
 
-	return hr.." hours, "..mn.." minutes and "..sc.." seconds"
+	if sc>0 then
+		if hr>0 then return hr.." hours, "..mn.." minutes and "..sc.." seconds" end
+		if mn>0 then return mn.." minutes and "..sc.." seconds" end
+		return sc.." seconds"
+	else
+		if hr>0 then return hr.." hours and "..mn.." minutes" end
+		return mn.." minutes"
+	end
 end
 
 function code.time_remaining()
@@ -138,14 +145,42 @@ function code.sak(it,by)
 		end
 	}
 	
+	local tim=sak.basetime	
+	local gots={}
+	for i,n in ipairs(sak.needs) do
+		local tadd=n[2] -- time penalty
+		for v,b in pairs(by.items or {}) do
+			if not v.is.equiped then
+				if v.is[n[1]] then
+					gots[v]=true -- allocate item, it may be used for more than one need
+					tadd=0 -- no penalty
+					break
+				end
+			end
+		end
+		tim=tim+tadd
+	end
+	local items={}
+	for v,b in pairs(gots) do
+		items[#items+1]=v
+	end
+	
+	local text=sak.action.."\n\nThis will take "..code.time_str(tim)
+	if #items>0 then
+		text=text.." and use up the following loots:\n"
+		for i,v in ipairs(items) do
+			text=text.."\n"..v.desc_text()
+		end
+	end
 	tab[#tab+1]={
-		text=[[
-Force open the grate and climb inside.
-This will take 10 minutes and use up the following loots:
-a small plank of wood
-]],
+		text=text,
 		call=function(t)
-			menu.back()
+			menu.hide()
+			for i,v in ipairs(items) do
+				basket.level.del_item(v) -- destroy items we used
+			end
+			basket.step(tim)
+			sak.done(by,it)
 		end
 	}
 

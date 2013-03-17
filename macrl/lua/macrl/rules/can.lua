@@ -127,7 +127,7 @@ local c={}
 can.sak=c
 for i,v in pairs(can.item) do c[i]=v end -- item base
 	c.acts=function(it,by)
-		local r=can.item.acts(it,by)
+		local r={}--can.item.acts(it,by)
 		table.insert(r,1,"use")
 		return r
 	end
@@ -145,11 +145,11 @@ can.watch=c
 for i,v in pairs(can.item) do c[i]=v end -- item base
 	c.acts=function(it,by)
 		local r=can.item.acts(it,by)
-		if it.is.equiped then
-			table.insert(r,1,"There are "..code.time_remaining().." remaining.")
-		else
+--		if it.is.equiped then
+--			table.insert(r,1,"There are "..code.time_remaining().." remaining.")
+--		else
 			table.insert(r,1,"use")
-		end
+--		end
 		return r
 	end
 	c.use=function(it,by)
@@ -167,6 +167,39 @@ can.look={
 	end,
 	look=function(it,by)
 		basket.menu.show_text(it.desc_text(),it.look_text())
+	end,
+}
+
+-----------------------------------------------------------------------------
+--
+-- base can flags and functions for an non interactive item
+--
+-----------------------------------------------------------------------------
+can.scrump={
+	use="scrump",
+	acts=function(it,by)
+		return {"scrump"}
+	end,
+	scrump=function(it,by)
+		code.step(2)
+		local items={}
+		for i,v in pairs(it.is.scrump) do
+			if math.random()<v[2] then
+				local t=basket.level.new_item(v[1])
+				t.set_cell( it.cell )
+				items[#items+1]=t
+			end
+		end
+		basket.level.del_item(it) -- destroy items we used
+		if #items>0 then
+			local t="You search "..it.desc_text().." and found the following useful components:\n"
+			for i,v in ipairs(items) do
+				t=t.."\n"..v.desc_text()
+			end
+			basket.menu.show_notice(it.desc_text(),t)
+		else
+			basket.menu.show_notice(it.desc_text(),"You search "..it.desc_text().." and found nothing useful.")
+		end
 	end,
 }
 

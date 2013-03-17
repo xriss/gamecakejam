@@ -638,6 +638,19 @@ dbg(basket.level.pow)
 		menu.show(top)
 	end
 	
+	function menu.show_notice(title,text)
+		local top={}
+		top.title=title
+		top.display=menu.build_request({{
+			text=text,
+			call=function(t)
+				menu.hide()
+			end
+		}})
+		top.cursor=1		
+		menu.show(top)
+	end
+
 	function menu.show_action(title,it)
 		local top={}
 

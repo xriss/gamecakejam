@@ -38,6 +38,11 @@ add_item{
 	desc="The control room.",
 }
 
+add_item{
+	name="level.shaft",
+	desc="The lift shaft.",
+}
+
 end
 
 
@@ -46,11 +51,12 @@ function levels.callback(d) -- default callback when building maps
 
 	if d.call=="level" then
 	
-		if d.name=="level.control" then
+		local c=basket.level.cellfind["spawn"] or basket.level.rand_room_cell()		
+		basket.player.set_cell(c)
 		
-			local c=basket.level.cellfind["spawn"] or basket.level.rand_room_cell()
+		if not basket.player.is.setup then
+			basket.player.is.setup=true
 			
-			basket.player.set_cell(c)
 			basket.player.hp=basket.player.is.hp
 
 			-- default equipment
@@ -63,6 +69,16 @@ function levels.callback(d) -- default callback when building maps
 			it.set_cell(basket.player)
 			it.is.equiped=true
 			
+		end
+
+		if d.name=="level.control" then
+
+			for i=1,10 do
+				local c=basket.level.rand_room_cell()
+				if c.count_items()==0 then -- empty only
+					basket.level.new_item( yarn_attrs.get("wood_chair") ).set_cell( c )
+				end
+			end
 			basket.menu.show_text("YARN v"..basket.version.number or 0,
 [[
 
@@ -74,7 +90,8 @@ If you are standing near anything interesting press SPACE bar to interact with i
 
 Press SPACE to continue.
 ]])
-
+		end
+		if d.name=="level.shaft" then
 		end
 
 	end

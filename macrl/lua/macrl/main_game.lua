@@ -97,8 +97,9 @@ game.draw=function()
 					v.img(t) -- writes into t
 					
 					f=imgs.names[t.img] -- try a basic look up
-					if not f then -- generic
-						if v.is.big then
+					if not f then -- generic view
+						local it=v.get_char() or v.get_item()
+						if it.is.big then
 							f=imgs.names["bigitem"]
 						else
 							f=imgs.names["item"]
