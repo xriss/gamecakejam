@@ -314,7 +314,20 @@ a{
 	wood=true,
 }
 
-
+a{
+	name="victim",
+	desc="A random scientist",
+	img="burke",
+	asc=ascii("B"),
+	big=true,
+	longdesc="Although you are sure they have some distinguishing features you cant quite put your finger on what they are",
+	chat={
+		["welcome"]={
+			text=[[Can you help us get out of here?]],
+			says={{say="rescue",text="Just head back the way I came and people will be there to help you the rest of the way."}},
+		},
+	},
+}
 end
 
 	return items
