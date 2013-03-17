@@ -14,14 +14,14 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 M.names={
 	["colson"]		={	1,	2,	2},
 	["burke"]		={	1,	2,	1},
-	["gantner"]		={	1,	5,	1},
+	["gantner"]		={	1,	3,	2},
 	["tech1"]		={	1,	3,	0},
-	["tech2"]		={	1,	3,	0},
-	["tech3"]		={	1,	3,	0},
+	["tech2"]		={	1,	4,	3},
+	["tech3"]		={	1,	6,	3},
 
 	["rubble"]		={	0,	7,	0},
-	["console"]		={	0,	8,	0},
-	["helipad"]		={	0,	9,	0},
+	["console"]		={	1,	8,	0},
+	["helipad"]		={	1,	9,	0},
 	["vent"]		={	0,	10,	0},	
 
 	["dark"]		={	0,	0,	0},	
@@ -29,8 +29,8 @@ M.names={
 	["floor"]		={	0,	2,	0},	
 	
 	["macgyver"]	={	1,	3,	1},
-	["item"]		={	0,	4,	0},	
-	["bigitem"]		={	0,	6,	0},	
+	["item"]		={	1,	4,	0},	
+	["bigitem"]		={	1,	6,	0},	
 
 }
 
