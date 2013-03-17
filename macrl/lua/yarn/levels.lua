@@ -187,6 +187,11 @@ M.bake=function(basket,levels)
 		function level.destroy()
 		end
 
+		function level.desc_text()
+			local s=level.is.desc
+			return s
+		end
+
 	-- create a save state for this data
 		function level.save()
 			local sd={}
