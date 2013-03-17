@@ -256,7 +256,7 @@ Whatyagonna do about it?
 a{
 	name="blockage",
 	desc="A blockage caused by a cavein.",
-	img="blockage",
+	img="rubble1",
 	longdesc=[[
 This area has suffered from a cavein and is impassable.
 

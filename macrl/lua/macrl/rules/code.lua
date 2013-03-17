@@ -152,13 +152,13 @@ function code.sak(it,by)
 	for i,n in ipairs(sak.needs) do
 		local tadd=n[2] -- time penalty
 		for v,b in pairs(by.items or {}) do
-			if not v.is.equiped then
+--			if not v.is.equiped then
 				if v.is[n[1]] then
 					gots[v]=true -- allocate item, it may be used for more than one need
 					tadd=0 -- no penalty
 					break
 				end
-			end
+--			end
 		end
 		tim=tim+tadd
 	end
