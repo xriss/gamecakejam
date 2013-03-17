@@ -161,6 +161,28 @@ M.bake=function(basket,levels)
 			return level.rand_cell(level.rand_room())
 		end
 
+	-- get a random empty cell in the given range
+		function level.rand_empty(room)
+			local t={}
+			for x=room.xp,room.xp+room.xh-1 do
+				for y=room.yp,room.yp+room.yh-1 do
+					local c=level.get_cell(x,y)
+					if c.is.floor then
+						local cn=0
+						for i,v in pairs(c.items) do
+							cn=cn+1
+							break
+						end
+						if cn==0 then -- its a floor with nothing there so add it
+							t[#t+1]=c
+						end
+					end
+				end
+			end
+			local i=level.rand(1,#t) -- pick one
+			return t[i] -- and return it
+		end
+
 		function level.destroy()
 		end
 
