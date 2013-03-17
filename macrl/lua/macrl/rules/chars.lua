@@ -381,7 +381,7 @@ a{
 a{
 	name="spencer",
 	desc="Barbara Spencer",
-	img="burke",
+	img="spencer",
 	asc=ascii("B"),
 	big=true,
 	longdesc="They are coming to get her.",
@@ -398,7 +398,7 @@ a{
 			text=[[
 Do you know what happened? Marlowe and Steub must be dead they where on the 3rd level when the first explosion hit.
 ]],
-			says={{say="with",text="They are still alive Maam I'm on my way there"},},}
+			says={{say="with",text="They are still alive Maam, I'm on my way there."},},}
 			else
 				return{
 			text=[[
