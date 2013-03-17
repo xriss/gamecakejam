@@ -49,6 +49,8 @@ function M.bake(opts)
 --		basket.player.set_cell(basket.level.rand_room_cell())
 --		basket.menu.show_player_menu(basket.player)
 
+		basket.time=0
+		
 		return basket
 	end
 
@@ -73,12 +75,11 @@ function M.bake(opts)
 
 
 	function basket.step(t)
-		basket.levels.step(t)
+		basket.time=basket.time+t
 	end
 
-function basket.update()
---	return level.update() + menu.update()
-end
+	function basket.update()
+	end
 
 	function basket.set_msg(a)
 		basket.display_msg=a

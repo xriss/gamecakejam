@@ -271,12 +271,14 @@ print("show player top")
 			}
 			
 -- add status option
+--[[
 			tab[#tab+1]={
 				text="your status ( "..(player.hp or 0).."/"..(player.is.hp or 0).." hp )",
 				call=function(t)
 					menu.show_status_menu(player)
 				end
 			}
+]]
 			
 			local items={}
 			for v,b in pairs(player.items or {}) do

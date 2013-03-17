@@ -37,8 +37,8 @@ M.bake=function(basket,levels)
 --		level.menu=up.menu
 --		level.soul=up.soul
 
-		level.time_passed=0
-		level.time_update=0
+--		level.time_passed=0
+--		level.time_update=0
 		
 		level.xh=t.xh or 40
 		level.yh=t.yh or 30-2
@@ -313,102 +313,6 @@ M.bake=function(basket,levels)
 
 			return level
 		end
-		
---[[	
-		local sd=main.get_level_save(level.is.name,level.is.pow)
-		
-		if sd then
-		dbg("found level savedata for -> ",level.is.name," : ",level.is.pow)	
-
-			load(sd)
-			
-			yarn_attrs.generate_player_bystairs(level)
-
-		else
-		dbg("creating new level for -> ",level.is.name," : ",level.is.pow)	
-
-
-		-- set opts using rooms,this is where most of the brainwork happens	
-			level.opts=yarn_attrs.get_map(level.name,level.pow)
-			level.level.flags=level.opts.flags -- these are importatn level state and should be saved
-			level.opts.xh=level.xh
-			level.opts.yh=level.yh
-			level.map=yarn_map.create(level.opts) -- create an empty map, this is only a room layout
-			
-		-- now turn that generated map into real rooms we can put stuff in
-			for i,v in ipairs(map.rooms) do
-				level.rooms[i]=yarn_room.create(yarn_attrs.get("room",0,
-					{  xp=v.x, yp=v.y, xh=v.xh, yh=v.yh, }) )
-				level.rooms[i].opts=v.opts
-			end
-			for i,v in ipairs(level.rooms) do
-				v.post_create()
-			end
-
-		-- find link door locations	
-			for i,v in ipairs(level.rooms) do v.find_doors() end
-				
-			
-			for i,r in ipairs(level.rooms) do
-				if r.opts then -- special?
-					local cs=r.opts.cells
-					for y=1,#cs do
-						local v=cs[y]
-						for x=1,#v do
-							local n=v[x]
-							
-							if n=="space" then -- do nothing
-							else
-								local c=get_cell(r.xp+x-1,r.yp+y-1)
-								if r.opts.callback then
-									r.opts.callback({call="cell",cell=c,name=n,room=r})
-								end
-							end
-						end
-					end
-					if r.opts.callback then
-						r.opts.callback({call="room",room=r})
-					end
-				end
-			end
-			
-			
-			if level.opts.bigroom then
-
-		--		rooms[#rooms+1]=yarn_room.create(yarn_attrs.get("room",0,
-		--			{ level=d, xp=1, yp=1, xh=xh-2, yh=yh-2, }) )
-
-				for y=0,yh-1 do
-					for x=0,xh-1 do
-						local i=x+y*xh
-						local cell=level.cells[i]
-						if level.map.room_find(x,y)==map.bigroom then
-							cell.set.name("floor")
-							cell.is.set.visible(true)
-						end
-						if y==0 or y==yh-1 or x==0 or x==xh-1 then
-							cell.is.set.visible(true)
-						end
-					end
-				end
-				for i,r in ipairs(level.rooms) do
-					if r.xh>1 and r.yh>1 then -- not corridors
-						for x=r.xp-1,r.xp+r.xh do
-							for y=r.yp-1,r.yp+r.yh do
-								if x==r.xp-1 or x==r.xp+r.xh or y==r.yp-1 or y==r.yp+r.yh then
-									local cell=level.get_cell(x,y)
-									cell.is.set.visible(true)
-								end
-							end
-						end
-					end
-				end
-			end
-			
-			if level.opts.generate then level.opts.generate(level) end
-
-		end
-]]
 
 		return level
 		
@@ -457,16 +361,15 @@ M.bake=function(basket,levels)
 		end
 		
 		if vx~=0 or vy~=0 then
---			basket.level.time_update=basket.level.time_update+
 			basket.player.move(vx,vy)
 			return true
 		end
 	end
 	
-	function levels.step(t,item)
+--	function levels.step(t,item)
 --		if item then t=t end -- advance level time relative to actor..
-		basket.level.time_update=basket.level.time_update+t
-	end
+--		basket.level.time_update=basket.level.time_update+t
+--	end
 	
 	function levels.msg(m)
 		if not m then

@@ -178,7 +178,7 @@ function levels.get_map(name,pow)
 		r=add_room("collapsed")
 				
 		opts.mode="town"
-		opts.only_these_rooms=true
+--		opts.only_these_rooms=true
 
 	end
 	

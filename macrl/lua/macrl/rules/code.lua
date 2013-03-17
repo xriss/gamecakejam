@@ -119,7 +119,7 @@ end
 
 function code.time_remaining()
 	if basket.level then
-		return code.time_str( 18000 - (basket.level.time_update) )
+		return code.time_str( 18000 - (basket.time) )
 	else return "" end
 end
 
