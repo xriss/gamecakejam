@@ -163,11 +163,12 @@ M.bake=function(basket,levels)
 
 	-- get a random empty cell in the given range
 		function level.rand_empty(room)
+			if not room then room={xp=0,yp=0,xh=level.xh,yh=level.yh} end
 			local t={}
 			for x=room.xp,room.xp+room.xh-1 do
 				for y=room.yp,room.yp+room.yh-1 do
 					local c=level.get_cell(x,y)
-					if c.is.floor then
+					if c and c.is.name=="floor" then
 						local cn=0
 						for i,v in pairs(c.items) do
 							cn=cn+1

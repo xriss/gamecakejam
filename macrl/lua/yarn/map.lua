@@ -380,7 +380,15 @@ M.bake=function(basket,map)
 					end
 				end
 				
+				if not fail and r2 and r2.max_doors then
+					if #r2.doors >= r2.max_doors then -- too many doors
+						fail=true
+						r2=nil
+					end
+				end
+
 				if not fail then
+				
 				
 					local g1,g2=build.alleys_merge_find(r,r2)
 					

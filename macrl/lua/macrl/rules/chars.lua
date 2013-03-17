@@ -221,7 +221,33 @@ Maybe you could use your Swiss Army Knife to open it.
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.shaft"})
-			sscores.add(10000)
+			sscores.add(50000)
+		end,
+	},
+}
+
+a{
+	name="lazer",
+	desc="a lazer protects this area",
+	img="lazer",
+	longdesc=[[
+This area is protected by fully charged lazers.
+
+Whatyagonna do about it?
+]],
+	asc=ascii("#"),
+	big=true,
+	can=can.look,
+	sak={
+		basetime=10*60,
+		action="Use smoke/dust to discover exactly where the lazers are and then reflect it back into itself. The feedback will destroy it!",
+		needs={
+			{"smoke",10*60},
+			{"lens",10*60},
+		},
+		done=function(it,by)
+			basket.change_level({levelname="level.cavein"})
+			sscores.add(50000)
 		end,
 	},
 }
@@ -231,6 +257,24 @@ a{
 	desc="a small wooden chair",
 	img="chair",
 	asc=ascii("h"),
+	big=true,
+	can=can.scrump,
+	scrump={
+		items={
+			{"wood_plank",0.5},
+			{"wood_log",0.5},
+		},
+		score=1000,
+	},
+	weight=1,
+	wood=true,
+}
+
+a{
+	name="wood_crate",
+	desc="a small wooden crate, every game must have one",
+	img="crate",
+	asc=ascii("b"),
 	big=true,
 	can=can.scrump,
 	scrump={

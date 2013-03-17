@@ -194,6 +194,26 @@ room("collapsed",[[
 	["x "]="rubble",
 })
 
+room("lazer",[[
+# # # # #
+# = = = #
+# = = = #
+# = = = #
+# # # # #
+]],{
+	["= "]="lazer",
+})
+
+room("entrance3",[[
+# # # # #
+# . . . #
+# . @ . #
+# . . . #
+# # # # #
+]],{
+	["@ "]="spawn",
+})
+
 function rooms.setup()
 
 basket.call.add{

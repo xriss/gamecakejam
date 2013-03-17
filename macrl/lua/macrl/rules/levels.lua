@@ -43,6 +43,11 @@ add_item{
 	desc="The lift shaft.",
 }
 
+add_item{
+	name="level.cavein",
+	desc="The blockage.",
+}
+
 end
 
 
@@ -70,15 +75,24 @@ function levels.callback(d) -- default callback when building maps
 			it.is.equiped=true
 			
 		end
+		
+		local randfill=function(t)
+			for i,v in ipairs(t) do
+				for i=1,v[2] do
+					local c=basket.level.rand_empty()
+					if c then
+						basket.level.new_item( v[1] ).set_cell( c )
+					end
+				end
+			end
+		end
 
 		if d.name=="level.control" then
 
-			for i=1,10 do
-				local c=basket.level.rand_room_cell()
-				if c.count_items()==0 then -- empty only
-					basket.level.new_item( yarn_attrs.get("wood_chair") ).set_cell( c )
-				end
-			end
+			randfill{
+				{"wood_chair",5},
+			}
+
 			basket.menu.show_notice("YARN v"..basket.version.number or 0,
 [[
 Press the CURSOR keys to move up/down/left/right.
@@ -183,6 +197,16 @@ function levels.get_map(name,pow)
 		opts.mode="town"
 --		opts.only_these_rooms=true
 
+	end
+
+	if name=="level.shaft" then
+	
+		r=add_room("lazer")
+		r.max_doors=1
+		
+		r=add_room("entrance3")
+		r.max_doors=1
+		
 	end
 	
 	
