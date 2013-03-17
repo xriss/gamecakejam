@@ -218,7 +218,7 @@ Maybe you could use your Swiss Army Knife to open it.
 		basetime=10*60,
 		action="Force open the grate and climb inside.",
 		needs={
-			{"wood",10*60},
+			{"wood",30*60},
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.shaft"})
@@ -245,6 +245,7 @@ Whatyagonna do about it?
 		needs={
 			{"smoke",10*60},
 			{"lens",10*60},
+			{"metal",10*60},
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.blockage"})
@@ -271,6 +272,7 @@ However you can hear a tapping coming from the otherside. You should find a way 
 		needs={
 			{"wood",10*60},
 			{"hose",30*60},
+			{"metal",10*60},
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.rescue"})
