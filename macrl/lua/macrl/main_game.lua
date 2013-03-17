@@ -60,6 +60,7 @@ end
 game.update=function()
 
 	yarn_menu.update()
+	basket.update()
 
 end
 

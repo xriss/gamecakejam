@@ -104,6 +104,16 @@ a{
 }
 
 a{
+	name="hose",
+	desc="a fire hose",
+	asc=ascii("0"),
+	img="hose",
+	can=can.item,
+	weight=1,
+	hose=true,
+}
+
+a{
 	name="kettle",
 	desc="a small kettle",
 	asc=ascii("k"),
