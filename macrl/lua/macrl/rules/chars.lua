@@ -381,15 +381,52 @@ a{
 a{
 	name="spencer",
 	desc="Barbara Spencer",
-	img="spencer",
+	img="burke",
 	asc=ascii("B"),
 	big=true,
 	longdesc="They are coming to get her.",
 	chat={
-		["welcome"]={
-			text=[[We have people trapped down here who need your help.]],
-			says={{say="how",text="OK"}},
+		["welcome"]=function(it,by)
+			local num=0
+			for v,b in pairs(basket.level.items) do
+				if v.is.name:sub(1,6)=="victim" then
+					num=num+1
+				end
+			end
+			if num==0 then -- talk
+				return{
+			text=[[
+Do you know what happened? Marlowe and Steub must be dead they where on the 3rd level when the first explosion hit.
+]],
+			says={{say="with",text="They are still alive Maam I'm on my way there"},},}
+			else
+				return{
+			text=[[
+These are ]]..num..[[ people trapped down here.
+You need to get them all out.
+]],
+			says={{say="exit",text="OK"},},}
+			end
+		end,
+		["with"]={
+			text=[[
+Then I'm going with you! I'll show you the way.
+]],
+			says={{say="sure",text="Are you sure? It will mean the end of this 7DRL."},{say="abort",text="I'll be back in a minute."},},
 		},
+		["sure"]=function(it,by)
+			basket.menu.show_action("THE SUDDEN END",{text="Game over man, check your score.",call=function()
+			
+				sscores.add( (18000 - (basket.time))*10 )
+				sscores.final_score({})
+			
+				local main=basket.oven.rebake(basket.oven.modgame..".main")
+				local gui=basket.oven.rebake(basket.oven.modgame..".gui")
+				main.next=basket.oven.rebake(basket.oven.modgame..".main_menu")
+				gui.spage("score")
+
+			end})
+		end,
 	},
 	big=true,
 	hp=100,
