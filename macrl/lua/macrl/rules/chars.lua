@@ -29,7 +29,7 @@ local a=basket.call.add
 
 a{
 	name="player",
-	desc="the MacGyver",
+	desc="The MacGyver.",
 	img="macgyver",
 	asc=ascii("@"),
 	big=true,
@@ -54,7 +54,7 @@ a{
 
 a{
 	name="control",
-	desc="a fat controler",
+	desc="A fat controller.",
 	asc=ascii("C"),
 	big=true,
 	hp=100,
@@ -65,7 +65,7 @@ a{
 a{
 	name="control.colson",
 	desc="Andy Colson",
-	longdesc="This fat balding controler looks exactly like another fat balding controler you know.",
+	longdesc="This fat, balding controller looks exactly like another fat, balding controller you know.",
 	img="colson",
 	asc=ascii("C"),
 	big=true,
@@ -121,10 +121,10 @@ a{
 		},
 		["more"]={
 			text=[[Andy Colson is our chief of operations, you can ask him anything about the building layout.]],
-			says={{say="time",text="What about time."}},
+			says={{say="time",text="What about time?"}},
 		},
 		["time"]={
-			text=[[We have an acid leak and in a little under 5 hours we will need to take drastic acion to stop it poluting the aquafer.]],
+			text=[[We have an acid leak and in a little under 5 hours we will need to take drastic acion to stop it polluting the aquafer.]],
 			says={{say="ok",text="I best be going then."}},
 		},
 	},
@@ -132,14 +132,14 @@ a{
 a{
 	name="control.gantner",
 	desc="Ed Gantner",
-	longdesc="An old man in a suit, one of your few surviving friends",
+	longdesc="An old man in a suit, one of your few surviving friends.",
 	img="gantner",
 	asc=ascii("G"),
 	big=true,
 	chat={
 		["welcome"]={
 			text=[[
-Thanks for coming Mac and I know If anyone can help us, it will be you.
+Thanks for coming Mac and I know if anyone can help us, it will be you.
 ]],
 			says={{say="who",text="Who should I talk to around here?"}},
 		},
@@ -154,21 +154,21 @@ Charlie Burke, is director of the lab and will be able to answer your questions.
 
 a{
 	name="control.tech1",
-	desc="a fat balding technician",
+	desc="A fat, balding technician.",
 	img="tech1",
 	asc=ascii("X"),
 	big=true,
 }
 a{
 	name="control.tech2",
-	desc="a short hairy technician",
+	desc="A short, hairy technician.",
 	img="tech2",
 	asc=ascii("Y"),
 	big=true,
 }
 a{
 	name="control.tech3",
-	desc="a tall skinny technician",
+	desc="A tall, skinny technician.",
 	img="tech3",
 	asc=ascii("Z"),
 	big=true,
@@ -176,7 +176,7 @@ a{
 
 a{
 	name="rubble",
-	desc="a pile of rubble",
+	desc="A pile of rubble.",
 	longdesc=[[
 A large pile of rubble blocks your way.
 ]],
@@ -188,7 +188,7 @@ A large pile of rubble blocks your way.
 
 a{
 	name="console",
-	desc="a keyboard and CRT",
+	desc="A keyboard and CRT.",
 	longdesc=[[
 Before you is a state of the art computer interface circa 1984.
 
@@ -229,7 +229,7 @@ Maybe you could use your Swiss Army Knife to open it.
 
 a{
 	name="lazer",
-	desc="a lazer protects this area",
+	desc="A lazer protects this area.",
 	img="lazer",
 	longdesc=[[
 This area is protected by fully charged lazers.
@@ -241,7 +241,7 @@ Whatyagonna do about it?
 	can=can.look,
 	sak={
 		basetime=10*60,
-		action="Use smoke/dust to discover exactly where the lazers are and then reflect it back into itself. The feedback will destroy it!",
+		action="Use smoke and dust to discover exactly where the lazers are and then reflect it back into itself. The feedback will destroy it!",
 		needs={
 			{"smoke",10*60},
 			{"lens",10*60},
@@ -255,19 +255,19 @@ Whatyagonna do about it?
 
 a{
 	name="blockage",
-	desc="a blockage caused by a cavein",
+	desc="A blockage caused by a cavein.",
 	img="blockage",
 	longdesc=[[
 This area has suffered from a cavein and is impassable.
 
-However you can hear a tapping coming from the otherside. You should find a way to get through and rescue the people traped there.
+However you can hear a tapping coming from the otherside. You should find a way to get through and rescue the people trapped there.
 ]],
 	asc=ascii("#"),
 	big=true,
 	can=can.look,
 	sak={
 		basetime=10*60,
-		action="Use water presure from a fire hoze to lift an iron girder a few inches, once lifted you will be able to swing the girder to one side and hopefully open up a way through.",
+		action="Use water presure from a fire hose to lift an iron girder a few inches, once lifted you will be able to swing the girder to one side and hopefully open up a way through.",
 		needs={
 			{"wood",10*60},
 			{"hose",30*60},
@@ -281,7 +281,7 @@ However you can hear a tapping coming from the otherside. You should find a way 
 
 a{
 	name="wood_chair",
-	desc="a small wooden chair",
+	desc="A small wooden chair.",
 	img="chair",
 	asc=ascii("h"),
 	big=true,
@@ -299,7 +299,7 @@ a{
 
 a{
 	name="crate",
-	desc="a small wooden crate, every game must have one",
+	desc="A small wooden crate, every game must have one.",
 	img="crate",
 	asc=ascii("b"),
 	big=true,
@@ -318,7 +318,7 @@ a{
 
 a{
 	name="cabinet",
-	desc="an office cabinet",
+	desc="An office cabinet.",
 	img="cabinet",
 	asc=ascii("b"),
 	big=true,
@@ -336,11 +336,11 @@ a{
 
 a{
 	name="victim",
-	desc="A random scientist",
+	desc="A random scientist.",
 	img="tech4",
 	asc=ascii("S"),
 	big=true,
-	longdesc="Although you are sure they have some distinguishing features you can't quite put your finger on exactly what they are.",
+	longdesc="Although you are sure they have some distinguishing features, you can't quite put your finger on exactly what they are.",
 	chat={
 		["welcome"]={
 			text=[[Can you help me get out of here?]],
@@ -381,7 +381,7 @@ a{
 a{
 	name="spencer",
 	desc="Barbara Spencer",
-	img="burke",
+	img="spencer",
 	asc=ascii("B"),
 	big=true,
 	longdesc="They are coming to get her.",
