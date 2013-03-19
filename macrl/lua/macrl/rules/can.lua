@@ -13,7 +13,9 @@ local yarn_levels=basket.rebake("yarn.levels")
 
 local code=basket.rebake(basket.modgame..".rules.code")
 
-local sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores")
+local sscores
+if basket.oven then sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores") end
+
 
 -----------------------------------------------------------------------------
 --
@@ -202,7 +204,9 @@ can.scrump={
 		else
 			basket.menu.show_notice(it.desc_text(),"You search "..it.desc_text().." and found nothing useful.")
 		end
-		sscores.add(it.is.scrump.score)
+		if sscores then
+			sscores.add(it.is.scrump.score)
+		end
 	end,
 }
 

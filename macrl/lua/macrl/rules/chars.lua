@@ -18,7 +18,8 @@ local function ascii(a) return string.byte(a,1) end
 local can=basket.rebake(basket.modgame..".rules.can")
 local code=basket.rebake(basket.modgame..".rules.code")
 
-local sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores")
+local sscores
+if basket.oven then sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores") end
 
 -----------------------------------------------------------------------------
 -- setup items into attrs
@@ -222,7 +223,7 @@ Maybe you could use your Swiss Army Knife to open it.
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.shaft"})
-			sscores.add(50000)
+			if sscores then sscores.add(50000) end
 		end,
 	},
 }
@@ -248,7 +249,7 @@ Whatyagonna do about it?
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.blockage"})
-			sscores.add(50000)
+			if sscores then sscores.add(50000) end
 		end,
 	},
 }
@@ -274,7 +275,7 @@ However you can hear a tapping coming from the otherside. You should find a way 
 		},
 		done=function(it,by)
 			basket.change_level({levelname="level.rescue"})
-			sscores.add(50000)
+			if sscores then sscores.add(50000) end
 		end,
 	},
 }
@@ -349,7 +350,7 @@ a{
 		["rescue"]=function(it,by)
 			basket.level.del_item(it)
 			code.step(1)
-			sscores.add(10000)
+			if sscores then sscores.add(10000) end
 			basket.set_msg( "Rescue!" )
 			return{
 			text=[[Thank you!]],
@@ -417,9 +418,11 @@ Then I'm going with you! I'll show you the way.
 		["sure"]=function(it,by)
 			basket.menu.show_action("THE SUDDEN END",{text="Game over man, check your score.",call=function()
 			
-				sscores.add( (18000 - (basket.time))*10 )
-				sscores.final_score({})
-			
+				if sscores then
+					sscores.add( (18000 - (basket.time))*10 )
+					sscores.final_score({})
+				end
+				
 				local main=basket.oven.rebake(basket.oven.modgame..".main")
 				local gui=basket.oven.rebake(basket.oven.modgame..".gui")
 				main.next=basket.oven.rebake(basket.oven.modgame..".main_menu")

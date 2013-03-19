@@ -1,5 +1,7 @@
 package.path=package.path..";./?.lua;./?/init.lua;lua/?.lua;lua/?/init.lua"
 
+dbg=print
+--[[
 dbg=function(...)
 	local fp=io.open("yarn.dbg","a")
 	if fp then
@@ -11,12 +13,14 @@ dbg=function(...)
 	end
 end
 dbg(os.date())
+]]
 
---local yarn=require("yarn")
+os.execute("stty cbreak -echo")
 
 local basket=require("yarn.basket").bake({})
-basket.rebake("swordstone.rules.code").setup()
-basket.preheat()
+basket.modgame="macrl"
+basket.rebake(basket.modgame..".rules.code").setup()
+basket.preheat({levelname="level.control"})
 
 
 
@@ -62,8 +66,8 @@ while not exit do
 	
 	if key_str=="q" then exit=true end
 
-	basket.keypress(key_str,key,"down")
-	basket.keypress(key_str,key,"up")
+	basket.msg({class="key",action= 1,keyname=key,key=key_str})
+	basket.msg({class="key",action=-1,keyname=key,key=key_str})
 	basket.update()
 	print( aesc.."0;0H"..basket.canvas.tostring({charwidth=2}) )
 
@@ -75,4 +79,6 @@ local fp=io.open("savedata.lua","w")
 fp:write(yarn_strings.serialize(sd))
 fp:close()
 ]]
+
+os.execute("stty sane")
 

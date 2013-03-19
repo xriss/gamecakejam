@@ -15,7 +15,8 @@ local function ascii(a) return string.byte(a,1) end
 
 local can=basket.rebake(basket.modgame..".rules.can")
 
-local sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores")
+local sscores
+if basket.oven then sscores=basket.oven.rebake("wetgenes.gamecake.spew.scores") end
 
 -----------------------------------------------------------------------------
 -- look up an items attrs data
@@ -202,7 +203,9 @@ function code.find_sak(cell)
 end
 
 function code.explore(it,n)
-	sscores.add(n)
+	if sscores then
+		sscores.add(n)
+	end
 end
 
 -----------------------------------------------------------------------------
