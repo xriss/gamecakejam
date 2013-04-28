@@ -33,18 +33,34 @@ bat.setup=function()
 	bat.loads()
 
 
+
 	bat.sx=20
-	bat.sy=20*8
+	bat.sy=20*5
+	
+	bat.vx=0
+	bat.vy=0
+	bat.ax=0
+	bat.ay=0
 
 	if bat.idx==1 then
 	
 		bat.px=0+40
 		bat.py=250
 		
+		bat.side=1
+		
+		bat.key_up="q"
+		bat.key_down="a"
+
 	else
 	
 		bat.px=800-40
 		bat.py=250
+		
+		bat.side=-1
+		
+		bat.key_up="up"
+		bat.key_down="down"
 		
 	end
 
@@ -61,12 +77,34 @@ end
 bat.msg=function(m)
 --	print(wstr.dump(m))
 
+	local d=0
+	if m.class=="key" then
+		if m.keyname==bat.key_up then d=-1 end
+		if m.keyname==bat.key_down then d= 1 end
+		if d then
+			if m.action==1 then
+				bat.ay=d
+			elseif m.action==-1 then
+				bat.ay=0
+			end
+		end
+	end
 	
 end
 
 bat.update=function()
 
-	bat.py=bat.py+1
+	if bat.ay~=0 then
+		bat.vy=bat.vy+bat.ay
+		bat.sy=bat.sy-1
+	end
+	
+	bat.py=bat.py+bat.vy
+	local sy=20+(bat.sy/2)
+	
+	if bat.py < 0  +sy then bat.py=sy     bat.vy= math.abs(bat.vy) end
+	if bat.py > 500-sy then bat.py=500-sy bat.vy=-math.abs(bat.vy) end
+
 
 end
 
@@ -74,12 +112,25 @@ bat.draw=function()
 	
 	local sx=bat.sx*0.5
 	local sy=bat.sy*0.5
+	
+	if sy<=0 then return end
+	
+	local sx2=sx+2
+	local sy2=sy+2
 
 	flat.tristrip("xyz",{	
 		bat.px-sx,bat.py-sy,0,
 		bat.px+sx,bat.py-sy,0,
 		bat.px-sx,bat.py+sy,0,
 		bat.px+sx,bat.py+sy,0,
+		bat.px+sx,bat.py+sy,0,
+
+		bat.px-sx2,bat.py-sy2,0,
+		bat.px-sx2,bat.py-sy2,0,
+		bat.px+sx2,bat.py-sy2,0,
+		bat.px-sx2,bat.py+sy2,0,
+		bat.px+sx2,bat.py+sy2,0,
+
 	})
 
 end

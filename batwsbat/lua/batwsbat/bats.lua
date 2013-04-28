@@ -51,7 +51,7 @@ bats.msg=function(m)
 --	print(wstr.dump(m))
 
 	for i=1,#bats do
-		bats[i].msg()
+		bats[i].msg(m)
 	end
 	
 end

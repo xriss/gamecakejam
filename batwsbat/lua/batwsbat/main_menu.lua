@@ -63,7 +63,7 @@ end
 
 menu.msg=function(m)
 
---	print(wstr.dump(m))
+--print(wstr.dump(m))
 
 	if sgui.active then
 		sgui.msg(m)	

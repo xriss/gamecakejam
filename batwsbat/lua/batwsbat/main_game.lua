@@ -69,6 +69,8 @@ game.msg=function(m)
 
 --	print(wstr.dump(m))
 
+	bats.msg(m)
+
 end
 
 game.update=function()
@@ -80,6 +82,49 @@ end
 
 game.draw=function()
 
+	gl.Color(0,0.25,0,0)
+
+
+	local px=400
+	local py=10
+
+	local sx=400
+	local sy=10
+	
+	local sx2=sx+2
+	local sy2=sy+2
+
+	local px2=400
+	local py2=500-10
+
+	flat.tristrip("xyz",{	
+		px-sx,py-sy,0,
+		px+sx,py-sy,0,
+		px-sx,py+sy,0,
+		px+sx,py+sy,0,
+		px+sx,py+sy,0,
+
+		px-sx2,py-sy2,0,
+		px-sx2,py-sy2,0,
+		px+sx2,py-sy2,0,
+		px-sx2,py+sy2,0,
+		px+sx2,py+sy2,0,
+		px+sx2,py+sy2,0,
+
+		px2-sx,py2-sy,0,
+		px2-sx,py2-sy,0,
+		px2+sx,py2-sy,0,
+		px2-sx,py2+sy,0,
+		px2+sx,py2+sy,0,
+		px2+sx,py2+sy,0,
+
+		px2-sx2,py2-sy2,0,
+		px2-sx2,py2-sy2,0,
+		px2+sx2,py2-sy2,0,
+		px2-sx2,py2+sy2,0,
+		px2+sx2,py2+sy2,0,
+	})
+	
 	
 	bats.draw()
 	balls.draw()

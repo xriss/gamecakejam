@@ -22,6 +22,7 @@ M.bake=function(oven,ball)
 	local font=canvas.font
 	local flat=canvas.flat
 
+	local bats=oven.rebake(oven.modgame..".bats")
 
 	
 ball.loads=function()
@@ -32,6 +33,9 @@ ball.setup=function()
 
 	ball.loads()
 	
+	ball.vx=4
+	ball.vy=4
+
 	ball.px=400
 	ball.py=250
 
@@ -55,6 +59,30 @@ end
 
 ball.update=function()
 
+	ball.px=ball.px+ball.vx
+	ball.py=ball.py+ball.vy
+	
+	if ball.px < 0      then ball.px=ball.px-ball.vx ball.vx= math.abs(ball.vx) end
+	if ball.px > 800    then ball.px=ball.px-ball.vx ball.vx=-math.abs(ball.vx) end
+	if ball.py < 0  +30 then ball.py=ball.py-ball.vy ball.vy= math.abs(ball.vy) end
+	if ball.py > 500-30 then ball.py=ball.py-ball.vy ball.vy=-math.abs(ball.vy) end
+
+
+	for i,bat in ipairs(bats) do
+		local dx=ball.px-bat.px
+		local dy=ball.py-bat.py
+		local sx=(bat.sx+ball.sx)/2
+		local sy=(bat.sy+ball.sy)/2
+		if dx > -sx and dx < sx and dy > -sy and dy < sy then 
+			if bat.side<0 and ball.vx>0 then
+				ball.px=bat.px - sx
+				ball.vx=-math.abs(ball.vx)
+			elseif bat.side>0 and ball.vx<0 then
+				ball.px=bat.px + sx
+				ball.vx= math.abs(ball.vx)
+			end
+		end
+	end
 
 end
 
@@ -63,11 +91,21 @@ ball.draw=function()
 	local sx=ball.sx*0.5
 	local sy=ball.sy*0.5
 
+	local sx2=sx+2
+	local sy2=sy+2
+
 	flat.tristrip("xyz",{	
 		ball.px-sx,ball.py-sy,0,
 		ball.px+sx,ball.py-sy,0,
 		ball.px-sx,ball.py+sy,0,
 		ball.px+sx,ball.py+sy,0,
+		ball.px+sx,ball.py+sy,0,
+
+		ball.px-sx2,ball.py-sy2,0,
+		ball.px-sx2,ball.py-sy2,0,
+		ball.px+sx2,ball.py-sy2,0,
+		ball.px-sx2,ball.py+sy2,0,
+		ball.px+sx2,ball.py+sy2,0,
 	})
 	
 end
