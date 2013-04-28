@@ -78,13 +78,36 @@ uniform vec4 center;
 varying vec2  v_texcoord;
 varying vec4  v_color;
 
+/* 10bit precision noise? "kinda" 10bit shift feedback based */
+float nose1( float n )
+{
+	n=fract(1.0/n);
+	n=fract(n*2.0) + ( fract( ( 1.0 + step(0.5 , n ) + step(0.5, fract(n*8.0) ) ) * 0.5 ) * 1.0/512.0 ) ;
+	return fract(1.0/n);
+}
+
+/* make more noise */
+float nose( float n )
+{
+	n=nose1(n);
+	return nose1(n);
+}
+
 void main(void)
 {
 	float w2=center.w*(1.0/512.0); w2*=w2;
+/*
+	float t=fract(center.z*(1.0/1024.0));
+	float x=fract(v_texcoord.x*(1.0/512.0));
+	float y=fract(v_texcoord.y*(1.0/512.0));
+	float n=( nose( x * y * (1.0-t) ) - nose( y * t ) ) ;
+*/
 	vec2 dd=v_texcoord.xy-center.xy;
 	float wx=(dd.x*(1.0/512.0)); wx*=wx;
 	float wy=(dd.y*(1.0/512.0)); wy*=wy;
 	float a=clamp(((wx+wy)/w2),0.0,1.0);
+/*	gl_FragColor=v_color*n*a ;
+*/	
 	gl_FragColor=v_color*a ;
 	gl_FragColor.a=a;
 }
@@ -192,10 +215,11 @@ darkness.draw=function()
 
 	gl.UniformMatrix4f(p:uniform("modelview"), gl.matrix(gl.MODELVIEW) )
 	gl.UniformMatrix4f(p:uniform("projection"), gl.matrix(gl.PROJECTION) )
---	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
+--	gl.Uniform4f( p:uniform("color"), 0.125,0.125,0.125,1 )
 	gl.Uniform4f( p:uniform("color"), 0,0,0,1 )
+--	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
 
-	gl.Uniform4f( p:uniform("center"), hero.px,hero.py,game.time,hero.view )
+	gl.Uniform4f( p:uniform("center"), hero.px,hero.py,(game.time%1024),hero.view )
 
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
 	gl.EnableVertexAttribArray(p:attrib("a_vertex"))

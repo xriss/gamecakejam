@@ -6,34 +6,36 @@ local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
 
+
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,main)
-	local main=main or {}
+M.bake=function(oven,main)
+	main=main or {}
+	main.modname=M.modname
 	
-	local cake=state.cake
-	local opts=state.opts
-	local canvas=state.canvas
+	oven.modgame="{mainname}"
 	
+	local gl=oven.gl
+	local cake=oven.cake
+	local opts=oven.opts
+	local canvas=cake.canvas
+	local layouts=cake.layouts
 	local font=canvas.font
 	local flat=canvas.flat
 
-	local gl=cake.gl
+	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
 
-	main.modname=M.modname
-		
-	local keys=state.rebake("wetgenes.gamecake.spew.keys").setup(1)
-	local recaps=state.rebake("wetgenes.gamecake.spew.recaps").setup(1)
-	local scores=state.rebake("wetgenes.gamecake.spew.scores").setup(1)
-
-
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 	
 main.loads=function()
 
-	state.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font	
---	state.cake.images.loads({
---	})
+	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	
+	oven.cake.images.loads({
+	})
 	
 end
 		
@@ -45,7 +47,7 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
-	main.next=state.rebake("{mainname}.main_menu")
+	main.next=oven.rebake(oven.modgame..".main_menu")
 	
 	main.change()
 end
@@ -84,12 +86,11 @@ main.msg=function(m)
 --	print(wstr.dump(m))
 
 	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
-		m.x,m.y=state.canvas.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
+		m.x,m.y=layout.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
 		m.x=m.x+(opts.width/2)
 		m.y=m.y+(opts.height/2)
 	end
-	
-	keys.msg(m) -- translate into controls
+
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -100,10 +101,6 @@ end
 main.update=function()
 
 	main.change()
-	
-	recaps.step()
-	
-	if recaps.get("fire_set") then print("fire") end
 
 	if main.now and main.now.update then
 		main.now.update()
@@ -113,19 +110,11 @@ end
 
 main.draw=function()
 	
-	canvas.viewport() -- did our window change?
-	canvas.project23d(opts.width,opts.height,1/4,opts.height*4)
+	layout.apply( opts.width,opts.height,1/4,opts.height*4 )
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
-
-	gl.MatrixMode(gl.PROJECTION)
-	gl.LoadMatrix( canvas.pmtx )
-
-	gl.MatrixMode(gl.MODELVIEW)
-	gl.LoadIdentity()
-	gl.Translate(-opts.width/2,-opts.height/2,-opts.height*2) -- top left corner is origin
 
 	gl.PushMatrix()
 	

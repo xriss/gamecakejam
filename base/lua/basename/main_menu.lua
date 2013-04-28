@@ -11,21 +11,34 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(state,menu)
+M.bake=function(oven,menu)
 	local menu=menu or {}
-	menu.state=state
+	menu.oven=oven
 	
 	menu.modname=M.modname
 
-	local cake=state.cake
-	local opts=state.opts
-	local canvas=state.canvas
+	local cake=oven.cake
+	local opts=oven.opts
+	local canvas=cake.canvas
 	local font=canvas.font
 	local flat=canvas.flat
-	local gl=cake.gl
+	local gl=oven.gl
+	local sheets=cake.sheets
 	
-	local gui=state.rebake("{mainname}.gui")
+	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
 
+	local gui=oven.rebake(oven.modgame..".gui")
+	local main=oven.rebake(oven.modgame..".main")
+--	local beep=oven.rebake(oven.modgame..".beep")
+
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+
+	local layout=cake.layouts.create{}
+
+
+
+menu.back="imgs/title"
 
 menu.loads=function()
 
@@ -37,6 +50,8 @@ menu.setup=function()
 
 	gui.setup()
 	gui.page("menu")
+
+--	beep.stream("menu")
 
 end
 
@@ -50,20 +65,42 @@ menu.msg=function(m)
 
 --	print(wstr.dump(m))
 
-	if gui.msg(m) then return end -- gui can eat msgs
+	if sgui.active then
+		sgui.msg(m)	
+	else
+		gui.msg(m)
+	end
 	
 end
 
 menu.update=function()
 
-	gui.update()
-
+	if sgui.active then
+		sgui.update()	
+	else
+		gui.update()
+	end
+	
 end
 
 menu.draw=function()
-		
-	gui.draw()
+	
+	if sgui.active then
 
+		layout.viewport() -- clear clip area
+
+		gl.ClearColor(pack.argb4_pmf4(0xf004))
+		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
+
+		sgui.draw()	
+	else
+--		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
+		
+		sscores.draw("arcade2")
+
+		gui.draw()	
+	end
+	
 end
 
 	return menu

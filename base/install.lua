@@ -1,4 +1,4 @@
-#!../bin/exe/lua
+#!/usr/local/bin/gamecake
 
 local wbake=require("wetgenes.bake")
 
@@ -42,6 +42,7 @@ end
 
 print("Installing base codes into "..basename)
 
+copybase("bake.lua")
 copybase("opts.lua")
 copybase("lua/init.lua")
 copylua("main.lua")
