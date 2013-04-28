@@ -10,7 +10,7 @@ local pack=require("wetgenes.pack")
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-local brag="I just scored over {score} points in #{mainname} #PLAY #THE #GAME! http://play.4lfa.com/gamecake"
+local brag="I just scored over {score} points in #batwsbat #PLAY #THE #GAME! http://play.4lfa.com/gamecake"
 
 
 M.bake=function(oven,gui)
@@ -30,7 +30,7 @@ M.bake=function(oven,gui)
 	local main=oven.rebake(oven.modgame..".main")
 
 
-	gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
+	gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({hx=640,hy=480})
 
 	function gui.setup()
 	
@@ -63,15 +63,17 @@ print(act,w.id)
 	
 	function gui.pages.menu(master)
 
-		local top=master:add({hx=640,hy=480,class="flow",font="Vera",text_size=24})
+		local top=master:add({hx=640,hy=480,class="fill",font="Vera",text_size=24})
 
 		top:add({hx=640,hy=360})
-		
+
+		top:add({hx=640,hy=40})
+--[[
 		top:add({hx=40,hy=40})
 		top:add({hx=180,hy=40,color=0xffcccccc,text="Hello",style="indent"})
 		top:add({hx=380,hy=40,color=0xffcccccc,text=sprofiles.get("name"),id="profiles",hooks=gui.hooks})
 		top:add({hx=40,hy=40})
-
+]]
 		top:add({hx=640,hy=20})
 
 		top:add({hx=20,hy=40})

@@ -1,4 +1,4 @@
-#!/usr/local/bin/gamecake
+#!/home/kriss/hg/bin/exe/lua
 
 local wbake=require("wetgenes.bake")
 
