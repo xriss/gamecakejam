@@ -22,6 +22,7 @@ M.bake=function(oven,bat)
 	local font=canvas.font
 	local flat=canvas.flat
 
+	local bats=oven.rebake(oven.modgame..".bats")
 
 	
 bat.loads=function()
@@ -52,6 +53,11 @@ bat.setup=function()
 		bat.key_up="q"
 		bat.key_down="a"
 
+		bat.finger_up=1
+		bat.finger_down=2
+
+		bat.vy=-1
+
 	else
 	
 		bat.px=800-40
@@ -61,6 +67,11 @@ bat.setup=function()
 		
 		bat.key_up="up"
 		bat.key_down="down"
+
+		bat.finger_up=3
+		bat.finger_down=4
+
+		bat.vy=1
 		
 	end
 
@@ -89,6 +100,20 @@ bat.msg=function(m)
 			end
 		end
 	end
+
+	if m.class=="mouse" then
+		if bats.finger_on( bat.finger_up ) then
+			if bats.finger_on( bat.finger_down ) then
+				bat.ay=0
+			else
+				bat.ay=-1
+			end
+		elseif bats.finger_on( bat.finger_down ) then
+				bat.ay=1
+		else
+				bat.ay=0
+		end
+	end
 	
 end
 
@@ -98,6 +123,10 @@ bat.update=function()
 		bat.vy=bat.vy+bat.ay
 		bat.sy=bat.sy-1
 	end
+	if bat.sy<0 then bat.sy=0 end
+
+	if bat.vy> 16 then bat.vy= 16 end
+	if bat.vy<-16 then bat.vy=-16 end
 	
 	bat.py=bat.py+bat.vy
 	local sy=20+(bat.sy/2)

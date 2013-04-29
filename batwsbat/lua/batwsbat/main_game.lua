@@ -60,8 +60,8 @@ end
 
 game.clean=function()
 
-	bats.clean()
-	balls.clean()
+--	bats.clean()
+--	balls.clean()
 
 end
 
@@ -78,12 +78,41 @@ game.update=function()
 	bats.update()
 	balls.update()
 	
+	local s1=sscores.get(1)
+	local s2=sscores.get(2)
+
+-- table tenis score rules, 2 points ahead and a score of 11 or more to win
+	
+	if s1>10 and s1>s2+1 then 
+		main.next=oven.rebake(oven.modgame..".main_menu")
+	end
+	
+	if s2>10 and s2>s1+1 then 
+		main.next=oven.rebake(oven.modgame..".main_menu")
+	end
+	
 end
 
 game.draw=function()
 
-	gl.Color(0,0.25,0,0)
+	local a=1/4
+	gl.Color(0,a,0,a)
 
+	font.set(cake.fonts.get("Vera")) -- default font
+	font.set_size(64,0)
+
+	local s=tostring( sscores.get(1) )
+	local w=font.width(s)
+	font.set_xy( 400 -30-w , 30 )
+	font.draw( s )
+
+	local s=tostring( sscores.get(2) )
+	local w=font.width(s)
+	font.set_xy( 400+30 , 30 )
+	font.draw( s )
+
+
+	gl.Color(0,0.25,0,0)
 
 	local px=400
 	local py=10
@@ -126,11 +155,12 @@ game.draw=function()
 	})
 	
 	
+
 	bats.draw()
 	balls.draw()
 
 		
-	sscores.draw("arcade2")
+--	sscores.draw("arcade2")
 
 
 end

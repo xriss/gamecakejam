@@ -45,7 +45,8 @@ print(act,w.id)
 		
 		if act=="click" then
 			if w.id=="start" then
-				sscores.set(0)
+				sscores.set(0,1)
+				sscores.set(0,2)
 				main.next=oven.rebake(oven.modgame..".main_game")
 			elseif w.id=="menu" then
 				gui.spage("settings")
@@ -76,11 +77,11 @@ print(act,w.id)
 ]]
 		top:add({hx=640,hy=20})
 
-		top:add({hx=20,hy=40})
-		top:add({hx=280,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({hx=150,hy=40})
+		top:add({hx=150,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
 		top:add({hx=40,hy=40})
-		top:add({hx=280,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
-		top:add({hx=20,hy=40})
+		top:add({hx=150,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=150,hy=40})
 
 		top:add({hx=640,hy=20})
 		

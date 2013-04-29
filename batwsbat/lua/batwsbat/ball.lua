@@ -24,7 +24,9 @@ M.bake=function(oven,ball)
 
 	local bats=oven.rebake(oven.modgame..".bats")
 
-	
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
+
+
 ball.loads=function()
 	
 end
@@ -57,13 +59,22 @@ ball.msg=function(m)
 	
 end
 
+ball.score=function(side)
+	local bat=bats[side]
+	
+	bat.sy=20*5
+	
+	sscores.add(1,3-side)
+	
+end
+
 ball.update=function()
 
 	ball.px=ball.px+ball.vx
 	ball.py=ball.py+ball.vy
 	
-	if ball.px < 0      then ball.px=ball.px-ball.vx ball.vx= math.abs(ball.vx) end
-	if ball.px > 800    then ball.px=ball.px-ball.vx ball.vx=-math.abs(ball.vx) end
+	if ball.px < 0      then ball.px=ball.px-ball.vx ball.vx= math.abs(ball.vx) ball.score(1) end
+	if ball.px > 800    then ball.px=ball.px-ball.vx ball.vx=-math.abs(ball.vx) ball.score(2) end
 	if ball.py < 0  +30 then ball.py=ball.py-ball.vy ball.vy= math.abs(ball.vy) end
 	if ball.py > 500-30 then ball.py=ball.py-ball.vy ball.vy=-math.abs(ball.vy) end
 
@@ -75,14 +86,29 @@ ball.update=function()
 		local sy=(bat.sy+ball.sy)/2
 		if dx > -sx and dx < sx and dy > -sy and dy < sy then 
 			if bat.side<0 and ball.vx>0 then
-				ball.px=bat.px - sx
+--				ball.px=bat.px - sx
 				ball.vx=-math.abs(ball.vx)
+				ball.vy=ball.vy + 8*(dy/sy)
 			elseif bat.side>0 and ball.vx<0 then
-				ball.px=bat.px + sx
+--				ball.px=bat.px + sx
 				ball.vx= math.abs(ball.vx)
+				ball.vy=ball.vy + 8*(dy/sy)
 			end
 		end
 	end
+
+	if ball.vy >  8 then ball.vy= 8 end
+	if ball.vy < -8 then ball.vy=-8 end
+	
+--[[
+	local dd=ball.vy*ball.vy
+	local dx=math.sqrt((8*8)-dd)
+	if ball.vx<0 then
+		ball.vx=-dx
+	else
+		ball.vx=dx
+	end
+]]
 
 end
 

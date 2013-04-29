@@ -35,6 +35,8 @@ M.bake=function(oven,menu)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local layout=cake.layouts.create{}
+	
+	local game=oven.rebake(oven.modgame..".main_game")
 
 
 
@@ -96,7 +98,18 @@ menu.draw=function()
 	else
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 		
-		sscores.draw("arcade2")
+--		sscores.draw("arcade2")
+		
+		game.draw()
+		
+		gl.Color(0,1,0,1)
+
+		font.set(cake.fonts.get("Vera")) -- default font
+		font.set_size(32,0)
+		local s="Avoid missing ball for high score."
+		local w=font.width(s)
+		font.set_xy( 400 -w/2 , 250-16 )
+		font.draw( s )
 
 		gui.draw()	
 	end
