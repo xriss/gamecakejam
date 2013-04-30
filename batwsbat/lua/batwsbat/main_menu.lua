@@ -98,7 +98,7 @@ menu.draw=function()
 
 		sgui.draw()	
 	else
---		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
+		sheets.get("imgs/title"):draw(1,400,250,nil,800,500)
 		
 --		sscores.draw("arcade2")
 		
@@ -106,12 +106,14 @@ menu.draw=function()
 		
 		gl.Color(0,1,0,1)
 
+--[[
 		font.set(cake.fonts.get("Vera")) -- default font
 		font.set_size(32,0)
 		local s="Avoid missing ball for high score."
 		local w=font.width(s)
 		font.set_xy( 400 -w/2 , 250-16-64 )
 		font.draw( s )
+]]
 
 		gui.draw()	
 	end

@@ -34,10 +34,29 @@ M.bake=function(oven,main)
 	
 main.loads=function()
 
-	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
-	oven.cake.images.loads({
-	})
+	cake.sheets.loads_and_chops{
+		{"imgs/title",1,1,0.5,0.5},
+		{"imgs/gameback",1,1,0.5,0.5},
+
+		{"imgs/bat1_mouth",1,1,0.5,0.5},
+		{"imgs/bat1_face",1,1,0.5,0.5},
+		{"imgs/bat1_arm1",1,1,0.5,0.5},
+		{"imgs/bat1_arm2",1,1,0.5,0.5},
+		{"imgs/bat1_leg1",1,1,0.5,0.5},
+		{"imgs/bat1_leg2",1,1,0.5,0.5},
+		{"imgs/bat1_back",1,1,0.5,0.5},
+
+		{"imgs/bat2_mouth",1,1,0.5,0.5},
+		{"imgs/bat2_face",1,1,0.5,0.5},
+		{"imgs/bat2_arm1",1,1,0.5,0.5},
+		{"imgs/bat2_arm2",1,1,0.5,0.5},
+		{"imgs/bat2_leg1",1,1,0.5,0.5},
+		{"imgs/bat2_leg2",1,1,0.5,0.5},
+		{"imgs/bat2_back",1,1,0.5,0.5},
+
+	}
 	
 end
 		

@@ -81,9 +81,10 @@ M.bake=function(oven,gui)
 		local top=master:add({hx=640,hy=480,class="fill",font="Vera",text_size=24})
 
 		top:add({hx=640,hy=320})
+		top:add({hx=640,hy=40})
 
 
-		top:add({hx=640,hy=40,text="Handicap",text_color=0xffffffff})
+--		top:add({hx=640,hy=40,text="Handicap",text_color=0xffffffff})
 		top:add({hx=160,hy=40})
 		top:add({class="slide",color=0xffcccccc,hx=320,hy=40,datx=gui.data.handicap,data=gui.data.handicap,hooks=gui.hooks})
 		top:add({hx=160,hy=40})
