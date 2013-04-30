@@ -56,6 +56,8 @@ game.setup=function()
 	bats.setup()
 	balls.setup()
 
+	game.setup_done=true
+
 end
 
 game.clean=function()

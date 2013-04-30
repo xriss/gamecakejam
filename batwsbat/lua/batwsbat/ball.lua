@@ -62,7 +62,7 @@ end
 ball.score=function(side)
 	local bat=bats[side]
 	
-	bat.sy=20*5
+	bat.sy=bat.sy_base
 	
 	sscores.add(1,3-side)
 	

@@ -48,6 +48,8 @@ end
 		
 menu.setup=function()
 
+	if not game.setup_done then game.setup() end -- game setup should be run once
+
 	menu.loads()
 
 	gui.setup()
@@ -108,7 +110,7 @@ menu.draw=function()
 		font.set_size(32,0)
 		local s="Avoid missing ball for high score."
 		local w=font.width(s)
-		font.set_xy( 400 -w/2 , 250-16 )
+		font.set_xy( 400 -w/2 , 250-16-64 )
 		font.draw( s )
 
 		gui.draw()	

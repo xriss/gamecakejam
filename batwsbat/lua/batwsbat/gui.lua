@@ -20,6 +20,8 @@ M.bake=function(oven,gui)
 
 	gui.pages={} -- put functions to fill in pages in here
 	
+	local wdata=oven.rebake("wetgenes.gamecake.widgets.data")
+
 
 	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
 	local sprofiles=oven.rebake("wetgenes.gamecake.spew.profiles")
@@ -28,7 +30,9 @@ M.bake=function(oven,gui)
 
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local main=oven.rebake(oven.modgame..".main")
-
+	local game=oven.rebake(oven.modgame..".main_game")
+	
+	gui.data={}
 
 	gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({hx=640,hy=480})
 
@@ -42,12 +46,17 @@ M.bake=function(oven,gui)
 	function gui.hooks(act,w)
 	
 print(act,w.id)
+		if act=="value" then
+			if w.id=="handicap" then
+				game.setup()
+			end
+		end
 		
 		if act=="click" then
 			if w.id=="start" then
 				sscores.set(0,1)
 				sscores.set(0,2)
-				main.next=oven.rebake(oven.modgame..".main_game")
+				main.next=game
 			elseif w.id=="menu" then
 				gui.spage("settings")
 			elseif w.id=="profiles" then
@@ -55,6 +64,10 @@ print(act,w.id)
 			end
 		end
 		
+	end
+
+	function gui.initdata() -- call this later
+		gui.data.handicap=wdata.new_data({id="handicap",class="number",hooks=gui.hooks,num=0,min=-5,max=5,step=1})
 	end
 
 	
@@ -66,9 +79,14 @@ print(act,w.id)
 
 		local top=master:add({hx=640,hy=480,class="fill",font="Vera",text_size=24})
 
-		top:add({hx=640,hy=360})
+		top:add({hx=640,hy=320})
 
-		top:add({hx=640,hy=40})
+
+		top:add({hx=640,hy=40,text="Handicap",text_color=0xffffffff})
+		top:add({hx=160,hy=40})
+		top:add({class="slide",color=0xffcccccc,hx=320,hy=40,datx=gui.data.handicap,data=gui.data.handicap,hooks=gui.hooks})
+		top:add({hx=160,hy=40})
+
 --[[
 		top:add({hx=40,hy=40})
 		top:add({hx=180,hy=40,color=0xffcccccc,text="Hello",style="indent"})
@@ -131,6 +149,8 @@ print(act,w.id)
 	function gui.draw()
 		gui.master:draw()		
 	end
+	
+	gui.initdata()
 	
 	return gui
 end

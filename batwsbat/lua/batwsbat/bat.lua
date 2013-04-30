@@ -22,6 +22,7 @@ M.bake=function(oven,bat)
 	local font=canvas.font
 	local flat=canvas.flat
 
+	local gui=oven.rebake(oven.modgame..".gui")
 	local bats=oven.rebake(oven.modgame..".bats")
 
 	
@@ -42,9 +43,13 @@ bat.setup=function()
 	bat.vy=0
 	bat.ax=0
 	bat.ay=0
+	
+	local handicap=gui.data.handicap:value()
 
 	if bat.idx==1 then
 	
+		bat.sy=bat.sy + handicap*-10
+		
 		bat.px=0+40
 		bat.py=250
 		
@@ -60,6 +65,8 @@ bat.setup=function()
 
 	else
 	
+		bat.sy=bat.sy + handicap*10
+
 		bat.px=800-40
 		bat.py=250
 		
@@ -74,6 +81,8 @@ bat.setup=function()
 		bat.vy=1
 		
 	end
+	
+	bat.sy_base=bat.sy
 
 
 	return bat
