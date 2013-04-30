@@ -77,13 +77,17 @@ end
 
 ball.bounce=function(vx,vy)
 
+	local gg=bats[1]
+	if ball.px<400 then gg=bats[2] end
+	
 	emits.spurt.create{
 		px=ball.px - vx*20,
 		py=ball.py - vy*20,
 		vx=vx,
 		vy=vy,
-		gx=-vx,
-		gy=-vy,
+--		gx=-vx,
+--		gy=-vy,		
+		gg=gg,
 		burst=16,
 	}
 

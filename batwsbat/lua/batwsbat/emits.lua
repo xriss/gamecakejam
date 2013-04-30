@@ -24,6 +24,8 @@ function M.bake(oven,emits)
 	local canvas=cake.canvas
 	local flat=canvas.flat
 
+	local balls=oven.rebake(oven.modgame..".balls")
+
 -- BASE
 	do
 		local f={}		emits.base=f
@@ -110,8 +112,8 @@ function M.bake(oven,emits)
 
 			p.state="live"
 			
-			p.time = p.time or e.time or 0
-			p.life = p.life or e.life or 1
+			p.time = p.time or 0
+			p.life = p.life or 1
 			
 			return p
 		end
@@ -138,7 +140,7 @@ function M.bake(oven,emits)
 			t.f=f
 			local e=emits.base.create(t)
 			e.id=t.id or 1
-			return v
+			return e
 		end
 		function f.pcreate(e,t)
 
@@ -179,7 +181,7 @@ function M.bake(oven,emits)
 		function f.create(t)
 			t.f=f
 			local e=emits.base.create(t)
-			return v
+			return e
 		end
 		function f.pcreate(e,t)
 
@@ -188,7 +190,7 @@ function M.bake(oven,emits)
 					px=e.px,
 					py=e.py,
 --					vr=mrandom(-4,4,1/64),
-					life=128,
+					life=64,
 					id=e.id,
 				}
 
@@ -202,6 +204,7 @@ function M.bake(oven,emits)
 				
 				t.gx=e.gx -- gravity
 				t.gy=e.gy
+				t.gg=e.gg
 			end
 
 			local p=emits.base.pcreate(e,t)
@@ -224,10 +227,22 @@ function M.bake(oven,emits)
 			
 			if #p.points>16 then table.remove(p.points,1) end
 
-			p.a=p.a*(31/32)
+--			local pa=( p.life-p.time ) / p.life
+--			p.a=p.a*(30/32)
 
-			p.vx=p.vx+(4/8)*(p.gx or 0)
-			p.vy=p.vy+(4/8)*(p.gy or 1)
+local b=p.gg --balls[1]
+local dx=p.px-b.px
+local dy=p.py-b.py
+local dd=dx*dx + dy*dy
+local d=math.sqrt(dd) if d*d < 0.01 then d=1 end
+dx=-dx/d
+dy=-dy/d
+
+			p.vx=p.vx+ (4/8)*(p.gx or dx)
+			p.vy=p.vy+ (4/8)*(p.gy or dy)
+			
+			p.vx=p.vx*(31/32)
+			p.vy=p.vy*(31/32)
 
 		end
 		function f.pdraw(p)
@@ -236,9 +251,12 @@ function M.bake(oven,emits)
 			emits.base.pdraw(p)
 			local t={}
 			
-			local a=p.a
+			local pa=( p.life-p.time ) / p.life
+			pa=pa*pa
 			local l=#p.points
 			for i=l,1,-1 do local d=p.points[i]
+
+				local a=pa*i/l
 			
 				t[#t+1]=d.x1
 				t[#t+1]=d.y1
@@ -258,7 +276,6 @@ function M.bake(oven,emits)
 				t[#t+1]=a
 				t[#t+1]=a
 			
-				a=p.a*i/16
 			end
 	
 			gl.Color(p.r,p.g,p.b,0)

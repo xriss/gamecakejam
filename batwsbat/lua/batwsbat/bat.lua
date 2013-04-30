@@ -24,6 +24,8 @@ M.bake=function(oven,bat)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local bats=oven.rebake(oven.modgame..".bats")
+	local balls=oven.rebake(oven.modgame..".balls")
+	local emits=oven.rebake(oven.modgame..".emits")
 
 	
 bat.loads=function()
@@ -83,6 +85,8 @@ bat.setup=function()
 	bat.sy_base=bat.sy
 
 
+	bat.emit=nil
+
 	return bat
 end
 
@@ -109,6 +113,37 @@ bat.msg=function(m)
 			bats.fingers=nil
 			
 		end
+	end
+	
+end
+
+bat.spurt=function(vx,vy)
+
+	local e=bat.emit
+	
+	if e and e.life > e.time then
+	
+		e.life=e.time+4
+		e.vx=vx
+		e.vy=vy
+		
+		e.px=bat.px
+		e.py=bat.py + vy*bat.sy*0.5 - vy*20
+		
+	else
+
+		bat.emit=emits.spurt.create{
+			px=bat.px,
+			py=bat.py + vy*bat.sy*0.5 - vy*20,
+			vx=vx,
+			vy=vy,
+--			gx=-vx,
+--			gy=-vy,
+			burst=1,
+			life=4,
+			gg=balls[1],
+		}
+
 	end
 	
 end
@@ -162,10 +197,12 @@ bat.update=function()
 		else
 			bat.sy=bat.sy-(1/2)
 			if bat.sy<0 then bat.sy=0 end
+			
+			bat.spurt(0,-bat.ay)
 		end
 	end
 	
-	if bat.sy<20 then bat.sy=20 end
+	if bat.sy<10 then bat.sy=10 end
 
 	if bat.sy==0 then bat.vy=0 end
 
@@ -173,8 +210,38 @@ bat.update=function()
 	bat.py=bat.py+bat.vy
 	local sy=20+(bat.sy/2)
 	
-	if bat.py < 0  +sy then bat.py=sy     bat.vy= math.abs(bat.vy) end
-	if bat.py > 500-sy then bat.py=500-sy bat.vy=-math.abs(bat.vy) end
+	if bat.py < 0  +sy then
+
+		bat.py=sy
+		bat.vy= math.abs(bat.vy)
+
+		emits.spurt.create{
+			px=bat.px,
+			py=0,
+			vx=0,
+			vy=1,
+			burst=1,
+			life=math.floor(math.abs(bat.vy)),
+			gg=balls[1],
+		}
+
+	end
+	if bat.py > 500-sy then
+
+		bat.py=500-sy
+		bat.vy=-math.abs(bat.vy)
+
+		emits.spurt.create{
+			px=bat.px,
+			py=500,
+			vx=0,
+			vy=-1,
+			burst=1,
+			life=math.floor(math.abs(bat.vy)),
+			gg=balls[1],
+		}
+
+	end
 
 
 end
