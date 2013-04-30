@@ -22,6 +22,8 @@ M.bake=function(oven,ball)
 	local font=canvas.font
 	local flat=canvas.flat
 
+	local sheets=cake.sheets
+
 	local bats=oven.rebake(oven.modgame..".bats")
 	local emits=oven.rebake(oven.modgame..".emits")
 
@@ -161,6 +163,17 @@ ball.draw=function()
 		ball.px+sx2,ball.py+sy2,0,
 	})
 	
+	gl.Color(1,1,1,1)
+	gl.PushMatrix()
+	gl.Translate(ball.px,ball.py,0)
+
+--	for i,v in ipairs(ps) do
+		local s=sheets.get( "imgs/ball" )
+		s:draw(1,0,0)
+--	end
+
+	gl.PopMatrix()
+
 end
 		
 	return ball

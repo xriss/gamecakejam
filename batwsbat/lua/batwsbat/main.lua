@@ -39,6 +39,7 @@ main.loads=function()
 	cake.sheets.loads_and_chops{
 		{"imgs/title",1,1,0.5,0.5},
 		{"imgs/gameback",1,1,0.5,0.5},
+		{"imgs/ball",1,1,0.5,0.5},
 
 		{"imgs/bat1_mouth",1,1,0.5,0.5},
 		{"imgs/bat1_face",1,1,0.5,0.5},
