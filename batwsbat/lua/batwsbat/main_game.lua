@@ -16,6 +16,8 @@ M.bake=function(oven,game)
 	game.oven=oven
 	
 	game.modname=M.modname
+	
+	game.name="game"
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -101,6 +103,10 @@ end
 
 game.draw=function()
 
+	if main.now.name=="game" then
+		sheets.get("imgs/gameback"):draw(1,400,250,nil,800,500)
+	end
+	
 	local a=1/4
 	gl.Color(0,a,0,a)
 

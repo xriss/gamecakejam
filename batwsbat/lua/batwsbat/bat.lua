@@ -22,6 +22,8 @@ M.bake=function(oven,bat)
 	local font=canvas.font
 	local flat=canvas.flat
 
+	local sheets=cake.sheets
+
 	local gui=oven.rebake(oven.modgame..".gui")
 	local bats=oven.rebake(oven.modgame..".bats")
 	local balls=oven.rebake(oven.modgame..".balls")
@@ -255,7 +257,7 @@ bat.draw=function()
 	
 	local sx2=sx+2
 	local sy2=sy+2
-
+--[[
 	flat.tristrip("xyz",{	
 		bat.px-sx,bat.py-sy,0,
 		bat.px+sx,bat.py-sy,0,
@@ -270,6 +272,31 @@ bat.draw=function()
 		bat.px+sx2,bat.py+sy2,0,
 
 	})
+]]
+	
+	local ps={
+		{"imgs/bat"..bat.finger.."_arm1"},
+		{"imgs/bat"..bat.finger.."_arm2"},
+		{"imgs/bat"..bat.finger.."_leg1"},
+		{"imgs/bat"..bat.finger.."_leg2"},
+		{"imgs/bat"..bat.finger.."_back"},	
+		{"imgs/bat"..bat.finger.."_mouth"},
+		{"imgs/bat"..bat.finger.."_face"},
+	}
+	
+	gl.Color(1,1,1,1)
+	gl.PushMatrix()
+	gl.Translate(bat.px,bat.py,0)
+	gl.Rotate(90,0,0,bat.side)
+	
+	gl.Scale(bat.sy/60,1,1)
+
+	for i,v in ipairs(ps) do
+		local s=sheets.get( v[1] )
+		s:draw(1,0,0)
+	end
+
+	gl.PopMatrix()
 
 end
 		

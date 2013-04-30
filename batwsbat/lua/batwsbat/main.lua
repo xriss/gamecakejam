@@ -38,6 +38,24 @@ main.loads=function()
 	
 	cake.sheets.loads_and_chops{
 		{"imgs/title",1,1,0.5,0.5},
+		{"imgs/gameback",1,1,0.5,0.5},
+
+		{"imgs/bat1_mouth",1,1,0.5,0.5},
+		{"imgs/bat1_face",1,1,0.5,0.5},
+		{"imgs/bat1_arm1",1,1,0.5,0.5},
+		{"imgs/bat1_arm2",1,1,0.5,0.5},
+		{"imgs/bat1_leg1",1,1,0.5,0.5},
+		{"imgs/bat1_leg2",1,1,0.5,0.5},
+		{"imgs/bat1_back",1,1,0.5,0.5},
+
+		{"imgs/bat2_mouth",1,1,0.5,0.5},
+		{"imgs/bat2_face",1,1,0.5,0.5},
+		{"imgs/bat2_arm1",1,1,0.5,0.5},
+		{"imgs/bat2_arm2",1,1,0.5,0.5},
+		{"imgs/bat2_leg1",1,1,0.5,0.5},
+		{"imgs/bat2_leg2",1,1,0.5,0.5},
+		{"imgs/bat2_back",1,1,0.5,0.5},
+
 	}
 	
 end
