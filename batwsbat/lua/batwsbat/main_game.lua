@@ -103,6 +103,7 @@ end
 
 game.draw=function()
 
+	gl.Color(1,1,1,1)
 	if main.now.name=="game" then
 		sheets.get("imgs/gameback"):draw(1,400,250,nil,800,500)
 	end
@@ -138,6 +139,7 @@ game.draw=function()
 	local px2=400
 	local py2=500-10
 
+--[[
 	flat.tristrip("xyz",{	
 		px-sx,py-sy,0,
 		px+sx,py-sy,0,
@@ -165,7 +167,7 @@ game.draw=function()
 		px2-sx2,py2+sy2,0,
 		px2+sx2,py2+sy2,0,
 	})
-	
+]]	
 	
 
 	bats.draw()
