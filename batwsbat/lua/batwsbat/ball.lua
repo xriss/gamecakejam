@@ -23,6 +23,7 @@ M.bake=function(oven,ball)
 	local flat=canvas.flat
 
 	local bats=oven.rebake(oven.modgame..".bats")
+	local emits=oven.rebake(oven.modgame..".emits")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
@@ -66,6 +67,26 @@ ball.score=function(side)
 	
 	sscores.add(1,3-side)
 	
+	emits.boom.create{
+		px=ball.px,
+		py=ball.py,
+		burst=2,
+	}
+	
+end
+
+ball.bounce=function(vx,vy)
+
+	emits.spurt.create{
+		px=ball.px - vx*20,
+		py=ball.py - vy*20,
+		vx=vx,
+		vy=vy,
+		gx=-vx,
+		gy=-vy,
+		burst=16,
+	}
+
 end
 
 ball.update=function()
@@ -75,8 +96,8 @@ ball.update=function()
 	
 	if ball.px < 0      then ball.px=ball.px-ball.vx ball.vx= math.abs(ball.vx) ball.score(1) end
 	if ball.px > 800    then ball.px=ball.px-ball.vx ball.vx=-math.abs(ball.vx) ball.score(2) end
-	if ball.py < 0  +30 then ball.py=ball.py-ball.vy ball.vy= math.abs(ball.vy) end
-	if ball.py > 500-30 then ball.py=ball.py-ball.vy ball.vy=-math.abs(ball.vy) end
+	if ball.py < 0  +30 then ball.py=ball.py-ball.vy ball.vy= math.abs(ball.vy) ball.bounce(0, 1) end
+	if ball.py > 500-30 then ball.py=ball.py-ball.vy ball.vy=-math.abs(ball.vy) ball.bounce(0,-1) end
 
 
 	for i,bat in ipairs(bats) do
@@ -89,10 +110,12 @@ ball.update=function()
 --				ball.px=bat.px - sx
 				ball.vx=-math.abs(ball.vx)
 				ball.vy=ball.vy + 8*(dy/sy)
+				ball.bounce(-1, 0)
 			elseif bat.side>0 and ball.vx<0 then
 --				ball.px=bat.px + sx
 				ball.vx= math.abs(ball.vx)
 				ball.vy=ball.vy + 8*(dy/sy)
+				ball.bounce( 1, 0)
 			end
 		end
 	end

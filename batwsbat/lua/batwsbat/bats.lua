@@ -32,22 +32,12 @@ bats.setup=function()
 
 	bats.loads()
 	
-	bats.fingers={}
-	bats.fingers[0]={}  -- key state
-	bats.fingers[-1]={} -- key up
-	bats.fingers[ 1]={} -- key down
-	
 	bats[1]=require(oven.modgame..".bat").bake(oven,{idx=1}).setup()
 	bats[2]=require(oven.modgame..".bat").bake(oven,{idx=2}).setup()
 
+	bats.finger_state={}
 end
 
-bats.finger_on=function(id)
-	return bats.fingers[0][id] -- or bats.fingers[0][id]
-end
-bats.finger_off=function(id)
-	return bats.fingers[-1][id] or (not bats.fingers[0][id])
-end
 
 bats.clean=function()
 
@@ -62,24 +52,48 @@ bats.msg=function(m)
 --	print(wstr.dump(m))
 
 	if m.class=="mouse" then
-		local id
-		if m.x<400 and m.y<250 then id=1 end
-		if m.x<400 and m.y>250 then id=2 end
-		if m.x>400 and m.y<250 then id=3 end
-		if m.x>400 and m.y>250 then id=4 end
+	
+		if m.action==1  then
+			bats.mouse_down=true
+			if m.finger then bats.finger_state[m.finger]=true end
+		end
+		if m.action==-1 then
+			bats.mouse_down=false
+		end
 		
-		if id then
-			if m.action==1 then
-				bats.fingers[0][id]=true
-				bats.fingers[1][id]=true
-			elseif m.action==-1 then
-				bats.fingers[0][id]=false
-				bats.fingers[-1][id]=true
+		if m.fingers then
+			if m.fingers~=bats.m_fingers then
+				bats.m_fingers=m.fingers
+				
+				bats.fingers={}
+				
+				for i,v in ipairs(m.fingers) do
+
+					if v.action== 1 then bats.finger_state[v.finger]=true end
+					if v.action==-1 then bats.finger_state[v.finger]=nil  end
+
+					if bats.finger_state[v.finger] then
+						if m.x<400 then bats.fingers[1]=m.y end
+						if m.x>400 then bats.fingers[2]=m.y end
+					end
+				end
+			end
+		else
+			if bats.mouse_down then
+				bats.fingers={}
+				if m.x<400 then bats.fingers[1]=m.y bats.fingers[2]=nil end
+				if m.x>400 then bats.fingers[1]=nil bats.fingers[2]=m.y end
+			else
+				bats.fingers={}
 			end
 		end
 		
 	end
 
+	if m.class=="key" then
+		bats.fingers=nil
+	end
+	
 	for i=1,#bats do
 		bats[i].msg(m)
 	end
@@ -92,9 +106,6 @@ bats.update=function()
 		bats[i].update()
 	end
 
-	-- clear transition states
-	bats.fingers[-1]={} -- key up
-	bats.fingers[ 1]={} -- key down
 end
 
 bats.draw=function()

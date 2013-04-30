@@ -29,6 +29,7 @@ M.bake=function(oven,game)
 
 	local balls=oven.rebake(oven.modgame..".balls")
 	local bats=oven.rebake(oven.modgame..".bats")
+	local emits=oven.rebake(oven.modgame..".emits")
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
@@ -56,6 +57,8 @@ game.setup=function()
 	bats.setup()
 	balls.setup()
 
+	emits.setup()
+
 	game.setup_done=true
 
 end
@@ -79,6 +82,7 @@ game.update=function()
 
 	bats.update()
 	balls.update()
+	emits.update()
 	
 	local s1=sscores.get(1)
 	local s2=sscores.get(2)
@@ -160,6 +164,7 @@ game.draw=function()
 
 	bats.draw()
 	balls.draw()
+	emits.draw()
 
 		
 --	sscores.draw("arcade2")

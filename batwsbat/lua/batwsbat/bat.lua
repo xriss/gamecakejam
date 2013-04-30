@@ -58,8 +58,7 @@ bat.setup=function()
 		bat.key_up="q"
 		bat.key_down="a"
 
-		bat.finger_up=1
-		bat.finger_down=2
+		bat.finger=1
 
 		bat.vy=-1
 
@@ -75,8 +74,7 @@ bat.setup=function()
 		bat.key_up="up"
 		bat.key_down="down"
 
-		bat.finger_up=3
-		bat.finger_down=4
+		bat.finger=2
 
 		bat.vy=1
 		
@@ -107,20 +105,9 @@ bat.msg=function(m)
 			elseif m.action==-1 then
 				bat.ay=0
 			end
-		end
-	end
-
-	if m.class=="mouse" then
-		if bats.finger_on( bat.finger_up ) then
-			if bats.finger_on( bat.finger_down ) then
-				bat.ay=0
-			else
-				bat.ay=-1
-			end
-		elseif bats.finger_on( bat.finger_down ) then
-				bat.ay=1
-		else
-				bat.ay=0
+			
+			bats.fingers=nil
+			
 		end
 	end
 	
@@ -128,14 +115,60 @@ end
 
 bat.update=function()
 
-	if bat.ay~=0 then
-		bat.vy=bat.vy+bat.ay
-		bat.sy=bat.sy-1
-	end
-	if bat.sy<0 then bat.sy=0 end
 
-	if bat.vy> 16 then bat.vy= 16 end
-	if bat.vy<-16 then bat.vy=-16 end
+	if bats.fingers then -- touch control
+	
+		local finger=bats.fingers[bat.finger]
+		
+		if finger then
+		
+			local sy=bat.sy/2
+			if sy<10 then sy=10 end
+
+			local dy=math.abs(bat.vy)
+			local ty=0
+			while dy>0 do ty=ty+dy dy=dy-1 end -- stoping distance
+
+			local yadd= dy
+			local ysub=-dy
+--			if bat.vy<0 then yadd=0 else ysub=0 end
+		
+			if     bat.py+(sy)+yadd < finger then
+				if bat.vy< 8 then bat.ay= 1 else bat.ay=0 end
+			elseif bat.py-(sy)+ysub > finger then
+				if bat.vy>-8 then bat.ay=-1 else bat.ay=0 end
+			else
+				if     bat.vy> 1 then
+					bat.ay=-1
+				elseif bat.vy<-1 then
+					bat.ay= 1
+				else
+					bat.ay=0
+					bat.vy=0
+				end
+			end
+		else
+			bat.ay=0
+		end
+		
+	end
+
+	if bat.ay~=0 and bat.sy>0 then
+		bat.vy=bat.vy+(bat.ay/2)
+		if     bat.vy> 16 then
+			bat.vy= 16
+		elseif bat.vy<-16 then
+			bat.vy=-16
+		else
+			bat.sy=bat.sy-(1/2)
+			if bat.sy<0 then bat.sy=0 end
+		end
+	end
+	
+	if bat.sy<20 then bat.sy=20 end
+
+	if bat.sy==0 then bat.vy=0 end
+
 	
 	bat.py=bat.py+bat.vy
 	local sy=20+(bat.sy/2)

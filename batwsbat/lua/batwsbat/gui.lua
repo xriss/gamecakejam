@@ -45,7 +45,8 @@ M.bake=function(oven,gui)
 	
 	function gui.hooks(act,w)
 	
-print(act,w.id)
+--print(act,w.id)
+
 		if act=="value" then
 			if w.id=="handicap" then
 				game.setup()
