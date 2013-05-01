@@ -275,13 +275,13 @@ bat.draw=function()
 ]]
 	
 	local ps={
-		{"imgs/bat"..bat.finger.."_arm1"},
-		{"imgs/bat"..bat.finger.."_arm2"},
-		{"imgs/bat"..bat.finger.."_leg1"},
-		{"imgs/bat"..bat.finger.."_leg2"},
-		{"imgs/bat"..bat.finger.."_back"},	
-		{"imgs/bat"..bat.finger.."_mouth"},
-		{"imgs/bat"..bat.finger.."_face"},
+		{"imgs/bat"..bat.finger.."_arm1",	1 },
+		{"imgs/bat"..bat.finger.."_arm2",	1 },
+		{"imgs/bat"..bat.finger.."_leg1",	1 },
+		{"imgs/bat"..bat.finger.."_leg2",	1 },
+		{"imgs/bat"..bat.finger.."_back",	0.0 },	
+--		{"imgs/bat"..bat.finger.."_mouth",	1 },
+		{"imgs/bat"..bat.finger.."_face",	1 },
 	}
 	
 	gl.Color(1,1,1,1)
@@ -289,11 +289,18 @@ bat.draw=function()
 	gl.Translate(bat.px,bat.py,0)
 	gl.Rotate(90,0,0,bat.side)
 	
-	gl.Scale(bat.sy/60,1,1)
+--	gl.Scale(bat.sy/60,1,1)
 
+	local sa=bat.sy/60
 	for i,v in ipairs(ps) do
+		gl.PushMatrix()
+		local sb=sa
+		if sb<v[2] then sb=v[2] end
+		gl.Scale(sb,1,1)
+
 		local s=sheets.get( v[1] )
 		s:draw(1,0,0)
+		gl.PopMatrix()
 	end
 
 	gl.PopMatrix()
