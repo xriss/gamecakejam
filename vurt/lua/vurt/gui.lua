@@ -10,7 +10,7 @@ local pack=require("wetgenes.pack")
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-local brag="I just scored over {score} points in #{mainname} #PLAY #THE #GAME! http://play.4lfa.com/gamecake"
+local brag="I just scored over {score} points in #vurt #PLAY #THE #GAME! http://play.4lfa.com/gamecake"
 
 
 M.bake=function(oven,gui)
