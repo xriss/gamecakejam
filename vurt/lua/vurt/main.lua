@@ -25,10 +25,6 @@ M.bake=function(oven,main)
 	local flat=canvas.flat
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
-
-	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 	
 main.loads=function()
 
@@ -47,7 +43,7 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
-	main.next=oven.rebake(oven.modgame..".main_menu")
+	main.next=oven.rebake(oven.modgame..".main_test")
 	
 	main.change()
 end

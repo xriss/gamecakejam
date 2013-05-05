@@ -5,9 +5,9 @@ local global=require("global") -- prevent accidental global use
 local opts={
 	times=true, -- request simple time keeping samples
 	
-	width=640,	-- display basics
-	height=480,
---	show="full",
+	width=1280,	-- display basics
+	height=800,
+	show="full",
 	title="vurt",
 	start="vurt.main", -- rebake this mod
 	fps=60,
