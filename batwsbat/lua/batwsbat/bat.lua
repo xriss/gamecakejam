@@ -266,8 +266,8 @@ bat.draw=function()
 	if sy<=0 then return end
 
 	
-	local sx2=sx+2
-	local sy2=sy+2
+	local sx2=sx+4
+	local sy2=sy+4
 
 	gl.Color(0,0,0,1)
 	flat.tristrip("xyz",{	

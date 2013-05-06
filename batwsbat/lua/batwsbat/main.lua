@@ -44,6 +44,9 @@ main.loads=function()
 		{"imgs/bat1",1,1,0.5+0.4,0.5},
 		{"imgs/bat2",1,1,0.5-0.4,0.5},
 
+		{"imgs/score1",1,1,0.5,0.5},
+		{"imgs/score2",1,1,0.5,0.5},
+
 --[[
 		{"imgs/bat1_mouth",1,1,0.5,0.5},
 		{"imgs/bat1_face",1,1,0.5,0.5},

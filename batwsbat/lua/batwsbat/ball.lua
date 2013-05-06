@@ -26,6 +26,7 @@ M.bake=function(oven,ball)
 
 	local bats=oven.rebake(oven.modgame..".bats")
 	local emits=oven.rebake(oven.modgame..".emits")
+	local game=oven.rebake(oven.modgame..".main_game")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
@@ -74,6 +75,9 @@ ball.score=function(side)
 		py=ball.py,
 		burst=2,
 	}
+	
+	game.scoreid=side
+	game.scoret=130
 	
 end
 

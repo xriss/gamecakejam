@@ -60,6 +60,9 @@ game.setup=function()
 	balls.setup()
 
 	emits.setup()
+	
+	game.scoreid=0
+	game.scoret=0
 
 	game.setup_done=true
 
@@ -91,12 +94,46 @@ game.update=function()
 
 -- table tenis score rules, 2 points ahead and a score of 11 or more to win
 	
-	if s1>1 and s1>s2+1 then 
-		main.next=oven.rebake(oven.modgame..".main_menu")
-	end
+	if game.scoreid>0 and game.scoret>0 then
 	
-	if s2>1 and s2>s1+1 then 
-		main.next=oven.rebake(oven.modgame..".main_menu")
+		local t=game.scoret
+		t=t-3
+		game.scoret=t
+		
+		local px=400
+		local py=250
+		local rz=0
+		local ss=1
+		
+		if t>100 then
+			ss=((130-t)/30)
+			ss=math.sqrt(ss)
+		else
+			local c=(100-t)/4
+			py=py+c*c
+			if game.scoreid == 2 then
+				rz=rz+c*-5
+			else
+				rz=rz+c*5
+			end
+		end
+		
+		local s=sheets.get( "imgs/score"..game.scoreid )
+		game.sdraw=function()
+		s:draw(1, px , py, rz , ss*800,ss*500)
+		end
+	else
+		game.scoreid=0
+		game.sdraw=nil
+
+		if s1>1 and s1>s2+1 then 
+			main.next=oven.rebake(oven.modgame..".main_menu")
+		end
+		
+		if s2>1 and s2>s1+1 then 
+			main.next=oven.rebake(oven.modgame..".main_menu")
+		end
+
 	end
 	
 end
@@ -109,7 +146,12 @@ game.draw=function()
 	end
 	
 	local a=1/4
-	gl.Color(0,0,0,0.5)
+	gl.Color(0,0,0,1)
+	if main.now.name=="game" then
+		gl.Color(0,0,0,1)
+	else
+		gl.Color(0,0,0,0.5)
+	end
 
 	font.set(cake.fonts.get("Blackout Midnight")) -- default font
 	font.set_size(350,0)
@@ -173,6 +215,9 @@ game.draw=function()
 	bats.draw()
 	balls.draw()
 	emits.draw()
+	
+	if game.sdraw then game.sdraw() end
+
 
 		
 --	sscores.draw("arcade2")
