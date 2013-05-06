@@ -190,7 +190,7 @@ function M.bake(oven,emits)
 					px=e.px,
 					py=e.py,
 --					vr=mrandom(-4,4,1/64),
-					life=64,
+					life=64*2,
 					id=e.id,
 				}
 
@@ -210,9 +210,9 @@ function M.bake(oven,emits)
 			local p=emits.base.pcreate(e,t)
 			p.points={}
 			p.a=1
-			p.r=math.random(32,255)/255
-			p.g=1 -- math.random(64,255)/255
-			p.b=math.random(32,255)/255
+			p.r=math.random(0,255)/255
+			p.g=math.random(0,255)/255
+			p.b=math.random(0,255)/255
 			return p
 		end
 		function f.pupdate(p)
@@ -339,8 +339,8 @@ end
 					vr=mrandom(-4,4,1/64),
 					life=128,
 					id=e.id,
-					r1=mrandom(32,64,1/64),
-					r2=mrandom(32,64,1/64),
+					r1=mrandom(64,128,1/64),
+					r2=mrandom(64,128,1/64),
 				}
 			end
 

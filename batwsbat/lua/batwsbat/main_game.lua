@@ -91,11 +91,11 @@ game.update=function()
 
 -- table tenis score rules, 2 points ahead and a score of 11 or more to win
 	
-	if s1>4 and s1>s2+1 then 
+	if s1>1 and s1>s2+1 then 
 		main.next=oven.rebake(oven.modgame..".main_menu")
 	end
 	
-	if s2>4 and s2>s1+1 then 
+	if s2>1 and s2>s1+1 then 
 		main.next=oven.rebake(oven.modgame..".main_menu")
 	end
 	
@@ -109,19 +109,19 @@ game.draw=function()
 	end
 	
 	local a=1/4
-	gl.Color(0,a,0,a)
+	gl.Color(0,0,0,0.5)
 
-	font.set(cake.fonts.get("Vera")) -- default font
-	font.set_size(64,0)
+	font.set(cake.fonts.get("Blackout Midnight")) -- default font
+	font.set_size(350,0)
 
 	local s=tostring( sscores.get(1) )
 	local w=font.width(s)
-	font.set_xy( 400 -30-w , 30 )
+	font.set_xy( 100 , 30 )
 	font.draw( s )
 
 	local s=tostring( sscores.get(2) )
 	local w=font.width(s)
-	font.set_xy( 400+30 , 30 )
+	font.set_xy( 700-w , 30 )
 	font.draw( s )
 
 
