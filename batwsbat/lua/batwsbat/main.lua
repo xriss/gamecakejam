@@ -41,6 +41,10 @@ main.loads=function()
 		{"imgs/gameback",1,1,0.5,0.5},
 		{"imgs/ball",1,1,0.5,0.5},
 
+		{"imgs/bat1",1,1,0.5+0.4,0.5},
+		{"imgs/bat2",1,1,0.5-0.4,0.5},
+
+--[[
 		{"imgs/bat1_mouth",1,1,0.5,0.5},
 		{"imgs/bat1_face",1,1,0.5,0.5},
 		{"imgs/bat1_arm1",1,1,0.5,0.5},
@@ -56,6 +60,7 @@ main.loads=function()
 		{"imgs/bat2_leg1",1,1,0.5,0.5},
 		{"imgs/bat2_leg2",1,1,0.5,0.5},
 		{"imgs/bat2_back",1,1,0.5,0.5},
+]]
 
 	}
 	

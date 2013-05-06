@@ -91,11 +91,11 @@ game.update=function()
 
 -- table tenis score rules, 2 points ahead and a score of 11 or more to win
 	
-	if s1>10 and s1>s2+1 then 
+	if s1>4 and s1>s2+1 then 
 		main.next=oven.rebake(oven.modgame..".main_menu")
 	end
 	
-	if s2>10 and s2>s1+1 then 
+	if s2>4 and s2>s1+1 then 
 		main.next=oven.rebake(oven.modgame..".main_menu")
 	end
 	

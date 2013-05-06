@@ -149,6 +149,7 @@ ball.draw=function()
 	local sx2=sx+2
 	local sy2=sy+2
 
+--[[
 	flat.tristrip("xyz",{	
 		ball.px-sx,ball.py-sy,0,
 		ball.px+sx,ball.py-sy,0,
@@ -162,7 +163,8 @@ ball.draw=function()
 		ball.px-sx2,ball.py+sy2,0,
 		ball.px+sx2,ball.py+sy2,0,
 	})
-	
+]]	
+
 	gl.Color(1,1,1,1)
 	gl.PushMatrix()
 	gl.Translate(ball.px,ball.py,0)

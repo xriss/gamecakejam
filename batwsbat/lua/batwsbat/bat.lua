@@ -47,6 +47,7 @@ bat.setup=function()
 	bat.vy=0
 	bat.ax=0
 	bat.ay=0
+	bat.rz=0
 	
 	local handicap=gui.data.handicap:value()
 
@@ -54,7 +55,7 @@ bat.setup=function()
 	
 		bat.sy=bat.sy + handicap*-10
 		
-		bat.px=0+40
+		bat.px=0+80
 		bat.py=250
 		
 		bat.side=1
@@ -70,7 +71,7 @@ bat.setup=function()
 	
 		bat.sy=bat.sy + handicap*10
 
-		bat.px=800-40
+		bat.px=800-80
 		bat.py=250
 		
 		bat.side=-1
@@ -152,6 +153,9 @@ end
 
 bat.update=function()
 
+	local rz=bat.vy*3*bat.side
+	bat.rz=(rz-bat.rz)*0.1 + bat.rz
+
 
 	if bats.fingers then -- touch control
 	
@@ -190,7 +194,7 @@ bat.update=function()
 		
 	end
 
-	if bat.ay~=0 and bat.sy>0 then
+	if bat.ay~=0 and bat.sy>=0 then
 		bat.vy=bat.vy+(bat.ay/2)
 		if     bat.vy> 16 then
 			bat.vy= 16
@@ -204,9 +208,9 @@ bat.update=function()
 		end
 	end
 	
-	if bat.sy<10 then bat.sy=10 end
+	if bat.sy<0 then bat.sy=0 end
 
-	if bat.sy==0 then bat.vy=0 end
+--	if bat.sy==0 then bat.vy=0 end
 
 	
 	bat.py=bat.py+bat.vy
@@ -253,26 +257,36 @@ bat.draw=function()
 	local sx=bat.sx*0.5
 	local sy=bat.sy*0.5
 	
+
+	gl.Color(1,1,1,1)
+
+	local s=sheets.get( "imgs/bat"..bat.finger )
+	s:draw(1, bat.px , bat.py, bat.rz )
+	
 	if sy<=0 then return end
+
 	
 	local sx2=sx+2
 	local sy2=sy+2
---[[
+
+	gl.Color(0,0,0,1)
+	flat.tristrip("xyz",{	
+		bat.px-sx2,bat.py-sy2,0,
+		bat.px+sx2,bat.py-sy2,0,
+		bat.px-sx2,bat.py+sy2,0,
+		bat.px+sx2,bat.py+sy2,0,
+	})
+
+	gl.Color(0,1,0,1)
 	flat.tristrip("xyz",{	
 		bat.px-sx,bat.py-sy,0,
 		bat.px+sx,bat.py-sy,0,
 		bat.px-sx,bat.py+sy,0,
 		bat.px+sx,bat.py+sy,0,
-		bat.px+sx,bat.py+sy,0,
-
-		bat.px-sx2,bat.py-sy2,0,
-		bat.px-sx2,bat.py-sy2,0,
-		bat.px+sx2,bat.py-sy2,0,
-		bat.px-sx2,bat.py+sy2,0,
-		bat.px+sx2,bat.py+sy2,0,
-
 	})
-]]
+	
+
+--[[
 	
 	local ps={
 		{"imgs/bat"..bat.finger.."_arm1",	1 },
@@ -304,6 +318,7 @@ bat.draw=function()
 	end
 
 	gl.PopMatrix()
+]]
 
 end
 		
