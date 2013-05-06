@@ -57,7 +57,7 @@ for i,v in ipairs{
 end
 
 
-wbake.create_dir_for_file("out/{mainname}.zip")
-os.execute("rm out/{mainname}.zip")
-os.execute("zip -r out/{mainname}.zip data lua opts.lua")
+wbake.create_dir_for_file("out/vurt.zip")
+os.execute("rm out/vurt.zip")
+os.execute("zip -r out/vurt.zip data lua opts.lua")
 
