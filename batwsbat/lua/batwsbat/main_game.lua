@@ -126,16 +126,16 @@ game.update=function()
 		game.scoreid=0
 		game.sdraw=nil
 
+
+	end
+
 		if s1>1 and s1>s2+1 then 
 			main.next=oven.rebake(oven.modgame..".main_menu")
 		end
 		
 		if s2>1 and s2>s1+1 then 
 			main.next=oven.rebake(oven.modgame..".main_menu")
-		end
-
-	end
-	
+		end	
 end
 
 game.draw=function()
