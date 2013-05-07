@@ -7,7 +7,7 @@ local opts={
 	
 	width=800,	-- display basics
 	height=500,
---	show="full",
+	show="full",
 	title="batwsbat",
 	start="batwsbat.main", -- rebake this mod
 	fps=60,
