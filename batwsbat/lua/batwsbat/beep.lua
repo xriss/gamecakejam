@@ -20,8 +20,20 @@ M.bake=function(oven,beep)
 	local sounds=cake.sounds
 
 	local ids={
-		["score"]={
+		["score0"]={
 			name="oggs/score",
+		},
+		["score1"]={
+			name="oggs/score1",
+		},
+		["score2"]={
+			name="oggs/score2",
+		},
+		["score3"]={
+			name="oggs/score3",
+		},
+		["score4"]={
+			name="oggs/score4",
 		},
 
 		["bathitwall"]={

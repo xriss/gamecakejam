@@ -79,9 +79,16 @@ ball.score=function(side)
 	
 	game.scoreid=side
 	game.scoret=130
+
+	local s1=sscores.get(1)
+	local s2=sscores.get(2)
 	
-	beep.play("score")
-	
+	if s1==s2		then		beep.play("score0")
+	elseif s1>s2+1	then		beep.play("score1")
+	elseif s1>s2	then		beep.play("score2")
+	elseif s2>s1+1	then		beep.play("score3")
+	elseif s2>s1	then		beep.play("score4")
+	end
 end
 
 ball.bounce=function(vx,vy)
