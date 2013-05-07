@@ -31,6 +31,7 @@ M.bake=function(oven,test)
 
 
 	local wetiso=oven.rebake("wetgenes.gamecake.spew.geom_wetiso")
+	local geom=oven.rebake("wetgenes.gamecake.spew.geom")
 
 
 test.loads=function()
@@ -42,6 +43,10 @@ test.setup=function()
 	test.loads()
 	
 	wetiso.setup()
+	
+	test.box=geom.hexahedron()
+	geom.apply_bevel(test.box,0.5)
+	geom.predraw(test.box,"pos")
 
 end
 
@@ -117,6 +122,9 @@ test.draw_eye=function(eye)
 
 	gl.Rotate(test.rot,0,-1,0)
 
+	gl.Translate(0 ,-128,0)
+	geom.draw(test.box)
+	gl.Translate(0 ,256,0)
 	wetiso.draw()
 
 	gl.Disable(gl.DEPTH_TEST)
