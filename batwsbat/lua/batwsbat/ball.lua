@@ -27,6 +27,7 @@ M.bake=function(oven,ball)
 	local bats=oven.rebake(oven.modgame..".bats")
 	local emits=oven.rebake(oven.modgame..".emits")
 	local game=oven.rebake(oven.modgame..".main_game")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
@@ -79,6 +80,8 @@ ball.score=function(side)
 	game.scoreid=side
 	game.scoret=130
 	
+	beep.play("score")
+	
 end
 
 ball.bounce=function(vx,vy)
@@ -96,6 +99,12 @@ ball.bounce=function(vx,vy)
 		gg=gg,
 		burst=16,
 	}
+	
+	if vx==0 then
+		beep.play("ballhitwall")
+	else
+		beep.play("ballhitbat")
+	end
 
 end
 
