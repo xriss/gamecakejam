@@ -29,6 +29,8 @@ M.bake=function(oven,bat)
 	local balls=oven.rebake(oven.modgame..".balls")
 	local emits=oven.rebake(oven.modgame..".emits")
 
+	local beep=oven.rebake(oven.modgame..".beep")
+
 	
 bat.loads=function()
 	
@@ -231,6 +233,8 @@ bat.update=function()
 			gg=balls[1],
 		}
 
+		beep.play("bathitwall")
+
 	end
 	if bat.py > 500-sy then
 
@@ -246,6 +250,8 @@ bat.update=function()
 			life=math.floor(math.abs(bat.vy)),
 			gg=balls[1],
 		}
+
+		beep.play("bathitwall")
 
 	end
 
