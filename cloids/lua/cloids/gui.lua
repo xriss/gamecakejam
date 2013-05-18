@@ -45,15 +45,15 @@ M.bake=function(state,gui)
 		
 	function gui.pages.menu(master)
 	
-		local top=master:add({hx=720,hy=480,mx=720,my=480,class="flow",ax=0,ay=0,font="Vera",text_size=24})
+		local top=master:add({hx=720,hy=480,class="fill",font="Vera",text_size=24})
 
-		top:add({sx=720,sy=430})
+		top:add({hx=720,hy=430})
 		
-		top:add({sx=180,sy=40})
-		top:add({sx=360,sy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
-		top:add({sx=180,sy=40})
+		top:add({hx=180,hy=40})
+		top:add({hx=360,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=180,hy=40})
 		
-		top:add({sx=720,sy=10})
+		top:add({hx=720,hy=10})
 		
 	end
 

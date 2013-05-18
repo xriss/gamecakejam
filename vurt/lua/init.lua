@@ -7,7 +7,7 @@ local opts={
 	
 	width=1280,	-- display basics
 	height=800,
-	show="full",
+--	show="full",
 	title="vurt",
 	start="vurt.main", -- rebake this mod
 	fps=60,

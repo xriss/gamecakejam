@@ -25,6 +25,8 @@ M.bake=function(oven,main)
 	local flat=canvas.flat
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
+
+	local vr=oven.rebake(oven.modgame..".vr")
 	
 main.loads=function()
 
@@ -36,6 +38,8 @@ main.loads=function()
 end
 		
 main.setup=function()
+
+	vr.setup()
 
 	main.loads()
 	
@@ -76,6 +80,8 @@ main.clean=function()
 		main.now.clean()
 	end
 
+	vr.clean()
+
 end
 
 main.msg=function(m)
@@ -95,6 +101,8 @@ main.msg=function(m)
 end
 
 main.update=function()
+
+	vr.update()
 
 	main.change()
 

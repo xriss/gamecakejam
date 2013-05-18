@@ -46,12 +46,12 @@ M.bake=function(oven,gui)
 	
 	function gui.pages.menu(master)
 
-		local top=master:add({hx=720,hy=480,mx=720,my=480,class="flow",ax=0,ay=0,font="Vera",text_size=16})
-		top:add({sy=440,sx=720})
-		local bot=top:add({sy=40,sx=720,mx=720,class="flow"})
-		bot:add({sy=40,sx=200})
-		bot:add({sx=200,sy=40,color=0xffffffff,text="Start!",id="start",hooks=gui.hooks})
-		bot:add({sy=40,sx=200})
+		local top=master:add({hx=720,hy=480,class="fill",font="Vera",text_size=16})
+		top:add({hy=440,hx=720})
+		local bot=top:add({hy=40,hx=720,class="fill"})
+		bot:add({hy=40,hx=200})
+		bot:add({hx=200,hy=40,color=0xffffffff,text="Start!",id="start",hooks=gui.hooks})
+		bot:add({hy=40,hx=200})
 		
 	end
 
