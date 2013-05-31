@@ -48,6 +48,8 @@ end
 		
 menu.setup=function()
 
+	sgui.setup()
+
 	if not game.setup_done then game.setup() end -- game setup should be run once
 
 	menu.loads()

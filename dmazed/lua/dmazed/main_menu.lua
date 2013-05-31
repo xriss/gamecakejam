@@ -47,6 +47,8 @@ end
 		
 menu.setup=function()
 
+	wgui.setup()
+	
 	menu.loads()
 
 	gui.setup()

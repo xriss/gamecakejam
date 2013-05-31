@@ -46,6 +46,8 @@ end
 		
 menu.setup=function()
 
+	sgui.setup()
+
 	menu.loads()
 
 	gui.setup()
