@@ -107,6 +107,90 @@ main.clean=function()
 
 end
 
+main.swipe={}
+
+-- turn mouse swipes and taps into fake keys
+main.swipekeys=function(m)
+
+--print(wstr.dump(m))
+
+	if m.class=="mouse" then
+		local sw=main.swipe
+		
+		local sensitivity=16
+		
+		local function unkey()
+			if sw.last then
+				sw.last=nil
+				main.msg{
+					class="key",
+					action=-1,
+					keyname=sw.last,
+				}
+			end
+		end
+		local function dokey(n)
+			unkey()
+			sw.last=n
+			main.msg{
+				class="key",
+				action=1,
+				keyname=sw.last,
+			}
+		end
+
+		if m.action==1 then -- remember first touch point for swipe
+			sw.fx=m.x
+			sw.fy=m.y
+			sw.dx=m.x -- keep track of swipe movements
+			sw.dy=m.y
+		end
+		
+		local swiped=false
+		
+		local dx=m.x-sw.dx
+		local dy=m.y-sw.dy
+		
+		if dx*dx > dy*dy then -- check x
+			if dx<-sensitivity then
+				dokey("left")
+				swiped=true
+			elseif dx>sensitivity then
+				dokey("right")
+				swiped=true
+			end
+		else -- check y
+			if dy<-sensitivity then
+				dokey("up")
+				swiped=true
+			elseif dy>sensitivity then
+				dokey("down")
+				swiped=true
+			end
+		end
+		
+		if swiped then
+			sw.fx=nil
+			sw.fy=nil
+			sw.dx=m.x -- keep track of swipe movement chunks
+			sw.dy=m.y
+		end
+
+		if m.action==-1 then -- was this a click? check if sw.fx
+			if sw.fx then -- no movement, so it was a click
+				dokey("enter")
+			else
+				unkey()
+			end
+		end
+		
+	
+	end
+
+
+end
+
+
 main.msg=function(m)
 --	print(wstr.dump(m))
 
@@ -115,10 +199,11 @@ main.msg=function(m)
 		m.x=m.x+(opts.width/2)
 		m.y=m.y+(opts.height/2)
 	end
-
+	
 	if main.now and main.now.msg then
 		main.now.msg(m)
 	end
+
 	
 end
 

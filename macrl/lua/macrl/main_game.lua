@@ -56,6 +56,8 @@ game.msg=function(m)
 --	print(wstr.dump(m))
 
 	basket.msg(m)
+
+	main.swipekeys(m)
 	
 end
 
