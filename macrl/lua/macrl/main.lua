@@ -107,7 +107,7 @@ main.clean=function()
 
 end
 
-main.swipe={}
+main.swipe={fx=0,fy=0,dx=0,dy=0,on=false}
 
 -- turn mouse swipes and taps into fake keys
 main.swipekeys=function(m)
@@ -144,28 +144,31 @@ main.swipekeys=function(m)
 			sw.fy=m.y
 			sw.dx=m.x -- keep track of swipe movements
 			sw.dy=m.y
+			sw.on=true
 		end
 		
 		local swiped=false
-		
-		local dx=m.x-sw.dx
-		local dy=m.y-sw.dy
-		
-		if dx*dx > dy*dy then -- check x
-			if dx<-sensitivity then
-				dokey("left")
-				swiped=true
-			elseif dx>sensitivity then
-				dokey("right")
-				swiped=true
-			end
-		else -- check y
-			if dy<-sensitivity then
-				dokey("up")
-				swiped=true
-			elseif dy>sensitivity then
-				dokey("down")
-				swiped=true
+		if sw.on then
+			
+			local dx=m.x-sw.dx
+			local dy=m.y-sw.dy
+			
+			if dx*dx > dy*dy then -- check x
+				if dx<-sensitivity then
+					dokey("left")
+					swiped=true
+				elseif dx>sensitivity then
+					dokey("right")
+					swiped=true
+				end
+			else -- check y
+				if dy<-sensitivity then
+					dokey("up")
+					swiped=true
+				elseif dy>sensitivity then
+					dokey("down")
+					swiped=true
+				end
 			end
 		end
 		
@@ -182,6 +185,7 @@ main.swipekeys=function(m)
 			else
 				unkey()
 			end
+			sw.on=false
 		end
 		
 	
