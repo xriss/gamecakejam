@@ -86,6 +86,8 @@ print(act,w.id)
 
 		top:add({hx=480,hy=20})
 		
+		master.go_back_id="menu"
+		master.go_forward_id="start"
 	end
 
 	function gui.page(pname)
@@ -102,6 +104,10 @@ print(act,w.id)
 		end
 
 		gui.master:layout()
+
+		if gui.master.go_forward_id then
+			gui.master.activate_by_id(gui.master.go_forward_id)
+		end
 		
 		return ret
 	end

@@ -117,7 +117,7 @@ main.swipekeys=function(m)
 	if m.class=="mouse" then
 		local sw=main.swipe
 		
-		local sensitivity=16
+		local sensitivity=16 -- should factor in DPI...
 		
 		local function unkey()
 			if sw.last then
