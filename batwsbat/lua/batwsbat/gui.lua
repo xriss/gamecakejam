@@ -31,6 +31,22 @@ M.bake=function(oven,gui)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local main=oven.rebake(oven.modgame..".main")
 	local game=oven.rebake(oven.modgame..".main_game")
+
+	local about=oven.rebake("wetgenes.gamecake.spew.about.sinescroll")
+
+	about.title="WetGenes presents BatWsBat"
+	about.text=[[
+*SKIP*
+Use gentle taps to guide the bat. Gentle control is the key.
+*SKIP*
+This is a two player only game.
+*SKIP*
+Share a gamepad or a touchscreen to play.
+*SKIP*
+Adjust the handicap if you wish to give your opponent more of a chance.
+*SKIP*
+]]
+
 	
 	gui.data={}
 
@@ -104,6 +120,9 @@ M.bake=function(oven,gui)
 		top:add({hx=150,hy=40})
 
 		top:add({hx=640,hy=20})
+
+		gui.master.go_forward_id="start"
+		gui.master.go_back_id="menu"
 		
 	end
 
@@ -122,6 +141,10 @@ M.bake=function(oven,gui)
 
 		gui.master:layout()
 		
+		if gui.master.go_forward_id then
+			gui.master.activate_by_id(gui.master.go_forward_id)
+		end
+
 		return ret
 	end
 

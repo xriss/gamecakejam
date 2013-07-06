@@ -49,6 +49,8 @@ ball.setup=function()
 	ball.sx=20
 	ball.sy=20
 
+	ball.history={}
+
 	return ball
 end
 
@@ -68,6 +70,8 @@ ball.score=function(side)
 	local bat=bats[side]
 	
 	bat.sy=bat.sy_base
+	bat.vy=0
+	bat.ay=0
 	
 	sscores.add(1,3-side)
 	
@@ -116,6 +120,9 @@ ball.bounce=function(vx,vy)
 end
 
 ball.update=function()
+
+	table.insert(ball.history,1,{px=ball.px,py=ball.py})
+	while #ball.history>16 do ball.history[#ball.history]=nil end
 
 	ball.px=ball.px+ball.vx
 	ball.py=ball.py+ball.vy
@@ -185,12 +192,26 @@ ball.draw=function()
 	})
 ]]	
 
+		local s=sheets.get( "imgs/ball" )
+
+for i=4,1,-1 do
+	local v=ball.history[i]
+	if v then
+		local a=1 - (i/8)
+		gl.Color(a,a,a,a)
+		gl.PushMatrix()
+		gl.Translate(v.px,v.py,0)
+		s:draw(1,0,0)
+		gl.PopMatrix()
+	end
+
+end
+
 	gl.Color(1,1,1,1)
 	gl.PushMatrix()
 	gl.Translate(ball.px,ball.py,0)
 
 --	for i,v in ipairs(ps) do
-		local s=sheets.get( "imgs/ball" )
 		s:draw(1,0,0)
 --	end
 

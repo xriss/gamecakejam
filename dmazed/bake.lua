@@ -58,6 +58,15 @@ for i,v in ipairs{
 end
 
 
+-- write data bake log
+do local fn="lua/init_bake.lua" wbake.create_dir_for_file(fn) local fp=io.open(fn,"w") fp:write(wstr.serialize(
+{
+	version=tonumber(wbake.version_from_time()),
+	stamp=os.time(),
+}
+)) fp:close() end
+
+
 wbake.create_dir_for_file("out/dmazed.zip")
 os.execute("rm out/dmazed.zip")
 os.execute("zip -r out/dmazed.zip data lua opts.lua")

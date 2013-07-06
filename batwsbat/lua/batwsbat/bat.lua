@@ -118,6 +118,51 @@ bat.msg=function(m)
 			bats.fingers=nil
 			
 		end
+
+--[[
+	elseif m.class=="joykey" then
+	
+		if bat.finger==1 then
+			if m.keycode==106 then
+--				if m.action==-1 then
+					bat.vy=0
+					bat.ay=0
+--				end
+			end
+		else
+			if m.keycode==107 then
+--				if m.action==-1 then
+					bat.vy=0
+					bat.ay=0
+--				end
+			end		
+		end
+]]
+	elseif m.class=="joystick" then -- share a single controller, use the sticks for left-right players
+
+		if bat.finger==1 then
+		
+
+			if m.ly<-0.125 then
+				bat.ay=-1
+			elseif m.ly>0.125 then
+				bat.ay= 1
+			else
+				bat.ay=0
+			end			
+
+		else
+
+			if m.ry<-0.125 then
+				bat.ay=-1
+			elseif m.ry>0.125 then
+				bat.ay= 1
+			else
+				bat.ay=0
+			end
+
+		end
+
 	end
 	
 end

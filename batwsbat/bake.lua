@@ -67,6 +67,13 @@ for i,v in ipairs{
 	wbake.copyfile("../../mods/data/"..v,"data/"..v)
 end
 
+-- write data bake log
+do local fn="lua/init_bake.lua" wbake.create_dir_for_file(fn) local fp=io.open(fn,"w") fp:write(wstr.serialize(
+{
+	version=tonumber(wbake.version_from_time()),
+	stamp=os.time(),
+}
+)) fp:close() end
 
 wbake.create_dir_for_file("out/batwsbat.zip")
 os.execute("rm out/batwsbat.zip")
