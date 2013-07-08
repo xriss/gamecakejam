@@ -1,7 +1,7 @@
-Some quick and dirty gamecake games, built in a few hours as test 
-packages. You could try and play them or you could take them and use 
-them as a base for your own creations. Play with them, change the 
-grafix, have fun, that's why they exist.
+Some quick and dirty gamecake games, built quickly as test packages. 
+You could try and play them or you could take them and use them as a 
+base for your own creations. Play with them, change the grafix, have 
+fun, release them, that's why they exist.
 
 This is my attempt to recreate the experience of typing in games from 
 magazines in the 80s. It was much more fun to fiddle with the code than 
@@ -13,10 +13,10 @@ The code lives in the lua directory of each game, change it and run it.
 The GameCake engine allows these games to work on:
 
 LINUX
-My main build is tested on ubuntu (+gnome3).
+My main build is tested on ubuntu (technically xubuntu).
 
 WINDOWS
-Wine and XP compatible only with the focus on wine.
+Wine and XP compatible with the focus on wine.
 
 RASPBERRY PI
 With or without X11, this is a native raspbian build and can be run 
@@ -24,8 +24,11 @@ from the commandline.
 The RASPI is also "minimum required specs" if your machine is not as 
 powerful as one of these then don't expect everything to work.
 
-ANDROID
-You have a keyboard/gamepad right?
+ANDROID You have a keyboard/gamepad right? Its a bit more 
+complicated to get things building into an APK file but its not 
+impossible the my lua repository contains the android build and 
+scripts to make this happen, you will also need the my sdk repo for 
+all the android tools.
 
 NACL
 The web solution, currently chrome only.
