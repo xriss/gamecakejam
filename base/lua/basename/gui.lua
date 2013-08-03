@@ -33,9 +33,7 @@ M.bake=function(oven,gui)
 	gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
 
 	function gui.setup()
-	
---		gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
-	
+		sgui.setup()
 		gui.page()
 	end
 	
