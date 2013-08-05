@@ -104,7 +104,6 @@ ship.update=function()
 		if ship.vx<0 then ship.vx=0 end
 		
 		ship.vx = ship.vx+ship.speed
-	else ship.vx = 0
 	end
 	
 	ship.vx = ship.vx*0.9

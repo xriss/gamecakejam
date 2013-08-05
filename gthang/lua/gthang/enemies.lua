@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,game)
-	local game=game or {}
-	game.oven=oven
+M.bake=function(oven,enemies)
+	local enemies=enemies or {}
+	enemies.oven=oven
 	
-	game.modname=M.modname
+	enemies.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -29,9 +29,6 @@ M.bake=function(oven,game)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
-	local stars=oven.rebake(oven.modgame..".stars")
-	local ship=oven.rebake(oven.modgame..".ship")
-	local enemies=oven.rebake(oven.modgame..".enemies")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -39,69 +36,101 @@ M.bake=function(oven,game)
 
 	local layout=cake.layouts.create{}
 
+	local enemy={}
 
 
-game.back="imgs/title"
+	
+enemy.setup=function(it,opt)
 
-game.loads=function()
+it.px=opt.px or 256
+it.py=opt.py or 128
+it.rz=0
+
+it.vx=0
+it.vy=0
+
+it.speed=1.75
+
+end
+
+enemy.clean=function(it)
+
+end
+
+enemy.update=function(it)
+
+
+	
+end
+
+enemy.draw=function(it)
+	
+	local image=sheets.get("imgs/bad01")
+	
+	image:draw(1,it.px,it.py,it.rz,64,64)
+
+end
+
+
+enemies.loads=function()
 
 end
 		
-game.setup=function()
+enemies.setup=function()
 
-	game.loads()
+local sx=85
+local sy=64
 
-	gui.setup()
-	gui.page("game")
-	
-	stars.setup()
-	ship.setup()
-	enemies.setup()
+enemies.tab = {}
+enemies.add({px=0*sx,	py=1*sy})
+enemies.add({px=1*sx,	py=2*sy})
+enemies.add({px=2*sx,	py=3*sy})
+enemies.add({px=3*sx,	py=4*sy})
+enemies.add({px=4*sx,	py=3*sy})
+enemies.add({px=5*sx,	py=2*sy})
+enemies.add({px=6*sx,	py=1*sy})
 
---	beep.stream("game")
-
-end
-
-game.clean=function()
-
-	gui.clean()
-	
-	stars.clean()
-	ship.clean()
-	enemies.clean()
 
 end
 
-game.msg=function(m)
+enemies.clean=function()
 
-	gui.msg(m)
+	for i,v in ipairs(enemies.tab) do
+		enemy.clean(v)
+	end
+
+end
+
+enemies.msg=function(m)
+
+--	print (wstr.dump(m))
 	
-	ship.msg(m)
-	enemies.msg(m)
+
+end
+
+enemies.update=function()
+
+	for i,v in ipairs(enemies.tab) do
+		enemy.update(v)
+	end
 	
 end
 
-game.update=function()
+enemies.draw=function()
 
-	gui.update()
-	
-	stars.update()
-	ship.update()
-	enemies.update()
+	for i,v in ipairs(enemies.tab) do
+		enemy.draw(v)
+	end
 	
 end
 
-game.draw=function()
+enemies.add=function(opt)
 
-	stars.draw()
-	ship.draw()
-	enemies.draw()
-	
-	sscores.draw("arcade2")
+	local it2={}
+	enemy.setup(it2,opt)
+	enemies.tab[#enemies.tab+1]=it2
 
-	gui.draw()
-	
 end
 
-	return game
+	return enemies
 end

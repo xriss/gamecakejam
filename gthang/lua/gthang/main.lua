@@ -39,6 +39,7 @@ main.loads=function()
 		{"imgs/back01",1,1,1/2,1/2},
 		{"imgs/back02",1,1,1/2,1/2},
 		{"imgs/ship01",1,1,1/2,1/2},
+		{"imgs/bad01",1,1,1/2,1/2},
 	})
 	
 end
@@ -51,7 +52,8 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
-	main.next=oven.rebake(oven.modgame..".main_menu")
+--	main.next=oven.rebake(oven.modgame..".main_menu")
+	main.next=oven.rebake(oven.modgame..".main_game")
 	
 	main.change()
 end
