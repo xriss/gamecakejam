@@ -23,6 +23,7 @@ M.bake=function(oven,main)
 	local layouts=cake.layouts
 	local font=canvas.font
 	local flat=canvas.flat
+	local sheets=cake.sheets
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
 
@@ -34,7 +35,10 @@ main.loads=function()
 
 	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
-	oven.cake.images.loads({
+	sheets.loads_and_chops({
+		{"imgs/back01",1,1,1/2,1/2},
+		{"imgs/back02",1,1,1/2,1/2},
+		{"imgs/ship01",1,1,1/2,1/2},
 	})
 	
 end

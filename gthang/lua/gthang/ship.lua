@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,game)
-	local game=game or {}
-	game.oven=oven
+M.bake=function(oven,ship)
+	local ship=ship or {}
+	ship.oven=oven
 	
-	game.modname=M.modname
+	ship.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -29,8 +29,6 @@ M.bake=function(oven,game)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
-	local stars=oven.rebake(oven.modgame..".stars")
-	local ship=oven.rebake(oven.modgame..".ship")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -40,62 +38,101 @@ M.bake=function(oven,game)
 
 
 
-game.back="imgs/title"
-
-game.loads=function()
+ship.loads=function()
 
 end
 		
-game.setup=function()
+ship.setup=function()
 
-	game.loads()
+ship.px=256
+ship.py=768-32
+ship.rz=0
 
-	gui.setup()
-	gui.page("game")
-	
-	stars.setup()
-	ship.setup()
+ship.vx=0
+ship.vy=0
 
---	beep.stream("game")
+ship.left=false
+ship.right=false
 
-end
-
-game.clean=function()
-
-	gui.clean()
-	
-	stars.clean()
-	ship.clean()
+ship.speed=1.75
 
 end
 
-game.msg=function(m)
+ship.clean=function()
 
-	gui.msg(m)
+end
+
+ship.msg=function(m)
+
+--	print (wstr.dump(m))
 	
-	ship.msg(m)
+	if m.class == "key" then
+		
+		if m.keyname == "left" then
+			
+			if m.action == 1 then
+				ship.left = true
+			elseif m.action == -1 then
+				ship.left = false
+			end
+			
+		end
+		
+		if m.keyname == "right" then
+			
+			if m.action == 1 then
+				ship.right = true
+			elseif m.action == -1 then
+				ship.right = false
+			end
+			
+		end
+		
+	end
+
+end
+
+ship.update=function()
+
+	if ship.left then
+	
+		if ship.vx>0 then ship.vx=0 end
+		
+		ship.vx = ship.vx-ship.speed
+	elseif ship.right then
+	
+		if ship.vx<0 then ship.vx=0 end
+		
+		ship.vx = ship.vx+ship.speed
+	else ship.vx = 0
+	end
+	
+	ship.vx = ship.vx*0.9
+	ship.px = ship.px+ship.vx
+	
+	if ship.px>512 then
+		ship.px = 512
+		
+		if ship.vx>0 then ship.vx=-ship.vx end
+		
+	end
+	
+	if ship.px<0 then
+		ship.px = 0
+		
+		if ship.vx<0 then ship.vx=-ship.vx end
+		
+	end
 	
 end
 
-game.update=function()
+ship.draw=function()
+	
+	local image=sheets.get("imgs/ship01")
+	
+	image:draw(1,ship.px,ship.py,ship.rz,64,64)
 
-	gui.update()
-	
-	stars.update()
-	ship.update()
-	
 end
 
-game.draw=function()
-
-	stars.draw()
-	ship.draw()
-	
-	sscores.draw("arcade2")
-
-	gui.draw()
-	
-end
-
-	return game
+	return ship
 end

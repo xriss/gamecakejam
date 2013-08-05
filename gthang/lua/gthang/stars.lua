@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,game)
-	local game=game or {}
-	game.oven=oven
+M.bake=function(oven,stars)
+	local stars=stars or {}
+	stars.oven=oven
 	
-	game.modname=M.modname
+	stars.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -29,8 +29,6 @@ M.bake=function(oven,game)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
-	local stars=oven.rebake(oven.modgame..".stars")
-	local ship=oven.rebake(oven.modgame..".ship")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -40,62 +38,57 @@ M.bake=function(oven,game)
 
 
 
-game.back="imgs/title"
-
-game.loads=function()
+stars.loads=function()
 
 end
 		
-game.setup=function()
+stars.setup=function()
 
-	game.loads()
-
-	gui.setup()
-	gui.page("game")
-	
-	stars.setup()
-	ship.setup()
-
---	beep.stream("game")
+	stars.p1y=0
+	stars.p2y=0
 
 end
 
-game.clean=function()
-
-	gui.clean()
-	
-	stars.clean()
-	ship.clean()
+stars.clean=function()
 
 end
 
-game.msg=function(m)
+stars.msg=function(m)
 
-	gui.msg(m)
+end
+
+stars.update=function()
 	
-	ship.msg(m)
+	stars.p1y=stars.p1y+0.25
+	
+	if	stars.p1y>1024 then
+		stars.p1y=stars.p1y-1024
+	end
+	
+	stars.p2y=stars.p2y+0.4
+	
+	if	stars.p2y>1024 then
+		stars.p2y=stars.p2y-1024
+	end
 	
 end
 
-game.update=function()
-
-	gui.update()
+stars.draw=function()
 	
-	stars.update()
-	ship.update()
+	local image=sheets.get("imgs/back01")
 	
-end
-
-game.draw=function()
-
-	stars.draw()
-	ship.draw()
+	image:draw(1,256,stars.p1y-1024,nil,1024,1024)
+	image:draw(1,256,stars.p1y,nil,1024,1024)
+	image:draw(1,256,stars.p1y+1024,nil,1024,1024)
 	
-	sscores.draw("arcade2")
+	local image=sheets.get("imgs/back02")
+	
+	image:draw(1,256,stars.p2y-1024,nil,1024,1024)
+	image:draw(1,256,stars.p2y,nil,1024,1024)
+	image:draw(1,256,stars.p2y+1024,nil,1024,1024)
 
-	gui.draw()
 	
 end
 
-	return game
+	return stars
 end
