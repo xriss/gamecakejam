@@ -50,6 +50,7 @@ it.vx=0
 it.vy=0
 
 it.speed=1.75
+it.countdown=120
 
 end
 
@@ -59,7 +60,21 @@ end
 
 enemy.update=function(it)
 
-
+	it.vx = it.vx*0.95
+	it.py = it.py+it.speed
+	
+	if it.py>1000 then it.py=it.py-1256 end
+	if it.px>(512+128) then it.px=it.px-(512+256) end
+	if it.px<(0-128) then it.px=it.px+(512+256) end
+	
+	it.countdown=it.countdown-1
+	if it.countdown<=0 then
+		it.countdown=(math.random(60,240))
+		it.vx = ((math.random(0,100)/50)-1)*8
+	end
+	
+	it.px=it.px+it.vx
+	
 	
 end
 
@@ -89,6 +104,10 @@ enemies.add({px=3*sx,	py=4*sy})
 enemies.add({px=4*sx,	py=3*sy})
 enemies.add({px=5*sx,	py=2*sy})
 enemies.add({px=6*sx,	py=1*sy})
+
+-- for i=1,100 do
+-- 	enemies.add({px=math.random(0,512),	py=math.random(0,512)})
+-- end
 
 
 end
