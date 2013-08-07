@@ -30,6 +30,8 @@ M.bake=function(oven,ship)
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
+	local bullets=oven.rebake(oven.modgame..".bullets")
+	local enemies=oven.rebake(oven.modgame..".enemies")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -53,6 +55,8 @@ ship.vy=0
 
 ship.left=false
 ship.right=false
+ship.fire=false
+ship.cool=0
 
 ship.speed=1.75
 
@@ -84,6 +88,16 @@ ship.msg=function(m)
 				ship.right = true
 			elseif m.action == -1 then
 				ship.right = false
+			end
+			
+		end
+		
+		if m.keyname == "space" then
+			
+			if m.action == 1 then
+				ship.fire = true
+			elseif m.action == -1 then
+				ship.fire = false
 			end
 			
 		end
@@ -121,6 +135,25 @@ ship.update=function()
 		
 		if ship.vx<0 then ship.vx=-ship.vx end
 		
+	end
+	
+	ship.cool=ship.cool-1
+	
+	if ship.fire then
+		if ship.cool<=0 then
+			bullets.add{px=ship.px,py=ship.py-32,vy=-8+math.random()}
+			ship.cool=4
+		end
+	end
+	
+	for i,v in ipairs(enemies.tab) do
+		local dx=ship.px-v.px
+		local dy=ship.py-v.py
+		
+		if dx*dx+dy*dy<=32*32 then
+			main.next=oven.rebake(oven.modgame..".main_menu")
+			return
+		end
 	end
 	
 end

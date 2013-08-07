@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,enemies)
-	local enemies=enemies or {}
-	enemies.oven=oven
+M.bake=function(oven,bullets)
+	local bullets=bullets or {}
+	bullets.oven=oven
 	
-	enemies.modname=M.modname
+	bullets.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -30,142 +30,133 @@ M.bake=function(oven,enemies)
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
+	local enemies=oven.rebake(oven.modgame..".enemies")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local layout=cake.layouts.create{}
 
-	local enemy={}
+	local bullet={}
 
 
 	
-enemy.setup=function(it,opt)
+bullet.setup=function(it,opt)
 
 it.px=opt.px or 256
 it.py=opt.py or 128
 it.rz=0
 
-it.vx=0
-it.vy=0
+it.vx=opt.vx or 0
+it.vy=opt.vy or 0
 
 it.speed=1.75
 it.countdown=120
 
-it.rgb={math.random(),math.random(),math.random()}
+end
+
+bullet.clean=function(it)
 
 end
 
-enemy.clean=function(it)
+bullet.update=function(it)
 
-end
-
-enemy.update=function(it)
-
-	it.vx = it.vx*0.95
-	it.py = it.py+it.speed
+	it.py = it.py+it.vy
+	it.px = it.px+it.vx
 	
-	if it.py>1000 then it.py=it.py-1256 end
+	if it.py>1000 then bullets.remove(it) return end
+	if it.py<-256 then bullets.remove(it) return end
 	if it.px>(512+128) then it.px=it.px-(512+256) end
 	if it.px<(0-128) then it.px=it.px+(512+256) end
 	
-	it.countdown=it.countdown-1
-	if it.countdown<=0 then
-		it.countdown=(math.random(60,240))
-		it.vx = ((math.random(0,100)/50)-1)*8
+	for i,v in ipairs(enemies.tab) do
+		local dx=it.px-v.px
+		local dy=it.py-v.py
+		
+		if dx*dx+dy*dy<=40*40 then
+			bullets.remove(it)
+			enemies.remove(v)
+			enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
+			enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
+			sscores.add(23)
+			return
+		end
 	end
 	
-	it.px=it.px+it.vx
-	
-	
 end
 
-enemy.draw=function(it)
+bullet.draw=function(it)
 	
-	local image=sheets.get("imgs/bad01")
-	gl.Color(it.rgb[1],it.rgb[2],it.rgb[3],1) 
+	local image=sheets.get("imgs/bullet01")
+	gl.Color(1,0,1/2,1)
 	
-	image:draw(1,it.px,it.py,it.rz,64,64)
+	image:draw(1,it.px,it.py,it.rz,32,32)
 
 end
 
 
-enemies.loads=function()
+bullets.loads=function()
 
 end
 		
-enemies.setup=function()
+bullets.setup=function()
 
-local sx=85
-local sy=64
-
-enemies.tab = {}
-enemies.add({px=0*sx,	py=1*sy})
-enemies.add({px=1*sx,	py=2*sy})
-enemies.add({px=2*sx,	py=3*sy})
-enemies.add({px=3*sx,	py=4*sy})
-enemies.add({px=4*sx,	py=3*sy})
-enemies.add({px=5*sx,	py=2*sy})
-enemies.add({px=6*sx,	py=1*sy})
-
--- for i=1,100 do
--- 	enemies.add({px=math.random(0,512),	py=math.random(0,512)})
--- end
+bullets.tab = {}
 
 
 end
 
-enemies.clean=function()
+bullets.clean=function()
 
-	for i,v in ipairs(enemies.tab) do
-		enemy.clean(v)
+	for i,v in ipairs(bullets.tab) do
+		bullet.clean(v)
 	end
 
 end
 
-enemies.msg=function(m)
+bullets.msg=function(m)
 
 --	print (wstr.dump(m))
 	
 
 end
 
-enemies.update=function()
+bullets.update=function()
 
-	for i,v in ipairs(enemies.tab) do
-		enemy.update(v)
+	for i,v in ipairs(bullets.tab) do
+		bullet.update(v)
 	end
 	
 end
 
-enemies.draw=function()
+bullets.draw=function()
 
-	for i,v in ipairs(enemies.tab) do
-		enemy.draw(v)
+	for i,v in ipairs(bullets.tab) do
+		bullet.draw(v)
 	end
 	
 	gl.Color(1,1,1,1)
 	
 end
 
-enemies.add=function(opt)
+bullets.add=function(opt)
 
 	local it2={}
-	enemy.setup(it2,opt)
-	enemies.tab[#enemies.tab+1]=it2
+	bullet.setup(it2,opt)
+	bullets.tab[#bullets.tab+1]=it2
 
 end
 
-enemies.remove=function(it)
+bullets.remove=function(it)
 
-	for i,v in ipairs(enemies.tab) do
+	for i,v in ipairs(bullets.tab) do
 		if v==it then
-			table.remove(enemies.tab,i)
+			table.remove(bullets.tab,i)
 			return
 		end
 	end
 
 end
 
-	return enemies
+	return bullets
 end
