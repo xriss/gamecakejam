@@ -30,6 +30,8 @@ M.bake=function(oven,enemies)
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
+	local bullets=oven.rebake(oven.modgame..".bullets")
+	local ship=oven.rebake(oven.modgame..".ship")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -51,6 +53,7 @@ it.vy=0
 
 it.speed=1.75
 it.countdown=120
+it.cool=math.random(100,200)
 
 it.rgb={math.random(),math.random(),math.random()}
 
@@ -77,6 +80,19 @@ enemy.update=function(it)
 	
 	it.px=it.px+it.vx
 	
+	it.cool=it.cool-1
+	
+	if it.cool<=0 then
+		local dx=ship.px-it.px
+		local dy=ship.py-it.py
+		local dd=dx*dx+dy*dy
+		local  d=math.sqrt(dd)
+		
+		if d==0 then d=1 end
+		
+		bullets.add{px=it.px,py=it.py+32,vy=8*dy/d,vx=8*dx/d,flava="enemy"}
+		it.cool=math.random(100,200)
+	end	
 	
 end
 
@@ -98,15 +114,16 @@ enemies.setup=function()
 
 local sx=85
 local sy=64
+local sya=-128
 
 enemies.tab = {}
-enemies.add({px=0*sx,	py=1*sy})
-enemies.add({px=1*sx,	py=2*sy})
-enemies.add({px=2*sx,	py=3*sy})
-enemies.add({px=3*sx,	py=4*sy})
-enemies.add({px=4*sx,	py=3*sy})
-enemies.add({px=5*sx,	py=2*sy})
-enemies.add({px=6*sx,	py=1*sy})
+enemies.add({px=0*sx,	py=sya+1*sy})
+enemies.add({px=1*sx,	py=sya+2*sy})
+enemies.add({px=2*sx,	py=sya+3*sy})
+enemies.add({px=3*sx,	py=sya+4*sy})
+enemies.add({px=4*sx,	py=sya+3*sy})
+enemies.add({px=5*sx,	py=sya+2*sy})
+enemies.add({px=6*sx,	py=sya+1*sy})
 
 -- for i=1,100 do
 -- 	enemies.add({px=math.random(0,512),	py=math.random(0,512)})

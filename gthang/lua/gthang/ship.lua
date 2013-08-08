@@ -59,6 +59,7 @@ ship.fire=false
 ship.cool=0
 
 ship.speed=1.75
+ship.state="alive"
 
 end
 
@@ -108,6 +109,15 @@ end
 
 ship.update=function()
 
+	if ship.state=="dead" then
+		ship.dead=ship.dead+1
+		ship.rz=ship.dead
+		if ship.dead>240 then
+			main.next=oven.rebake(oven.modgame..".main_menu")
+		end
+		return
+	end
+
 	if ship.left then
 	
 		if ship.vx>0 then ship.vx=0 end
@@ -141,8 +151,8 @@ ship.update=function()
 	
 	if ship.fire then
 		if ship.cool<=0 then
-			bullets.add{px=ship.px,py=ship.py-32,vy=-8+math.random()}
-			ship.cool=4
+			bullets.add{px=ship.px,py=ship.py-32,vy=-8+math.random(),flava="ship"}
+			ship.cool=16
 		end
 	end
 	
@@ -151,7 +161,7 @@ ship.update=function()
 		local dy=ship.py-v.py
 		
 		if dx*dx+dy*dy<=32*32 then
-			main.next=oven.rebake(oven.modgame..".main_menu")
+			ship.die()
 			return
 		end
 	end
@@ -163,6 +173,14 @@ ship.draw=function()
 	local image=sheets.get("imgs/ship01")
 	
 	image:draw(1,ship.px,ship.py,ship.rz,64,64)
+
+end
+
+ship.die=function()
+
+	if ship.state=="dead" then return end
+	ship.state="dead"
+	ship.dead=0
 
 end
 

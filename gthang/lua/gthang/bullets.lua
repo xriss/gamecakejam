@@ -31,6 +31,7 @@ M.bake=function(oven,bullets)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local enemies=oven.rebake(oven.modgame..".enemies")
+	local ship=oven.rebake(oven.modgame..".ship")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -53,6 +54,8 @@ it.vy=opt.vy or 0
 it.speed=1.75
 it.countdown=120
 
+it.flava=opt.flava or "ship"
+
 end
 
 bullet.clean=function(it)
@@ -69,16 +72,26 @@ bullet.update=function(it)
 	if it.px>(512+128) then it.px=it.px-(512+256) end
 	if it.px<(0-128) then it.px=it.px+(512+256) end
 	
-	for i,v in ipairs(enemies.tab) do
-		local dx=it.px-v.px
-		local dy=it.py-v.py
+	if it.flava=="ship" then
+		for i,v in ipairs(enemies.tab) do
+			local dx=it.px-v.px
+			local dy=it.py-v.py
+			
+			if dx*dx+dy*dy<=40*40 then
+				bullets.remove(it)
+				enemies.remove(v)
+				enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
+				sscores.add(23)
+				return
+			end
+		end
+	elseif it.flava=="enemy" then
+		local dx=it.px-ship.px
+		local dy=it.py-ship.py
 		
 		if dx*dx+dy*dy<=40*40 then
 			bullets.remove(it)
-			enemies.remove(v)
-			enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
-			enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
-			sscores.add(23)
+			ship.die()
 			return
 		end
 	end
@@ -88,7 +101,11 @@ end
 bullet.draw=function(it)
 	
 	local image=sheets.get("imgs/bullet01")
-	gl.Color(1,0,1/2,1)
+	if it.flava=="ship" then
+		gl.Color(1,0,1/2,1)
+	elseif it.flava=="enemy" then
+		gl.Color(math.random(),math.random(),math.random(),1)
+	end
 	
 	image:draw(1,it.px,it.py,it.rz,32,32)
 
