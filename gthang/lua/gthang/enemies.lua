@@ -90,7 +90,7 @@ enemy.update=function(it)
 		
 		if d==0 then d=1 end
 		
-		bullets.add{px=it.px,py=it.py+32,vy=8*dy/d,vx=8*dx/d,flava="enemy"}
+		bullets.add{px=it.px,py=it.py+32,vy=8*((dy/d)+math.random()-0.5),vx=8*((dx/d)+math.random()-0.5),flava="enemy"}
 		it.cool=math.random(100,200)
 	end	
 	
