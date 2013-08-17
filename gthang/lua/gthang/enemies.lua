@@ -65,24 +65,54 @@ end
 
 enemy.update=function(it)
 
+	for i,v in ipairs(enemies.tab) do
+		if v~=it then
+			local dx=v.px-it.px
+			local dy=v.py-it.py
+			local dd=dx*dx+dy*dy
+			
+			if dd<64*64 then
+				local  d=math.sqrt(dd)
+				
+				if d==0 then d=1 end
+				
+				dx=dx/d
+				dy=dy/d
+				
+				it.vx=it.vx-(dx*0.25)
+				it.vy=it.vy-(dy*0.25)
+			end
+		end
+	end
+
 	it.vx = it.vx*0.95
-	it.py = it.py+it.speed
+	it.vy=(it.vy*15+it.speed)/16
+	it.py = it.py+it.vy
 	
 	if it.py>1000 then it.py=it.py-1256 end
-	if it.px>(512+128) then it.px=it.px-(512+256) end
-	if it.px<(0-128) then it.px=it.px+(512+256) end
+	
+	if it.px>512 then
+		it.px = 512
+		if it.vx>0 then it.vx=-it.vx end
+	end
+	
+	if it.px<0 then
+		it.px = 0
+		if it.vx<0 then it.vx=-it.vx end
+	end
 	
 	it.countdown=it.countdown-1
 	if it.countdown<=0 then
 		it.countdown=(math.random(60,240))
-		it.vx = ((math.random(0,100)/50)-1)*8
+		it.vx = it.vx+((math.random(0,100)/50)-1)*8
+		it.vy = it.vy+((math.random(0,100)/50)-1)*8
 	end
 	
 	it.px=it.px+it.vx
 	
 	it.cool=it.cool-1
 	
-	if it.cool<=0 then
+	if it.cool<=0 and it.py>0 then
 		local dx=ship.px-it.px
 		local dy=ship.py-it.py
 		local dd=dx*dx+dy*dy
@@ -90,7 +120,14 @@ enemy.update=function(it)
 		
 		if d==0 then d=1 end
 		
-		bullets.add{px=it.px,py=it.py+32,vy=8*((dy/d)+math.random()-0.5),vx=8*((dx/d)+math.random()-0.5),flava="enemy"}
+		local vx=8*((dx/d)+math.random()-0.5)
+		local vy=8*((dy/d)+math.random()-0.5)
+		
+		if vx>1 then vx=1 end
+		if vx<-1 then vx=-1 end
+		if vy<2 then vy=2 end
+		
+		bullets.add{px=it.px,py=it.py+32,vy=vy,vx=vx,flava="enemy"}
 		it.cool=math.random(100,200)
 	end	
 	
@@ -112,23 +149,35 @@ end
 		
 enemies.setup=function()
 
-local sx=85
-local sy=64
-local sya=-128
+	enemies.level=0
+	
+	enemies.tab = {}
 
-enemies.tab = {}
-enemies.add({px=0*sx,	py=sya+1*sy})
-enemies.add({px=1*sx,	py=sya+2*sy})
-enemies.add({px=2*sx,	py=sya+3*sy})
-enemies.add({px=3*sx,	py=sya+4*sy})
-enemies.add({px=4*sx,	py=sya+3*sy})
-enemies.add({px=5*sx,	py=sya+2*sy})
-enemies.add({px=6*sx,	py=sya+1*sy})
+end
 
--- for i=1,100 do
--- 	enemies.add({px=math.random(0,512),	py=math.random(0,512)})
--- end
+enemies.wave=function()
 
+	enemies.level=enemies.level+1
+	
+	local cx=math.random(0,512)
+	
+	for i=1,(5+enemies.level) do
+		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64)})
+	end
+	
+	
+
+	local sx=85
+	local sy=64
+	local sya=-128
+
+--	enemies.add({px=0*sx,	py=sya+1*sy})
+--	enemies.add({px=1*sx,	py=sya+2*sy})
+--	enemies.add({px=2*sx,	py=sya+3*sy})
+--	enemies.add({px=3*sx,	py=sya+4*sy})
+--	enemies.add({px=4*sx,	py=sya+3*sy})
+--	enemies.add({px=5*sx,	py=sya+2*sy})
+--	enemies.add({px=6*sx,	py=sya+1*sy})
 
 end
 
@@ -143,15 +192,18 @@ end
 enemies.msg=function(m)
 
 --	print (wstr.dump(m))
-	
 
 end
 
 enemies.update=function()
 
+	if #enemies.tab==0 then
+		enemies.wave()
+	end
+
 	for i,v in ipairs(enemies.tab) do
 		enemy.update(v)
-	end
+	end	
 	
 end
 

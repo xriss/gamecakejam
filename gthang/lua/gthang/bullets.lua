@@ -67,10 +67,10 @@ bullet.update=function(it)
 	it.py = it.py+it.vy
 	it.px = it.px+it.vx
 	
-	if it.py>1000 then bullets.remove(it) return end
-	if it.py<-256 then bullets.remove(it) return end
-	if it.px>(512+128) then it.px=it.px-(512+256) end
-	if it.px<(0-128) then it.px=it.px+(512+256) end
+	if it.py>768 	then bullets.remove(it) return end
+	if it.py<0 		then bullets.remove(it) return end
+	if it.px>512 	then bullets.remove(it) return end
+	if it.px<0 		then bullets.remove(it) return end
 	
 	if it.flava=="ship" then
 		for i,v in ipairs(enemies.tab) do
@@ -80,7 +80,7 @@ bullet.update=function(it)
 			if dx*dx+dy*dy<=40*40 then
 				bullets.remove(it)
 				enemies.remove(v)
-				enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
+--				enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
 				sscores.add(23)
 				return
 			end
@@ -89,7 +89,7 @@ bullet.update=function(it)
 		local dx=it.px-ship.px
 		local dy=it.py-ship.py
 		
-		if dx*dx+dy*dy<=40*40 then
+		if dx*dx+dy*dy<=30*30 then
 			bullets.remove(it)
 			ship.die()
 			return
