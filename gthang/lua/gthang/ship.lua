@@ -46,20 +46,20 @@ end
 		
 ship.setup=function()
 
-ship.px=256
-ship.py=768-32
-ship.rz=0
+	ship.px=256
+	ship.py=768-32
+	ship.rz=0
 
-ship.vx=0
-ship.vy=0
+	ship.vx=0
+	ship.vy=0
 
-ship.left=false
-ship.right=false
-ship.fire=false
-ship.cool=0
+	ship.left=false
+	ship.right=false
+	ship.fire=false
+	ship.cool=0
 
-ship.speed=1.75
-ship.state="alive"
+	ship.speed=1.75
+	ship.state="alive"
 
 end
 
@@ -170,6 +170,7 @@ end
 
 ship.draw=function()
 	
+	if ship.state=="dead" then return end
 	local image=sheets.get("imgs/ship01")
 	
 	image:draw(1,ship.px,ship.py,ship.rz,64,64)
