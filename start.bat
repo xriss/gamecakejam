@@ -1,2 +1,2 @@
-../../bin/exe/lua.exe -lstart
+../../bin/exe/gamecake.exe -lstart
 
