@@ -1,1 +1,1 @@
-../../bin/exe/lua -lstart $*
+../../bin/exe/gamecake -lstart $*

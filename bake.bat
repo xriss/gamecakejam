@@ -1,4 +1,4 @@
 set BASEDIR=%~dp0
 set GAMEDIR=%CD%
 
-%BASEDIR%/../bin/dbg/lua.exe %GAMEDIR%/bake.lua
+%BASEDIR%/../bin/dbg/gamecake.exe %GAMEDIR%/bake.lua
