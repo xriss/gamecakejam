@@ -32,6 +32,7 @@ M.bake=function(oven,enemies)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local ship=oven.rebake(oven.modgame..".ship")
+	local explosions=oven.rebake(oven.modgame..".explosions")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -44,18 +45,18 @@ M.bake=function(oven,enemies)
 	
 enemy.setup=function(it,opt)
 
-it.px=opt.px or 256
-it.py=opt.py or 128
-it.rz=0
+	it.px=opt.px or 256
+	it.py=opt.py or 128
+	it.rz=0
 
-it.vx=0
-it.vy=0
+	it.vx=0
+	it.vy=0
 
-it.speed=1.75
-it.countdown=120
-it.cool=math.random(100,200)
+	it.speed=1.75
+	it.countdown=120
+	it.cool=math.random(100,200)
 
-it.rgb={math.random(),math.random(),math.random()}
+	it.rgb={math.random(),math.random(),math.random()}
 
 end
 

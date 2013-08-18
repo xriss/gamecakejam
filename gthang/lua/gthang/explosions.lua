@@ -44,7 +44,37 @@ M.bake=function(oven,explosions)
 	
 explosion.setup=function(it,opt)
 
+	it.flava=opt.flava or "boom"
 
+	if it.flava=="boom"	then
+		it.px=opt.px or 256
+		it.py=opt.py or 128
+		it.rz=opt.rz or 0
+		it.rv=math.random(-25,25)
+		it.sz=math.random(100,120)
+		
+		it.t=0
+		
+		it.sx=opt.sx or 256
+		it.sy=opt.sy or 256
+		
+		it.a=0
+	elseif	it.flava=="gib" then
+		it.px=opt.px or 256
+		it.py=opt.py or 128
+		it.rz=opt.rz or 0
+		
+		it.t=0
+		
+		it.vx=opt.vx or 0
+		it.vy=opt.vy or 0
+		it.rv=opt.rv or 0
+		it.id=opt.id or 1
+		
+		it.sx=opt.sx or 32
+		it.sy=opt.sy or 32
+		it.life=opt.life or 60
+	end
 
 end
 
@@ -54,13 +84,40 @@ end
 
 explosion.update=function(it)
 
+	if it.flava=="boom"	then
+		
+		it.t=it.t+1		
+		it.rz=it.rz+it.rv
+		it.sx=it.sx*it.sz/128
+		it.sy=it.sy*it.sz/128
+		it.a =(1-(it.t/30))*0.75
+				
+		if it.t>30 then it.flava="dead" end
+	elseif	it.flava=="gib" then
+		
+		it.t=it.t+1	
+		it.px=it.px+it.vx
+		it.py=it.py+it.vy
+		it.rz=it.rz+it.rv
+		
+		it.a =(1-(it.t/it.life))
+		if it.t>it.life then it.flava="dead" end
+	end
 	
 	
 end
 
 explosion.draw=function(it)
 	
-
+	if it.flava=="boom"	then
+		local image=sheets.get("imgs/explosion01")
+		gl.Color(it.a,it.a,it.a,0)
+		image:draw(1,it.px,it.py,it.rz,it.sx,it.sy)
+	elseif	it.flava=="gib" then
+		local image=sheets.get("imgs/gibs01")
+		gl.Color(it.a,it.a,it.a,0)
+		image:draw(it.id,it.px,it.py,it.rz,it.sx,it.sy)
+	end
 
 end
 
@@ -90,8 +147,12 @@ end
 
 explosions.update=function()
 
-	for i,v in ipairs(explosions.tab) do
-		explosion.update(v)
+	for i=#explosions.tab,1,-1 do
+		local it=explosions.tab[i]
+		explosion.update(it)
+		if it.flava=="dead" then
+			table.remove(explosions.tab,i)
+		end
 	end
 	
 end
@@ -111,6 +172,34 @@ explosions.add=function(opt)
 	local it2={}
 	explosion.setup(it2,opt)
 	explosions.tab[#explosions.tab+1]=it2
+
+end
+
+explosions.gibs=function(opt)
+
+	explosions.add(opt)
+	
+	for i=1,8 do
+		opt.flava="gib"
+		opt.vx=math.random(-16,16)/8
+		opt.vy=math.random(-16,16)/8
+		opt.rv=math.random(-16,16)
+		
+		if opt.gibs=="ship" then
+			opt.id=math.random(9,16)
+			opt.sx=math.random(32,64)
+			opt.sy=math.random(32,64)
+			opt.vx=opt.vx/2
+			opt.vy=opt.vy/2
+			opt.rv=opt.rv/2
+			opt.life=120
+		else
+			opt.id=math.random(1,8)
+			opt.sx=math.random(16,32)
+			opt.sy=math.random(16,32)
+		end
+		explosions.add(opt)
+	end
 
 end
 
