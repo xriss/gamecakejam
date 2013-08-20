@@ -43,7 +43,7 @@ most compatible cross platform build. 
 Finally this is just the source code, if you want to check out something
 that runs easily then use the following hg commands
 
-hg clone https://bitbucket.org/xixs/public.gamecakejam
+hg clone https://bitbucket.org/xixs/gamecake
 
 
 
