@@ -33,6 +33,7 @@ M.bake=function(oven,enemies)
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local ship=oven.rebake(oven.modgame..".ship")
 	local explosions=oven.rebake(oven.modgame..".explosions")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -149,6 +150,7 @@ enemies.loads=function()
 end
 		
 enemies.setup=function()
+	enemies.timer=0
 
 	enemies.level=0
 	
@@ -166,20 +168,16 @@ enemies.wave=function()
 		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64)})
 	end
 	
+	if enemies.level>1 then
+		local t=((30*60)-enemies.timer)/(30*60)
+		
+		if t>0 then
+			sscores.add(math.floor(t*1000*enemies.level))
+		end
+	end
+	enemies.timer=0
 	
-
-	local sx=85
-	local sy=64
-	local sya=-128
-
---	enemies.add({px=0*sx,	py=sya+1*sy})
---	enemies.add({px=1*sx,	py=sya+2*sy})
---	enemies.add({px=2*sx,	py=sya+3*sy})
---	enemies.add({px=3*sx,	py=sya+4*sy})
---	enemies.add({px=4*sx,	py=sya+3*sy})
---	enemies.add({px=5*sx,	py=sya+2*sy})
---	enemies.add({px=6*sx,	py=sya+1*sy})
-
+	beep.play("newwave")
 end
 
 enemies.clean=function()
@@ -197,6 +195,7 @@ enemies.msg=function(m)
 end
 
 enemies.update=function()
+	enemies.timer=enemies.timer+1
 
 	if #enemies.tab==0 then
 		enemies.wave()

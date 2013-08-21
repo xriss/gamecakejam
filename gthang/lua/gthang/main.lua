@@ -31,6 +31,8 @@ M.bake=function(oven,main)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 	
+	local beep=oven.rebake(oven.modgame..".beep")
+	
 main.loads=function()
 
 	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
@@ -44,6 +46,8 @@ main.loads=function()
 		{"imgs/explosion01",1,1,1/2,1/2},
 		{"imgs/gibs01",1/4,1/4,1/8,1/8},
 	})
+	
+	beep.loads()
 	
 end
 		
