@@ -58,6 +58,9 @@ enemy.setup=function(it,opt)
 	it.cool=math.random(100,200)
 
 	it.rgb={math.random(),math.random(),math.random()}
+	
+	it.flava=opt.flava or "dart"
+	it.aim=0
 
 end
 
@@ -88,7 +91,18 @@ enemy.update=function(it)
 	end
 
 	it.vx = it.vx*0.95
-	it.vy=(it.vy*15+it.speed)/16
+	
+	if it.flava=="dart" then
+		it.vy=(it.vy*15+it.speed)/16
+	elseif it.flava=="vader" then
+		if it.py<100 then
+			it.vy=(it.vy*15+it.speed)/16
+		elseif it.py>150 then
+			it.vy=(it.vy*15-it.speed)/16
+		end
+	end
+	
+	it.px=it.px+it.vx
 	it.py = it.py+it.vy
 	
 	if it.py>1000 then it.py=it.py-1256 end
@@ -103,44 +117,72 @@ enemy.update=function(it)
 		if it.vx<0 then it.vx=-it.vx end
 	end
 	
-	it.countdown=it.countdown-1
-	if it.countdown<=0 then
-		it.countdown=(math.random(60,240))
-		it.vx = it.vx+((math.random(0,100)/50)-1)*8
-		it.vy = it.vy+((math.random(0,100)/50)-1)*8
+	if it.flava=="dart" then
+		it.countdown=it.countdown-1
+		if it.countdown<=0 then
+			it.countdown=(math.random(60,240))
+			it.vx = it.vx+((math.random(0,100)/50)-1)*8
+			it.vy = it.vy+((math.random(0,100)/50)-1)*8
+		end
+	elseif it.flava=="vader" then
+		if it.vx>0 then
+			it.vx=it.vx+0.1
+		else
+			it.vx=it.vx-0.1
+		end		
 	end
 	
-	it.px=it.px+it.vx
-	
-	it.cool=it.cool-1
-	
-	if it.cool<=0 and it.py>0 then
-		local dx=ship.px-it.px
-		local dy=ship.py-it.py
-		local dd=dx*dx+dy*dy
-		local  d=math.sqrt(dd)
+	if it.flava=="dart" then
+		it.cool=it.cool-1
 		
-		if d==0 then d=1 end
+		if it.cool<=0 then
+			local dx=ship.px-it.px
+			local dy=ship.py-it.py
+			local dd=dx*dx+dy*dy
+			local  d=math.sqrt(dd)
+			
+			if d==0 then d=1 end
+			
+			local vx=8*((dx/d)+math.random()-0.5)
+			local vy=8*((dy/d)+math.random()-0.5)
+			
+			if vx>1 then vx=1 end
+			if vx<-1 then vx=-1 end
+			if vy<2 then vy=2 end
+			
+			bullets.add{px=it.px,py=it.py+32,vy=vy,vx=vx,flava="enemy"}
+			it.cool=math.random(100,200)
+		end
+	elseif it.flava=="vader" then
+		it.cool=it.cool-1
 		
-		local vx=8*((dx/d)+math.random()-0.5)
-		local vy=8*((dy/d)+math.random()-0.5)
-		
-		if vx>1 then vx=1 end
-		if vx<-1 then vx=-1 end
-		if vy<2 then vy=2 end
-		
-		bullets.add{px=it.px,py=it.py+32,vy=vy,vx=vx,flava="enemy"}
-		it.cool=math.random(100,200)
-	end	
+		if it.cool<=0 then
+			it.cool=10
+			it.aim=it.aim+(math.pi/16)
+			if it.aim>math.pi*2 then it.aim=it.aim+(math.pi*2) end
+			
+			local vx=-math.sin(it.aim)*8
+			local vy=math.cos(it.aim)*8
+			
+			bullets.add{px=it.px,py=it.py,vy=vy,vx=vx,aim=it.aim,flava="enemy"}
+		end
+	end
 	
 end
 
 enemy.draw=function(it)
 	
-	local image=sheets.get("imgs/bad01")
-	gl.Color(it.rgb[1],it.rgb[2],it.rgb[3],1) 
-	
-	image:draw(1,it.px,it.py,it.rz,64,64)
+	if it.flava=="dart" then
+		local image=sheets.get("imgs/bad01")
+		gl.Color(it.rgb[1],it.rgb[2],it.rgb[3],1) 
+		
+		image:draw(1,it.px,it.py,it.rz,64,64)
+	elseif it.flava=="vader" then
+		local image=sheets.get("imgs/bad02")
+		gl.Color(1,1,1,1) 
+		
+		image:draw(1,it.px,it.py,it.rz,64,64)
+	end
 
 end
 
@@ -166,6 +208,10 @@ enemies.wave=function()
 	
 	for i=1,(5+enemies.level) do
 		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64)})
+	end
+	
+	if enemies.level%2==0 then
+		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64), flava="vader"})
 	end
 	
 	if enemies.level>1 then

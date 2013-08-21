@@ -58,6 +58,10 @@ bullet.setup=function(it,opt)
 	it.countdown=120
 
 	it.flava=opt.flava or "ship"
+	
+	if opt.aim then
+		it.rz=180*opt.aim/math.pi
+	end
 
 end
 
@@ -98,10 +102,7 @@ bullet.update=function(it)
 		
 		if dx*dx+dy*dy<=30*30 then
 			it.flava="dead"
-			explosions.gibs({px=ship.px, py=ship.py, gibs="ship"})
 			ship.die()
-			beep.play("die1")
-			beep.play("over")
 			return
 		end
 	end

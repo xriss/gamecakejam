@@ -32,6 +32,7 @@ M.bake=function(oven,ship)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local enemies=oven.rebake(oven.modgame..".enemies")
+	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -184,6 +185,10 @@ ship.die=function()
 	if ship.state=="dead" then return end
 	ship.state="dead"
 	ship.dead=0
+	
+	explosions.gibs({px=ship.px, py=ship.py, gibs="ship"})
+	beep.play("die1")
+	beep.play("over")
 
 end
 
