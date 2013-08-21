@@ -34,7 +34,7 @@ M.bake=function(oven,game)
 	local enemies=oven.rebake(oven.modgame..".enemies")
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local explosions=oven.rebake(oven.modgame..".explosions")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -64,7 +64,7 @@ game.setup=function()
 	
 	sscores.reset()
 
---	beep.stream("game")
+	beep.stream("game")
 
 end
 

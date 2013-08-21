@@ -32,6 +32,7 @@ M.bake=function(oven,ship)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local enemies=oven.rebake(oven.modgame..".enemies")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -152,6 +153,7 @@ ship.update=function()
 	if ship.fire then
 		if ship.cool<=0 then
 			bullets.add{px=ship.px,py=ship.py-32,vy=-8+math.random(),flava="ship"}
+			beep.play("shoot")
 			ship.cool=16
 		end
 	end

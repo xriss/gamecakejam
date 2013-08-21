@@ -33,6 +33,7 @@ M.bake=function(oven,bullets)
 	local enemies=oven.rebake(oven.modgame..".enemies")
 	local ship=oven.rebake(oven.modgame..".ship")
 	local explosions=oven.rebake(oven.modgame..".explosions")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -84,7 +85,10 @@ bullet.update=function(it)
 				enemies.remove(v)
 				explosions.gibs({px=v.px, py=v.py})
 --				enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
-				sscores.add(23)
+				sscores.add(enemies.level*5)
+				
+				local t={"die","die","die"}
+				beep.play(t[math.random(1,#t)])
 				return
 			end
 		end
@@ -96,6 +100,8 @@ bullet.update=function(it)
 			it.flava="dead"
 			explosions.gibs({px=ship.px, py=ship.py, gibs="ship"})
 			ship.die()
+			beep.play("die1")
+			beep.play("over")
 			return
 		end
 	end
