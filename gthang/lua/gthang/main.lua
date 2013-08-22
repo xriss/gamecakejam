@@ -38,6 +38,7 @@ main.loads=function()
 	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
 	sheets.loads_and_chops({
+		{"imgs/tits",1,1,1/2,1/2},
 		{"imgs/back01",1,1,1/2,1/2},
 		{"imgs/back02",1,1,1/2,1/2},
 		{"imgs/ship01",1,1,1/2,1/2},
@@ -61,8 +62,8 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
---	main.next=oven.rebake(oven.modgame..".main_menu")
-	main.next=oven.rebake(oven.modgame..".main_game")
+	main.next=oven.rebake(oven.modgame..".main_menu")
+--	main.next=oven.rebake(oven.modgame..".main_game")
 	
 	main.change()
 end
@@ -125,7 +126,7 @@ end
 
 main.draw=function()
 	
-	layout.apply( opts.width,opts.height,1/4,opts.height*4 )
+	layout.apply( opts.width,opts.height,1/4,opts.height*4,"clip" )
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))

@@ -62,6 +62,8 @@ ship.setup=function()
 
 	ship.speed=1.75
 	ship.state="alive"
+	
+	ship.power=nil
 
 end
 
@@ -153,9 +155,28 @@ ship.update=function()
 	
 	if ship.fire then
 		if ship.cool<=0 then
+			ship.cool=32
+			
+			if ship.power=="splitshot" then
+				ship.cool=32
+				bullets.add{px=ship.px,py=ship.py-32,vx=-4,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px,py=ship.py-32,vx=4,vy=-8+math.random(),flava="ship"}
+			end
+
+			if ship.power=="sureshot" then
+				ship.cool=48
+				bullets.add{px=ship.px-64,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px+64,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px-32,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px+32,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+			end
+			
+			if ship.power=="singleshot" then
+				ship.cool=16
+			end
+		
 			bullets.add{px=ship.px,py=ship.py-32,vy=-8+math.random(),flava="ship"}
 			beep.play("shoot")
-			ship.cool=16
 		end
 	end
 	

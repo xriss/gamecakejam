@@ -29,7 +29,7 @@ M.bake=function(oven,menu)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -51,7 +51,7 @@ menu.setup=function()
 	gui.setup()
 	gui.page("menu")
 
---	beep.stream("menu")
+	beep.stream("menu")
 
 end
 
@@ -84,6 +84,9 @@ menu.update=function()
 end
 
 menu.draw=function()
+	local image=sheets.get("imgs/tits")
+	
+	image:draw(1,256,384,0,512,768)
 	
 	if sgui.active then
 

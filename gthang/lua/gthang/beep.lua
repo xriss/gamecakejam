@@ -35,6 +35,10 @@ M.bake=function(state,beep)
 		["over"]={
 			name="oggs/over",
 		},
+		["power"]={
+			name="oggs/power",
+			idx=4,
+		},
 		["shoot"]={
 			name="oggs/shoot",
 			idx=3,
@@ -100,7 +104,7 @@ print("Missing sound FX for "..id)
 	
 		local qq=cake.sounds.queues[1]
 	
-		if     id=="game" then
+		if     id=="game" or id=="menu" then
 
 			qq.BufferData=nil
 			if not qq.oggs then
@@ -115,7 +119,7 @@ print("Missing sound FX for "..id)
 			al.SourceStop(sounds.strs[1].source)
 
 		else		
-			qq.oggs={}
+			qq.oggs=nil
 			qq.og=nil -- force old ogg to stop
 			al.SourceStop(sounds.strs[1].source)
 

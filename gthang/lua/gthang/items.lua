@@ -47,7 +47,14 @@ M.bake=function(oven,items)
 	
 item.setup=function(it,opt)
 
+	it.px=opt.px or 256
+	it.py=opt.py or 128
+	it.rz=0
+
+	it.vx=opt.vx or 0
+	it.vy=opt.vy or 0
 	
+	it.flava=opt.flava or "splitshot"
 
 end
 
@@ -57,14 +64,42 @@ end
 
 item.update=function(it)
 
+	it.px=it.px+it.vx
+	it.py=it.py+it.vy
 	
+	if it.py>768 	then it.flava="dead" return end
+	if it.py<0 		then it.flava="dead" return end
+	if it.px>512 	then it.flava="dead" return end
+	if it.px<0 		then it.flava="dead" return end
+	
+	local dx=it.px-ship.px
+	local dy=it.py-ship.py
+	
+	if dx*dx+dy*dy<=48*48 then
+		ship.power=it.flava
+		sscores.add(enemies.level*1000)
+		beep.play("power")
+		it.flava="dead"
+		return
+	end
 	
 end
 
 item.draw=function(it)
+	local image=sheets.get("imgs/power01")
 	
-	
+	if it.flava=="splitshot" then
+		gl.Color(1,0,0,1)
+	end
+	if it.flava=="singleshot" then
+		gl.Color(0,1,0,1)
+	end
+	if it.flava=="sureshot" then
+		gl.Color(0,0,1,1)
+	end
 
+	image:draw(1,it.px,it.py,it.rz,64,64)
+	
 end
 
 

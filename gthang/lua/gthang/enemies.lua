@@ -34,6 +34,7 @@ M.bake=function(oven,enemies)
 	local ship=oven.rebake(oven.modgame..".ship")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
+	local items=oven.rebake(oven.modgame..".items")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -46,6 +47,8 @@ M.bake=function(oven,enemies)
 	
 enemy.setup=function(it,opt)
 
+	it.die=enemy.die
+	
 	it.px=opt.px or 256
 	it.py=opt.py or 128
 	it.rz=0
@@ -54,8 +57,8 @@ enemy.setup=function(it,opt)
 	it.vy=0
 
 	it.speed=1.75
-	it.countdown=120
-	it.cool=math.random(100,200)
+	it.countdown=0
+	it.cool=0
 
 	it.rgb={math.random(),math.random(),math.random()}
 	
@@ -170,6 +173,23 @@ enemy.update=function(it)
 	
 end
 
+enemy.die=function(it)
+
+	if it.flava=="vader" then
+		local t={"splitshot","singleshot","sureshot"}
+		items.add({px=it.px,py=it.py,vx=0,vy=5,flava=(t[math.random(1,#t)])})
+	end
+	
+	enemies.remove(it)
+	explosions.gibs({px=it.px, py=it.py})
+--	enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
+	sscores.add(enemies.level*5)
+	
+	local t={"die","die","die"}
+	beep.play(t[math.random(1,#t)])
+
+end
+
 enemy.draw=function(it)
 	
 	if it.flava=="dart" then
@@ -185,7 +205,6 @@ enemy.draw=function(it)
 	end
 
 end
-
 
 enemies.loads=function()
 
@@ -214,6 +233,10 @@ enemies.wave=function()
 		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64), flava="vader"})
 	end
 	
+	if enemies.level%5==0 then
+		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64), flava="vader"})
+	end
+		
 	if enemies.level>1 then
 		local t=((30*60)-enemies.timer)/(30*60)
 		

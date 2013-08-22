@@ -86,13 +86,7 @@ bullet.update=function(it)
 			
 			if dx*dx+dy*dy<=40*40 then
 				it.flava="dead"
-				enemies.remove(v)
-				explosions.gibs({px=v.px, py=v.py})
---				enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
-				sscores.add(enemies.level*5)
-				
-				local t={"die","die","die"}
-				beep.play(t[math.random(1,#t)])
+				v.die(v)
 				return
 			end
 		end
