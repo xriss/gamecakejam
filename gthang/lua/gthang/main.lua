@@ -45,6 +45,7 @@ main.loads=function()
 		{"imgs/bad02",1,1,1/2,1/2},
 		{"imgs/bullet01",1,1,1/2,1/2},
 		{"imgs/explosion01",1,1,1/2,1/2},
+		{"imgs/power01",1,1,1/2,1/2},
 		{"imgs/gibs01",1/4,1/4,1/8,1/8},
 	})
 	

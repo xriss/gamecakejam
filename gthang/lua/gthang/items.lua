@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,game)
-	local game=game or {}
-	game.oven=oven
+M.bake=function(oven,items)
+	local items=items or {}
+	items.oven=oven
 	
-	game.modname=M.modname
+	items.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -29,98 +29,113 @@ M.bake=function(oven,game)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
-	local stars=oven.rebake(oven.modgame..".stars")
-	local ship=oven.rebake(oven.modgame..".ship")
+--	local beep=oven.rebake(oven.modgame..".beep")
 	local enemies=oven.rebake(oven.modgame..".enemies")
-	local bullets=oven.rebake(oven.modgame..".bullets")
+	local ship=oven.rebake(oven.modgame..".ship")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
-	local items=oven.rebake(oven.modgame..".items")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
 	local layout=cake.layouts.create{}
 
+	local item={}
 
 
-game.back="imgs/title"
+	
+item.setup=function(it,opt)
 
-game.loads=function()
+	
+
+end
+
+item.clean=function(it)
+
+end
+
+item.update=function(it)
+
+	
+	
+end
+
+item.draw=function(it)
+	
+	
+
+end
+
+
+items.loads=function()
 
 end
 		
-game.setup=function()
+items.setup=function()
 
-	game.loads()
+items.tab = {}
 
-	gui.setup()
-	gui.page("game")
-	
-	stars.setup()
-	ship.setup()
-	enemies.setup()
-	bullets.setup()
-	explosions.setup()
-	items.setup()
-	
-	sscores.reset()
-
-	beep.stream("game")
 
 end
 
-game.clean=function()
+items.clean=function()
 
-	gui.clean()
-	
-	stars.clean()
-	ship.clean()
-	enemies.clean()
-	bullets.clean()
-	explosions.clean()
-	items.clean()
-	
-	sscores.final_score({})
+	for i,v in ipairs(items.tab) do
+		item.clean(v)
+	end
 
 end
 
-game.msg=function(m)
+items.msg=function(m)
 
-	gui.msg(m)
+--	print (wstr.dump(m))
 	
-	ship.msg(m)
-	enemies.msg(m)
+
+end
+
+items.update=function()
+		
+	for i=#items.tab,1,-1 do
+		local it=items.tab[i]
+		item.update(it)
+		if it.flava=="dead" then
+			table.remove(items.tab,i)
+		end
+	end
 	
 end
 
-game.update=function()
+items.draw=function()
 
-	gui.update()
+	for i,v in ipairs(items.tab) do
+		item.draw(v)
+	end
 	
-	stars.update()
-	ship.update()
-	enemies.update()
-	bullets.update()
-	explosions.update()
-	items.update()
+	gl.Color(1,1,1,1)
 	
-end
-
-game.draw=function()
-
-	stars.draw()
-	ship.draw()
-	enemies.draw()
-	bullets.draw()
-	explosions.draw()
-	items.draw()
-	
-	sscores.draw("arcade2")
-
-	gui.draw()
+	console.display ("items "..#items.tab)
 	
 end
 
-	return game
+items.add=function(opt)
+
+	local it2={}
+	item.setup(it2,opt)
+	items.tab[#items.tab+1]=it2
+
+end
+
+items.remove=function(it)
+
+	for i,v in ipairs(items.tab) do
+		if v==it then
+			table.remove(items.tab,i)
+			return
+		end
+	end
+
+end
+
+	return items
 end
