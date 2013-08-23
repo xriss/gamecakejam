@@ -186,6 +186,7 @@ ship.update=function()
 		
 		if dx*dx+dy*dy<=32*32 then
 			ship.die()
+			v.die(v)
 			return
 		end
 	end
@@ -195,13 +196,32 @@ end
 ship.draw=function()
 	
 	if ship.state=="dead" then return end
-	local image=sheets.get("imgs/ship01")
+	local image=sheets.get("imgs/ships01")
 	
 	image:draw(1,ship.px,ship.py,ship.rz,64,64)
-
+	
+	local image=sheets.get("imgs/items01")
+	gl.Color(1,1,1,1)
+	
+	if ship.power=="splitshot" then
+		image:draw(5,ship.px,ship.py,ship.rz,64,64)
+	end
+	if ship.power=="singleshot" then
+		image:draw(6,ship.px,ship.py,ship.rz,64,64)
+	end
+	if ship.power=="sureshot" then
+		image:draw(7,ship.px,ship.py,ship.rz,64,64)
+	end
 end
 
 ship.die=function()
+
+	if ship.power then
+		ship.power=nil
+		explosions.gibs({px=ship.px, py=ship.py, gibs="ship"})
+		beep.play("die1")
+		return
+	end
 
 	if ship.state=="dead" then return end
 	ship.state="dead"

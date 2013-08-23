@@ -32,6 +32,7 @@ M.bake=function(oven,items)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local enemies=oven.rebake(oven.modgame..".enemies")
 	local ship=oven.rebake(oven.modgame..".ship")
+	local bullets=oven.rebake(oven.modgame..".bullets")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 
@@ -55,6 +56,9 @@ item.setup=function(it,opt)
 	it.vy=opt.vy or 0
 	
 	it.flava=opt.flava or "splitshot"
+	
+	it.collide=40
+	it.vy_base=it.vy
 
 end
 
@@ -63,43 +67,78 @@ item.clean=function(it)
 end
 
 item.update=function(it)
-
+	it.vx=it.vx*0.95
+	it.vy=(it.vy*15+it.vy_base)/16
 	it.px=it.px+it.vx
 	it.py=it.py+it.vy
 	
 	if it.py>768 	then it.flava="dead" return end
-	if it.py<0 		then it.flava="dead" return end
-	if it.px>512 	then it.flava="dead" return end
-	if it.px<0 		then it.flava="dead" return end
+--	if it.py<0 		then it.flava="dead" return end
+--	if it.px>512 	then it.flava="dead" return end
+--	if it.px<0 		then it.flava="dead" return end
+	
+	if it.px>512-it.collide then
+		it.px = 512-it.collide
+		if it.vx>0 then it.vx=-it.vx end
+	end
+	
+	if it.px<0+it.collide then
+		it.px = 0+it.collide
+		if it.vx<0 then it.vx=-it.vx end
+	end
+	
+	for i,v in ipairs(bullets.tab) do
+		if v.flava=="ship" then
+			local dx=it.px-v.px
+			local dy=it.py-v.py
+			
+			if dx*dx+dy*dy<=it.collide*it.collide then
+				it.vx=it.vx+v.vx*3
+				it.vy=it.vy+v.vy*3
+				v.flava="dead"
+			end
+		end
+	end
 	
 	local dx=it.px-ship.px
 	local dy=it.py-ship.py
 	
-	if dx*dx+dy*dy<=48*48 then
-		ship.power=it.flava
-		sscores.add(enemies.level*1000)
-		beep.play("power")
-		it.flava="dead"
-		return
+	if dx*dx+dy*dy<=48*48 and ship.flava~="dead" then
+		if it.flava=="smartbomb" then
+			for i=1,#enemies.tab do
+				local v=enemies.tab[i]
+				v.die(v)
+			end
+			sscores.add(enemies.level*1000)
+			beep.play("power")
+			it.flava="dead"
+		else
+			ship.power=it.flava
+			sscores.add(enemies.level*1000)
+			beep.play("power")
+			it.flava="dead"
+			return
+		end
 	end
 	
 end
 
 item.draw=function(it)
-	local image=sheets.get("imgs/power01")
+	local image=sheets.get("imgs/items01")
+	gl.Color(1,1,1,1)
 	
 	if it.flava=="splitshot" then
-		gl.Color(1,0,0,1)
+		image:draw(5,it.px,it.py,it.rz,64,64)
 	end
 	if it.flava=="singleshot" then
-		gl.Color(0,1,0,1)
+		image:draw(6,it.px,it.py,it.rz,64,64)
 	end
 	if it.flava=="sureshot" then
-		gl.Color(0,0,1,1)
+		image:draw(7,it.px,it.py,it.rz,64,64)
 	end
-
-	image:draw(1,it.px,it.py,it.rz,64,64)
-	
+	if it.flava=="smartbomb" then
+		image:draw(1,it.px,it.py,it.rz,64,64)
+	end	
 end
 
 

@@ -84,7 +84,7 @@ bullet.update=function(it)
 			local dx=it.px-v.px
 			local dy=it.py-v.py
 			
-			if dx*dx+dy*dy<=40*40 then
+			if dx*dx+dy*dy<=v.collide*v.collide then
 				it.flava="dead"
 				v.die(v)
 				return

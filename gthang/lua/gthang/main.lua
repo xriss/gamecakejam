@@ -41,12 +41,10 @@ main.loads=function()
 		{"imgs/tits",1,1,1/2,1/2},
 		{"imgs/back01",1,1,1/2,1/2},
 		{"imgs/back02",1,1,1/2,1/2},
-		{"imgs/ship01",1,1,1/2,1/2},
-		{"imgs/bad01",1,1,1/2,1/2},
-		{"imgs/bad02",1,1,1/2,1/2},
+		{"imgs/ships01",1/4,1/4,1/8,1/8},
 		{"imgs/bullet01",1,1,1/2,1/2},
 		{"imgs/explosion01",1,1,1/2,1/2},
-		{"imgs/power01",1,1,1/2,1/2},
+		{"imgs/items01",1/4,1/4,1/8,1/8},
 		{"imgs/gibs01",1/4,1/4,1/8,1/8},
 	})
 	
