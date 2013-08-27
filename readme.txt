@@ -10,7 +10,7 @@ to play the games.
 The code lives in the lua directory of each game, change it and run it.
 
 
-The GameCake engine allows these games to work on:
+The gamecake engine allows these games to work on:
 
 LINUX
 My main build is tested on ubuntu (technically xubuntu).
@@ -40,10 +40,40 @@ to on going development.
 The windows build should always work under wine so it is perversely the 
 most compatible cross platform build. 
 
-Finally this is just the source code, if you want to check out something
-that runs easily then use the following hg commands
+Finally this is just the source code, if you want to run any of the 
+games then you will need the engine as well. There are a number of 
+ways of getting this but remember that different operating systems 
+require different versions of the gamecake engine.
 
-hg clone https://bitbucket.org/xixs/public.gamecakejam
+
+Via PPA for Ubuntu.
+
+sudo add-apt-repository ppa:user/ppa-name
+sudo apt-get update
+sudo apt-get install gamecake
+
+then you may CD into a any game directory and start the just by 
+running "gamecake", you must be in the right directory for gamecake to 
+know which game you want to run
 
 
+
+Via mercurial for windows/ubuntu/debian/raspberrypi
+
+hg clone https://bitbucket.org/xixs/gamecakejam
+hg clone https://bitbucket.org/xixs/bin
+hg clone https://bitbucket.org/xixs/mods
+
+This creates copys of repositories side-by-side so they may access 
+files stored in each other. Then after that you can use CD to any 
+game dir and use ../start or ../start.x64 or ../start.pi or 
+../start.bat depending on what operating system you are on.
+
+Also, since you now have a full checkout you may adjust the files 
+in the art directory and run ../bake to update the games data files. 
+(only works well in linux)
+
+The bake.lua in each project is a lua script that perfroms simple 
+processing of images/sounds and other game assests before copying 
+them into the data directory for the game to use.
 
