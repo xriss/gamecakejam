@@ -62,6 +62,8 @@ bullet.setup=function(it,opt)
 	if opt.aim then
 		it.rz=180*opt.aim/math.pi
 	end
+	
+	it.owner=opt.owner or "ship"
 
 end
 
@@ -105,14 +107,18 @@ end
 
 bullet.draw=function(it)
 	
-	local image=sheets.get("imgs/bullet01")
-	if it.flava=="ship" then
-		gl.Color(1,0,1/2,1)
-	elseif it.flava=="enemy" then
-		gl.Color(math.random(),math.random(),math.random(),1)
-	end
+	local image=sheets.get("imgs/bullets01")
 	
-	image:draw(1,it.px,it.py,it.rz,32,32)
+	if it.owner=="ship" then
+		gl.Color(1/2,0,1,1)
+		image:draw(2,it.px,it.py,it.rz,64,64)
+	elseif it.owner=="dart" then
+		gl.Color(1,0,1/2,1)
+		image:draw(1,it.px,it.py,it.rz,64,64)
+	elseif it.owner=="vader" then
+		gl.Color(math.random(),math.random(),math.random(),1)
+		image:draw(1,it.px,it.py,it.rz,64,64)
+	end
 
 end
 

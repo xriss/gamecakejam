@@ -42,7 +42,7 @@ main.loads=function()
 		{"imgs/back01",1,1,1/2,1/2},
 		{"imgs/back02",1,1,1/2,1/2},
 		{"imgs/ships01",1/4,1/4,1/8,1/8},
-		{"imgs/bullet01",1,1,1/2,1/2},
+		{"imgs/bullets01",1/4,1/4,1/8,1/8},
 		{"imgs/explosion01",1,1,1/2,1/2},
 		{"imgs/items01",1/4,1/4,1/8,1/8},
 		{"imgs/gibs01",1/4,1/4,1/8,1/8},
