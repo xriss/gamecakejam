@@ -103,7 +103,7 @@ item.update=function(it)
 	local dx=it.px-ship.px
 	local dy=it.py-ship.py
 	
-	if dx*dx+dy*dy<=48*48 and ship.flava~="dead" then
+	if dx*dx+dy*dy<=48*48 and ship.state~="dead" then
 		if it.flava=="smartbomb" then
 			for i=1,#enemies.tab do
 				local v=enemies.tab[i]
