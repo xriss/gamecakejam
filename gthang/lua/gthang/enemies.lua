@@ -32,6 +32,9 @@ M.bake=function(oven,enemies)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local ship=oven.rebake(oven.modgame..".ship")
+	local explosions=oven.rebake(oven.modgame..".explosions")
+	local beep=oven.rebake(oven.modgame..".beep")
+	local items=oven.rebake(oven.modgame..".items")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -44,18 +47,30 @@ M.bake=function(oven,enemies)
 	
 enemy.setup=function(it,opt)
 
-it.px=opt.px or 256
-it.py=opt.py or 128
-it.rz=0
+	it.die=enemy.die
+	
+	it.px=opt.px or 256
+	it.py=opt.py or 128
+	it.rz=0
 
-it.vx=0
-it.vy=0
+	it.vx=0
+	it.vy=0
 
-it.speed=1.75
-it.countdown=120
-it.cool=math.random(100,200)
+	it.speed=1.75
+	it.countdown=0
+	it.cool=0
 
-it.rgb={math.random(),math.random(),math.random()}
+	it.rgb={math.random(),math.random(),math.random()}
+	
+	it.flava=opt.flava or "dart"
+	it.aim=0
+	
+	it.collide=40
+	
+	if it.flava=="seeker" then
+		it.collide=20
+		it.speed=it.speed*2.5
+	end
 
 end
 
@@ -64,6 +79,8 @@ enemy.clean=function(it)
 end
 
 enemy.update=function(it)
+
+	if it.flava=="dead" then return end
 
 	for i,v in ipairs(enemies.tab) do
 		if v~=it then
@@ -85,69 +102,149 @@ enemy.update=function(it)
 		end
 	end
 
-	it.vx = it.vx*0.95
-	it.vy=(it.vy*15+it.speed)/16
-	it.py = it.py+it.vy
+	it.vx=it.vx*0.95
 	
-	if it.py>1000 then it.py=it.py-1256 end
-	
-	if it.px>512 then
-		it.px = 512
-		if it.vx>0 then it.vx=-it.vx end
-	end
-	
-	if it.px<0 then
-		it.px = 0
-		if it.vx<0 then it.vx=-it.vx end
-	end
-	
-	it.countdown=it.countdown-1
-	if it.countdown<=0 then
-		it.countdown=(math.random(60,240))
-		it.vx = it.vx+((math.random(0,100)/50)-1)*8
-		it.vy = it.vy+((math.random(0,100)/50)-1)*8
+	if it.flava=="dart" then
+		it.vy=(it.vy*15+it.speed)/16
+	elseif it.flava=="vader" then
+		if it.py<100 then
+			it.vy=(it.vy*15+it.speed)/16
+		elseif it.py>150 then
+			it.vy=(it.vy*15-it.speed)/16
+		end
+	elseif it.flava=="seeker" then
+		it.vy=(it.vy*15+it.speed)/16
 	end
 	
 	it.px=it.px+it.vx
+	it.py=it.py+it.vy
 	
-	it.cool=it.cool-1
+	if it.py>768+64 then it.py=it.py-(768+64) end
 	
-	if it.cool<=0 and it.py>0 then
-		local dx=ship.px-it.px
-		local dy=ship.py-it.py
-		local dd=dx*dx+dy*dy
-		local  d=math.sqrt(dd)
-		
-		if d==0 then d=1 end
-		
-		local vx=8*((dx/d)+math.random()-0.5)
-		local vy=8*((dy/d)+math.random()-0.5)
-		
-		if vx>1 then vx=1 end
-		if vx<-1 then vx=-1 end
-		if vy<2 then vy=2 end
-		
-		bullets.add{px=it.px,py=it.py+32,vy=vy,vx=vx,flava="enemy"}
-		it.cool=math.random(100,200)
-	end	
+	if it.px>512-it.collide then
+		it.px = 512-it.collide
+		if it.vx>0 then it.vx=-it.vx end
+	end
 	
+	if it.px<0+it.collide then
+		it.px = 0+it.collide
+		if it.vx<0 then it.vx=-it.vx end
+	end
+	
+	if it.flava=="dart" then
+		it.countdown=it.countdown-1
+		if it.countdown<=0 then
+			it.countdown=(math.random(60,240))
+			it.vx = it.vx+((math.random(0,100)/50)-1)*8
+			it.vy = it.vy+((math.random(0,100)/50)-1)*8
+		end
+	elseif it.flava=="vader" then
+		if it.vx>0 then
+			it.vx=it.vx+0.1
+		else
+			it.vx=it.vx-0.1
+		end	
+	elseif it.flava=="seeker" then
+		it.countdown=it.countdown-1
+		if it.countdown<=0 then
+			local dx=ship.px-it.px
+			local dy=ship.py-it.py
+			local dd=dx*dx+dy*dy
+			local  d=math.sqrt(dd)
+			
+			if d==0 then d=1 end
+			
+			local vx=8*((dx/d))
+			local vy=8*((dy/d))
+			
+			it.countdown=(math.random(30,90))
+			it.vx = it.vx+vx
+			it.vy = it.vy+vy
+		end
+	end
+	
+	if it.flava=="dart" then
+		it.cool=it.cool-1
+		
+		if it.cool<=0 then
+			local dx=ship.px-it.px
+			local dy=ship.py-it.py
+			local dd=dx*dx+dy*dy
+			local  d=math.sqrt(dd)
+			
+			if d==0 then d=1 end
+			
+			local vx=8*((dx/d)+math.random()-0.5)
+			local vy=8*((dy/d)+math.random()-0.5)
+			
+			if vx>1 then vx=1 end
+			if vx<-1 then vx=-1 end
+			if vy<2 then vy=2 end
+			
+			bullets.add{px=it.px,py=it.py+32,vy=vy,vx=vx,flava="enemy"}
+			it.cool=math.random(100,200)
+		end
+	elseif it.flava=="vader" then
+		it.cool=it.cool-1
+		
+		if it.cool<=0 then
+			it.cool=10
+			it.aim=it.aim+(math.pi/16)
+			if it.aim>math.pi*2 then it.aim=it.aim+(math.pi*2) end
+			
+			local vx=-math.sin(it.aim)*8
+			local vy=math.cos(it.aim)*8
+			
+			bullets.add{px=it.px,py=it.py,vy=vy,vx=vx,aim=it.aim,flava="enemy"}
+		end
+	end
+	
+end
+
+enemy.die=function(it)
+
+	if it.flava=="vader" then
+		local t={"splitshot","singleshot","sureshot","smartbomb"}
+		items.add({px=it.px,py=it.py,vx=0,vy=5,flava=(t[math.random(1,#t)])})
+	end
+	
+	it.flava="dead"
+	explosions.gibs({px=it.px, py=it.py})
+--	enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
+	sscores.add(enemies.level*5)
+	
+	local t={"die","die","die"}
+	beep.play(t[math.random(1,#t)])
+
 end
 
 enemy.draw=function(it)
 	
-	local image=sheets.get("imgs/bad01")
-	gl.Color(it.rgb[1],it.rgb[2],it.rgb[3],1) 
-	
-	image:draw(1,it.px,it.py,it.rz,64,64)
+	if it.flava=="dart" then
+		local image=sheets.get("imgs/ships01")
+		gl.Color(it.rgb[1],it.rgb[2],it.rgb[3],1) 
+		
+		image:draw(2,it.px,it.py,it.rz,64,64)
+	elseif it.flava=="vader" then
+		local image=sheets.get("imgs/ships01")
+		gl.Color(1,1,1,1) 
+		
+		image:draw(3,it.px,it.py,it.rz,64,64)
+	elseif it.flava=="seeker" then
+		local image=sheets.get("imgs/ships01")
+		gl.Color(1,1,1,1) 
+		
+		image:draw(4,it.px,it.py,it.rz,32,32)
+	end
 
 end
-
 
 enemies.loads=function()
 
 end
 		
 enemies.setup=function()
+	enemies.timer=0
 
 	enemies.level=0
 	
@@ -165,20 +262,28 @@ enemies.wave=function()
 		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64)})
 	end
 	
+	if enemies.level%2==0 then
+		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64), flava="vader"})
+	end
 	
-
-	local sx=85
-	local sy=64
-	local sya=-128
-
---	enemies.add({px=0*sx,	py=sya+1*sy})
---	enemies.add({px=1*sx,	py=sya+2*sy})
---	enemies.add({px=2*sx,	py=sya+3*sy})
---	enemies.add({px=3*sx,	py=sya+4*sy})
---	enemies.add({px=4*sx,	py=sya+3*sy})
---	enemies.add({px=5*sx,	py=sya+2*sy})
---	enemies.add({px=6*sx,	py=sya+1*sy})
-
+	if enemies.level%5==0 then
+		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64), flava="vader"})
+	end
+	
+	for i=1,math.floor((enemies.level-1)/2) do
+		enemies.add({px=math.random(cx-64,cx+64), py=math.random(-128,-64), flava="seeker"})
+	end
+	
+	if enemies.level>1 then
+		local t=((30*60)-enemies.timer)/(30*60)
+		
+		if t>0 then
+			sscores.add(math.floor(t*1000*enemies.level))
+		end
+	end
+	enemies.timer=0
+	
+	beep.play("newwave")
 end
 
 enemies.clean=function()
@@ -196,14 +301,19 @@ enemies.msg=function(m)
 end
 
 enemies.update=function()
+	enemies.timer=enemies.timer+1
 
 	if #enemies.tab==0 then
 		enemies.wave()
 	end
 
-	for i,v in ipairs(enemies.tab) do
-		enemy.update(v)
-	end	
+	for i=#enemies.tab,1,-1 do
+		local it=enemies.tab[i]
+		enemy.update(it)
+		if it.flava=="dead" then
+			table.remove(enemies.tab,i)
+		end
+	end
 	
 end
 

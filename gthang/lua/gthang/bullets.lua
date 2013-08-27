@@ -32,9 +32,12 @@ M.bake=function(oven,bullets)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local enemies=oven.rebake(oven.modgame..".enemies")
 	local ship=oven.rebake(oven.modgame..".ship")
+	local explosions=oven.rebake(oven.modgame..".explosions")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
 	local layout=cake.layouts.create{}
 
@@ -44,17 +47,21 @@ M.bake=function(oven,bullets)
 	
 bullet.setup=function(it,opt)
 
-it.px=opt.px or 256
-it.py=opt.py or 128
-it.rz=0
+	it.px=opt.px or 256
+	it.py=opt.py or 128
+	it.rz=0
 
-it.vx=opt.vx or 0
-it.vy=opt.vy or 0
+	it.vx=opt.vx or 0
+	it.vy=opt.vy or 0
 
-it.speed=1.75
-it.countdown=120
+	it.speed=1.75
+	it.countdown=120
 
-it.flava=opt.flava or "ship"
+	it.flava=opt.flava or "ship"
+	
+	if opt.aim then
+		it.rz=180*opt.aim/math.pi
+	end
 
 end
 
@@ -67,30 +74,28 @@ bullet.update=function(it)
 	it.py = it.py+it.vy
 	it.px = it.px+it.vx
 	
-	if it.py>768 	then bullets.remove(it) return end
-	if it.py<0 		then bullets.remove(it) return end
-	if it.px>512 	then bullets.remove(it) return end
-	if it.px<0 		then bullets.remove(it) return end
+	if it.py>768 	then it.flava="dead" return end
+	if it.py<0 		then it.flava="dead" return end
+	if it.px>512 	then it.flava="dead" return end
+	if it.px<0 		then it.flava="dead" return end
 	
 	if it.flava=="ship" then
 		for i,v in ipairs(enemies.tab) do
 			local dx=it.px-v.px
 			local dy=it.py-v.py
 			
-			if dx*dx+dy*dy<=40*40 then
-				bullets.remove(it)
-				enemies.remove(v)
---				enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
-				sscores.add(23)
+			if dx*dx+dy*dy<=v.collide*v.collide then
+				it.flava="dead"
+				v.die(v)
 				return
 			end
 		end
-	elseif it.flava=="enemy" then
+	elseif it.flava=="enemy" and ship.state~="dead" then
 		local dx=it.px-ship.px
 		local dy=it.py-ship.py
 		
 		if dx*dx+dy*dy<=30*30 then
-			bullets.remove(it)
+			it.flava="dead"
 			ship.die()
 			return
 		end
@@ -139,9 +144,13 @@ bullets.msg=function(m)
 end
 
 bullets.update=function()
-
-	for i,v in ipairs(bullets.tab) do
-		bullet.update(v)
+		
+	for i=#bullets.tab,1,-1 do
+		local it=bullets.tab[i]
+		bullet.update(it)
+		if it.flava=="dead" then
+			table.remove(bullets.tab,i)
+		end
 	end
 	
 end
@@ -153,6 +162,8 @@ bullets.draw=function()
 	end
 	
 	gl.Color(1,1,1,1)
+	
+	console.display ("bullets "..#bullets.tab)
 	
 end
 

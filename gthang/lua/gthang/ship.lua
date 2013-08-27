@@ -32,6 +32,8 @@ M.bake=function(oven,ship)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local enemies=oven.rebake(oven.modgame..".enemies")
+	local explosions=oven.rebake(oven.modgame..".explosions")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -46,20 +48,22 @@ end
 		
 ship.setup=function()
 
-ship.px=256
-ship.py=768-32
-ship.rz=0
+	ship.px=256
+	ship.py=768-32
+	ship.rz=0
 
-ship.vx=0
-ship.vy=0
+	ship.vx=0
+	ship.vy=0
 
-ship.left=false
-ship.right=false
-ship.fire=false
-ship.cool=0
+	ship.left=false
+	ship.right=false
+	ship.fire=false
+	ship.cool=0
 
-ship.speed=1.75
-ship.state="alive"
+	ship.speed=1.75
+	ship.state="alive"
+	
+	ship.power=nil
 
 end
 
@@ -151,8 +155,28 @@ ship.update=function()
 	
 	if ship.fire then
 		if ship.cool<=0 then
+			ship.cool=32
+			
+			if ship.power=="splitshot" then
+				ship.cool=32
+				bullets.add{px=ship.px,py=ship.py-32,vx=-4,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px,py=ship.py-32,vx=4,vy=-8+math.random(),flava="ship"}
+			end
+
+			if ship.power=="sureshot" then
+				ship.cool=48
+				bullets.add{px=ship.px-64,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px+64,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px-32,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+				bullets.add{px=ship.px+32,py=ship.py-32,vx=0,vy=-8+math.random(),flava="ship"}
+			end
+			
+			if ship.power=="singleshot" then
+				ship.cool=16
+			end
+		
 			bullets.add{px=ship.px,py=ship.py-32,vy=-8+math.random(),flava="ship"}
-			ship.cool=16
+			beep.play("shoot")
 		end
 	end
 	
@@ -162,6 +186,7 @@ ship.update=function()
 		
 		if dx*dx+dy*dy<=32*32 then
 			ship.die()
+			v.die(v)
 			return
 		end
 	end
@@ -170,17 +195,41 @@ end
 
 ship.draw=function()
 	
-	local image=sheets.get("imgs/ship01")
+	if ship.state=="dead" then return end
+	local image=sheets.get("imgs/ships01")
 	
 	image:draw(1,ship.px,ship.py,ship.rz,64,64)
-
+	
+	local image=sheets.get("imgs/items01")
+	gl.Color(1,1,1,1)
+	
+	if ship.power=="splitshot" then
+		image:draw(5,ship.px,ship.py,ship.rz,64,64)
+	end
+	if ship.power=="singleshot" then
+		image:draw(6,ship.px,ship.py,ship.rz,64,64)
+	end
+	if ship.power=="sureshot" then
+		image:draw(7,ship.px,ship.py,ship.rz,64,64)
+	end
 end
 
 ship.die=function()
 
+	if ship.power then
+		ship.power=nil
+		explosions.gibs({px=ship.px, py=ship.py, gibs="ship"})
+		beep.play("die1")
+		return
+	end
+
 	if ship.state=="dead" then return end
 	ship.state="dead"
 	ship.dead=0
+	
+	explosions.gibs({px=ship.px, py=ship.py, gibs="ship"})
+	beep.play("die1")
+	beep.play("over")
 
 end
 
