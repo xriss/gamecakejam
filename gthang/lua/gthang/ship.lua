@@ -205,11 +205,9 @@ ship.draw=function()
 	
 	if ship.power=="splitshot" then
 		image:draw(5,ship.px,ship.py,ship.rz,64,64)
-	end
-	if ship.power=="singleshot" then
+	elseif ship.power=="singleshot" then
 		image:draw(6,ship.px,ship.py,ship.rz,64,64)
-	end
-	if ship.power=="sureshot" then
+	elseif ship.power=="sureshot" then
 		image:draw(7,ship.px,ship.py,ship.rz,64,64)
 	end
 end

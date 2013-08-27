@@ -181,7 +181,7 @@ enemy.update=function(it)
 			if vx<-1 then vx=-1 end
 			if vy<2 then vy=2 end
 			
-			bullets.add{px=it.px,py=it.py+32,vy=vy,vx=vx,flava="enemy"}
+			bullets.add{px=it.px,py=it.py+32,vy=vy,vx=vx,flava="enemy",owner="dart"}
 			it.cool=math.random(100,200)
 		end
 	elseif it.flava=="vader" then
@@ -195,7 +195,7 @@ enemy.update=function(it)
 			local vx=-math.sin(it.aim)*8
 			local vy=math.cos(it.aim)*8
 			
-			bullets.add{px=it.px,py=it.py,vy=vy,vx=vx,aim=it.aim,flava="enemy"}
+			bullets.add{px=it.px,py=it.py,vy=vy,vx=vx,aim=it.aim,flava="enemy",owner="vader"}
 		end
 	end
 	
