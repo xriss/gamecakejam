@@ -67,7 +67,10 @@ do local fn="lua/init_bake.lua" wbake.create_dir_for_file(fn) local fp=io.open(f
 )) fp:close() end
 
 
-wbake.create_dir_for_file("out/dmazed.zip")
-os.execute("rm out/dmazed.zip")
+os.execute("rm -rf out")
+wbake.create_dir_for_file("out/lua/wetgenes/t.zip")
 os.execute("zip -r out/dmazed.zip data lua opts.lua")
 
+-- include snapshot of base modules for version safeness, probably.
+os.execute("cp -r ../../bin/lua/wetgenes out/lua/")
+os.execute("cd out ; zip -r dmazed.zip lua")
