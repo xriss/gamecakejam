@@ -51,12 +51,6 @@ print(act,w.id)
 				main.level=0
 				main.herospeed=0
 				main.next=oven.rebake("dmazed.main_game")
-			elseif w.id=="start2" then
-
-				wscores.set(0)
-				main.level=10
-				main.herospeed=0
-				main.next=oven.rebake("dmazed.main_game")
 			elseif w.id=="menu" then
 				gui.spage("settings")
 			elseif w.id=="profiles" then
@@ -75,11 +69,7 @@ print(act,w.id)
 
 		local top=master:add({hx=480,hy=480,class="fill",font="Vera",text_size=24})
 
-		top:add({hx=480,hy=360-40})
-
-		top:add({hx=480,hy=40,color=0xffcccccc,text="easymode",id="start2",hooks=gui.hooks})
-		
-
+		top:add({hx=480,hy=360})
 		
 		top:add({hx=40,hy=40})
 		top:add({hx=100,hy=40,color=0xffcccccc,text="Hello",style="indent"})
@@ -88,7 +78,6 @@ print(act,w.id)
 
 		top:add({hx=480,hy=20})
 
-		
 		top:add({hx=20,hy=40})
 		top:add({hx=200,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
 		top:add({hx=40,hy=40})
