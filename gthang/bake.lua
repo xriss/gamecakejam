@@ -58,7 +58,7 @@ for _,dir in ipairs{"fonts"} do
 end
 
 for i,v in ipairs{
-	"fonts/Akashi.ttf",
+	"fonts/Vera.ttf",
 	"wskins/soapbar/border.png",
 	"wskins/soapbar/buttin.png",
 	"wskins/soapbar/buttof.png",
