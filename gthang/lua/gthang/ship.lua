@@ -35,7 +35,6 @@ M.bake=function(oven,ship)
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local layout=cake.layouts.create{}

@@ -36,7 +36,7 @@ M.bake=function(oven,items)
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
+	local hud=oven.rebake(oven.modgame..".hud")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
@@ -109,12 +109,12 @@ item.update=function(it)
 				local v=enemies.tab[i]
 				v.die(v)
 			end
-			sscores.add(enemies.level*1000)
+			hud.score(enemies.level*1000)
 			beep.play("power")
 			it.flava="dead"
 		else
 			ship.power=it.flava
-			sscores.add(enemies.level*1000)
+			hud.score(enemies.level*1000)
 			beep.play("power")
 			it.flava="dead"
 			return

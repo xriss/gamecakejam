@@ -30,8 +30,8 @@ M.bake=function(oven,menu)
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 	local beep=oven.rebake(oven.modgame..".beep")
+	local hud=oven.rebake(oven.modgame..".hud")
 
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local layout=cake.layouts.create{}
@@ -99,7 +99,7 @@ menu.draw=function()
 	else
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 		
-		sscores.draw("arcade2")
+		hud.draw()
 
 		gui.draw()	
 	end

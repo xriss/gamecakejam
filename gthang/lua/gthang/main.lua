@@ -24,12 +24,13 @@ M.bake=function(oven,main)
 	local font=canvas.font
 	local flat=canvas.flat
 	local sheets=cake.sheets
+	local fonts=cake.fonts
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
 
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
+	local hud=oven.rebake(oven.modgame..".hud")
 	
 	local beep=oven.rebake(oven.modgame..".beep")
 	
@@ -46,6 +47,10 @@ main.loads=function()
 		{"imgs/explosion01",1,1,1/2,1/2},
 		{"imgs/items01",1/4,1/4,1/8,1/8},
 		{"imgs/gibs01",1/4,1/4,1/8,1/8},
+	})
+	
+	fonts.loads({
+		"Akashi",
 	})
 	
 	beep.loads()

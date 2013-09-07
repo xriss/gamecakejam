@@ -36,8 +36,8 @@ M.bake=function(oven,game)
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 	local items=oven.rebake(oven.modgame..".items")
+	local hud=oven.rebake(oven.modgame..".hud")
 
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local layout=cake.layouts.create{}
@@ -56,6 +56,7 @@ game.setup=function()
 
 	gui.setup()
 	gui.page("game")
+	hud.setup()
 	
 	stars.setup()
 	ship.setup()
@@ -63,8 +64,6 @@ game.setup=function()
 	bullets.setup()
 	explosions.setup()
 	items.setup()
-	
-	sscores.reset()
 
 	beep.stream("game")
 
@@ -73,6 +72,7 @@ end
 game.clean=function()
 
 	gui.clean()
+	hud.clean()
 	
 	stars.clean()
 	ship.clean()
@@ -80,8 +80,6 @@ game.clean=function()
 	bullets.clean()
 	explosions.clean()
 	items.clean()
-	
-	sscores.final_score({})
 
 end
 
@@ -97,6 +95,7 @@ end
 game.update=function()
 
 	gui.update()
+	hud.update()
 	
 	stars.update()
 	ship.update()
@@ -116,7 +115,7 @@ game.draw=function()
 	explosions.draw()
 	items.draw()
 	
-	sscores.draw("arcade2")
+	hud.draw()
 
 	gui.draw()
 	

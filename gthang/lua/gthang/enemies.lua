@@ -35,8 +35,8 @@ M.bake=function(oven,enemies)
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 	local items=oven.rebake(oven.modgame..".items")
+	local hud=oven.rebake(oven.modgame..".hud")
 
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local layout=cake.layouts.create{}
@@ -256,7 +256,7 @@ enemy.die=function(it)
 	it.flava="dead"
 	explosions.gibs({px=it.px, py=it.py})
 --	enemies.add({px=math.random(0,512),	py=-math.random(0,512)})
-	sscores.add(it.score)
+	hud.score(it.score)
 	
 	local t={"die","die","die"}
 	beep.play(t[math.random(1,#t)])
@@ -331,7 +331,7 @@ enemies.wave=function()
 		local t=((30*60)-enemies.timer)/(30*60)
 		
 		if t>0 then
-			sscores.add(math.floor(t*1000*enemies.level))
+			hud.score(math.floor(t*1000*enemies.level))
 		end
 	end
 	enemies.timer=0
