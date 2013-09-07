@@ -117,7 +117,7 @@ bullet.draw=function(it)
 		image:draw(1,it.px,it.py,it.rz,64,64)
 	elseif it.owner=="vader" then
 		gl.Color(math.random(),math.random(),math.random(),1)
-		image:draw(1,it.px,it.py,it.rz,64,64)
+		image:draw(3,it.px,it.py,it.rz,64,64)
 	end
 
 end

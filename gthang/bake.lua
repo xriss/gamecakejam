@@ -46,7 +46,7 @@ for _,dir in ipairs{"oggs"} do
 end
 
 for i,v in ipairs{
-	"fonts/Vera.ttf",
+	"fonts/Akashi.ttf",
 	"wskins/soapbar/border.png",
 	"wskins/soapbar/buttin.png",
 	"wskins/soapbar/buttof.png",
