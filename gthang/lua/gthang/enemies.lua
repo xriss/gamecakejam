@@ -36,6 +36,7 @@ M.bake=function(oven,enemies)
 	local beep=oven.rebake(oven.modgame..".beep")
 	local items=oven.rebake(oven.modgame..".items")
 	local hud=oven.rebake(oven.modgame..".hud")
+	local stars=oven.rebake(oven.modgame..".stars")
 
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
@@ -305,6 +306,7 @@ end
 enemies.wave=function()
 
 	enemies.level=enemies.level+1
+	stars.alpha=0.75
 	
 	local cx=math.random(0,512)
 	

@@ -22,9 +22,9 @@ M.bake=function(oven,main)
 	local canvas=cake.canvas
 	local layouts=cake.layouts
 	local font=canvas.font
+	local fonts=cake.fonts
 	local flat=canvas.flat
 	local sheets=cake.sheets
-	local fonts=cake.fonts
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
 
@@ -42,11 +42,13 @@ main.loads=function()
 		{"imgs/tits",1,1,1/2,1/2},
 		{"imgs/back01",1,1,1/2,1/2},
 		{"imgs/back02",1,1,1/2,1/2},
+		{"imgs/wave01",1,1,1/2,1/2},
 		{"imgs/ships01",1/4,1/4,1/8,1/8},
 		{"imgs/bullets01",1/4,1/4,1/8,1/8},
 		{"imgs/explosion01",1,1,1/2,1/2},
 		{"imgs/items01",1/4,1/4,1/8,1/8},
 		{"imgs/gibs01",1/4,1/4,1/8,1/8},
+		
 	})
 	
 	fonts.loads({

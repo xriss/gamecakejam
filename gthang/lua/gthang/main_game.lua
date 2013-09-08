@@ -37,6 +37,7 @@ M.bake=function(oven,game)
 	local beep=oven.rebake(oven.modgame..".beep")
 	local items=oven.rebake(oven.modgame..".items")
 	local hud=oven.rebake(oven.modgame..".hud")
+	local wave=oven.rebake(oven.modgame..".wave")
 
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
@@ -57,6 +58,7 @@ game.setup=function()
 	gui.setup()
 	gui.page("game")
 	hud.setup()
+	wave.setup()
 	
 	stars.setup()
 	ship.setup()
@@ -73,6 +75,7 @@ game.clean=function()
 
 	gui.clean()
 	hud.clean()
+	wave.clean()
 	
 	stars.clean()
 	ship.clean()
@@ -96,6 +99,7 @@ game.update=function()
 
 	gui.update()
 	hud.update()
+	wave.update()
 	
 	stars.update()
 	ship.update()
@@ -116,6 +120,7 @@ game.draw=function()
 	items.draw()
 	
 	hud.draw()
+	wave.draw()
 
 	gui.draw()
 	

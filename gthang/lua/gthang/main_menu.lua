@@ -99,7 +99,7 @@ menu.draw=function()
 	else
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 		
-		hud.draw()
+--		hud.draw()
 
 		gui.draw()	
 	end

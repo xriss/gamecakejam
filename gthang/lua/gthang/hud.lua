@@ -21,6 +21,7 @@ M.bake=function(oven,hud)
 	local opts=oven.opts
 	local canvas=cake.canvas
 	local font=canvas.font
+	local fonts=cake.fonts
 	local flat=canvas.flat
 	local gl=oven.gl
 	local sheets=cake.sheets
@@ -71,7 +72,28 @@ end
 
 hud.draw=function()
 	
-	sscores.draw("arcade2")
+	local number=sscores.get(1)
+--	sscores.draw("arcade2")
+--	print(number)
+	font.set("Akashi")
+	
+	number=(tostring(number))
+	font.set_size(42)
+	font.set_xy(256-font.width(number)/2,3)
+	gl.Color(1,1,1,1) 
+	font.draw(number)
+	
+	local s="sup, wotcha doin killin mah shawties?"
+	font.set_size(16)
+	font.set_xy(256-font.width(s)/2,53)
+	gl.Color(0,1,1,1)
+	font.draw(s)
+	
+	
+--	local s="hey, i'm talking to you. stop ignoring me!"	
+--	local s="ok, so you're probably not reading this then."	
+--	local s="or maybe you are but there's no possible way i can hear you. can i?"
+
 	
 end
 
