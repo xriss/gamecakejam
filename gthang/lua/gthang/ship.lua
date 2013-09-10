@@ -48,7 +48,7 @@ end
 ship.setup=function()
 
 	ship.px=256
-	ship.py=768-32
+	ship.py=(768-32)-96
 	ship.rz=0
 
 	ship.vx=0
@@ -63,7 +63,11 @@ ship.setup=function()
 	ship.state="alive"
 	
 	ship.power=nil
-
+	
+	ship.mouse  =false
+	ship.mouse_x=0
+	ship.mouse_y=0
+	
 end
 
 ship.clean=function()
@@ -74,7 +78,24 @@ ship.msg=function(m)
 
 --	print (wstr.dump(m))
 	
+	if m.class == "mouse" then
+		ship.mouse 	= true
+		ship.px     = m.x
+		ship.mouse_y= m.y
+			
+		if m.action == 1 then
+			ship.fire = true			
+		elseif m.action == -1 then
+			ship.fire  = false
+			ship.left  = false
+			ship.right = false			
+		end
+			
+	end
+	
 	if m.class == "key" then
+		
+		ship.mouse = false
 		
 		if m.keyname == "left" then
 			
@@ -120,7 +141,20 @@ ship.update=function()
 		end
 		return
 	end
-
+	
+--[[	if ship.fire and ship.mouse then
+		if ship.mouse_x<=ship.px-20 then
+			ship.left  = true
+			ship.right = false
+		elseif ship.mouse_x>=ship.px+20 then
+			ship.left  = false
+			ship.right = true	
+		else
+			ship.left  = false
+			ship.right = false
+		end
+	end
+]]
 	if ship.left then
 	
 		if ship.vx>0 then ship.vx=0 end

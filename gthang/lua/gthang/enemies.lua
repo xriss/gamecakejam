@@ -70,10 +70,10 @@ enemy.setup=function(it,opt)
 	
 	it.score=enemies.level
 	
-	    if it.flava=="dart"    then it.score=it.score*5
+	    if it.flava=="dart"    then it.score=it.score* 5
 	elseif it.flava=="vader"   then it.score=it.score*25
 	elseif it.flava=="seeker"  then it.score=it.score*30
-	elseif it.flava=="blocker" then it.score=it.score*1
+	elseif it.flava=="blocker" then it.score=it.score* 1
 	end
 	
 	
@@ -125,6 +125,13 @@ enemy.update=function(it)
 	elseif it.flava=="seeker" then
 		it.vx=it.vx*0.95
 		it.vy=(it.vy*15+it.speed)/16
+	elseif it.flava=="bomb1" then
+		it.vx=it.vx*0.5
+		if it.py<100 then
+			it.vy=(it.vy*15+it.speed)/8
+		elseif it.py>150 then
+			it.vy=(it.vy*15-it.speed)/8
+		end
 	elseif it.flava=="blocker" then
 		if not it.master then
 			for i,v in ipairs(enemies.tab) do
@@ -190,7 +197,13 @@ enemy.update=function(it)
 		else
 			it.vx=it.vx-0.1
 		end	
-	elseif it.flava=="seeker" then
+--[[	elseif it.flava=="bomb1" then
+		if it.vx>100 then
+			it.vx=it.vx+0.1
+		else
+			it.vx=it.vx-0.1
+		end	
+]]	elseif it.flava=="seeker" then
 		it.countdown=it.countdown-1
 		if it.countdown<=0 then
 			local dx=ship.px-it.px
@@ -286,6 +299,11 @@ enemy.draw=function(it)
 		gl.Color(1,1,1,1) 
 		
 		image:draw(5,it.px,it.py,it.rz,32,32)
+	elseif it.flava=="boss1" then
+		local image=sheets.get("imgs/boss01")
+		gl.Color(1,1,1,1) 
+		
+		image:draw(1,it.px,it.py,it.rz,512,512)
 	end
 
 end
@@ -306,9 +324,11 @@ end
 enemies.wave=function()
 
 	enemies.level=enemies.level+1
-	stars.alpha=0.75
+	stars.alpha=0.85
 	
 	local cx=math.random(0,512)
+	
+--	enemies.add({px=256, py=0, flava="boss1"})
 	
 	for i=1,(5+enemies.level) do
 		if enemies.level%2==1 then

@@ -30,7 +30,6 @@ M.bake=function(oven,stars)
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
-	local wave=oven.rebake(oven.modgame..".wave")
 	local enemies=oven.rebake(oven.modgame..".enemies")
 
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -49,6 +48,8 @@ stars.setup=function()
 	stars.p2y=0
 	enemies.level=0
 	stars.alpha=0
+	
+	stars.screen=0
 
 end
 

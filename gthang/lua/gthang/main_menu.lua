@@ -33,6 +33,7 @@ M.bake=function(oven,menu)
 	local hud=oven.rebake(oven.modgame..".hud")
 
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
 	local layout=cake.layouts.create{}
 
@@ -102,7 +103,21 @@ menu.draw=function()
 --		hud.draw()
 
 		gui.draw()	
+		
+		local s=(tostring(sscores.high))
+		local h="HIGH SCORE"
+		font.set("Akashi")
+		font.set_size(42)
+		font.set_xy(256-font.width(s)/2,20)
+		gl.Color(1,1,1,1) 
+		font.draw(s)
+		font.set_size(18)
+		font.set_xy(256-font.width(h)/2,5)
+		gl.Color(0.3,0.7,0.7,1) 
+		font.draw(h)
+		
 	end
+	
 	
 end
 

@@ -63,7 +63,7 @@ print(act,w.id)
 
 		local top=master:add({hx=512,hy=768,class="fill",font="Akashi",text_size=24})
 
-		top:add({hx=512,hy=448})
+		top:add({hx=512,hy=568})
 		
 --		top:add({hx=6,hy=40})
 --		top:add({hx=150,hy=40,color=0xffcccccc,text="Hello",style="indent"})
@@ -73,13 +73,13 @@ print(act,w.id)
 --		top:add({hx=512,hy=20})
 
 		top:add({hx=156,hy=40})
-		top:add({hx=200,hy=40,color=0xff000000,text="START",text_color=0xff00ffff,id="start",hooks=gui.hooks})
+		top:add({hx=200,hy=40,color=0xff000000,text="START",text_color=0xff00ffff,text_color_over=0xffff00ff,id="start",hooks=gui.hooks})
 		top:add({hx=156,hy=40})
 
 		top:add({hx=512,hy=20})
 		
 		top:add({hx=156,hy=40})
-		top:add({hx=200,hy=40,color=0xff000000,text="MENU",text_color=0xff00ffff,id="menu",hooks=gui.hooks})
+		top:add({hx=200,hy=40,color=0xff000000,text="MENU",text_color=0xff00ffff,text_color_over=0xffff00ff,id="menu",hooks=gui.hooks})
 		top:add({hx=156,hy=40})
 
 		top:add({hx=512,hy=20})

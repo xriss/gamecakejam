@@ -35,6 +35,7 @@ M.bake=function(oven,hud)
 	local enemies=oven.rebake(oven.modgame..".enemies")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
+	local ship=oven.rebake(oven.modgame..".ship")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -50,6 +51,9 @@ end
 hud.setup=function()
 
 	sscores.reset()
+	enemies.level=0
+	hud.number=0
+	ship.state="alive"
 	
 end
 
@@ -67,33 +71,76 @@ end
 
 hud.update=function()
 
+	local number=sscores.get(1)
+	
+	if 	   number>=hud.number+100000 then hud.number=hud.number+100000
+	elseif number>=hud.number+ 10000 then hud.number=hud.number+ 10000
+	elseif number>=hud.number+  1000 then hud.number=hud.number+  1000
+	elseif number>=hud.number+   100 then hud.number=hud.number+   100
+	elseif number>=hud.number+    10 then hud.number=hud.number+    10
+	elseif number>=hud.number+     1 then hud.number=hud.number+     1
+	end
 		
 end
 
 hud.draw=function()
 	
-	local number=sscores.get(1)
 --	sscores.draw("arcade2")
 --	print(number)
 	font.set("Akashi")
 	
-	number=(tostring(number))
+	local s=(tostring(hud.number))
 	font.set_size(42)
-	font.set_xy(256-font.width(number)/2,3)
+	font.set_xy(256-font.width(s)/2,3)
 	gl.Color(1,1,1,1) 
-	font.draw(number)
-	
-	local s="sup, wotcha doin killin mah shawties?"
-	font.set_size(16)
-	font.set_xy(256-font.width(s)/2,53)
-	gl.Color(0,1,1,1)
 	font.draw(s)
 	
+	local t={
+		{score=     0,color=0xffffffff,string=""},
+		{score=  1000,color=0xffffffff,string="oi, wotcha doing killin' mah shawties?"},
+		{score=  5000,color=0xffffffff,string="hey, i'm talking to you. stop ignoring me!"},
+		{score= 10000,color=0xffffffff,string="ok, so you're probably not reading this then."},
+		{score= 15000,color=0xffffffff,string="or maybe you are but there's no possible way i can hear you. can i?"},
+		{score= 20000,color=0xffffff00,string="i know you're definitely reading this."},
+		{score= 25000,color=0xffffffff,string="actions speak louder than words, you know."},
+		{score= 30000,color=0xff1e90ff,string="and your actions are telling me you're a hostile entity."},
+		{score= 35000,color=0xffffffff,string="cease shooting or i... i will react."},
+		{score= 40000,color=0xffff0000,string="i'm warning you!"},
+		{score= 45000,color=0xffffffff,string="right, that's it. i'm gonna get you for this."},
+		{score= 50000,color=0xffff00ff,string="fly, my pretties."},
+		{score= 55000,color=0xffff0000,string="FLY AND NEVER STOP."},
+		{score= 60000,color=0xffffffff,string="now, now. thre's no use in getting panicky."},
+		{score= 65000,color=0xffffffff,string="it's only a neverending stream of your just desserts."},
+		{score= 70000,color=0xffffffff,string="this buffet spread is on me."},
+		{score= 75000,color=0xffffff00,string="why? well, you started it."},
+		{score= 80000,color=0xffffffff,string="now you're gonna have to end it too."},
+	}
 	
---	local s="hey, i'm talking to you. stop ignoring me!"	
---	local s="ok, so you're probably not reading this then."	
---	local s="or maybe you are but there's no possible way i can hear you. can i?"
-
+	local chat=t[#t]
+	local chat_width=400
+	
+	for i,v in ipairs(t) do
+		if v.score>=hud.number then
+			chat=v
+			break
+		end
+	end
+	
+	font.set_size(16)
+	if ship.state=="dead" then
+		t={color=0xffff0000,string="FLY AND NEVER STOP."}
+		font.set_size(38)
+		chat_width=512
+		chat=t
+	end	
+	gl.Color(gl.C8(chat.color))
+	
+	
+	local lines=font.wrap(chat.string,{w=chat_width})
+	for i,v in ipairs(lines) do
+		font.set_xy(256-font.width(v)/2,53+(i-1)*16)
+		font.draw(v)
+	end
 	
 end
 

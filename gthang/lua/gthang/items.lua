@@ -138,7 +138,7 @@ item.draw=function(it)
 	end
 	if it.flava=="smartbomb" then
 		image:draw(1,it.px,it.py,it.rz,64,64)
-	end	
+	end
 end
 
 

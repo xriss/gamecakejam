@@ -48,6 +48,7 @@ main.loads=function()
 		{"imgs/explosion01",1,1,1/2,1/2},
 		{"imgs/items01",1/4,1/4,1/8,1/8},
 		{"imgs/gibs01",1/4,1/4,1/8,1/8},
+		{"imgs/boss01",1,1,1/2,1/2},
 		
 	})
 	
