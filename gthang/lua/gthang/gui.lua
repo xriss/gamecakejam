@@ -28,6 +28,25 @@ M.bake=function(oven,gui)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local main=oven.rebake(oven.modgame..".main")
 	local hud=oven.rebake(oven.modgame..".hud")
+	
+	local about=oven.rebake("wetgenes.gamecake.spew.about.sinescroll")
+
+	about.title="Gthang : Ain't nothin' but a"
+	about.text=[[
+*SKIP*
+shi made this arrr arrr
+*SKIP*
+what you have in your hands is an experiment in lua learning and using the gamecake engine to make my first game.
+*SKIP*
+i like shmups and hopefully, after playing this one, so can you!
+*SKIP*
+there's a bit of juggling action that can happen during the game.
+*SKIP*
+there's also complex interaction but very simple controls. hopefully, you can figure it out yourself.
+*SKIP*
+oh yea, why is it called gthang? well, because of galaga, galaxian and gaplus of course. also, galactic dancing.
+*SKIP*
+]]
 
 
 	gui.master=oven.rebake("wetgenes.gamecake.widgets").setup({})
@@ -73,13 +92,13 @@ print(act,w.id)
 --		top:add({hx=512,hy=20})
 
 		top:add({hx=156,hy=40})
-		top:add({hx=200,hy=40,color=0xff000000,text="START",text_color=0xff00ffff,text_color_over=0xffff00ff,id="start",hooks=gui.hooks})
+		top:add({hx=200,hy=40,color=0xff000000,text="MENU",text_color=0xff00ffff,text_color_over=0xffff00ff,id="menu",hooks=gui.hooks})
 		top:add({hx=156,hy=40})
 
 		top:add({hx=512,hy=20})
 		
 		top:add({hx=156,hy=40})
-		top:add({hx=200,hy=40,color=0xff000000,text="MENU",text_color=0xff00ffff,text_color_over=0xffff00ff,id="menu",hooks=gui.hooks})
+		top:add({hx=200,hy=40,color=0xff000000,text="START",text_color=0xff00ffff,text_color_over=0xffff00ff,id="start",hooks=gui.hooks})
 		top:add({hx=156,hy=40})
 
 		top:add({hx=512,hy=20})

@@ -104,7 +104,7 @@ menu.draw=function()
 
 		gui.draw()	
 		
-		local s=(tostring(sscores.high))
+		local s=(wstr.str_insert_number_commas(sscores.high))
 		local h="HIGH SCORE"
 		font.set("Akashi")
 		font.set_size(42)

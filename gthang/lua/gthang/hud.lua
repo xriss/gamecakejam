@@ -89,7 +89,7 @@ hud.draw=function()
 --	print(number)
 	font.set("Akashi")
 	
-	local s=(tostring(hud.number))
+	local s=(wstr.str_insert_number_commas(hud.number))
 	font.set_size(42)
 	font.set_xy(256-font.width(s)/2,3)
 	gl.Color(1,1,1,1) 
@@ -104,8 +104,8 @@ hud.draw=function()
 		{score= 20000,color=0xffffff00,string="i know you're definitely reading this."},
 		{score= 25000,color=0xffffffff,string="actions speak louder than words, you know."},
 		{score= 30000,color=0xff1e90ff,string="and your actions are telling me you're a hostile entity."},
-		{score= 35000,color=0xffffffff,string="cease shooting or i... i will react."},
-		{score= 40000,color=0xffff0000,string="i'm warning you!"},
+		{score= 35000,color=0xffffffff,string="cease shooting or i... i will react!"},
+		{score= 40000,color=0xffff0000,string="i'm warning you."},
 		{score= 45000,color=0xffffffff,string="right, that's it. i'm gonna get you for this."},
 		{score= 50000,color=0xffff00ff,string="fly, my pretties."},
 		{score= 55000,color=0xffff0000,string="FLY AND NEVER STOP."},
