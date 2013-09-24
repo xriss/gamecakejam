@@ -407,7 +407,7 @@ cells.image=function()
 	layout.clean()
 
 	local gd = fbo:download()
-	assert(gd:convert(grd.FMT_U8_ARGB))
+	assert(gd:convert(grd.FMT_U8_RGBA))
 	
 	fbs.bind_frame(nil)
 	
