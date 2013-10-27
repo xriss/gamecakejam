@@ -55,7 +55,8 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
-	main.next=oven.rebake(oven.modgame..".main_menu")
+--	main.next=oven.rebake(oven.modgame..".main_menu")
+	main.next=oven.rebake(oven.modgame..".main_game")
 	
 	main.change()
 end

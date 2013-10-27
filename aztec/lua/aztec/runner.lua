@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,game)
-	local game=game or {}
-	game.oven=oven
+M.bake=function(oven,runner)
+	local runner=runner or {}
+	runner.oven=oven
 	
-	game.modname=M.modname
+	runner.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -40,72 +40,37 @@ M.bake=function(oven,game)
 	local layout=cake.layouts.create{}
 
 
-
-game.back="imgs/title"
-
-game.loads=function()
+runner.loads=function()
 
 end
 		
-game.setup=function()
+runner.setup=function()
 
-	game.loads()
-
---	gui.setup()
-	gui.page("game")
-
-
-	runner.setup()
-
---	beep.stream("game")
+runner.px=320
+runner.py=480-64
 
 end
 
-game.clean=function()
+runner.clean=function()
 
-	runner.clean()
-
---	gui.clean()
 
 end
 
-game.msg=function(m)
-
---	print(wstr.dump(m))
-
---	if sgui.active then
---		sgui.msg(m)	
---	else
---		gui.msg(m)
---	end
+runner.msg=function(m)
 	
 end
 
-game.update=function()
+runner.update=function()
 
-	runner.update()
-
---	if sgui.active then
---		sgui.update()	
---	else
---		gui.update()
---	end
 	
 end
 
-game.draw=function()
+runner.draw=function()
 		
-	sheets.get("imgs/back01"):draw(1,320,240,nil,640,480)
 
-
-	runner.draw()
-
---	sheets.get("imgs/ships01"):draw(1,320,240,nil,64,64)
-
-
-	sscores.draw("arcade2")
+	sheets.get("imgs/ships01"):draw(1,runner.px,runner.py,nil,64,64)
 	
 end
 
-	return game
+	return runner
 end
