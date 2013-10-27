@@ -84,22 +84,13 @@ game.update=function()
 end
 
 game.draw=function()
-	
---	if sgui.active then
-
---		layout.viewport() -- clear clip area
-
---		gl.ClearColor(pack.argb4_pmf4(0xf004))
---		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
-
---		sgui.draw()	
---	else
---		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 		
-		sscores.draw("arcade2")
+	sheets.get("imgs/back01"):draw(1,320,240,nil,640,480)
 
---		gui.draw()	
---	end
+	sheets.get("imgs/ships01"):draw(1,320,240,nil,64,64)
+
+
+	sscores.draw("arcade2")
 	
 end
 

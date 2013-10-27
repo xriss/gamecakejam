@@ -21,6 +21,7 @@ M.bake=function(oven,main)
 	local opts=oven.opts
 	local canvas=cake.canvas
 	local layouts=cake.layouts
+	local sheets=cake.sheets
 	local font=canvas.font
 	local flat=canvas.flat
 
@@ -36,6 +37,13 @@ main.loads=function()
 	
 	oven.cake.images.loads({
 	})
+
+	sheets.loads_and_chops({
+		{"imgs/back01",1,1,1/2,1/2},
+		{"imgs/ships01",1/4,1/4,1/8,1/8},
+	})
+
+
 	
 end
 		
