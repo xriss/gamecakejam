@@ -39,7 +39,7 @@ main.loads=function()
 	})
 
 	sheets.loads_and_chops({
-		{"imgs/back01",1,1,1/2,1/2},
+		{"imgs/background",1,1,1/2,1/2},
 		{"imgs/ships01",1/4,1/4,1/8,1/8},
 	})
 
