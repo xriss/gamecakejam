@@ -40,6 +40,10 @@ main.loads=function()
 
 	sheets.loads_and_chops({
 		{"imgs/background",1,1,1/2,1/2},
+		{"imgs/pyramid",1,1,1/2,1/2},
+		{"imgs/hero",1,1,1/2,1/2},
+		{"imgs/enemy",1,1,1/2,1/2},
+		{"imgs/title",1,1,1/2,1/2},
 		{"imgs/ships01",1/4,1/4,1/8,1/8},
 	})
 

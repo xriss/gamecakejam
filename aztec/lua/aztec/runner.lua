@@ -68,7 +68,7 @@ end
 runner.draw=function()
 		
 
-	sheets.get("imgs/ships01"):draw(1,runner.px,runner.py,nil,64,64)
+	sheets.get("imgs/hero"):draw(1,runner.px,runner.py,nil,64,64)
 	
 end
 

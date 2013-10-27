@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,game)
-	local game=game or {}
-	game.oven=oven
+M.bake=function(oven,pyramid)
+	local pyramid=pyramid or {}
+	pyramid.oven=oven
 	
-	game.modname=M.modname
+	pyramid.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -31,8 +31,6 @@ M.bake=function(oven,game)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
-	local runner=oven.rebake(oven.modgame..".runner")
-	local chuckers=oven.rebake(oven.modgame..".chuckers")
 	local pyramid=oven.rebake(oven.modgame..".pyramid")
 
 
@@ -42,79 +40,39 @@ M.bake=function(oven,game)
 	local layout=cake.layouts.create{}
 
 
-
-game.back="imgs/title"
-
-game.loads=function()
+pyramid.loads=function()
 
 end
 		
-game.setup=function()
+pyramid.setup=function()
 
-	game.loads()
-
---	gui.setup()
-	gui.page("game")
-
-
-	runner.setup()
-	chuckers.setup()
-	pyramid.setup()
-
---	beep.stream("game")
+pyramid.px=320
+pyramid.py=240
+pyramid.ps=16
 
 end
 
-game.clean=function()
+pyramid.clean=function()
 
-	runner.clean()
-	chuckers.clean()
-	pyramid.clean()
-
---	gui.clean()
 
 end
 
-game.msg=function(m)
-
---	print(wstr.dump(m))
-
---	if sgui.active then
---		sgui.msg(m)	
---	else
---		gui.msg(m)
---	end
+pyramid.msg=function(m)
 	
 end
 
-game.update=function()
+pyramid.update=function()
 
-	pyramid.update()
-	chuckers.update()
-	runner.update()
-
---	if sgui.active then
---		sgui.update()	
---	else
---		gui.update()
---	end
+pyramid.ps=pyramid.ps+1
 	
 end
 
-game.draw=function()
+pyramid.draw=function()
 		
-	sheets.get("imgs/background"):draw(1,320,240,nil,640,480)
 
-	pyramid.draw()
-	chuckers.draw()
-	runner.draw()
-
---	sheets.get("imgs/ships01"):draw(1,320,240,nil,64,64)
-
-
-	sscores.draw("arcade2")
+	sheets.get("imgs/pyramid"):draw(1,pyramid.px,pyramid.py,nil,pyramid.ps,pyramid.ps)
 	
 end
 
-	return game
+	return pyramid
 end
