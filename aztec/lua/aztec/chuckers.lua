@@ -32,6 +32,7 @@ M.bake=function(oven,chuckers)
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local chuckers=oven.rebake(oven.modgame..".chuckers")
+	local pyramid=oven.rebake(oven.modgame..".pyramid")
 
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -39,6 +40,16 @@ M.bake=function(oven,chuckers)
 
 	local layout=cake.layouts.create{}
 
+local chucker_del=function(it)
+
+	for i=1,#chuckers.tab do
+		if chuckers.tab[i]==it then
+			table.remove(chuckers.tab,i)
+			return it
+		end
+	end
+
+end
 
 local chucker_add=function(it)
 	chuckers.tab[#chuckers.tab+1]=it
@@ -50,7 +61,7 @@ local chucker_add=function(it)
 	it.vy=it.vy or 1
 
 	it.ps=it.ps or 16
-	it.vs=it.vs or 1/2
+	it.vs=it.vs or 1.01
 
 end
 
@@ -58,12 +69,16 @@ local chucker_update=function(it)
 
 	it.px=it.px+it.vx
 	it.py=it.py+it.vy
-	it.ps=it.ps+it.vs
+	it.ps=it.ps*it.vs
+	
+	if it.py > 480 + 64 then
+		chucker_del(it)
+	end
 end
 
 local chucker_draw=function(it)
 
-	sheets.get("imgs/ships01"):draw(1,it.px,it.py,nil,it.ps,it.ps)
+	sheets.get("imgs/enemy"):draw(1,it.px,it.py,nil,it.ps,it.ps)
 
 end
 
@@ -99,14 +114,16 @@ chuckers.update=function()
 		local it={}
 		if (chuckers.time/15)%2 == 0 then
 			it.vx=2
+			it.px=320 + pyramid.ps/2
 		else
 			it.vx=-2
+			it.px=320 - pyramid.ps/2
 		end
 		chucker_add(it)
 	end
 	
-	for _,it in ipairs(chuckers.tab) do
-		chucker_update(it)
+	for i=#chuckers.tab,1,-1 do
+		chucker_update(chuckers.tab[i])
 	end
 	
 end
