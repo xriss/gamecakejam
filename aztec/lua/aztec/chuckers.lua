@@ -39,6 +39,16 @@ M.bake=function(oven,chuckers)
 
 	local layout=cake.layouts.create{}
 
+local chucker_del=function(it)
+
+	for i=1,#chuckers.tab do
+		if chuckers.tab[i]==it then
+			table.remove(chuckers.tab,i)
+			return it
+		end
+	end
+
+end
 
 local chucker_add=function(it)
 	chuckers.tab[#chuckers.tab+1]=it
@@ -50,7 +60,7 @@ local chucker_add=function(it)
 	it.vy=it.vy or 1
 
 	it.ps=it.ps or 16
-	it.vs=it.vs or 1/2
+	it.vs=it.vs or 1.01
 
 end
 
@@ -58,7 +68,11 @@ local chucker_update=function(it)
 
 	it.px=it.px+it.vx
 	it.py=it.py+it.vy
-	it.ps=it.ps+it.vs
+	it.ps=it.ps*it.vs
+	
+	if it.py > 480 + 64 then
+		chucker_del(it)
+	end
 end
 
 local chucker_draw=function(it)
@@ -105,8 +119,8 @@ chuckers.update=function()
 		chucker_add(it)
 	end
 	
-	for _,it in ipairs(chuckers.tab) do
-		chucker_update(it)
+	for i=#chuckers.tab,1,-1 do
+		chucker_update(chuckers.tab[i])
 	end
 	
 end
