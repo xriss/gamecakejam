@@ -114,10 +114,10 @@ chuckers.update=function()
 		local it={}
 		if (chuckers.time/15)%2 == 0 then
 			it.vx=2
-			it.px=320 + pyramid.ps/2
+			it.px=320 + pyramid.ps/3
 		else
 			it.vx=-2
-			it.px=320 - pyramid.ps/2
+			it.px=320 - pyramid.ps/3
 		end
 		chucker_add(it)
 	end
