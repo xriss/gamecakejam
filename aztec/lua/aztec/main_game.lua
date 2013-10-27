@@ -32,6 +32,7 @@ M.bake=function(oven,game)
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local runner=oven.rebake(oven.modgame..".runner")
+	local chuckers=oven.rebake(oven.modgame..".chuckers")
 
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -56,6 +57,7 @@ game.setup=function()
 
 
 	runner.setup()
+	chuckers.setup()
 
 --	beep.stream("game")
 
@@ -64,6 +66,7 @@ end
 game.clean=function()
 
 	runner.clean()
+	chuckers.clean()
 
 --	gui.clean()
 
@@ -83,6 +86,7 @@ end
 
 game.update=function()
 
+	chuckers.update()
 	runner.update()
 
 --	if sgui.active then
@@ -97,7 +101,7 @@ game.draw=function()
 		
 	sheets.get("imgs/background"):draw(1,320,240,nil,640,480)
 
-
+	chuckers.draw()
 	runner.draw()
 
 --	sheets.get("imgs/ships01"):draw(1,320,240,nil,64,64)

@@ -40,14 +40,44 @@ M.bake=function(oven,chuckers)
 	local layout=cake.layouts.create{}
 
 
+local chucker_add=function(it)
+	chuckers.tab[#chuckers.tab+1]=it
+	
+	it.px=it.px or 320
+	it.py=it.py or 240
+
+	it.vx=it.vx or 2
+	it.vy=it.vy or 1
+
+	it.ps=it.ps or 16
+	it.vs=it.vs or 1/2
+
+end
+
+local chucker_update=function(it)
+
+	it.px=it.px+it.vx
+	it.py=it.py+it.vy
+	it.ps=it.ps+it.vs
+end
+
+local chucker_draw=function(it)
+
+	sheets.get("imgs/ships01"):draw(1,it.px,it.py,nil,it.ps,it.ps)
+
+end
+
+
+
 chuckers.loads=function()
 
 end
 		
 chuckers.setup=function()
 
-chuckers.px=320
-chuckers.py=480-64
+chuckers.time=0
+
+chuckers.tab={}
 
 end
 
@@ -60,15 +90,32 @@ chuckers.msg=function(m)
 	
 end
 
+
 chuckers.update=function()
 
+	chuckers.time=chuckers.time+1
+	
+	if chuckers.time%15 == 0 then
+		local it={}
+		if (chuckers.time/15)%2 == 0 then
+			it.vx=2
+		else
+			it.vx=-2
+		end
+		chucker_add(it)
+	end
+	
+	for _,it in ipairs(chuckers.tab) do
+		chucker_update(it)
+	end
 	
 end
 
 chuckers.draw=function()
 		
-
-	sheets.get("imgs/ships01"):draw(1,chuckers.px,chuckers.py,nil,64,64)
+	for _,it in ipairs(chuckers.tab) do
+		chucker_draw(it)
+	end
 	
 end
 
