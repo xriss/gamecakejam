@@ -7,6 +7,7 @@ local opts={
 	
 	width=480,	-- display basics
 	height=480,
+--	overscale=0.5,
 	show="full",
 	title="D maze D",
 	start="dmazed.main", -- rebake this mod
