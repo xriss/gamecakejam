@@ -80,12 +80,11 @@ M.bake=function(state,beep)
 			sounds.beep_max=2 -- keep 4 available for long sounds
 		
 			local ss=sounds.get(t.name)
-			
-			ss.idx=t.idx -- temp setting
-			ss.name=t.name
-			
-			sounds.beep(ss)
-		
+			if ss then
+				ss.idx=t.idx -- temp setting
+				ss.name=t.name			
+				sounds.beep(ss)
+			end
 		else
 		
 print("Missing sound FX for "..id)
@@ -116,12 +115,12 @@ print("Missing sound FX for "..id)
 			end
 			qq.oggs={"oggs/vapours"}
 			qq.og=nil -- force old ogg to stop
-			al.SourceStop(sounds.strs[1].source)
+			if al then al.SourceStop(sounds.strs[1].source) end
 
 		else		
 			qq.oggs=nil
 			qq.og=nil -- force old ogg to stop
-			al.SourceStop(sounds.strs[1].source)
+			if al then al.SourceStop(sounds.strs[1].source) end
 
 		end
 
