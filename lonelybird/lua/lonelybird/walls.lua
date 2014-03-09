@@ -34,6 +34,7 @@ M.bake=function(oven,walls)
 --	local walls=oven.rebake(oven.modgame..".walls")
 	local bird=oven.rebake(oven.modgame..".bird")
 	local csv=oven.rebake(oven.modgame..".csv")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -133,6 +134,9 @@ wall.update=function(it)
 		if it.score then
 			sscores.add(it.score)
 			it.score=nil
+			
+			beep.play("score")
+
 		end
 	end
 	

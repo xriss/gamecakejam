@@ -30,6 +30,9 @@ M.bake=function(oven,main)
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
+
+	local beep=oven.rebake(oven.modgame..".beep")
+
 	
 main.loads=function()
 
@@ -41,6 +44,7 @@ main.loads=function()
 		{"imgs/postcode",1/8,1/3,0,0},		
 		{"imgs/back",1,1,1/2,1/2},		
 		{"imgs/day",1,1,1/2,1/2},		
+		{"imgs/night",1,1,1/2,1/2},		
 		{"imgs/ground",1,1,1/2,1/2},		
 		{"imgs/title",1,1,1/2,1/2},		
 		{"imgs/gravedown",1,1,1/2,1},		
@@ -52,6 +56,9 @@ main.loads=function()
 	oven.cake.images.loads({
 	})
 	
+	beep.loads()
+
+
 end
 		
 main.setup=function()

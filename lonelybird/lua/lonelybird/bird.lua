@@ -33,6 +33,7 @@ M.bake=function(oven,bird)
 	local ground=oven.rebake(oven.modgame..".ground")
 	local walls=oven.rebake(oven.modgame..".walls")
 --	local bird=oven.rebake(oven.modgame..".bird")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -85,6 +86,8 @@ bird.flap=function()
 
 	bird.vy=bird.vy-24
 	ground.vx=ground.vx-4
+	
+	beep.play("flap")
 
 end
 
@@ -96,6 +99,9 @@ bird.die=function(vx,vy)
 		bird.vy=vy or 0
 		bird.sx=bird.sx*2
 		bird.sy=bird.sx
+
+		beep.play("die")
+
 	end
 end
 

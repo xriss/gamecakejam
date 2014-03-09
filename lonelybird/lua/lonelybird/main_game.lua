@@ -50,6 +50,7 @@ end
 		
 game.setup=function()
 
+
 	game.loads()
 
 	sscores.reset()
@@ -94,8 +95,12 @@ game.draw=function()
 	gl.ClearColor(pack.argb4_pmf4(0xf004))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
-		
-	sheets.get("imgs/day"):draw(1,512/2,512/2,nil,1024,512)
+	
+	if main.day==1 then
+		sheets.get("imgs/day"):draw(1,512/2,512/2,nil,1024,512)
+	else
+		sheets.get("imgs/night"):draw(1,512/2,512/2,nil,1024,512)
+	end
 
 	walls.draw()
 	bird.draw()
