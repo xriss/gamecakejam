@@ -91,8 +91,8 @@ end
 bird.die=function(vx,vy)
 
 	bird.status="fall"
-	bird.vy=vx or 0
-	bird.vx=vy or 2
+	bird.vx=vx or 2
+	bird.vy=vy or 0
 	bird.sx=bird.sx*2
 	bird.sy=bird.sx
 
@@ -118,9 +118,13 @@ bird.update=function()
 		
 		bird.rz=bird.vy*8
 		
-		if bird.py<0+16 or bird.py>512-16 then
+		if bird.py<0+16 then
 
-			bird.die()
+			bird.die(8,0)
+
+		elseif bird.py>512-16 then
+
+			bird.die(8,-16)
 
 		end
 
@@ -135,8 +139,8 @@ bird.update=function()
 --		if bird.a>1 then bird.a=1 end
 
 		bird.rz=bird.rz-bird.diecount
-		bird.sx=bird.sx*15/16
-		bird.sy=bird.sx
+--		bird.sx=bird.sx*15/16
+--		bird.sy=bird.sx
 
 		bird.vy=bird.vy+bird.ay
 		

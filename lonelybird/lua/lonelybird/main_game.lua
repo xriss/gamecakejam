@@ -91,19 +91,16 @@ game.draw=function()
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 		
-	sheets.get("imgs/back"):draw(1,512/2,512/2,nil,1024,1024)
 	sheets.get("imgs/day"):draw(1,512/2,512/2,nil,1024,512)
-
-	main.clip_on()
 
 	walls.draw()
 	bird.draw()
-
-	main.clip_off()
-
 	ground.draw()
 
+	sheets.get("imgs/back"):draw(1,512/2,512/2,nil,1024,1024)
+
 	sscores.draw("arcade2")
+
 
 --		gui.draw()	
 	
