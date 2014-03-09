@@ -42,7 +42,7 @@ main.loads=function()
 		{"imgs/title",1,1,1/2,1/2},		
 		{"imgs/gravedown",1,1,1/2,1},		
 		{"imgs/graveup",1,1,1/2,0},		
-		{"imgs/bird",1,1,1/2,1/2},		
+		{"imgs/bird",1/4,1,1/8,1/2},		
 	})
 
 

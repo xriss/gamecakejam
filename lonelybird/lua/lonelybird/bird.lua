@@ -60,6 +60,8 @@ bird.setup=function()
 
 	bird.diecount=0	
 	bird.status="fly"
+	
+	bird.anim=0
 
 
 --	beep.stream("bird")
@@ -86,12 +88,12 @@ bird.flap=function()
 
 end
 
-bird.die=function()
+bird.die=function(vx,vy)
 
 	bird.status="fall"
-	bird.vy=0
-	bird.vx=1
-	bird.sx=bird.sx*1.5
+	bird.vy=vx or 0
+	bird.vx=vy or 2
+	bird.sx=bird.sx*2
 	bird.sy=bird.sx
 
 end
@@ -99,6 +101,14 @@ end
 bird.update=function()
 
 	if bird.status=="fly" then
+
+		bird.anim=bird.anim+1
+		
+		if bird.anim > 16 then bird.anim=bird.anim-16 end
+		
+		bird.frame=math.floor(bird.anim/4)
+		if bird.frame<1 then bird.frame=2 end
+
 
 		bird.vy=bird.vy+bird.ay
 		
@@ -115,6 +125,8 @@ bird.update=function()
 		end
 
 	elseif bird.status=="fall" then
+	
+		bird.frame=4
 
 		bird.diecount=bird.diecount+1
 
@@ -140,7 +152,7 @@ end
 bird.draw=function()
 
 		gl.Color(bird.a,bird.a,bird.a,bird.a)
-		sheets.get("imgs/bird"):draw(1,bird.px,bird.py,bird.rz,64*bird.sx,64*bird.sy)		
+		sheets.get("imgs/bird"):draw(bird.frame,bird.px,bird.py,bird.rz,64*bird.sx,64*bird.sy)		
 		gl.Color(1,1,1,1)
 end
 

@@ -72,9 +72,9 @@ ground.draw=function()
 
 -- simple wrapping background
 
-	sheets.get("imgs/back"):draw(1,ground.px-1024-ground.bx,512/2,nil,1024,512)
-	sheets.get("imgs/back"):draw(1,ground.px     -ground.bx,512/2,nil,1024,512)
-	sheets.get("imgs/back"):draw(1,ground.px+1024-ground.bx,512/2,nil,1024,512)
+	sheets.get("imgs/ground"):draw(1,ground.px-1024-ground.bx,512/2,nil,1024,512)
+	sheets.get("imgs/ground"):draw(1,ground.px     -ground.bx,512/2,nil,1024,512)
+	sheets.get("imgs/ground"):draw(1,ground.px+1024-ground.bx,512/2,nil,1024,512)
 		
 end
 
