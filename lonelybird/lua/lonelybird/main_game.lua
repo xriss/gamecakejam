@@ -39,7 +39,6 @@ M.bake=function(oven,game)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local main=oven.rebake(oven.modgame..".main")
-	local layout=cake.layouts.create{}
 
 
 
@@ -93,8 +92,13 @@ game.draw=function()
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 		
 	ground.draw()
+
+	main.clip_on()
+
 	walls.draw()
 	bird.draw()
+
+	main.clip_off()
 
 	sscores.draw("arcade2")
 
