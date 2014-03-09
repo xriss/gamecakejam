@@ -122,11 +122,11 @@ end
 
 -- enable/disable screen clipping
 main.clip_on=function()
-	layout.apply( opts.width,opts.height,1/4,opts.height*4,"clip")
+--	layout.apply( opts.width,opts.height,1/4,opts.height*4,"clip")
 end
 
 main.clip_off=function()
-	layout.apply( opts.width,opts.height,1/4,opts.height*4)
+--	layout.apply( opts.width,opts.height,1/4,opts.height*4)
 end
 
 main.draw=function()
