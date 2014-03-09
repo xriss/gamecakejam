@@ -170,6 +170,12 @@ wall.draw=function(it)
 end
 
 
+local signs={
+"LS3","LS4","LS5","LS6","LS7","LS8","LS9","LS10",
+"LS11","LS12","LS13","LS14","LS16","LS18","LS19","LS20",
+"LS22","LS25","LS26","LS27","LS28","WF10"
+}
+
 walls.addlevel=function()
 
 	walls.its={}
@@ -178,17 +184,26 @@ walls.addlevel=function()
 
 	local l=levels.pick[r]
 	
+	local xx=512
+	
 
 	walls.px=l.max
 
 	walls.sign={}
-	walls.sign.px=64
-	walls.sign.py=64
+	walls.sign.px=xx+64
+	walls.sign.py=16
 	walls.sign.postcode=l.postcode
+	walls.sign.idx=nil
+	
+	for i,v in ipairs(signs) do
+		if v==l.postcode then walls.sign.idx=i end
+	end
+	
+	
 
 	
 	for i,v in ipairs(l.walls) do
-		wall.setup({px=v.x,py=v.y,gap=v.gap,csv=v.csv})
+		wall.setup({px=xx+v.x,py=v.y,gap=v.gap,csv=v.csv})
 	end
 --[[
 	local px=0
@@ -250,9 +265,10 @@ end
 
 walls.draw=function()
 
+	if walls.sign.idx then
+		sheets.get("imgs/postcode"):draw(walls.sign.idx,walls.sign.px,walls.sign.py,nil,2000/8,405/3)
+	end
 	
-	sheets.get("imgs/ls27"):draw(1,walls.sign.px,walls.sign.py,nil,1024,1024)
-
 	for i=#walls.its,1,-1 do local it=walls.its[i]
 		it:draw()
 	end
