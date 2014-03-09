@@ -38,6 +38,7 @@ main.loads=function()
 	oven.cake.fonts.loads({"awesome"})
 	
 	sheets.loads_and_chops({
+		{"imgs/ls27",1,1,0,0},		
 		{"imgs/back",1,1,1/2,1/2},		
 		{"imgs/day",1,1,1/2,1/2},		
 		{"imgs/ground",1,1,1/2,1/2},		
