@@ -67,8 +67,8 @@ end
 
 wall.draw=function(it)
 
-	sheets.get("imgs/gravedown"):draw(1,it.px,it.py-(it.gap/2),nil,64,512)
-	sheets.get("imgs/graveup"):draw(1,it.px,it.py+(it.gap/2),nil,64,512)
+	sheets.get("imgs/gravedown"):draw(1,it.px,it.py-(it.gap/2),nil,128,512)
+	sheets.get("imgs/graveup"):draw(1,it.px,it.py+(it.gap/2),nil,128,512)
 
 end
 
