@@ -44,6 +44,8 @@ wall.setup=function(args)
 	local it={}
 	args=args or {}
 	
+	it.score=1
+	
 	it.px=args.px or 1024
 	it.py=args.py or 512/2
 	it.gap=args.gap or 128
@@ -62,6 +64,23 @@ wall.update=function(it)
 
 
 	it.px=it.px+ground.vx
+	
+	local dx=it.px-bird.px
+	local dy=it.py-bird.py
+	local gap=(it.gap/2)-16
+	if dx>-64 and dx<(64-16) then
+		if dy<-gap or dy>gap then
+			bird.die()
+		end
+	end
+	
+	if dx<0 then
+		if it.score then
+			sscores.add(it.score)
+			it.score=nil
+		end
+	end
+	
 
 end
 

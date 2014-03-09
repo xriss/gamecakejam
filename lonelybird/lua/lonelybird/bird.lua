@@ -84,18 +84,19 @@ bird.flap=function()
 	if bird.status~="fly" then return end
 
 	bird.vy=bird.vy-24
-	ground.vx=ground.vx-2
+	ground.vx=ground.vx-4
 
 end
 
 bird.die=function(vx,vy)
 
-	bird.status="fall"
-	bird.vx=vx or 2
-	bird.vy=vy or 0
-	bird.sx=bird.sx*2
-	bird.sy=bird.sx
-
+	if bird.status=="fly" then
+		bird.status="fall"
+		bird.vx=vx or 2
+		bird.vy=vy or 0
+		bird.sx=bird.sx*2
+		bird.sy=bird.sx
+	end
 end
 
 bird.update=function()

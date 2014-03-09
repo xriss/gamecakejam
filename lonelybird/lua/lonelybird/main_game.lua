@@ -52,6 +52,8 @@ game.setup=function()
 
 	game.loads()
 
+	sscores.reset()
+
 	ground.setup()
 	walls.setup()
 	bird.setup()
@@ -61,6 +63,8 @@ game.setup=function()
 end
 
 game.clean=function()
+
+	sscores.final_score({})
 
 	ground.clean()
 	walls.clean()
