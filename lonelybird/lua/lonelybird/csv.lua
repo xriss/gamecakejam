@@ -109,6 +109,9 @@ M.bake=function(oven,csv)
 
 		for i=#lines,1,-1 do
 			if lines[i].year then
+				if lines[i].postcode=="N/A" then
+					table.remove(lines,i)
+				end
 			else
 				table.remove(lines,i)
 			end

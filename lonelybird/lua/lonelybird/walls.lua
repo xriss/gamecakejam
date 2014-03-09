@@ -43,15 +43,45 @@ local levels={}
 levels.data={}
 
 levels.data={}
+levels.pick={}
 
+levels.fill=function()
+	levels.pick={}
+	for n,v in pairs(levels.data) do
+		table.insert(levels.pick,v)
+	end
+end
 
 levels.setup=function()
 
-	for n,v in pairs(csv.postcodes)
+	for n,v in pairs(csv.postcodes) do -- pre create levels
 	
+		local it={}
 		
+		levels.data[n]=it
+		
+		it.csv=v
+		
+		it.postcode=n
+		it.walls={}
+		
+		local x=512
+		for i,v in ipairs(it.csv) do
+			local w={}
+			w.x=x
+			w.y=64+(v.month)*((512-128)/12)
+			w.gap=64+128*(((v.cost)/1000)-1)
+			
+			it.walls[#it.walls+1]=w
+			
+			x=x+256+((v.day)*16)
+		end
 	
 	end
+	
+--	print(wstr.dump(levels.data))
+	
+	levels.fill()
 	
 end
 
@@ -113,22 +143,32 @@ end
 
 walls.addlevel=function()
 
+	local l=levels.pick[1]
+	
+	for i,v in ipairs(l.walls) do
+		wall.setup({px=v.x,py=v.y,gap=v.gap})
+	end
+--[[
 	local px=0
 	for i=1,16 do
 		px=px+math.random(128,768)
 		wall.setup({px=px,py=math.random(128,512-128),gap=math.random(80,160)})
 	end
-	
+]]	
 end
 
 
 walls.loads=function()
 
+
 end
 		
 walls.setup=function()
 
+print("setting up levels")
 	walls.loads()
+	
+	levels.setup()
 	
 	walls.its={}
 	
