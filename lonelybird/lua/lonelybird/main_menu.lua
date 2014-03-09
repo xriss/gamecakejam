@@ -95,7 +95,7 @@ menu.draw=function()
 	else
 		sheets.get("imgs/day"):draw(1,512/2,512/2,nil,1024,512)
 		sheets.get("imgs/ground"):draw(1,512/2,512/2,nil,1024,512)
-		sheets.get("imgs/title"):draw(1,512/2,512/2,nil,1024,512)
+		sheets.get("imgs/title"):draw(1,512/2,512/2,nil,512,512)
 		
 		sscores.draw("arcade2")
 
