@@ -45,6 +45,11 @@ for _,dir in ipairs{"oggs"} do
 
 end
 
+local v="phfunerals.csv"
+wbake.create_dir_for_file("data/"..v)
+wbake.copyfile("art/"..v,"data/"..v)
+
+
 for i,v in ipairs{
 	"fonts/Vera.ttf",
 	"wskins/soapbar.png",

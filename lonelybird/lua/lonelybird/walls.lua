@@ -33,9 +33,28 @@ M.bake=function(oven,walls)
 	local ground=oven.rebake(oven.modgame..".ground")
 --	local walls=oven.rebake(oven.modgame..".walls")
 	local bird=oven.rebake(oven.modgame..".bird")
+	local csv=oven.rebake(oven.modgame..".csv")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+
+local levels={}
+
+levels.data={}
+
+levels.data={}
+
+
+levels.setup=function()
+
+	for n,v in pairs(csv.postcodes)
+	
+		
+	
+	end
+	
+end
+
 
 local wall={}
 walls.wall=wall

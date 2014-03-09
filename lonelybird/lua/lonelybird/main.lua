@@ -59,6 +59,9 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
+	local csv=oven.rebake(oven.modgame..".csv")
+	csv.setup()
+
 	main.next=oven.rebake(oven.modgame..".main_menu")
 	
 	main.change()
