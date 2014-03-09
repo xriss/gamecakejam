@@ -71,6 +71,8 @@ levels.setup=function()
 			w.x=x
 			w.y=128+(v.month)*((512-256)/12)
 			w.gap=64+128*(((v.cost)/1000)-1)
+
+			w.csv=v
 			
 			it.walls[#it.walls+1]=w
 			
@@ -98,6 +100,7 @@ wall.setup=function(args)
 	it.px=args.px or 1024
 	it.py=args.py or 512/2
 	it.gap=args.gap or 128
+	it.csv=args.csv -- copy in extra data
 	
 	setmetatable(it,{__index=wall})
 	
@@ -138,6 +141,27 @@ wall.draw=function(it)
 	sheets.get("imgs/gravedown"):draw(1,it.px,it.py-(it.gap/2),nil,128,512)
 	sheets.get("imgs/graveup"):draw(1,it.px,it.py+(it.gap/2),nil,128,512)
 
+
+	font.set(cake.fonts.get("awesome"))
+	font.set_size(32,0)
+
+	local s=it.csv.month.."/"..it.csv.day
+	local w=font.width(s)
+	local x=it.px-(w/2)
+	local y=it.py+(it.gap/2)+26
+	
+	font.set_xy(x,y)
+	font.draw(s)
+
+	local s=tostring(it.csv.year)
+	local w=font.width(s)
+	local x=it.px-(w/2)
+	local y=it.py-(it.gap/2)-26-56
+	
+	font.set_xy(x,y)
+	font.draw(s)
+
+
 end
 
 
@@ -146,7 +170,7 @@ walls.addlevel=function()
 	local l=levels.pick[1]
 	
 	for i,v in ipairs(l.walls) do
-		wall.setup({px=v.x,py=v.y,gap=v.gap})
+		wall.setup({px=v.x,py=v.y,gap=v.gap,csv=v.csv})
 	end
 --[[
 	local px=0

@@ -45,6 +45,18 @@ for _,dir in ipairs{"oggs"} do
 
 end
 
+for _,dir in ipairs{"fonts"} do
+
+	local files=wbake.findfiles{basedir="art",dir=dir,filter="."}.ret
+
+	for i,v in ipairs(files) do
+		wbake.create_dir_for_file("data/"..v)
+		wbake.copyfile("art/"..v,"data/"..v)
+		print(v)
+	end
+
+end
+
 local v="phfunerals.csv"
 wbake.create_dir_for_file("data/"..v)
 wbake.copyfile("art/"..v,"data/"..v)
