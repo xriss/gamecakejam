@@ -69,7 +69,7 @@ levels.setup=function()
 		for i,v in ipairs(it.csv) do
 			local w={}
 			w.x=x
-			w.y=64+(v.month)*((512-128)/12)
+			w.y=128+(v.month)*((512-256)/12)
 			w.gap=64+128*(((v.cost)/1000)-1)
 			
 			it.walls[#it.walls+1]=w
