@@ -167,7 +167,15 @@ end
 
 walls.addlevel=function()
 
-	local l=levels.pick[1]
+	local r=math.random(#levels.pick)
+
+	local l=levels.pick[r]
+	
+	walls.sign={}
+	walls.sign.px=64
+	walls.sign.py=64
+	walls.sign.postcode=l.postcode
+
 	
 	for i,v in ipairs(l.walls) do
 		wall.setup({px=v.x,py=v.y,gap=v.gap,csv=v.csv})
@@ -190,6 +198,7 @@ end
 walls.setup=function()
 
 print("setting up levels")
+
 	walls.loads()
 	
 	levels.setup()
@@ -215,6 +224,9 @@ end
 
 walls.update=function()
 
+	walls.sign.px=walls.sign.px+ground.vx
+
+
 	for i=#walls.its,1,-1 do local it=walls.its[i]
 		it:update()
 	end
@@ -222,6 +234,9 @@ walls.update=function()
 end
 
 walls.draw=function()
+
+	
+	sheets.get("imgs/ls27"):draw(1,walls.sign.px,walls.sign.py,nil,1024,1024)
 
 	for i=#walls.its,1,-1 do local it=walls.its[i]
 		it:draw()
