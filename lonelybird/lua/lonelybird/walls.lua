@@ -76,7 +76,10 @@ levels.setup=function()
 			
 			it.walls[#it.walls+1]=w
 			
+			it.max=x
+
 			x=x+256+((v.day)*16)
+			
 		end
 	
 	end
@@ -141,6 +144,7 @@ wall.draw=function(it)
 	sheets.get("imgs/gravedown"):draw(1,it.px,it.py-(it.gap/2),nil,128,512)
 	sheets.get("imgs/graveup"):draw(1,it.px,it.py+(it.gap/2),nil,128,512)
 
+	gl.Color(0,0,0,1)
 
 	font.set(cake.fonts.get("awesome"))
 	font.set_size(32,0)
@@ -156,21 +160,27 @@ wall.draw=function(it)
 	local s=tostring(it.csv.year)
 	local w=font.width(s)
 	local x=it.px-(w/2)
-	local y=it.py-(it.gap/2)-26-56
+	local y=it.py-(it.gap/2)-26-54
 	
 	font.set_xy(x,y)
 	font.draw(s)
 
+	gl.Color(1,1,1,1)
 
 end
 
 
 walls.addlevel=function()
 
+	walls.its={}
+
 	local r=math.random(#levels.pick)
 
 	local l=levels.pick[r]
 	
+
+	walls.px=l.max
+
 	walls.sign={}
 	walls.sign.px=64
 	walls.sign.py=64
@@ -225,10 +235,15 @@ end
 walls.update=function()
 
 	walls.sign.px=walls.sign.px+ground.vx
-
+	walls.px=walls.px+ground.vx
 
 	for i=#walls.its,1,-1 do local it=walls.its[i]
 		it:update()
+	end
+
+
+	if walls.px<-512 then
+		walls.addlevel()
 	end
 	
 end
