@@ -34,7 +34,6 @@ M.bake=function(oven,menu)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
-	local layout=cake.layouts.create{}
 
 
 
@@ -94,7 +93,9 @@ menu.draw=function()
 
 		sgui.draw()	
 	else
-		sheets.get("imgs/back"):draw(1,512/2,512/2,nil,1024,512)
+		sheets.get("imgs/back"):draw(1,512/2,512/2,nil,1024,1024)
+		sheets.get("imgs/day"):draw(1,512/2,512/2,nil,1024,512)
+		sheets.get("imgs/ground"):draw(1,512/2,512/2,nil,1024,512)
 		sheets.get("imgs/title"):draw(1,512/2,512/2,nil,1024,512)
 		
 		sscores.draw("arcade2")

@@ -37,10 +37,12 @@ main.loads=function()
 	
 	sheets.loads_and_chops({
 		{"imgs/back",1,1,1/2,1/2},		
+		{"imgs/day",1,1,1/2,1/2},		
+		{"imgs/ground",1,1,1/2,1/2},		
 		{"imgs/title",1,1,1/2,1/2},		
 		{"imgs/gravedown",1,1,1/2,1},		
 		{"imgs/graveup",1,1,1/2,0},		
-		{"imgs/bird",1,1,1/2,1/2},		
+		{"imgs/bird",1/4,1,1/8,1/2},		
 	})
 
 
@@ -118,9 +120,18 @@ main.update=function()
 
 end
 
+-- enable/disable screen clipping
+main.clip_on=function()
+	layout.apply( opts.width,opts.height,1/4,opts.height*4,"clip")
+end
+
+main.clip_off=function()
+	layout.apply( opts.width,opts.height,1/4,opts.height*4)
+end
+
 main.draw=function()
 	
-	layout.apply( opts.width,opts.height,1/4,opts.height*4 )
+	layout.apply( opts.width,opts.height,1/4,opts.height*4)
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
