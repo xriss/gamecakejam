@@ -123,7 +123,7 @@ wall.update=function(it)
 	
 	local dx=it.px-bird.px
 	local dy=it.py-bird.py
-	local gap=(it.gap/2)-16
+	local gap=(it.gap/2)-8
 	if dx>-64 and dx<(64-16) then
 		if dy<-gap or dy>gap then
 			bird.die()

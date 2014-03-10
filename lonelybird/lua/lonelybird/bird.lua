@@ -85,7 +85,7 @@ bird.flap=function()
 	if bird.status~="fly" then return end
 
 	bird.vy=bird.vy-24
-	ground.vx=ground.vx-4
+	ground.vx=ground.vx-6
 	
 	beep.play("flap")
 

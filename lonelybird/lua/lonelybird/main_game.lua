@@ -42,6 +42,8 @@ M.bake=function(oven,game)
 
 
 
+
+
 game.back="imgs/title"
 
 game.loads=function()
