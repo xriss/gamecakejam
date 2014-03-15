@@ -98,15 +98,11 @@ game.draw=function()
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 	
-	if main.day==1 then
-		sheets.get("imgs/day"):draw(1,512/2,512/2,nil,1024,512)
-	else
-		sheets.get("imgs/night"):draw(1,512/2,512/2,nil,1024,512)
-	end
+	ground.draw(1)
 
 	walls.draw()
 	bird.draw()
-	ground.draw()
+	ground.draw(2)
 
 	sheets.get("imgs/back"):draw(1,512/2,512/2,nil,1024,1024)
 

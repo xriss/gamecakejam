@@ -66,7 +66,7 @@ levels.setup=function()
 		it.postcode=n
 		it.walls={}
 		
-		local x=512
+		local x=512+256
 		for i,v in ipairs(it.csv) do
 			local w={}
 			w.x=x
@@ -114,6 +114,12 @@ wall.setup=function(args)
 end
 
 wall.clean=function(it)
+	for i=1,#walls.its do
+		if walls.its[i]==it then
+			table.remove(walls.its,i)
+			return
+		end
+	end
 end
 
 wall.update=function(it)
@@ -140,7 +146,9 @@ wall.update=function(it)
 		end
 	end
 	
-
+	if it.px < -512 then
+		return it:clean()
+	end
 end
 
 wall.draw=function(it)
@@ -182,13 +190,13 @@ local signs={
 
 walls.addlevel=function()
 
-	walls.its={}
+--	walls.its={}
 
 	local r=math.random(#levels.pick)
 
 	local l=levels.pick[r]
 	
-	local xx=512
+	local xx=512+256
 	
 
 	walls.px=l.max
