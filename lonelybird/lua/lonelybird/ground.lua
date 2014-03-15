@@ -65,7 +65,9 @@ ground.update=function()
 
 	ground.px=ground.px+ground.vx
 	ground.bx=(1024*math.floor(ground.px/1024))
-	ground.bx2=(1024*math.floor((ground.px/4)/1024))
+
+	ground.px2=ground.px/4
+	ground.bx2=(1024*math.floor((ground.px2)/1024))
 	
 end
 
@@ -75,14 +77,14 @@ ground.draw=function(step)
 
 		local s
 		if main.day==1 then
-			s=sheets.get("imgs/day"):draw(1,512/2,512/2,nil,1024,512)
+			s=sheets.get("imgs/day")
 		else
-			s=sheets.get("imgs/night"):draw(1,512/2,512/2,nil,1024,512)
+			s=sheets.get("imgs/night")
 		end
 
-		s:draw(1,ground.px-1024-ground.bx2,512/2,nil,1024,512)
-		s:draw(1,ground.px     -ground.bx2,512/2,nil,1024,512)
-		s:draw(1,ground.px+1024-ground.bx2,512/2,nil,1024,512)
+		s:draw(1,ground.px2-1024-ground.bx2,512/2,nil,1024,512)
+		s:draw(1,ground.px2     -ground.bx2,512/2,nil,1024,512)
+		s:draw(1,ground.px2+1024-ground.bx2,512/2,nil,1024,512)
 		
 	elseif step==2 then
 
