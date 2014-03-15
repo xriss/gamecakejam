@@ -54,7 +54,7 @@ bird.setup=function()
 	bird.rz=0
 
 	bird.px=64
-	bird.py=256
+	bird.py=128
 
 	bird.vy=0
 	bird.ay=8/8
