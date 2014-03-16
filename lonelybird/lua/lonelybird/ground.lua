@@ -67,7 +67,7 @@ ground.update=function()
 	ground.bx=(1024*math.floor(ground.px/1024))
 
 	ground.px2=ground.px/4
-	ground.bx2=(1024*math.floor((ground.px2)/1024))
+	ground.bx2=(1024*math.floor(ground.px2/1024))
 	
 end
 
