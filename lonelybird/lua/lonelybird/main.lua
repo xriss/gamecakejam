@@ -47,8 +47,6 @@ main.loads=function()
 		{"imgs/night",1,1,1/2,1/2},		
 		{"imgs/ground",1,1,1/2,1/2},		
 		{"imgs/title",1,1,1/2,1/2},		
---		{"imgs/gravedown",1,1,1/2,1},		
---		{"imgs/graveup",1,1,1/2,0},		
 		{"imgs/graves",1/12,1/2,1/24,1/4},		
 		{"imgs/bird",1/4,1,1/8,1/2},		
 	})

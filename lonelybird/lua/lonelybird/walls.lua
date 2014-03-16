@@ -165,7 +165,7 @@ wall.draw=function(it)
 	local s=it.csv.month.."/"..it.csv.day
 	local w=font.width(s)
 	local x=it.px-(w/2)
-	local y=it.py+(it.gap/2)+26
+	local y=it.py+(it.gap/2)+26+6
 	
 	font.set_xy(x,y)
 	font.draw(s)
@@ -173,7 +173,7 @@ wall.draw=function(it)
 	local s=tostring(it.csv.year)
 	local w=font.width(s)
 	local x=it.px-(w/2)
-	local y=it.py-(it.gap/2)-26-54
+	local y=it.py-(it.gap/2)-26-54-3
 	
 	font.set_xy(x,y)
 	font.draw(s)
