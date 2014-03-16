@@ -41,6 +41,9 @@ M.bake=function(oven,gui)
 	
 print(act,w.id)
 		
+		if act=="over" then sgui.anim.bounce(w,1/16) end
+
+
 		if act=="click" then
 			if w.id=="start" then
 				sscores.set(0)
@@ -87,6 +90,9 @@ print(act,w.id)
 		top:add({hx=(512-220)/2,hy=60})
 
 --		top:add({hx=512,hy=20})
+
+		master.go_back_id="start"
+		master.go_forward_id="start"
 		
 	end
 
@@ -105,6 +111,12 @@ print(act,w.id)
 
 		gui.master:layout()
 		
+		gui.master:call_descendents(function(w) if not w.hooks then return end sgui.anim.bounce(w,1) end)
+
+		if gui.master.go_forward_id then
+			gui.master.activate_by_id(gui.master.go_forward_id)
+		end
+
 		return ret
 	end
 
