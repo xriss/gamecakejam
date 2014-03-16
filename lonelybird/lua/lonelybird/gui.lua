@@ -61,17 +61,17 @@ print(act,w.id)
 	
 	function gui.pages.menu(master)
 
-		local top=master:add({hx=512,hy=512,class="fill",font="Vera",text_size=24})
+		local top=master:add({hx=512,hy=512,class="fill",font="awesome",text_size=30})
 
 
-		top:add({hx=512,hy=512-180})
+		top:add({hx=512,hy=512-160})
 
 
 		top:add({hx=(512-220)/2,hy=60})
-		top:add({hx=220,hy=60,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({hx=220,hy=60,color=0xff1E90FF,text="Menu",text_color=0xffffffff,color_over=0xff6BB6FF,id="menu",hooks=gui.hooks})
 		top:add({hx=(512-220)/2,hy=60})
 
-		top:add({hx=512,hy=20})
+		top:add({hx=512,hy=10})
 		
 --[[
 		top:add({hx=40,hy=40})
@@ -83,7 +83,7 @@ print(act,w.id)
 ]]
 
 		top:add({hx=(512-220)/2,hy=60})
-		top:add({hx=220,hy=60,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=220,hy=60,color=0xffff0000,text="Start",text_color=0xffffffff,color_over=0xffFF009D,id="start",hooks=gui.hooks})
 		top:add({hx=(512-220)/2,hy=60})
 
 --		top:add({hx=512,hy=20})
