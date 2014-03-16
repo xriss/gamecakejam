@@ -157,7 +157,7 @@ bird.update=function()
 		bird.py=bird.py+bird.vy
 		
 		if bird.diecount > 60 then
-			main.next=oven.rebake(oven.modgame..".main_menu")
+			main.next=oven.rebake(oven.modgame..".main_over")
 		end
 
 	end

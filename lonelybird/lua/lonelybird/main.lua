@@ -44,7 +44,13 @@ main.loads=function()
 		{"imgs/postcode",1/8,1/3,0,0},		
 		{"imgs/back",1,1,1/2,1/2},		
 		{"imgs/day",1,1,1/2,1/2},		
-		{"imgs/night",1,1,1/2,1/2},		
+		{"imgs/txt1",1,1,1/2,1/2},
+		{"imgs/txt2",1,1,1/2,1/2},
+		{"imgs/txt3",1,1,1/2,1/2},
+		{"imgs/txt4",1,1,1/2,1/2},
+		{"imgs/tap",1,1,1/2,1/2},
+		{"imgs/gameover",1,1,1/2,1/2},
+		{"imgs/night",1,1,1/2,1/2},
 		{"imgs/ground",1,1,1/2,1/2},		
 		{"imgs/title",1,1,1/2,1/2},		
 		{"imgs/graves",1/12,1/2,1/24,1/4},		
@@ -71,9 +77,12 @@ main.setup=function()
 	local csv=oven.rebake(oven.modgame..".csv")
 	csv.setup()
 
-	main.next=oven.rebake(oven.modgame..".main_menu")
+--	main.next=oven.rebake(oven.modgame..".main_menu")
+	main.next=oven.rebake(oven.modgame..".main_intro")
 	
 	main.change()
+	
+	main.frame=0
 end
 
 function main.change()
@@ -123,6 +132,8 @@ main.msg=function(m)
 end
 
 main.update=function()
+
+	main.frame=(main.frame+1)%60
 
 	main.change()
 

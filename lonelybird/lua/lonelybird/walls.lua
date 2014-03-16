@@ -111,6 +111,10 @@ wall.setup=function(args)
 	
 	table.insert(walls.its,it)
 	
+	if not main.last_wall_csv then
+		main.last_wall_csv=it.csv
+	end
+	
 	return it
 end
 
@@ -134,6 +138,7 @@ wall.update=function(it)
 	if dx>-64 and dx<(64-16) then
 		if dy<-gap or dy>gap then
 			bird.die()
+			main.last_wall_csv=it.csv
 		end
 	end
 	
@@ -144,6 +149,7 @@ wall.update=function(it)
 			
 			beep.play("score")
 
+			main.last_wall_csv=it.csv
 		end
 	end
 	
