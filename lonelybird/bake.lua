@@ -4,8 +4,8 @@ require("apps").default_paths() -- default search paths so things can easily be 
 
 -- handle bake args (smell and bumps etc)
 local wbake=require("wetgenes.bake")
-local args=wbake.args{...}
-wbake.update_lson("lua/init_bake.lua",args)
+--local args=wbake.args{...}
+--wbake.update_lson("lua/init_bake.lua",args)
 
 
 local wstr=require("wetgenes.string")
