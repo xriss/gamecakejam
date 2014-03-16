@@ -99,6 +99,7 @@ wall.setup=function(args)
 	local it={}
 	args=args or {}
 	
+	it.sheet=((args.sheet or 0)*2)
 	it.score=1
 	
 	it.px=args.px or 1024
@@ -129,7 +130,7 @@ wall.update=function(it)
 	
 	local dx=it.px-bird.px
 	local dy=it.py-bird.py
-	local gap=(it.gap/2)-8
+	local gap=(it.gap/2)
 	if dx>-64 and dx<(64-16) then
 		if dy<-gap or dy>gap then
 			bird.die()
@@ -153,8 +154,8 @@ end
 
 wall.draw=function(it)
 
-	sheets.get("imgs/gravedown"):draw(1,it.px,it.py-(it.gap/2),nil,128,512)
-	sheets.get("imgs/graveup"):draw(1,it.px,it.py+(it.gap/2),nil,128,512)
+	sheets.get("imgs/graves"):draw(it.sheet+1,it.px,it.py-(it.gap/2)-256,nil,128,512)
+	sheets.get("imgs/graves"):draw(it.sheet+2,it.px,it.py+(it.gap/2)+256,nil,128,512)
 
 	gl.Color(0,0,0,1)
 
@@ -215,7 +216,7 @@ walls.addlevel=function()
 
 	
 	for i,v in ipairs(l.walls) do
-		wall.setup({px=xx+v.x,py=v.y,gap=v.gap,csv=v.csv})
+		wall.setup({px=xx+v.x,py=v.y,gap=v.gap,csv=v.csv,sheet=(walls.sign.idx-1)%12})
 	end
 --[[
 	local px=0
