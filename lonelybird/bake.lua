@@ -1,5 +1,7 @@
 #!/usr/local/bin/gamecake
 
+require("apps").default_paths() -- default search paths so things can easily be found
+
 -- handle bake args (smell and bumps etc)
 local wbake=require("wetgenes.bake")
 local args=wbake.args{...}
