@@ -1,12 +1,19 @@
 #!/usr/local/bin/gamecake
 
+-- handle bake args (smell and bumps etc)
 local wbake=require("wetgenes.bake")
+local args=wbake.args{...}
+wbake.update_lson("lua/init_bake.lua",args)
+
+
 local wstr=require("wetgenes.string")
 local wgrd=require("wetgenes.grd")
 local wgrdmap=require("wetgenes.grdmap")
 
 local lfs=require("lfs")
 local zip=require("zip")
+
+
 
 
 for _,dir in ipairs{"imgs"} do
