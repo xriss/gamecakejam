@@ -61,7 +61,7 @@ print(act,w.id)
 	
 	function gui.pages.menu(master)
 
-		local top=master:add({hx=512,hy=512,class="fill",font="awesome",text_size=30})
+		local top=master:add({hx=512,hy=512,class="fill",font="awesome",text_size=36})
 
 
 		top:add({hx=512,hy=512-160})
