@@ -64,12 +64,16 @@ The data used comes from @LeedsDataMill and represents funerals paid for by Leed
 ]],
 [[
 
-Each grave is grouped by postcode and sorted by date. The position of the gap represents January at the top to December at the bottom.
+Each grave is grouped by postcode and sorted by date.
+
+The position of the gap represents January at the top to December at the bottom (if you're flying through a gap lower on the screen, the death occurred in December).
 
 ]],
 [[
 
-The gap size is the cost of the funeral and the distance between each gravestone is the day of the month. The only random value is the order of postcode sections.
+The gap size is the cost of the funeral (larger means more expensive) and the distance between each gravestone is the day of the month.
+
+The only random value is the order of postcode sections.
 
 ]],
 [[
@@ -135,16 +139,16 @@ if intro.text then
 	gl.Color(1,1,1,1)
 
 	font.set(cake.fonts.get("Vera"))
-	font.set_size(20,0)
+	font.set_size(22,0)
 
-	local y=220
+	local y=120
 	if type(intro.text)=="string" then
 		intro.text=font.wrap(wstr.trim(intro.text),{w=512-128})
 	end
 	for i,s in ipairs(intro.text) do
 		font.set_xy(256-(font.width(s)/2),y)
 		font.draw(s)
-		y=y+24
+		y=y+26
 	end
 
 	gl.Color(1,1,1,1)
