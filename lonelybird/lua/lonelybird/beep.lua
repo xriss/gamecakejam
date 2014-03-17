@@ -89,6 +89,19 @@ print("Missing sound FX for "..id)
 
 	function beep.stream(id,idx)
 	
+		local qq=cake.sounds.queues[1]
+		qq.BufferData=nil
+		if not qq.oggs then
+			qq.ogg_loop=true
+			qq.state="play_queue"
+			qq.oggs={}
+			qq.gain=1
+			qq.pitch=1
+		end
+		qq.oggs={"oggs/lonelytheme"}
+--		qq.og=nil -- force old ogg to stop
+--		if al then al.SourceStop(sounds.strs[1].source) end
+		
 	end
 	
 	
