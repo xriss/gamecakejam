@@ -144,7 +144,7 @@ if intro.text then
 	for i,s in ipairs(intro.text) do
 		font.set_xy(256-(font.width(s)/2),y)
 		font.draw(s)
-		y=y+20
+		y=y+24
 	end
 
 	gl.Color(1,1,1,1)

@@ -139,7 +139,7 @@ over.draw=function()
 	gl.Color(0,0,0,1)
 
 	font.set(cake.fonts.get("Vera"))
-	font.set_size(24,0)
+	font.set_size(20,0)
 
 	local y=200
 	if type(over.texts)=="string" then
