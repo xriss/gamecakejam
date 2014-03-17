@@ -52,30 +52,12 @@ intro.setup=function()
 	intro.texts={
 [[
 
-Loneliness is a real issue.
 
-Every gravestone you pass is a real person who died alone...
-
-]],
-[[
-
-These gravestoes represent people who have been forgotten.
-
-People like you and me.
+Every gravestone you pass remembers a real person who died alone, on their own, uncared for, unmissed and forgotten.
 
 ]],
 [[
 
-Their funerals have been paid for by the council.
-
-just peole between Jan 2012 - Feb 2014
-
-]],
-[[
-
-What about other places and other years?
-
-What about tomorrow?
 
 ]],
 	}

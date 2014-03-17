@@ -71,14 +71,19 @@ over.setup=function()
 	if #v.day==1 then v.day0="0"..v.day end
 
 	local words={
-		"On {year}-{month0}-{day0} in the {postcode} area of Leeds, someone died alone. The council had to arrange the funeral since no one else wanted to.",
-		"Somewhere in {postcode} of Leeds, someone died today. Noone claimed them or missed them so the council had to arrange the funeral.",
-		"Do you live in Leeds {postcode}? There was a death there on {day}-{month}-{year}. The council had to arrange the funeral since no one else wanted to.",
+		"On {year}-{month0}-{day0} in the {postcode} area of Leeds, someone died alone. \n \n The council had to arrange the funeral since no one else wanted to.",
+		"Somewhere in {postcode} of Leeds, someone died today. \n \n No one claimed them or missed them so the council had to arrange the funeral.",
+		"Do you live in Leeds {postcode}? \n \n There was a death there on {day}-{month}-{year}. The council had to arrange the funeral since no one else wanted to.",
 		"Leeds {postcode}, the person who died here on {day}-{month}-{year} couldn't afford their own funeral so the council had to arrange it.",
 		"Shockingly, half of all older people consider the television their main form of company.",
-		"Can you imagine anything worse than outliving all your friends and family? Everyone you know?",
-		"Just another death for the council to take care of. Who were they? Why didn't anybody miss them?",
-		
+		"Can you imagine anything worse than outliving all your friends and family? \n \n Everyone you know?",
+		"Just another death for the council to take care of. \n \n Who were they? Why didn't anybody miss them?",
+		"The person who died here on {day}-{month}-{year} had family that won't provide for their funeral costs.",
+		"When you die, will your family know about it? \n \n This person didn't so the council had to arrange the funeral.",
+		"What happens when everyone you know has left you behind?",
+		"Someone in Leeds {postcode} died here on {day}-{month}-{year}. No one knows their story or who they used to be.",
+		"When you die, what will be your legacy? \n \n A funeral arranged by the council?",
+		"Everyone has an answer to what they want to be when they grow up but what do you want to be when you grow old?",
 	}
 	local s=words[math.random(#words)]
 
