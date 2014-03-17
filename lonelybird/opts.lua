@@ -1,6 +1,6 @@
 
 -- the displayed name
-title="Lonely Bird..."
+title="Lonely Bird"
 
 
 -- the internal name, used for the base game module
