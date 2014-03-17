@@ -29,7 +29,7 @@ M.bake=function(oven,over)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -84,6 +84,7 @@ over.setup=function()
 
 	over.texts=wstr.replace(s,v)
 	
+	beep.stream("over")
 	
 end
 
@@ -103,6 +104,8 @@ over.click=function()
 
 	over.state=over.state+1
 	
+	beep.play("click")
+
 end
 
 over.update=function()
