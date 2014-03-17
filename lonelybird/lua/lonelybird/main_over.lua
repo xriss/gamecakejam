@@ -71,7 +71,14 @@ over.setup=function()
 	if #v.day==1 then v.day0="0"..v.day end
 
 	local words={
-		"On {year}-{month0}-{day0} in the {postcode} area of Leeds. Someone died alone, the council had to arrange the funeral since no one else wanted to.",
+		"On {year}-{month0}-{day0} in the {postcode} area of Leeds, someone died alone. The council had to arrange the funeral since no one else wanted to.",
+		"Somewhere in {postcode} of Leeds, someone died today. Noone claimed them or missed them so the council had to arrange the funeral.",
+		"Do you live in Leeds {postcode}? There was a death there on {day}-{month}-{year}. The council had to arrange the funeral since no one else wanted to.",
+		"Leeds {postcode}, the person who died here on {day}-{month}-{year} couldn't afford their own funeral so the council had to arrange it.",
+		"Shockingly, half of all older people consider the television their main form of company.",
+		"Can you imagine anything worse than outliving all your friends and family? Everyone you know?",
+		"Just another death for the council to take care of. Who were they? Why didn't anybody miss them?",
+		
 	}
 	local s=words[math.random(#words)]
 
