@@ -69,14 +69,14 @@ Each grave is grouped by postcode and sorted by date. The position of the gap re
 ]],
 [[
 
-The gap size is the cost of the funeral and the distance between each is the day of the month. The only random value is the order of postcode sections.
+The gap size is the cost of the funeral and the distance between each gravestone is the day of the month. The only random value is the order of postcode sections.
 
 ]],
 [[
 
-We hope that by playing this game you get a real feel for the data and what it represents.
+We hope that by playing this game, you get a real feel for the data and what it represents.
 
-Sincerly, the folks at wetgenes.com
+Sincerely, the folks at wetgenes.com
 
 ]],
 	}
