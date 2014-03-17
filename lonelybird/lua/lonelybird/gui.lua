@@ -14,10 +14,10 @@ local brag="I just scored over {score} points in #lonelybird #PLAY #THE #GAME! h
 
 	local about=oven.rebake("wetgenes.gamecake.spew.about.sinescroll")
 
-	about.title="Gthang : Ain't nothin' but a"
+	about.title="Lonely Bird"
 	about.text=[[
 
-This game was made in one weekend for the National Hack The Government 2014 challenge in leeds. Full source can be found on our bitbucket just search for gamecakejam or lonelybird.
+This game was made in one weekend for the Leeds Data Mill , National Hack The Government 2014 challenge in leeds. Full source can be found on our bitbucket just search for gamecakejam or lonelybird.
 
 ]]
 
