@@ -35,6 +35,12 @@ M.bake=function(state,beep)
 		["score"]={
 			name="oggs/score",
 		},
+		["start"]={
+			name="oggs/getready",
+		},
+		["click"]={
+			name="oggs/tap",
+		},
 
 	}
 
@@ -98,9 +104,16 @@ print("Missing sound FX for "..id)
 			qq.gain=1
 			qq.pitch=1
 		end
-		qq.oggs={"oggs/lonelytheme"}
---		qq.og=nil -- force old ogg to stop
---		if al then al.SourceStop(sounds.strs[1].source) end
+
+
+		if id=="over" then
+				qq.oggs={"oggs/lonelyover"}
+		else
+				qq.oggs={"oggs/lonelytheme"}
+		end
+
+		qq.og=nil -- force old ogg to stop
+		if al then al.SourceStop(sounds.strs[1].source) end
 		
 	end
 	

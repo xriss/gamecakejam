@@ -29,7 +29,7 @@ M.bake=function(oven,game)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local ground=oven.rebake(oven.modgame..".ground")
 	local walls=oven.rebake(oven.modgame..".walls")
@@ -62,6 +62,8 @@ game.setup=function()
 	bird.setup()
 
 --	beep.stream("game")
+
+	beep.play("start")
 
 end
 

@@ -29,7 +29,7 @@ M.bake=function(oven,intro)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -49,6 +49,39 @@ intro.setup=function()
 
 	intro.state=1
 	
+	intro.texts={
+[[
+
+Loneliness is a real issue.
+
+Every gravestone you pass is a real person who died alone...
+
+]],
+[[
+
+These gravestoes represent people who have been forgotten.
+
+People like you and me.
+
+]],
+[[
+
+Their funerals have been paid for by the council.
+
+just peole between Jan 2012 - Feb 2014
+
+]],
+[[
+
+What about other places and other years?
+
+What about tomorrow?
+
+]],
+	}
+
+	intro.text=intro.texts[1]
+
 end
 
 intro.clean=function()
@@ -66,12 +99,15 @@ end
 intro.click=function()
 
 	intro.state=intro.state+1
+	intro.text=intro.texts[intro.state]
+
+	beep.play("click")
 	
 end
 
 intro.update=function()
 
-	if intro.state>=5 or not intro.firsttime then
+	if intro.state>#intro.texts or not intro.firsttime then
 		intro.firsttime=false
 		main.next=oven.rebake(oven.modgame..".main_menu")
 	end
@@ -91,15 +127,28 @@ intro.draw=function()
 --	sheets.get("imgs/title"):draw(1,512/2,512/2,nil,512,512)
 --	sscores.draw("arcade2")
 
-	if     intro.state==1 then
-		sheets.get("imgs/txt1"):draw(1,512/2,512/2,nil,512,512)
-	elseif intro.state==2 then
-		sheets.get("imgs/txt2"):draw(1,512/2,512/2,nil,512,512)
-	elseif intro.state==3 then
-		sheets.get("imgs/txt3"):draw(1,512/2,512/2,nil,512,512)
-	elseif intro.state==4 then
-		sheets.get("imgs/txt4"):draw(1,512/2,512/2,nil,512,512)
+	sheets.get("imgs/txt"):draw(1,512/2,512/2,nil,512,512)
+
+if intro.text then	
+
+	gl.Color(1,1,1,1)
+
+	font.set(cake.fonts.get("Vera"))
+	font.set_size(24,0)
+
+	local y=220
+	if type(intro.text)=="string" then
+		intro.text=font.wrap(wstr.trim(intro.text),{w=512-128})
 	end
+	for i,s in ipairs(intro.text) do
+		font.set_xy(256-(font.width(s)/2),y)
+		font.draw(s)
+		y=y+24
+	end
+
+	gl.Color(1,1,1,1)
+end
+	
 	
 	if main.frame<30 then
 		sheets.get("imgs/tap"):draw(1,512/2,512/2,nil,512,512)

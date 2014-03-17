@@ -26,7 +26,7 @@ M.bake=function(oven,gui)
 	local ssettings=oven.rebake("wetgenes.gamecake.spew.settings")
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 	local main=oven.rebake(oven.modgame..".main")
 
 
@@ -48,10 +48,13 @@ print(act,w.id)
 			if w.id=="start" then
 				sscores.set(0)
 				main.next=oven.rebake(oven.modgame..".main_game")
+				beep.play("click")
 			elseif w.id=="menu" then
 				gui.spage("settings")
+				beep.play("click")
 			elseif w.id=="profiles" then
 				gui.spage("profiles")
+				beep.play("click")
 			end
 		end
 		
