@@ -135,7 +135,7 @@ if intro.text then
 	gl.Color(1,1,1,1)
 
 	font.set(cake.fonts.get("Vera"))
-	font.set_size(24,0)
+	font.set_size(20,0)
 
 	local y=220
 	if type(intro.text)=="string" then
@@ -144,7 +144,7 @@ if intro.text then
 	for i,s in ipairs(intro.text) do
 		font.set_xy(256-(font.width(s)/2),y)
 		font.draw(s)
-		y=y+24
+		y=y+20
 	end
 
 	gl.Color(1,1,1,1)
