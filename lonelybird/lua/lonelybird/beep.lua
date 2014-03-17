@@ -35,6 +35,9 @@ M.bake=function(state,beep)
 		["score"]={
 			name="oggs/score",
 		},
+		["start"]={
+			name="oggs/getready",
+		},
 
 	}
 
