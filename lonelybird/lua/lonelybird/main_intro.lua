@@ -60,6 +60,7 @@ Every gravestone you pass remembers a real person who died alone, on their own, 
 
 The data used comes from @LeedsDataMill and represents funerals paid for by Leeds City council.
 
+Lonely Bird was conceived during the National Hack the Government 2014 event by Rewired State.
 
 ]],
 [[
