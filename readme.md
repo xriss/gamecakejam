@@ -13,29 +13,29 @@ The code lives in the lua directory of each game, change it and run it.
 The gamecake engine allows these games to work on:
 
 LINUX
-
+-----
 My main build is tested on ubuntu (technically xubuntu).
 
 WINDOWS
-
+-------
 Wine and XP compatible with the focus on wine.
 
 RASPBERRY PI
-
+------------
 With or without X11, this is a native raspbian build and can be run 
 from the commandline.
 The RASPI is also "minimum required specs" if your machine is not as 
 powerful as one of these then don't expect everything to work.
 
 ANDROID
-
+-------
 You have a keyboard/gamepad right? Its a bit more complicated to get 
 things building into an APK file but its not impossible the my lua 
 repository contains the android build and scripts to make this 
 happen, you will also need the my sdk repo for all the android tools.
 
 NACL
-
+----
 The web solution, currently chrome only.
 Play online at http://play.4lfa.com/gamecake
 
