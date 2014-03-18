@@ -1,7 +1,7 @@
-Some quick and dirty gamecake games, built quickly as test packages. 
-You could try and play them or you could take them and use them as a 
-base for your own creations. Play with them, change the grafix, have 
-fun, release them, that's why they exist.
+Some quick and dirty (:QAD:) gamecake games, built quickly as test 
+packages. You could try and play them or you could take them and use 
+them as a base for your own creations. Play with them, change the 
+grafix, have fun, release them, that's why they exist.
 
 This is my attempt to recreate the experience of typing in games from 
 magazines in the 80s. It was much more fun to fiddle with the code than 
@@ -48,9 +48,9 @@ require different versions of the gamecake engine.
 
 Via PPA for Ubuntu.
 
-sudo add-apt-repository ppa:user/ppa-name
-sudo apt-get update
-sudo apt-get install gamecake
+	sudo add-apt-repository ppa:kriss-o/gamecake
+	sudo apt-get update
+	sudo apt-get install gamecake
 
 then you may CD into a any game directory and start the just by 
 running "gamecake", you must be in the right directory for gamecake to 
@@ -60,9 +60,9 @@ know which game you want to run
 
 Via mercurial for windows/ubuntu/debian/raspberrypi
 
-hg clone https://bitbucket.org/xixs/gamecakejam
-hg clone https://bitbucket.org/xixs/bin
-hg clone https://bitbucket.org/xixs/mods
+	hg clone https://bitbucket.org/xixs/gamecakejam
+	hg clone https://bitbucket.org/xixs/bin
+	hg clone https://bitbucket.org/xixs/mods
 
 This creates copys of repositories side-by-side so they may access 
 files stored in each other. Then after that you can use CD to any 
