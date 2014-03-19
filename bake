@@ -1,5 +1,5 @@
 BASEDIR=$( cd "$( dirname "$0" )" && pwd )
-cd ./$1
+#cd ./$1
 GAMEDIR=$PWD
 
-$BASEDIR/../bin/exe/gamecake $GAMEDIR/bake.lua
+$BASEDIR/../bin/exe/gamecake $GAMEDIR/bake.lua $*
