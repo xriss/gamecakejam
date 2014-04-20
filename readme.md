@@ -14,21 +14,34 @@ The gamecake engine allows these games to work on:
 
 LINUX
 -----
+
 My main build is tested on ubuntu (technically xubuntu).
+
+
+BUT SERIOUSLY JUST RUN THE WINDOWS BUILD UNDER WINE
+---------------------------------------------------
+
+It works 100% all of the time without any DLL hell problems or having 
+to build any code from source. 
+
 
 WINDOWS
 -------
+
 Wine and XP compatible with the focus on wine.
+
 
 RASPBERRY PI
 ------------
+
 With or without X11, this is a native raspbian build and can be run 
-from the commandline.
-The RASPI is also "minimum required specs" if your machine is not as 
-powerful as one of these then don't expect everything to work.
+from the command line. The RASPI is also "minimum required specs" if 
+your machine is not as powerful as one of these then don't expect 
+everything to work.
 
 ANDROID
 -------
+
 You have a keyboard/gamepad right? Its a bit more complicated to get 
 things building into an APK file but its not impossible the my lua 
 repository contains the android build and scripts to make this 
@@ -36,6 +49,7 @@ happen, you will also need the my sdk repo for all the android tools.
 
 NACL
 ----
+
 The web solution, currently chrome only.
 Play online at http://play.4lfa.com/gamecake
 
@@ -44,7 +58,8 @@ The exact state of these platforms is currently in a state of flux due
 to on going development.
 
 The windows build should always work under wine so it is perversely the 
-most compatible cross platform build. 
+most compatible cross platform build.
+
 
 Finally this is just the source code, if you want to run any of the 
 games then you will need the engine as well. There are a number of 
@@ -70,7 +85,7 @@ Via mercurial for windows/ubuntu/debian/raspberrypi
 	hg clone https://bitbucket.org/xixs/bin
 	hg clone https://bitbucket.org/xixs/mods
 
-This creates copys of repositories side-by-side so they may access 
+This creates copies of repositories side-by-side so they may access 
 files stored in each other. Then after that you can use CD to any 
 game dir and use ../start or ../start.x64 or ../start.pi or 
 ../start.bat depending on what operating system you are on.
@@ -79,7 +94,7 @@ Also, since you now have a full checkout you may adjust the files
 in the art directory and run ../bake to update the games data files. 
 (only works well in linux)
 
-The bake.lua in each project is a lua script that perfroms simple 
-processing of images/sounds and other game assests before copying 
+The bake.lua in each project is a lua script that performs simple 
+processing of images/sounds and other game assets before copying 
 them into the data directory for the game to use.
 
