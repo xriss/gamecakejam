@@ -69,8 +69,10 @@ main.setup=function()
 	main.next=oven.rebake(oven.modgame..".main_menu")
 
 	for i,v in ipairs(opts) do
-		if v=="game" then
-			main.next=oven.rebake(oven.modgame..".main_game")
+		if type(v)=="string" then
+			if v=="game" then
+				main.next=oven.rebake(oven.modgame..".main_game")
+			end
 		end
 	end
 	
