@@ -6,11 +6,11 @@ cd `dirname $0`
 rm -rf gateau
 mkdir gateau
 
-ids=( gthang )
+ids=( gthang dmazed )
 
 for id in "${ids[@]}" ; do
 
-ln -s ../../../$id/art/gateau gateau/$id
+ln -s ../../../$id/art/icons/gateau gateau/$id
 
 done
 
