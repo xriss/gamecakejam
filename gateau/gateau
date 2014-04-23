@@ -14,7 +14,7 @@ else
 	exit
 fi
 
-exit
+#exit
 
 done
 
