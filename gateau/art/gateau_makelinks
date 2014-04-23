@@ -14,3 +14,12 @@ ln -s ../../../$id/art/icons/gateau gateau/$id
 
 done
 
+ids=( bulb )
+
+for id in "${ids[@]}" ; do
+
+ln -s ../../../../apps/$id/art/icons/gateau gateau/$id
+
+done
+
+./gateau_update
