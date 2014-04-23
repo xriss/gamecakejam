@@ -4,6 +4,9 @@ local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,get
 local pack=require("wetgenes.pack")
 local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
+local wsbox=require("wetgenes.sandbox")
+local wzips=require("wetgenes.zips")
+
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
 
 
@@ -26,6 +29,8 @@ M.bake=function(oven,main)
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
 
+	local launch=oven.rebake("gateau.launch")
+
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
 --	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
 --	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
@@ -34,8 +39,21 @@ main.loads=function()
 
 	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
-	oven.cake.images.loads({
-	})
+	local t=wzips.readfile("data/gateau/all.lua")
+--print(t)
+	main.dats=wsbox.lson(t)
+	main.list={} for n,v in pairs(main.dats) do table.insert(main.list,v) end
+	table.sort(main.list,function(a,b) return a.id < b.id end)
+	
+--print(wstr.dump(main.list))
+
+
+	for i,v in ipairs(main.list) do
+		oven.cake.sheets.loads_and_chops({
+			{"gateau/"..v.id.."/icon",1,1,0.5,0.5},
+			{"gateau/"..v.id.."/screen",1,1,0.5,0.5},
+		})
+	end
 	
 end
 		

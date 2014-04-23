@@ -4,7 +4,7 @@ local global=require("global") -- prevent accidental global use
 
 local opts={
 	times=true, -- request simple time keeping samples
-	
+	name="gateau",
 	width=640,	-- display basics
 	height=480,
 --	show="full",

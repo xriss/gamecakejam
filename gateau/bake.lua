@@ -5,8 +5,12 @@ local wstr=require("wetgenes.string")
 local wgrd=require("wetgenes.grd")
 local wgrdmap=require("wetgenes.grdmap")
 
+local wbgrd=require("wetgenes.bake.grd")
+local copyfile=wbgrd.auto_copyfile
+local copysave=wbgrd.auto_copysave
+
+
 local lfs=require("lfs")
-local zip=require("zip")
 
 
 for _,dir in ipairs{"gateau"} do
@@ -15,7 +19,7 @@ for _,dir in ipairs{"gateau"} do
 
 	for i,v in ipairs(files) do
 		wbake.create_dir_for_file("data/"..v)
-		wbake.copyfile("art/"..v,"data/"..v)
+		copyfile("art/"..v,"data/"..v)
 		print(v)
 	end
 
@@ -27,7 +31,7 @@ for _,dir in ipairs{"imgs"} do
 
 	for i,v in ipairs(files) do
 		wbake.create_dir_for_file("data/"..v)
-		wbake.copyfile("art/"..v,"data/"..v)
+		copyfile("art/"..v,"data/"..v)
 		print(v)
 	end
 
@@ -39,7 +43,7 @@ for _,dir in ipairs{"sfx"} do
 
 	for i,v in ipairs(files) do
 		wbake.create_dir_for_file("data/"..v)
-		wbake.copyfile("art/"..v,"data/"..v)
+		copyfile("art/"..v,"data/"..v)
 		print(v)
 	end
 
@@ -51,7 +55,7 @@ for _,dir in ipairs{"oggs"} do
 
 	for i,v in ipairs(files) do
 		wbake.create_dir_for_file("data/"..v)
-		wbake.copyfile("art/"..v,"data/"..v)
+		copyfile("art/"..v,"data/"..v)
 		print(v)
 	end
 
@@ -62,7 +66,7 @@ for i,v in ipairs{
 	"wskins/soapbar.png",
 } do
 	wbake.create_dir_for_file("data/"..v)
-	wbake.copyfile("../../mods/data/"..v,"data/"..v)
+	copyfile("../../mods/data/"..v,"data/"..v)
 end
 
 

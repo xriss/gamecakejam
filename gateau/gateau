@@ -1,0 +1,20 @@
+cd `dirname $0`
+
+while :
+do
+
+./gamecake gateau.zip fullscreen
+
+launch=$HOME/.config/gateau/files/launch
+if [ -e "$launch" ] ; then
+	chmod +x $launch
+	$launch
+	rm $launch
+else
+	exit
+fi
+
+exit
+
+done
+

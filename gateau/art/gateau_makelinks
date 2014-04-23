@@ -6,11 +6,13 @@ cd `dirname $0`
 rm -rf gateau
 mkdir gateau
 
-ids=( gthang dmazed )
+ids=( gthang dmazed batwsbat lonelybird hunted )
 
 for id in "${ids[@]}" ; do
 
 ln -s ../../../$id/art/icons/gateau gateau/$id
+
+cp ../../$id/out/$id.zip ../test
 
 done
 
@@ -19,6 +21,8 @@ ids=( bulb )
 for id in "${ids[@]}" ; do
 
 ln -s ../../../../apps/$id/art/icons/gateau gateau/$id
+
+cp ../../../apps/$id/out/$id.zip ../test
 
 done
 
