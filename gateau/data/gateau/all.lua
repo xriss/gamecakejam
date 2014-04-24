@@ -17,24 +17,6 @@ Lead on bold adventurer, the choice is yours.\
   ["id"]="bulb",
  }
 ,
- ["batwsbat"]=
- {
-  ["description"]="\
-The Ping of Pong.\
-\
-The Bonce of Bounce.\
-\
-Gentle taps recommended for great success!\
-\
-2 Player combat only, first to get 2 points ahead wins.\
-\
-\
-",
-  ["version"]=0,
-  ["title"]="Bat Ws Bat",
-  ["id"]="batwsbat",
- }
-,
  ["lonelybird"]=
  {
   ["description"]="\

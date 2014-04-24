@@ -38,6 +38,9 @@ M.bake=function(oven,gui)
 --		print(act,w.id)
 		
 		if act=="click" then
+			if w.id=="exit" then
+				oven.next=true
+			end
 			if w.id=="start" then
 
 				wscores.set(0)
@@ -53,11 +56,14 @@ M.bake=function(oven,gui)
 
 		local top=master:add({hx=480,hy=480,class="fill",ax=0,ay=0,font="Vera",text_size=24})
 
-		top:add({hx=480,hy=400})
+
+		top:add({hx=480,hy=400-40})
 		
 		top:add({hx=480,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
 		
 		top:add({hx=480,hy=40})
+		top:add({hx=100,hy=40,color=0xffffcccc,text="Exit",id="exit",hooks=gui.hooks})
+		top:add({hx=380,hy=40})
 		
 	end
 

@@ -6,7 +6,7 @@ cd `dirname $0`
 rm -rf gateau
 mkdir gateau
 
-ids=( gthang dmazed batwsbat lonelybird hunted )
+ids=( gthang dmazed lonelybird hunted )
 
 for id in "${ids[@]}" ; do
 

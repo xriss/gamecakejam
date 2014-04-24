@@ -77,11 +77,11 @@ menu.update=function()
 
 	gui.update()
 
-	if recaps.get("fire_set") then -- start on spacebar
+--	if recaps.get("fire_set") then -- start on spacebar
 
-		gui.hooks("click",{id="start"})
+--		gui.hooks("click",{id="start"})
 
-	end
+--	end
 	
 end
 
