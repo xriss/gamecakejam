@@ -112,7 +112,8 @@ main.msg=function(m)
 		m.x=m.x+(opts.width/2)
 		m.y=m.y+(opts.height/2)
 	end
-
+	
+	skeys.msg(m)
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -123,6 +124,8 @@ end
 main.update=function()
 
 	main.change()
+	
+	srecaps.step()
 
 	if main.now and main.now.update then
 		main.now.update()

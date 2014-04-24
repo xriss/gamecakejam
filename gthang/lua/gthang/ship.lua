@@ -155,12 +155,12 @@ ship.update=function()
 		end
 	end
 ]]
-	if ship.left then
+	if ship.left or srecaps.get("left") then
 	
 		if ship.vx>0 then ship.vx=0 end
 		
 		ship.vx = ship.vx-ship.speed
-	elseif ship.right then
+	elseif ship.right or srecaps.get("right") then
 	
 		if ship.vx<0 then ship.vx=0 end
 		
@@ -186,7 +186,7 @@ ship.update=function()
 	
 	ship.cool=ship.cool-1
 	
-	if ship.fire then
+	if ship.fire or srecaps.get("fire") then
 		if ship.cool<=0 then
 			ship.cool=32
 			
