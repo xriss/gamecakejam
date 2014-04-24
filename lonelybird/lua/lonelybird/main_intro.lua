@@ -113,6 +113,8 @@ end
 
 intro.update=function()
 
+	if srecaps.get("fire_clr") then intro.click() end
+
 	if intro.state>#intro.texts or not intro.firsttime then
 		intro.firsttime=false
 		main.next=oven.rebake(oven.modgame..".main_menu")

@@ -122,6 +122,8 @@ end
 
 over.update=function()
 
+	if srecaps.get("fire_clr") then over.click() end
+
 	if over.state>=2 then
 		main.next=oven.rebake(oven.modgame..".main_menu")
 	end

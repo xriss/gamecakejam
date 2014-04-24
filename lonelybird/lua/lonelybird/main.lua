@@ -121,6 +121,7 @@ main.msg=function(m)
 		m.y=m.y+(opts.height/2)
 	end
 
+	skeys.msg(m)
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -133,6 +134,8 @@ main.update=function()
 	main.frame=(main.frame+1)%60
 
 	main.change()
+
+	srecaps.step()
 
 	if main.now and main.now.update then
 		main.now.update()

@@ -88,6 +88,8 @@ end
 
 game.update=function()
 
+	if srecaps.get("fire_set") then bird.flap() end
+
 	ground.update()
 	walls.update()
 	bird.update()
