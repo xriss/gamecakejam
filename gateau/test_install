@@ -1,4 +1,4 @@
-
+mkdir test
 cp gateau test
 cp out/gateau.zip test/
 cp ../../bin/exe/gamecake test
