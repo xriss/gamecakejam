@@ -25,10 +25,11 @@ M.bake=function(oven,main)
 	local layout=cake.layouts.create{}
 
 	main.modname=M.modname
-		
 	
-	local keys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
-	local recaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	skeys.setup({max_up=1,swipe=true}) -- also calls srecaps.setup
+
 	local scores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
@@ -114,7 +115,7 @@ main.msg=function(m)
 		m.y=m.y+(opts.height/2)
 	end
 	
-	keys.msg(m) -- translate into controls
+	skeys.msg(m) -- translate into controls
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -126,7 +127,7 @@ main.update=function()
 
 	main.change()
 	
-	recaps.step()
+	srecaps.step()
 	
 --	if recaps.get("fire_set") then print("fire") end
 

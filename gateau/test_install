@@ -1,3 +1,5 @@
+../bake smell pimoroni
+
 mkdir test
 cp gateau test
 cp out/gateau.zip test/

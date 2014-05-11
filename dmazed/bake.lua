@@ -1,6 +1,13 @@
 #!../../bin/exe/lua
 
+require("apps").default_paths() -- default search paths so things can easily be found
+
+-- handle bake args (smell and bumps etc)
 local wbake=require("wetgenes.bake")
+local args=wbake.args{...}
+wbake.update_lson("lua/init_bake.lua",args)
+
+
 local wstr=require("wetgenes.string")
 local wgrd=require("wetgenes.grd")
 local wgrdmap=require("wetgenes.grdmap")
@@ -46,7 +53,6 @@ for _,dir in ipairs{"oggs"} do
 end
 
 for i,v in ipairs{
-	"imgs/preloader/kittychair.jpg",
 	"fonts/Vera.ttf",
 	"wskins/soapbar.png",
 } do
@@ -54,14 +60,13 @@ for i,v in ipairs{
 	wbake.copyfile("../../mods/data/"..v,"data/"..v)
 end
 
+wbake.create_dir_for_file("data/imgs/preloader/.png")
 
--- write data bake log
-do local fn="lua/init_bake.lua" wbake.create_dir_for_file(fn) local fp=io.open(fn,"w") fp:write(wstr.serialize(
-{
-	version=tonumber(wbake.version_from_time()),
-	stamp=os.time(),
-}
-)) fp:close() end
+if args.smell=="pimoroni" then
+	wbake.copyfile( "../../mods/data/imgs/preloader/pimoroni.png","data/imgs/preloader/pimoroni.png")
+else
+	wbake.copyfile( "../../mods/data/imgs/preloader/kittychair.jpg","data/imgs/preloader/kittychair.jpg")
+end
 
 
 os.execute("rm -rf out")

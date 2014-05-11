@@ -28,8 +28,10 @@ M.bake=function(oven,main)
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
 
-	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	skeys.setup({max_up=1}) -- also calls srecaps.setup
+
 	local hud=oven.rebake(oven.modgame..".hud")
 	
 	local beep=oven.rebake(oven.modgame..".beep")
@@ -61,10 +63,6 @@ main.loads=function()
 end
 		
 main.setup=function()
-
-	if oven.opts.smell=="pimoroni" then
-		oven.rebake("wetgenes.gamecake.spew.preloader").config_as("pimoroni")
-	end
 
 	main.loads()
 	

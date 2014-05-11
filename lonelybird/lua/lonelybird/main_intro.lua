@@ -98,10 +98,12 @@ intro.msg=function(m)
 
 --	print(wstr.dump(m))
 
+--[[
 	if m.skeys then -- handled by skey
 	else
 		if m.action==-1 then intro.click() end
 	end
+]]
 	
 end
 
@@ -116,7 +118,7 @@ end
 
 intro.update=function()
 
-	if srecaps.get("fire_clr") then intro.click() end
+	if srecaps.ups().button("fire_set") then intro.click() end
 
 	if intro.state>#intro.texts or not intro.firsttime then
 		intro.firsttime=false

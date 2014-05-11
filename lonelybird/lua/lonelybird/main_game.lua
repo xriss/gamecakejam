@@ -80,17 +80,18 @@ end
 game.msg=function(m)
 
 --	print(wstr.dump(m))
-	
+--[[	
 	if m.skeys then -- handled by skey
 	else
 		if m.action==1 then bird.flap() end
 	end
+]]
 	
 end
 
 game.update=function()
 
-	if srecaps.get("fire_set") then bird.flap() end
+	if srecaps.ups().button("fire_set") then bird.flap() end
 
 	ground.update()
 	walls.update()

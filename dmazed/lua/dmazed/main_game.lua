@@ -37,7 +37,7 @@ M.bake=function(oven,game)
 
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
-	local recaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 
 game.loads=function()
@@ -119,7 +119,7 @@ end
 game.msg=function(m)
 
 --	print(wstr.dump(m))
-	
+--[[	
 	if m.class=="mouse" then
 		if m.action==1 then -- click
 			game.swipe={m.x,m.y,m.x,m.y}
@@ -132,7 +132,7 @@ game.msg=function(m)
 			end
 		end
 	end
-
+]]
 	if gui.msg(m) then return end -- gui can eat msgs
 	
 end
@@ -141,50 +141,15 @@ game.update=function()
 
 	game.time=game.time+1
 
-
-	if recaps.get("up") then
+	local ups=srecaps.ups()	
+	if ups.button("up_set") then
 		hero.move="up"
-		hero.lastswipe=nil
-	elseif recaps.get("down") then
+	elseif ups.button("down_set") then
 		hero.move="down"
-		hero.lastswipe=nil
-	elseif recaps.get("left") then
+	elseif ups.button("left_set") then
 		hero.move="left"
-		hero.lastswipe=nil
-	elseif recaps.get("right") then
+	elseif ups.button("right_set") then
 		hero.move="right"
-		hero.lastswipe=nil
-	elseif game.swipe then
-		local function acc() game.swipe[1]=game.swipe[3]  game.swipe[2]=game.swipe[4] end
-		local x=game.swipe[3]-game.swipe[1]
-		local y=game.swipe[4]-game.swipe[2]
-		local xx=x*x
-		local yy=y*y
-		if xx+yy > 8*8 then
-			if xx > yy then
-				if x>=0 then
-					hero.move="right"
-					hero.lastswipe=hero.move
-					acc()		
-				else
-					hero.move="left"
-					hero.lastswipe=hero.move
-					acc()
-				end
-			else
-				if y>=0 then
-					hero.move="down"
-					hero.lastswipe=hero.move
-					acc()
-				else
-					hero.move="up"
-					hero.lastswipe=hero.move
-					acc()
-				end
-			end
-		end
-	else
-		hero.move=hero.lastswipe
 	end
 	
 	

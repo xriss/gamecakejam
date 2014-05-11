@@ -8,7 +8,6 @@ local args=wbake.args{...}
 wbake.update_lson("lua/init_bake.lua",args)
 
 
-local wbake=require("wetgenes.bake")
 local wstr=require("wetgenes.string")
 local wgrd=require("wetgenes.grd")
 local wgrdmap=require("wetgenes.grdmap")
@@ -73,10 +72,12 @@ for i,v in ipairs{
 	wbake.copyfile("../../mods/data/"..v,"data/"..v)
 end
 
+wbake.create_dir_for_file("data/imgs/preloader/.png")
+
 if args.smell=="pimoroni" then
 	wbake.copyfile( "../../mods/data/imgs/preloader/pimoroni.png","data/imgs/preloader/pimoroni.png")
 else
-	wbake.auto_copyfile( "../../mods/data/imgs/preloader/kittyscreen.jpg","data/imgs/preloader/kittyscreen.jpg")
+	wbake.copyfile( "../../mods/data/imgs/preloader/kittychair.jpg","data/imgs/preloader/kittychair.jpg")
 end
 
 

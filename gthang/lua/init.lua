@@ -22,8 +22,5 @@ math.randomseed( os.time() ) -- try and randomise a little bit better
 -- setup oven with vanilla cake setup and save as a global value
 global.oven=require("wetgenes.gamecake.oven").bake(opts).preheat()
 
--- describe custom loading screen
-oven.rebake("wetgenes.gamecake.spew.preloader").config_as("kittychair")
-
 -- this will busy loop or hand back control depending on the system we are running on, eitherway opts.start will run next 
 return oven:serv()

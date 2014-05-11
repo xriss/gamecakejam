@@ -69,18 +69,6 @@ game.msg=function(m)
 
 --	print(wstr.dump(m))
 	
-	if m.class=="mouse" then
-		if m.action==1 then -- click
-			game.swipe={m.x,m.y,m.x,m.y}
-		elseif m.action==-1 then -- release
-			game.swipe=nil
-		elseif m.action==0 then --move
-			if game.swipe then
-				game.swipe[3]=m.x
-				game.swipe[4]=m.y
-			end
-		end
-	end
 
 	if gui.msg(m) then return end -- gui can eat msgs
 	
@@ -88,45 +76,20 @@ end
 
 game.update=function()
 
-
-	if recaps.get("up") then
+	local ups=recaps.ups()
+	
+	if ups.button("up") then
 		cells.move="up"
-	elseif recaps.get("down") then
+	elseif ups.button("down") then
 		cells.move="down"
-	elseif recaps.get("left") then
+	elseif ups.button("left") then
 		cells.move="left"
-	elseif recaps.get("right") then
+	elseif ups.button("right") then
 		cells.move="right"
-	elseif game.swipe then
-		local function acc() game.swipe[1]=game.swipe[3]  game.swipe[2]=game.swipe[4] end
-		local x=game.swipe[3]-game.swipe[1]
-		local y=game.swipe[4]-game.swipe[2]
-		local xx=x*x
-		local yy=y*y
-		if xx+yy > 8*8 then
-			if xx > yy then
-				if x>=0 then
-					cells.move="right"
-					acc()
-				else
-					cells.move="left"
-					acc()
-				end
-			else
-				if y>=0 then
-					cells.move="down"
-					acc()
-				else
-					cells.move="up"
-					acc()
-				end
-			end
-		end
 	else
 		cells.move=nil
 	end
-	
-	
+		
 	cells.update()
 
 	wscores.update()
