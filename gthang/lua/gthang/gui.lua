@@ -46,6 +46,8 @@ there's also complex interaction but very simple controls. hopefully, you can fi
 *SKIP*
 oh yea, why is it called gthang? well, because of galaga, galaxian and gaplus of course. also, galactic dancing.
 *SKIP*
+Original Theme music brought to you by the ever lovely and super talented, Joshua Layton
+*SKIP*
 ]]
 
 
