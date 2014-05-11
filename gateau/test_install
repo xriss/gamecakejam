@@ -4,3 +4,19 @@ cp out/gateau.zip test/
 cp ../../bin/exe/gamecake test
 cp ../../bin/exe/gamecake.* test
 
+cd ../../apps/bulb
+../bake smell pimoroni
+
+cd ../../gamecakejam/dmazed
+../bake smell pimoroni
+
+cd ../../gamecakejam/gthang
+../bake smell pimoroni
+
+cd ../../gamecakejam/hunted
+../bake smell pimoroni
+
+cd ../../gamecakejam/lonelybird
+../bake smell pimoroni
+
+cd ../../gamecakejam/gateau

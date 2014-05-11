@@ -108,8 +108,11 @@ over.msg=function(m)
 
 --	print(wstr.dump(m))
 
-	if m.action==-1 then over.click() end
-
+	if m.skeys then -- handled by skey
+	else
+		if m.action==-1 then over.click() end
+	end
+	
 end
 
 over.click=function()

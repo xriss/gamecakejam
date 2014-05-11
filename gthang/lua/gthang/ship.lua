@@ -77,7 +77,7 @@ end
 ship.msg=function(m)
 
 --	print (wstr.dump(m))
-	
+--[[	
 	if m.class == "mouse" then
 		ship.mouse 	= true
 		ship.px     = m.x
@@ -128,10 +128,49 @@ ship.msg=function(m)
 		end
 		
 	end
+]]
 
 end
 
 ship.update=function()
+
+
+	local ups=srecaps.ups()
+	local axis=ups.axis()
+	
+	if ups.button("mouse_left_set") then
+		ship.mouse 	= true
+	end
+
+	if ship.mouse then
+		ship.px     = axis.mx
+		ship.mouse_y= axis.my
+	end
+
+	if ups.button("left_set") then
+		ship.mouse = false
+		ship.left = true
+	end
+	if ups.button("left_clr") then
+		ship.left = false
+	end
+
+	if ups.button("right_set") then
+		ship.mouse = false
+		ship.right = true
+	end
+	if ups.button("right_clr") then
+		ship.right = false
+	end
+
+	if ups.button("fire_set") then -- mouse buttons also set fire key
+		ship.fire = true
+	end
+	if ups.button("fire_clr") then
+		ship.fire = false
+	end
+
+
 
 	if ship.state=="dead" then
 		ship.dead=ship.dead+1
@@ -155,12 +194,13 @@ ship.update=function()
 		end
 	end
 ]]
-	if ship.left or srecaps.get("left") then
+	if ship.left then
 	
 		if ship.vx>0 then ship.vx=0 end
 		
 		ship.vx = ship.vx-ship.speed
-	elseif ship.right or srecaps.get("right") then
+		
+	elseif ship.right then
 	
 		if ship.vx<0 then ship.vx=0 end
 		
@@ -186,7 +226,7 @@ ship.update=function()
 	
 	ship.cool=ship.cool-1
 	
-	if ship.fire or srecaps.get("fire") then
+	if ship.fire then
 		if ship.cool<=0 then
 			ship.cool=32
 			
