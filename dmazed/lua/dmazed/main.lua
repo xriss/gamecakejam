@@ -145,6 +145,8 @@ main.update=function()
 	
 	srecaps.step()
 	
+	if oven.mods["wetgenes.gamecake.mods.escmenu"].show then return end -- pause
+
 --	if recaps.get("fire_set") then print("fire") end
 
 	if main.now and main.now.update then

@@ -129,6 +129,8 @@ main.update=function()
 	
 	srecaps.step()
 
+	if oven.mods["wetgenes.gamecake.mods.escmenu"].show then return end -- pause
+
 	if main.now and main.now.update then
 		main.now.update()
 	end

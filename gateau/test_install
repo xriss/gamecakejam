@@ -22,3 +22,9 @@ cd ../../gamecakejam/lonelybird
 ../bake smell pimoroni
 
 cd ../../gamecakejam/gateau
+
+cp ../../apps/bulb/out/bulb.zip test
+cp ../../gamecakejam/dmazed/out/dmazed.zip test
+cp ../../gamecakejam/gthang/out/gthang.zip test
+cp ../../gamecakejam/hunted/out/hunted.zip test
+cp ../../gamecakejam/lonelybird/out/lonelybird.zip test
