@@ -145,7 +145,7 @@ for i,v in ipairs(main.list) do
 end
 
 	line:add({hx=10,hy=200})
-	local w=line:add({hx=200,hy=200,color=0xffcccccc,sheet="imgs/pimoroni_icon",sheet_px=100,sheet_py=100,id="pimoroni",hooks=gui.hooks,user=v})
+	local w=line:add({hx=200,hy=200,color=0xffcccccc,sheet="imgs/pimoroni_icon",sheet_px=100,sheet_py=100,id="pimoroni"})
 
 
 --[[
