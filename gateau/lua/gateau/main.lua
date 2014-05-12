@@ -48,6 +48,10 @@ main.loads=function()
 --print(wstr.dump(main.list))
 
 
+	oven.cake.sheets.loads_and_chops({
+		{"imgs/pimoroni_icon",1,1,0.5,0.5},
+	})
+	
 	for i,v in ipairs(main.list) do
 		oven.cake.sheets.loads_and_chops({
 			{"gateau/"..v.id.."/icon",1,1,0.5,0.5},

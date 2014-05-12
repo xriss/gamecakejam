@@ -211,12 +211,6 @@ end
 
 intermission.update=function()
 
-	if recaps.get("fire_set") then -- start on spacebar
-
-		gui.hooks("click",{id="start"})
-
-	end
-
 	local m=display_get("main")
 	if m then
 		if m.update then m.update(m) end

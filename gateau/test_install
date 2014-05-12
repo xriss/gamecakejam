@@ -1,8 +1,12 @@
+cd `dirname $0`
+
+rm -rf test
+
 ../bake smell pimoroni
 
 mkdir test
 cp gateau test
-cp out/gateau.zip test/
+cp out/gateau.zip test/gateau.cake
 cp ../../bin/exe/gamecake test
 cp ../../bin/exe/gamecake.* test
 
@@ -23,8 +27,14 @@ cd ../../gamecakejam/lonelybird
 
 cd ../../gamecakejam/gateau
 
-cp ../../apps/bulb/out/bulb.zip test
-cp ../../gamecakejam/dmazed/out/dmazed.zip test
-cp ../../gamecakejam/gthang/out/gthang.zip test
-cp ../../gamecakejam/hunted/out/hunted.zip test
-cp ../../gamecakejam/lonelybird/out/lonelybird.zip test
+cp ../../apps/bulb/out/bulb.zip test/bulb.cake
+cp ../../gamecakejam/dmazed/out/dmazed.zip test/dmazed.cake
+cp ../../gamecakejam/gthang/out/gthang.zip test/gthang.cake
+cp ../../gamecakejam/hunted/out/hunted.zip test/hunted.cake
+cp ../../gamecakejam/lonelybird/out/lonelybird.zip test/lonelybird.cake
+
+cd ../../bin
+rm gamecake.zip
+zip -r gamecake.zip lua
+cd ../gamecakejam/gateau
+cp ../../bin/gamecake.zip test/gamecake.cake

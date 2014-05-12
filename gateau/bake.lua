@@ -1,6 +1,12 @@
 #!/usr/local/bin/gamecake
 
+require("apps").default_paths() -- default search paths so things can easily be found
+
+-- handle bake args (smell and bumps etc)
 local wbake=require("wetgenes.bake")
+local args=wbake.args{...}
+wbake.update_lson("lua/init_bake.lua",args)
+
 local wstr=require("wetgenes.string")
 local wgrd=require("wetgenes.grd")
 local wgrdmap=require("wetgenes.grdmap")
@@ -69,6 +75,13 @@ for i,v in ipairs{
 	copyfile("../../mods/data/"..v,"data/"..v)
 end
 
+wbake.create_dir_for_file("data/imgs/preloader/.png")
+
+if args.smell=="pimoroni" then
+	wbake.copyfile( "../../mods/data/imgs/preloader/pimoroni.jpg","data/imgs/preloader/pimoroni.jpg")
+else
+	wbake.copyfile( "../../mods/data/imgs/preloader/kittychair.jpg","data/imgs/preloader/kittychair.jpg")
+end
 
 os.execute("rm -rf out")
 wbake.create_dir_for_file("out/lua/wetgenes/t.zip")

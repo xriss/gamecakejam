@@ -42,8 +42,10 @@ M.bake=function(oven,gui)
 	
 	function gui.hooks(act,w)
 	
-print(act,w.id)
+--print(act,w.id)
 		
+		if act=="over" then sgui.anim.bounce(w,1/16) end
+
 		if act=="click" then
 			if w.id=="start" then
 
@@ -104,6 +106,8 @@ print(act,w.id)
 		end
 
 		gui.master:layout()
+
+		gui.master:call_descendents(function(w) if w.hooks then return end sgui.anim.bounce(w,1) end)
 
 		if gui.master.go_forward_id then
 			gui.master.activate_by_id(gui.master.go_forward_id)

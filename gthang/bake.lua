@@ -75,7 +75,7 @@ end
 wbake.create_dir_for_file("data/imgs/preloader/.png")
 
 if args.smell=="pimoroni" then
-	wbake.copyfile( "../../mods/data/imgs/preloader/pimoroni.png","data/imgs/preloader/pimoroni.png")
+	wbake.copyfile( "../../mods/data/imgs/preloader/pimoroni.jpg","data/imgs/preloader/pimoroni.jpg")
 else
 	wbake.copyfile( "../../mods/data/imgs/preloader/kittychair.jpg","data/imgs/preloader/kittychair.jpg")
 end

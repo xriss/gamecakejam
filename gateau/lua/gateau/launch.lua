@@ -21,7 +21,7 @@ M.bake=function(oven,launch)
 
 	launch.run=function(id)
 		bake.writefile(wwin.files_prefix.."launch",[[
-./gamecake ]]..id..[[.zip fullscreen
+./gamecake gamecake.cake ]]..id..[[.cake fullscreen
 		]])
 	end
 	

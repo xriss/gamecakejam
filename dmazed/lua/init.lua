@@ -9,6 +9,7 @@ local opts={
 	height=480,
 --	overscale=0.5,
 	show="full",
+	name="dmazed",
 	title="D maze D",
 	start="dmazed.main", -- rebake this mod
 	fps=60,

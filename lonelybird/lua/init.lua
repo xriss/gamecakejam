@@ -8,7 +8,8 @@ local opts={
 	width=512,	-- display basics
 	height=512,
 --	show="full",
-	title="lonelybird",
+	name="lonelybird",
+	title="Lonely Bird",
 	start="lonelybird.main", -- rebake this mod
 	fps=60,
 	... -- include commandline opts
