@@ -94,7 +94,7 @@ menu.draw=function()
 
 		sgui.draw()	
 	else
---		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
+		sheets.get("imgs/title"):draw(1,512,256,nil,1024,512)
 		
 		sscores.draw("arcade2")
 
