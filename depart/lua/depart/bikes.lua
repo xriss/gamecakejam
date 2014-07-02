@@ -104,14 +104,14 @@ bikes.create=function(bike,opts)
 				py=-24,
 				rz=0,
 				draw_size=32,
-				draw_index=1,
+				draw_index=opts.wheel or 2,
 			},
 			{
 				px= 18,
 				py=-26,
 				rz=0,
 				draw_size=32,
-				draw_index=1,
+				draw_index=opts.wheel or 2,
 			},
 		}
 		bike.avatar={

@@ -56,7 +56,7 @@ game.setup=function()
 	for i=1,10 do
 		local px=((math.random(512)/256)-1)*128
 		local py=((math.random(512)/256)-1)*128
-		bikes.insert(nil,{px=px,py=py,avatar=(i%3)+2})
+		bikes.insert(nil,{px=px,py=py,avatar=(i%3)+5,wheel=(i%4)+1})
 	end
 
 --	beep.stream("game")
