@@ -31,6 +31,8 @@ M.bake=function(oven,game)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
+	local bikes=oven.rebake(oven.modgame..".bikes")
+
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
@@ -46,13 +48,21 @@ game.setup=function()
 	game.loads()
 
 
+	bikes.setup()
+	
+	for i=1,10 do
+		local px=((math.random(512)/256)-1)*128*3
+		local py=((math.random(512)/256)-1)*128
+		bikes.insert(nil,{px=px,py=py})
+	end
+
 --	beep.stream("game")
 
 end
 
 game.clean=function()
 
-	gui.clean()
+--	bikes.clean()
 
 end
 
@@ -64,14 +74,16 @@ end
 
 game.update=function()
 
+	bikes.update()
 
 end
 
 game.draw=function()
 	
 
-	sheets.get("imgs/title"):draw(1,512,256,nil,1024,512)
+	sheets.get("imgs/day"):draw(1,512,256,nil,1024,512)
 
+	bikes.draw()
 	
 end
 
