@@ -30,6 +30,8 @@ M.bake=function(oven,main)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	
+	local serv=oven.rebake(oven.modgame..".serv")
+	
 	skeys.setup(1)
 	srecaps.setup(1)
 	sscores.setup(1)
@@ -60,6 +62,8 @@ main.setup=function()
 	main.next=oven.rebake(oven.modgame..".main_menu")
 	
 	main.change()
+	
+	serv.setup() -- start a web server on another thread...
 end
 
 function main.change()

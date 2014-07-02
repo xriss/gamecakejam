@@ -35,8 +35,8 @@ bikes.setup=function()
 	
 	bikes.list={}
 	
-	bikes.px=512-128
-	bikes.py=128*3
+	bikes.px=512   - 128
+	bikes.py=128*3 -  32
 	
 end
 
@@ -194,10 +194,11 @@ end
 		
 		local lx=512-32
 		local ly=192-32
-		if bike.px<-lx then bike.vx= math.abs(bike.vx) end
-		if bike.px> lx then bike.vx=-math.abs(bike.vx) end
-		if bike.py<-ly then bike.vy= math.abs(bike.vy) end
-		if bike.py> ly then bike.vy=-math.abs(bike.vy) end
+		local function b() bike.set_bounce(math.random(4),math.random(4),math.random(4)) end
+		if bike.px<-lx then bike.vx= math.abs(bike.vx) b() end
+		if bike.px> lx then bike.vx=-math.abs(bike.vx) b() end
+		if bike.py<-ly then bike.vy= math.abs(bike.vy) b() end
+		if bike.py> ly then bike.vy=-math.abs(bike.vy) b() end
 		
 		for i,wheel in ipairs(bike.wheels) do
 			wheel.rz=(wheel.rz+8)%360
