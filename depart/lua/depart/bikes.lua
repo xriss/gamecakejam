@@ -137,6 +137,25 @@ bikes.create=function(bike,opts)
 		
 		local ax=(-bike.px)/512
 		local ay=(-bike.py)/512
+		local dd=ax*ax + ay*ay
+		ax=ax*dd*4
+		ay=ay*dd*4
+		
+		for i,v in ipairs(bikes.list) do -- push away from all close bikes
+			if v~=bike then -- skip self
+				local dx=v.px-bike.px
+				local dy=v.py-bike.py
+				local dd=dx*dx+dy*dy
+				if dd<64*64 then -- push away when close
+					local d=math.sqrt(dd)
+					dx=dx/d
+					dy=dy/d
+					local p=(64-d)/128
+					ax=ax-dx*p
+					ay=ay-dy*p
+				end
+			end
+		end
 		
 		bike.vx=bike.vx+ax
 		bike.vy=bike.vy+ay
@@ -146,6 +165,13 @@ bikes.create=function(bike,opts)
 
 		bike.px=bike.px+bike.vx
 		bike.py=bike.py+bike.vy
+		
+		local lx=512-32
+		local ly=192-32
+		if bike.px<-lx then bike.vx= math.abs(bike.vx) end
+		if bike.px> lx then bike.vx=-math.abs(bike.vx) end
+		if bike.py<-ly then bike.vy= math.abs(bike.vy) end
+		if bike.py> ly then bike.vy=-math.abs(bike.vy) end
 		
 		for i,wheel in ipairs(bike.wheels) do
 			wheel.rz=(wheel.rz+8)%360
