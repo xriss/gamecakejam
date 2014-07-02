@@ -40,7 +40,8 @@ main.loads=function()
 	
 	cake.sheets.loads_and_chops{
 		{"imgs/title",1,1,0.5,0.5},
-		{"imgs/day",1,1,0.5,0.5},
+		{"imgs/sky",1,1,0.5,0.5},
+		{"imgs/ground",1,1,0.5,0.5},
 		{"imgs/bikes",1/4,1/4,1/8,1/8},
 	}
 	
