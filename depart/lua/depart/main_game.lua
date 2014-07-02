@@ -57,7 +57,7 @@ game.setup=function()
 	for i=1,10 do
 		local px=((math.random(512)/256)-1)*128
 		local py=((math.random(512)/256)-1)*128
-		local bike=bikes.insert(nil,{px=px,py=py,avatar=(i%9)+5,wheel=(i%4)+1})
+		local bike=bikes.insert(nil,{px=px,py=py,avatar=(i%10)+5,wheel=(i%4)+1})
 		bike.set_bounce(math.random(4),math.random(4),math.random(4))
 		game.testbike=game.testbike or bike
 	end
