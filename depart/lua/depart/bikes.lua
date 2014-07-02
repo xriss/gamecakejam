@@ -35,7 +35,7 @@ bikes.setup=function()
 	
 	bikes.list={}
 	
-	bikes.px=512
+	bikes.px=512-128
 	bikes.py=128*3
 	
 end
@@ -176,7 +176,7 @@ end
 					local d=math.sqrt(dd)
 					dx=dx/d
 					dy=dy/d
-					local p=(howclose-d)/256
+					local p=(howclose-d)/64
 					ax=ax-dx*p
 					ay=ay-dy*p
 				end

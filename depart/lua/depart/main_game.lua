@@ -84,8 +84,8 @@ game.msg=function(m)
 		
 		local bike=game.testbike
 		
-		bike.vx=bike.vx+(x/64)
-		bike.vy=bike.vy+(y/64)
+		bike.vx=bike.vx+(x/32)
+		bike.vy=bike.vy+(y/32)
 		bike.set_bounce(math.random(4),math.random(4),math.random(4))
 
 	end
