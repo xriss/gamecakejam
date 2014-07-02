@@ -24,9 +24,9 @@ M.bake=function(oven,vr)
 	vr.active=false
 		
 vr.setup=function()
-
-	vr.dev = hid.open_id(0x2833, 0x0001, nil)	-- the oculus rift
-
+	if hid.open_id then
+		vr.dev = hid.open_id(0x2833, 0x0001, nil)	-- the oculus rift
+	end
 	if vr.dev then
 	
 		hid.set_nonblocking(vr.dev,1)
@@ -109,10 +109,10 @@ vr.update_rift=function()
 	end
 
 
-vr.update=vr.update_rift
 
 
 end
+	vr.update=vr.update_rift
 
 	return vr
 end
