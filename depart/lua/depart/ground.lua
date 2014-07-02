@@ -39,7 +39,9 @@ ground.setup=function()
 
 	ground.loads()
 
-	ground.px=0
+	ground.px =0
+	ground.px2=0
+	ground.px3=0
 	ground.vx=-4
 
 end
@@ -59,14 +61,9 @@ ground.update=function()
 
 	if ground.vx*ground.vx > 4 then ground.vx=ground.vx*31/32 end
 
-	ground.px=ground.px+ground.vx
-	ground.bx=(1024*math.floor(ground.px/1024))
-
-	ground.px2=ground.px/2
-	ground.bx2=(1024*math.floor(ground.px2/1024))
-
-	ground.px3=ground.px/4
-	ground.bx3=(1024*math.floor(ground.px3/1024))
+	ground.px =(ground.px +ground.vx  )%1024
+	ground.px2=(ground.px2+ground.vx/2)%1024
+	ground.px3=(ground.px3+ground.vx/4)%1024
 	
 --	ground.px=ground.px%(1024*4)
 end
@@ -77,19 +74,19 @@ ground.draw=function(step)
 	s:draw(1,1024/2,512/2,nil,1024,512)
 	
 	local s=sheets.get("imgs/trees2")
-	s:draw(1,ground.px3-1024-ground.bx2,512/2,nil,1024,512)
-	s:draw(1,ground.px3     -ground.bx2,512/2,nil,1024,512)
-	s:draw(1,ground.px3+1024-ground.bx2,512/2,nil,1024,512)
+	s:draw(1,ground.px3-1024,512/2,nil,1024,512)
+	s:draw(1,ground.px3     ,512/2,nil,1024,512)
+	s:draw(1,ground.px3+1024,512/2,nil,1024,512)
 
 	local s=sheets.get("imgs/trees1")
-	s:draw(1,ground.px2-1024-ground.bx3,512/2,nil,1024,512)
-	s:draw(1,ground.px2     -ground.bx3,512/2,nil,1024,512)
-	s:draw(1,ground.px2+1024-ground.bx3,512/2,nil,1024,512)
+	s:draw(1,ground.px2-1024,512/2,nil,1024,512)
+	s:draw(1,ground.px2     ,512/2,nil,1024,512)
+	s:draw(1,ground.px2+1024,512/2,nil,1024,512)
 
 	local s=sheets.get("imgs/road")
-	s:draw(1,ground.px-1024-ground.bx,512/2,nil,1024,512)
-	s:draw(1,ground.px     -ground.bx,512/2,nil,1024,512)
-	s:draw(1,ground.px+1024-ground.bx,512/2,nil,1024,512)
+	s:draw(1,ground.px-1024,512/2,nil,1024,512)
+	s:draw(1,ground.px     ,512/2,nil,1024,512)
+	s:draw(1,ground.px+1024,512/2,nil,1024,512)
 
 end
 

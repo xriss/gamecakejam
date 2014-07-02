@@ -58,6 +58,11 @@ bikes.update=function()
 		end
 	end
 	
+-- easy just to sort the bikes to fix the draw order
+	table.sort(bikes.list,function(a,b)
+		return a.py > b.py
+	end)
+	
 end
 
 bikes.draw=function()

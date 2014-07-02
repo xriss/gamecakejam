@@ -54,7 +54,7 @@ game.setup=function()
 	bikes.setup()
 	
 	for i=1,10 do
-		local px=((math.random(512)/256)-1)*128*3
+		local px=((math.random(512)/256)-1)*128
 		local py=((math.random(512)/256)-1)*128
 		bikes.insert(nil,{px=px,py=py,avatar=(i%3)+2})
 	end
