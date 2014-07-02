@@ -114,7 +114,7 @@ bikes.create=function(bike,opts)
 				py=-48,
 				rz=0,
 				draw_size=64,
-				draw_index=2,
+				draw_index=opts.avatar or 2,
 		}
 		
 		bike.px=opts.px or 0
