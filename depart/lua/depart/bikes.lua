@@ -146,16 +146,17 @@ bikes.create=function(bike,opts)
 		ax=ax*dd*4
 		ay=ay*dd*4
 		
+		local howclose=90
 		for i,v in ipairs(bikes.list) do -- push away from all close bikes
 			if v~=bike then -- skip self
 				local dx=v.px-bike.px
 				local dy=v.py-bike.py
 				local dd=dx*dx+dy*dy
-				if dd<64*64 then -- push away when close
+				if dd<howclose*howclose then -- push away when close
 					local d=math.sqrt(dd)
 					dx=dx/d
 					dy=dy/d
-					local p=(64-d)/128
+					local p=(howclose-d)/256
 					ax=ax-dx*p
 					ay=ay-dy*p
 				end
@@ -190,6 +191,7 @@ bikes.create=function(bike,opts)
 		
 		gl.PushMatrix()
 		gl.Translate(bike.px,bike.py,0)
+		gl.Scale(2,2,1)
 		
 		for i,v in ipairs{bike.wheels[1],bike.wheels[2],bike.avatar} do
 			image:draw(v.draw_index,v.px,v.py,v.rz,v.draw_size,v.draw_size)
