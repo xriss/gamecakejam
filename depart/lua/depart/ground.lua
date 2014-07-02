@@ -76,12 +76,12 @@ ground.draw=function(step)
 	local s=sheets.get("imgs/sky")
 	s:draw(1,1024/2,512/2,nil,1024,512)
 	
-	local s=sheets.get("imgs/trees1")
-	s:draw(1,ground.px2-1024-ground.bx2,512/2,nil,1024,512)
-	s:draw(1,ground.px2     -ground.bx2,512/2,nil,1024,512)
-	s:draw(1,ground.px2+1024-ground.bx2,512/2,nil,1024,512)
-
 	local s=sheets.get("imgs/trees2")
+	s:draw(1,ground.px3-1024-ground.bx2,512/2,nil,1024,512)
+	s:draw(1,ground.px3     -ground.bx2,512/2,nil,1024,512)
+	s:draw(1,ground.px3+1024-ground.bx2,512/2,nil,1024,512)
+
+	local s=sheets.get("imgs/trees1")
 	s:draw(1,ground.px2-1024-ground.bx3,512/2,nil,1024,512)
 	s:draw(1,ground.px2     -ground.bx3,512/2,nil,1024,512)
 	s:draw(1,ground.px2+1024-ground.bx3,512/2,nil,1024,512)
