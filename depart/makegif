@@ -1,0 +1,8 @@
+byzanz-record -w 512 -h 320 -x 64 -y 128 -d 5 test.gif
+
+gifsicle -O3 --resize-fit 256x256 test.gif >test2.gif
+
+google-chrome test2.gif
+
+
+
