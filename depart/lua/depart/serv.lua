@@ -6,8 +6,8 @@ local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
 
---local lanes=require("lanes")
---if lanes.configure then lanes.configure() end -- depends on version
+local lanes=require("lanes")
+if lanes.configure then lanes.configure() end -- depends on version
 
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
