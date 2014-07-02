@@ -53,11 +53,13 @@ game.setup=function()
 	
 	bikes.setup()
 	
+	game.testbike=nil
 	for i=1,10 do
 		local px=((math.random(512)/256)-1)*128
 		local py=((math.random(512)/256)-1)*128
-		local bike=bikes.insert(nil,{px=px,py=py,avatar=(i%3)+5,wheel=(i%4)+1})
+		local bike=bikes.insert(nil,{px=px,py=py,avatar=(i%7)+5,wheel=(i%4)+1})
 		bike.set_bounce(math.random(4),math.random(4),math.random(4))
+		game.testbike=game.testbike or bike
 	end
 
 --	beep.stream("game")
@@ -72,7 +74,21 @@ end
 
 game.msg=function(m)
 
---	print(wstr.dump(m))
+	
+	if m.class=="mouse" and m.action==-1 then
+	
+		print(wstr.dump(m))
+		
+		local x=m.x-512
+		local y=m.y-256
+		
+		local bike=game.testbike
+		
+		bike.vx=bike.vx+(x/64)
+		bike.vy=bike.vy+(y/64)
+		bike.set_bounce(math.random(4),math.random(4),math.random(4))
+
+	end
 	
 end
 
