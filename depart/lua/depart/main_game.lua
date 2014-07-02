@@ -77,7 +77,7 @@ game.msg=function(m)
 	
 	if m.class=="mouse" and m.action==-1 then
 	
-		print(wstr.dump(m))
+--		print(wstr.dump(m))
 		
 		local x=m.x-512
 		local y=m.y-256
