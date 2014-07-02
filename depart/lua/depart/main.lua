@@ -26,9 +26,13 @@ M.bake=function(oven,main)
 
 	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
 
-	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
+	
+	skeys.setup(1)
+	srecaps.setup(1)
+	sscores.setup(1)
 	
 main.loads=function()
 
@@ -92,7 +96,8 @@ main.msg=function(m)
 		m.y=m.y+(opts.height/2)
 	end
 
-
+	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+	
 	if main.now and main.now.msg then
 		main.now.msg(m)
 	end
@@ -100,8 +105,10 @@ main.msg=function(m)
 end
 
 main.update=function()
-
+	
 	main.change()
+	
+	srecaps.step()
 
 	if main.now and main.now.update then
 		main.now.update()
