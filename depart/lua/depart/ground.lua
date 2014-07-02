@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,game)
-	local game=game or {}
-	game.oven=oven
+M.bake=function(oven,ground)
+	local ground=ground or {}
+	ground.oven=oven
 	
-	game.modname=M.modname
+	ground.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -25,73 +25,70 @@ M.bake=function(oven,game)
 	local gl=oven.gl
 	local sheets=cake.sheets
 	
-	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
-
+	
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
-	local ground=oven.rebake(oven.modgame..".ground")
-	local bikes=oven.rebake(oven.modgame..".bikes")
 
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
-
-	local layout=cake.layouts.create{}
-
-
-game.loads=function()
+ground.loads=function()
 
 end
 		
-game.setup=function()
+ground.setup=function()
 
-	game.loads()
+	ground.loads()
 
-
-	ground.setup()
-	
-	bikes.setup()
-	
-	for i=1,10 do
-		local px=((math.random(512)/256)-1)*128*3
-		local py=((math.random(512)/256)-1)*128
-		bikes.insert(nil,{px=px,py=py})
-	end
-
---	beep.stream("game")
+	ground.px=0
+	ground.vx=-4
 
 end
 
-game.clean=function()
-
---	bikes.clean()
+ground.clean=function()
 
 end
 
-game.msg=function(m)
+ground.msg=function(m)
 
 --	print(wstr.dump(m))
+
 	
 end
 
-game.update=function()
+ground.update=function()
 
-	ground.update()
-	bikes.update()
+	if ground.vx*ground.vx > 4 then ground.vx=ground.vx*31/32 end
 
-end
+	ground.px=ground.px+ground.vx
+	ground.bx=(1024*math.floor(ground.px/1024))
 
-game.draw=function()
-	
-
---	sheets.get("imgs/day"):draw(1,512,256,nil,1024,512)
-
-	ground.draw()
-	
-	bikes.draw()
+	ground.px2=ground.px/4
+	ground.bx2=(1024*math.floor(ground.px2/1024))
 	
 end
 
-	return game
+ground.draw=function(step)
+
+	if step==1 then
+
+		local s=sheets.get("imgs/sky")
+
+		s:draw(1,ground.px2-1024-ground.bx2,512/2,nil,1024,512)
+		s:draw(1,ground.px2     -ground.bx2,512/2,nil,1024,512)
+		s:draw(1,ground.px2+1024-ground.bx2,512/2,nil,1024,512)
+		
+	elseif step==2 then
+
+-- simple wrapping background
+
+		local s=sheets.get("imgs/ground")
+
+		s:draw(1,ground.px-1024-ground.bx,512/2,nil,1024,512)
+		s:draw(1,ground.px     -ground.bx,512/2,nil,1024,512)
+		s:draw(1,ground.px+1024-ground.bx,512/2,nil,1024,512)
+
+	end
+end
+
+	return ground
 end
