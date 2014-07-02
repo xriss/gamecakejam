@@ -82,6 +82,7 @@ bikes.insert=function(bike,opts)
 	bike=bike or bikes.create(nil,opts)
 	bikes.remove(bike)
 	table.insert(bikes.list,bike)
+	return bike
 end
 
 bikes.remove=function(bike)
@@ -105,6 +106,8 @@ bikes.create=function(bike,opts)
 				rz=0,
 				draw_size=32,
 				draw_index=opts.wheel or 2,
+				bounce=1,
+				bouncev=0,
 			},
 			{
 				px= 18,
@@ -112,6 +115,8 @@ bikes.create=function(bike,opts)
 				rz=0,
 				draw_size=32,
 				draw_index=opts.wheel or 2,
+				bounce=2,
+				bouncev=0,
 			},
 		}
 		bike.avatar={
@@ -120,6 +125,8 @@ bikes.create=function(bike,opts)
 				rz=0,
 				draw_size=64,
 				draw_index=opts.avatar or 2,
+				bounce=3,
+				bouncev=0,
 		}
 		
 		bike.px=opts.px or 0
@@ -129,11 +136,24 @@ bikes.create=function(bike,opts)
 		bike.vx=opts.vx or 0
 		bike.vy=opts.vy or 0
 		
+		
 		return bike		
 	end
 
 	bike.clean=function(bike)
 
+	end
+
+local bounce=function(it)
+	it.bouncev=it.bouncev - (it.bounce*(1/16))
+	it.bouncev=it.bouncev*(254/256)
+	it.bounce=it.bounce+it.bouncev
+end
+
+	bike.set_bounce=function(a,b,c)
+		bike.wheels[1].bounce=c
+		bike.wheels[2].bounce=b
+		bike.avatar.bounce=a
 	end
 
 	bike.update=function(bike)
@@ -183,6 +203,10 @@ bikes.create=function(bike,opts)
 			wheel.rz=(wheel.rz+8)%360
 		end
 		
+		bounce(bike.wheels[1])
+		bounce(bike.wheels[2])
+		bounce(bike.avatar)
+		
 	end
 
 	bike.draw=function(bike)
@@ -194,7 +218,7 @@ bikes.create=function(bike,opts)
 		gl.Scale(2,2,1)
 		
 		for i,v in ipairs{bike.wheels[1],bike.wheels[2],bike.avatar} do
-			image:draw(v.draw_index,v.px,v.py,v.rz,v.draw_size,v.draw_size)
+			image:draw(v.draw_index,v.px,v.py+v.bounce,v.rz+v.bounce*4,v.draw_size,v.draw_size)
 		end
 	
 		gl.PopMatrix()
