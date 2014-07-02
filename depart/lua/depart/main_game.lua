@@ -70,7 +70,7 @@ end
 game.draw=function()
 	
 
-	sheets.get("imgs/title"):draw(1,512,256,nil,1024,512)
+	sheets.get("imgs/day"):draw(1,512,256,nil,1024,512)
 
 	
 end
