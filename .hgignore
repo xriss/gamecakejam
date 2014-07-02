@@ -2,3 +2,5 @@ syntax: glob
 */out/*
 */files/*
 */test/*
+*/data/*
+
