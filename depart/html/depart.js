@@ -4,6 +4,16 @@ $( document ).ready(function() {
 
 var url="http://"+window.location.host+":1111/depart"; // use base domain but change port?
 
+var cssrotate=function(it,d)
+{
+	$(it).css({
+		'-moz-transform':'rotate('+d+'deg)',
+		'-webkit-transform':'rotate('+d+'deg)',
+		'-o-transform':'rotate('+d+'deg)',
+		'-ms-transform':'rotate('+d+'deg)',
+		'transform': 'rotate('+d+'deg)'
+	});
+};
 
 // hit the game server as a test
 
@@ -37,6 +47,38 @@ var dotouch=function(e,t)
 	}
 	if(pressed)
 	{
+
+		var px = undefined;
+		var py = undefined;
+
+		if(e.touches && e.touches[0])
+		{
+			px=e.touches[0].pageX;
+			py=e.touches[0].pageY;
+		}
+		else
+		if(e.pageX && e.pageY)
+		{
+			px=e.pageX;
+			py=e.pageY;
+		}
+
+		if(px&&py)
+		{
+			var t = $(".circle");
+			var o = t.offset();
+			var cx = o.left + (t.width()/2);
+			var cy = o.top + (t.height()/2);
+
+			var x=px-cx;
+			var y=py-cy;
+			var a=180*Math.atan2(y,x)/Math.PI;
+			
+			cssrotate(".arrow",a);
+
+//			console.log(a,x,y)
+		}
+
 //		console.log(e);
 	}
 	e.preventDefault();
