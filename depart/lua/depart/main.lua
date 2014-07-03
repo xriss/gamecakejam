@@ -115,6 +115,8 @@ end
 
 main.update=function()
 	
+	serv.update() -- check for socket data
+
 	main.change()
 	
 	srecaps.step()
