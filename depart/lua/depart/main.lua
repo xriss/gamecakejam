@@ -31,6 +31,7 @@ M.bake=function(oven,main)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	
 	local serv=oven.rebake(oven.modgame..".serv")
+	local bikes=oven.rebake(oven.modgame..".bikes")
 	local players=oven.rebake(oven.modgame..".players")
 	
 	skeys.setup(1)
@@ -65,6 +66,7 @@ main.setup=function()
 	
 	main.change()
 	
+	bikes.setup()
 	players.setup()
 	serv.setup() -- start a web server on another thread...
 end

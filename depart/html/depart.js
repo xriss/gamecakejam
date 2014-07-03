@@ -90,7 +90,17 @@ var pulse=function()
 
 	var cb=function(dat)
 	{
-		console.log(dat);
+		var avatar=dat.avatar;
+		if( avatar>=5 && avatar<=16)
+		{
+			$(".char").css({"background-image":"url(/art/user"+avatar+".png)"});
+		}
+		else
+		{
+			$(".char").css({"background-image":""});
+		}
+		
+		console.log(avatar);
 	};
 	$.ajax({
 		dataType:"jsonp",
@@ -100,6 +110,6 @@ var pulse=function()
 	});
 	data.touched=0;
 };
-setInterval(pulse,1000);
+setInterval(pulse,100);
 
 });
