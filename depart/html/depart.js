@@ -2,6 +2,7 @@
 
 $( document ).ready(function() {
 
+/*
 var url="/depart"; // use base domain we loaded from but change port?
 
 var data='{cmd="test"}';
@@ -16,6 +17,7 @@ $.ajax({
   success: cb,
   dataType:"json"
 });
+*/
 
 
 });
