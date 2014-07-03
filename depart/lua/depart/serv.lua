@@ -133,9 +133,9 @@ end
 		it.ip=client:getpeername()
 		
 		players.pulse(it)
-		dprint(it)
+--		dprint(it)
 		
-		client:send("200\r\n\r\n"..wstr.dump(it)) -- test 
+		client:send("HTTP/1.1 "..(it.ret_code or 400).." OK\r\n"..(it.ret_head or "").."\r\n"..it.ret_data) -- result
 		
 		serv.client_disconnect(client) -- and disconnect afterwards
 	end
