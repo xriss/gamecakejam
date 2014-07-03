@@ -38,18 +38,35 @@ bikes.setup=function()
 	bikes.px=512   - 128
 	bikes.py=512+64-192
 	
+	bikes.pulse_time=0
+	
 end
 
 
 bikes.clean=function()
 
+	bikes.list=nil
 end
 
 bikes.msg=function(m)
 
 end
 
+bikes.get_player_a_bike=function()
+	if not bikes.list then return end
+	local pos={}
+	for i,v in ipairs(bikes.list) do
+		if not v.player then
+			pos[#pos+1]=v
+		end
+	end
+	if not pos[1] then return end
+	return pos[ math.random(#pos) ]
+end
+
 bikes.update=function()
+	
+	bikes.pulse_time=(bikes.pulse_time+1)%240
 	
 	for i=#bikes.list,1,-1 do local v=bikes.list[i]
 		v:update()
@@ -185,6 +202,22 @@ end
 		
 		bike.vx=bike.vx+ax
 		bike.vy=bike.vy+ay
+		
+		if bikes.pulse_time==0 then
+
+			bike.rotation_pulse=8
+			
+
+		end
+		
+		if bike.rotation then
+		bike.rotation_pulse=1/4
+			local rc=math.cos(math.pi*bike.rotation/180)
+			local rs=math.sin(math.pi*bike.rotation/180)
+			bike.vx=bike.vx+(rc*bike.rotation_pulse)
+			bike.vy=bike.vy+(rs*bike.rotation_pulse)
+--			bike.rotation_pulse=bike.rotation_pulse*2/4
+		end
 		
 		bike.vx=bike.vx*friction
 		bike.vy=bike.vy*friction

@@ -52,9 +52,7 @@ game.setup=function()
 	ground.setup()
 	
 	bikes.setup()
-	
 	players.reset() -- maybe remember old avatar? but forget everything else it is a new game
-		
 	game.testbike=nil
 	for i=1,12 do
 		local px=((math.random(512)/256)-1)*128
@@ -86,9 +84,9 @@ game.msg=function(m)
 		
 		local bike=game.testbike
 		
-		bike.vx=bike.vx+(x/32)
-		bike.vy=bike.vy+(y/32)
-		bike.set_bounce(math.random(4),math.random(4),math.random(4))
+--		bike.vx=bike.vx+(x/32)
+--		bike.vy=bike.vy+(y/32)
+--		bike.set_bounce(math.random(4),math.random(4),math.random(4))
 
 	end
 	

@@ -100,12 +100,13 @@ end
 
 	serv.setup=function(opts)
 	
-		serv.connections = newset()
+		if not serv.connections then
+			serv.connections = newset()
 
-		serv.server=assert(socket.bind("*",1111)) -- needs to be a high port
-		
-		serv.connections:insert(serv.server)
-		
+			serv.server=assert(socket.bind("*",1111)) -- needs to be a high port
+			
+			serv.connections:insert(serv.server)
+		end
 	end	
 	
 	serv.update=function()
