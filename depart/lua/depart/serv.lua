@@ -106,6 +106,14 @@ end
 			serv.server=assert(socket.bind("*",1111)) -- needs to be a high port
 			
 			serv.connections:insert(serv.server)
+
+
+			local mySocket = socket.udp()
+			mySocket:setpeername("192.168.1.23","2323") 
+			serv.ip, serv.port = mySocket:getsockname()-- returns IP and Port 
+			
+			print(serv.ip)
+ 
 		end
 	end	
 	
