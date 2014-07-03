@@ -36,7 +36,7 @@ bikes.setup=function()
 	bikes.list={}
 	
 	bikes.px=512   - 128
-	bikes.py=128*3 -  32
+	bikes.py=512+64-192
 	
 end
 
@@ -193,7 +193,7 @@ end
 		bike.py=bike.py+bike.vy
 		
 		local lx=512-32
-		local ly=192-32
+		local ly=192
 		local function b() bike.set_bounce(math.random(4),math.random(4),math.random(4)) end
 		if bike.px<-lx then bike.vx= math.abs(bike.vx) b() end
 		if bike.px> lx then bike.vx=-math.abs(bike.vx) b() end
