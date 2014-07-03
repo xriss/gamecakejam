@@ -7,11 +7,11 @@ var url="http://"+window.location.host+":1111/depart"; // use base domain but ch
 var cssrotate=function(it,d)
 {
 	$(it).css({
-		'-moz-transform':'rotate('+d+'deg)',
-		'-webkit-transform':'rotate('+d+'deg)',
-		'-o-transform':'rotate('+d+'deg)',
-		'-ms-transform':'rotate('+d+'deg)',
-		'transform': 'rotate('+d+'deg)'
+		'-moz-transform':'rotate('+d+'deg) translateZ(0)',
+		'-webkit-transform':'rotate('+d+'deg) translateZ(0)',
+		'-o-transform':'rotate('+d+'deg) translateZ(0)',
+		'-ms-transform':'rotate('+d+'deg) translateZ(0)',
+		'transform': 'rotate('+d+'deg) translateZ(0)'
 	});
 };
 
