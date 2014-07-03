@@ -33,6 +33,7 @@ M.bake=function(oven,game)
 
 	local ground=oven.rebake(oven.modgame..".ground")
 	local bikes=oven.rebake(oven.modgame..".bikes")
+	local players=oven.rebake(oven.modgame..".players")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -48,11 +49,12 @@ game.setup=function()
 
 	game.loads()
 
-
 	ground.setup()
 	
 	bikes.setup()
 	
+	players.reset() -- maybe remember old avatar? but forget everything else it is a new game
+		
 	game.testbike=nil
 	for i=1,12 do
 		local px=((math.random(512)/256)-1)*128

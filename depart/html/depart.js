@@ -3,6 +3,7 @@
 $( document ).ready(function() {
 
 var url="http://"+window.location.host+":1111/depart"; // use base domain but change port?
+var data={};
 
 var cssrotate=function(it,d)
 {
@@ -14,20 +15,6 @@ var cssrotate=function(it,d)
 		'transform': 'rotate('+d+'deg) translateZ(0)'
 	});
 };
-
-// hit the game server as a test
-
-	var cb=function(dat)
-	{
-		console.log(dat);
-	};
-	var data={test:"testing123"};
-	$.ajax({
-		dataType:"jsonp",
-		url: url,
-		data: data,
-		success: cb
-	});
 
 // aggressively grab all touch/mouse events
 
@@ -51,7 +38,7 @@ var dotouch=function(e,t)
 		var px = undefined;
 		var py = undefined;
 
-		if(e.touches && e.touches[0])
+		if(e.touches && e.touches[0] )
 		{
 			px=e.touches[0].pageX;
 			py=e.touches[0].pageY;
@@ -75,20 +62,44 @@ var dotouch=function(e,t)
 			var a=180*Math.atan2(y,x)/Math.PI;
 			
 			cssrotate(".arrow",a);
+			
+			data.rotation=Math.floor(a);
+			data.touched=1;
 
 //			console.log(a,x,y)
 		}
 
 //		console.log(e);
 	}
-	e.preventDefault();
+	if(e.touches && e.touches[0] && !e.touches[1])
+	{
+		e.preventDefault();
+	}
 };
 
-document.addEventListener('mousedown' , function(e){ dotouch(e,"mousedown")  }, true);
-document.addEventListener('mousemove' , function(e){ dotouch(e,"mousemove")  }, true);
-document.addEventListener('mouseup'   , function(e){ dotouch(e,"mouseup")    }, true);
-document.addEventListener('touchstart', function(e){ dotouch(e,"touchstart") }, true);
-document.addEventListener('touchmove' , function(e){ dotouch(e,"touchmove")  }, true);
-document.addEventListener('touchend'  , function(e){ dotouch(e,"touchend")  }, true);
+document.addEventListener('mousedown' , function(e){ dotouch(e,"mousedown")  }, false);
+document.addEventListener('mousemove' , function(e){ dotouch(e,"mousemove")  }, false);
+document.addEventListener('mouseup'   , function(e){ dotouch(e,"mouseup")    }, false);
+document.addEventListener('touchstart', function(e){ dotouch(e,"touchstart") }, false);
+document.addEventListener('touchmove' , function(e){ dotouch(e,"touchmove")  }, false);
+document.addEventListener('touchend'  , function(e){ dotouch(e,"touchend")  }, false);
+
+var pulse=function()
+{
+// hit the game server as a test
+
+	var cb=function(dat)
+	{
+		console.log(dat);
+	};
+	$.ajax({
+		dataType:"jsonp",
+		url: url,
+		data: data,
+		success: cb
+	});
+	data.touched=0;
+};
+setInterval(pulse,1000);
 
 });

@@ -212,13 +212,16 @@ end
 
 	bike.draw=function(bike)
 
-		local image=sheets.get("imgs/bikes")
+		local color=sheets.get("imgs/bikes")
+		local grey=sheets.get("imgs/bots")
 		
 		gl.PushMatrix()
 		gl.Translate(bike.px,bike.py,0)
 		gl.Scale(2,2,1)
 		
 		for i,v in ipairs{bike.wheels[1],bike.wheels[2],bike.avatar} do
+			local image=grey
+			if bike.player then image=color end
 			image:draw(v.draw_index,v.px,v.py+v.bounce,v.rz+v.bounce*4,v.draw_size,v.draw_size)
 		end
 	

@@ -16,7 +16,10 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 M.bake=function(oven,serv)
 	serv=serv or {}
 	serv.modname=M.modname
-	
+
+	local players=oven.rebake(oven.modgame..".players")
+
+
 -----------------------------------------------------------------------------
 --
 -- simple set implementation
@@ -127,7 +130,9 @@ end
 	serv.client_data=function(client,data)
 		local it=serv.clients_data[client]
 		it.data=data
+		it.ip=client:getpeername()
 		
+		players.pulse(it)
 		dprint(it)
 		
 		client:send("200\r\n\r\n"..wstr.dump(it)) -- test 

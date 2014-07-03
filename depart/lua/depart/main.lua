@@ -31,6 +31,7 @@ M.bake=function(oven,main)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	
 	local serv=oven.rebake(oven.modgame..".serv")
+	local players=oven.rebake(oven.modgame..".players")
 	
 	skeys.setup(1)
 	srecaps.setup(1)
@@ -47,6 +48,7 @@ main.loads=function()
 		{"imgs/trees1",1,1,0.5,0.5},
 		{"imgs/trees2",1,1,0.5,0.5},
 		{"imgs/bikes",1/4,1/4,1/8,1/8},
+		{"imgs/bots",1/4,1/4,1/8,1/8},
 	}
 	
 end
@@ -63,6 +65,7 @@ main.setup=function()
 	
 	main.change()
 	
+	players.setup()
 	serv.setup() -- start a web server on another thread...
 end
 
@@ -116,6 +119,7 @@ end
 main.update=function()
 	
 	serv.update() -- check for socket data
+	players.update()
 
 	main.change()
 	
