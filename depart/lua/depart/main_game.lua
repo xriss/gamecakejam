@@ -29,11 +29,12 @@ M.bake=function(oven,game)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local ground=oven.rebake(oven.modgame..".ground")
 	local bikes=oven.rebake(oven.modgame..".bikes")
 	local players=oven.rebake(oven.modgame..".players")
+	local hud=oven.rebake(oven.modgame..".hud")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -49,6 +50,7 @@ game.setup=function()
 
 	game.loads()
 
+	hud.setup()
 	ground.setup()
 	
 	bikes.setup()
@@ -94,6 +96,7 @@ end
 
 game.update=function()
 
+	hud.update()
 	ground.update()
 	bikes.update()
 
@@ -107,6 +110,8 @@ game.draw=function()
 	ground.draw()
 	
 	bikes.draw()
+
+	hud.draw()
 	
 end
 

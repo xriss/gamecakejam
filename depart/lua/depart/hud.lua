@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,ground)
-	local ground=ground or {}
-	ground.oven=oven
+M.bake=function(oven,hud)
+	local hud=hud or {}
+	hud.oven=oven
 	
-	ground.modname=M.modname
+	hud.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -31,64 +31,37 @@ M.bake=function(oven,ground)
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 
-ground.loads=function()
+hud.loads=function()
 
 end
+
 		
-ground.setup=function()
+hud.setup=function()
 
-	ground.loads()
-
-	ground.px =0
-	ground.px2=0
-	ground.px3=0
-	ground.vx=-12
+	hud.loads()
 
 end
 
-ground.clean=function()
+
+hud.clean=function()
 
 end
 
-ground.msg=function(m)
 
---	print(wstr.dump(m))
-
+hud.msg=function(m)
 	
 end
 
-ground.update=function()
 
---	if ground.vx*ground.vx > 8*8 then ground.vx=ground.vx*31/32 end
-
-	ground.px =(ground.px +ground.vx  )%1024
-	ground.px2=(ground.px2+ground.vx/2)%1024
-	ground.px3=(ground.px3+ground.vx/4)%1024
-	
---	ground.px=ground.px%(1024*4)
-end
-
-ground.draw=function(step)
-
-	local s=sheets.get("imgs/sky")
-	s:draw(1,1024/2,512/2,nil,1024,512)
-	
-	local s=sheets.get("imgs/trees2")
-	s:draw(1,ground.px3-1024,512/2,nil,1024,512)
-	s:draw(1,ground.px3     ,512/2,nil,1024,512)
-	s:draw(1,ground.px3+1024,512/2,nil,1024,512)
-
-	local s=sheets.get("imgs/trees1")
-	s:draw(1,ground.px2-1024,512/2,nil,1024,512)
-	s:draw(1,ground.px2     ,512/2,nil,1024,512)
-	s:draw(1,ground.px2+1024,512/2,nil,1024,512)
-
-	local s=sheets.get("imgs/road")
-	s:draw(1,ground.px-1024,512/2,nil,1024,512)
-	s:draw(1,ground.px     ,512/2,nil,1024,512)
-	s:draw(1,ground.px+1024,512/2,nil,1024,512)
+hud.update=function()
 
 end
 
-	return ground
+
+hud.draw=function(step)
+
+end
+
+
+	return hud
 end

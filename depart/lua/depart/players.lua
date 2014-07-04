@@ -47,7 +47,7 @@ players.pulsemsg=function(it,msg)
 		if player.bike then player.bike.player=player end -- got one
 	end
 	if player.bike then
-		player.bike.rotation=player.rotation
+--		player.bike.rotation=player.rotation
 	end
 	
 	local ret={}
