@@ -109,10 +109,10 @@ end
 
 
 			local mySocket = socket.udp()
-			mySocket:setpeername("192.168.1.23","2323") 
-			serv.ip, serv.port = mySocket:getsockname()-- returns IP and Port 
+			mySocket:setpeername("192.168.1.23","2323")
+			serv.ip, serv.port = mySocket:getsockname()-- returns IP and (random) Port 
 			
-			print(serv.ip)
+			print("Server IP is : "..serv.ip)
  
 		end
 	end	

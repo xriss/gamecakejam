@@ -38,7 +38,7 @@ bikes.setup=function()
 	bikes.list={}
 	
 	bikes.px=512   - 128
-	bikes.py=512+64-192
+	bikes.py=512+64-192-16
 	
 	bikes.pulse_time=0
 	
@@ -161,6 +161,7 @@ bikes.create=function(bike,opts)
 		bike.vx=opts.vx or 0
 		bike.vy=opts.vy or 0
 		
+		bike.score=0
 		
 		return bike		
 	end

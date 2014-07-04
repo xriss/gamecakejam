@@ -88,7 +88,7 @@ players.pulse=function(it)
 	
 	it.ret_code=200
 	it.ret_data=m.callback.."("..wjson.encode(it.ret)..");\n"
-
+	it.ret_head="Content-Type: text/javascript; charset=utf-8\r\n"
 end
 
 players.update=function()

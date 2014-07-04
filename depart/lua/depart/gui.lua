@@ -69,9 +69,11 @@ print(act,w.id)
 		top:add({hx=1024,hy=32})
 
 		top:add({hx=64,hy=32})
-		top:add({hx=416,hy=32,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({hx=416,hy=32})
+--		top:add({hx=416,hy=32,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
 		top:add({hx=64,hy=32})
-		top:add({hx=416,hy=32,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=316,hy=32})
+		top:add({hx=100,hy=32,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
 		top:add({hx=64,hy=32})
 
 		top:add({hx=1024,hy=32})
