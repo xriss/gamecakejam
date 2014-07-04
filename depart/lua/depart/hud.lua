@@ -102,7 +102,7 @@ hud.draw=function(step)
 		for i,v in ipairs(hud.avatars) do
 
 			gl.Color(0,0,0,0.5)
-			ss:draw(v.draw_index,x,y,0,64+8,64+8)
+			ss:draw(v.draw_index,x+4,y+4,0,64,64)
 
 			gl.Color(1,1,1,1)
 			ss:draw(v.draw_index,x,y,0,64,64)
