@@ -34,6 +34,8 @@ M.bake=function(oven,main)
 	local bikes=oven.rebake(oven.modgame..".bikes")
 	local players=oven.rebake(oven.modgame..".players")
 	
+	local beep=oven.rebake(oven.modgame..".beep")
+
 	skeys.setup(1)
 	srecaps.setup(1)
 	sscores.setup(1)
@@ -52,6 +54,8 @@ main.loads=function()
 		{"imgs/bots",1/4,1/4,1/8,1/8},
 	}
 	
+	beep.loads()
+	
 end
 		
 main.setup=function()
@@ -69,6 +73,9 @@ main.setup=function()
 	bikes.setup()
 	players.setup()
 	serv.setup() -- start a web server on another thread...
+
+	beep.stream()
+
 end
 
 function main.change()
