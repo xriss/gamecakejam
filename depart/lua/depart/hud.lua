@@ -121,6 +121,8 @@ hud.draw=function(step)
 		end
 	end
 
+	if hud.time and hud.time>0 then
+
 	local s="Visit http://"..(serv.ip or "....").."/ to join!"
 	local sw=font.width(s) -- how wide the string is
 
@@ -133,7 +135,6 @@ hud.draw=function(step)
 	gl.Color(1,1,1,1)
 	font.draw(s)
 
-	if hud.time and hud.time>0 then
 		font.set_size(48,0)
 
 		local sc=math.floor(hud.time/60)
