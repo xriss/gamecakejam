@@ -78,6 +78,8 @@ print(act,w.id)
 
 		top:add({hx=1024,hy=32})
 		
+		gui.master.go_forward_id="start"
+
 	end
 
 	function gui.page(pname)
@@ -94,6 +96,12 @@ print(act,w.id)
 		end
 
 		gui.master:layout()
+
+		gui.master:call_descendents(function(w) if w.hooks then return end sgui.anim.bounce(w,1) end)
+
+		if gui.master.go_forward_id then
+			gui.master.activate_by_id(gui.master.go_forward_id)
+		end
 		
 		return ret
 	end
