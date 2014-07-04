@@ -133,7 +133,7 @@ end
 	end
 	serv.client_disconnect=function(client)
 		client:close()
-		serv.connections:remove(input)
+		serv.connections:remove(client)
 		serv.client_disconnected(client)
 	end
 	serv.client_data=function(client,data)
