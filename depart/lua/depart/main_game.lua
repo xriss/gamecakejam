@@ -31,6 +31,7 @@ M.bake=function(oven,game)
 	local main=oven.rebake(oven.modgame..".main")
 	local beep=oven.rebake(oven.modgame..".beep")
 
+	local items=oven.rebake(oven.modgame..".items")
 	local ground=oven.rebake(oven.modgame..".ground")
 	local bikes=oven.rebake(oven.modgame..".bikes")
 	local players=oven.rebake(oven.modgame..".players")
@@ -53,6 +54,7 @@ game.setup=function()
 	hud.setup()
 	ground.setup()
 	
+	items.setup()
 	bikes.setup()
 	players.reset() -- maybe remember old avatar? but forget everything else it is a new game
 	game.testbike=nil
@@ -99,6 +101,7 @@ game.update=function()
 	hud.update()
 	ground.update()
 	bikes.update()
+	items.update()
 
 end
 
@@ -110,6 +113,7 @@ game.draw=function()
 	ground.draw()
 	
 	bikes.draw()
+	items.draw()
 
 	hud.draw()
 	
