@@ -52,6 +52,7 @@ main.loads=function()
 		{"imgs/trees2",1,1,0.5,0.5},
 		{"imgs/bikes",1/4,1/4,1/8,1/8},
 		{"imgs/bots",1/4,1/4,1/8,1/8},
+		{"imgs/items",1/4,1/4,1/8,1/8},
 	}
 	
 	beep.loads()

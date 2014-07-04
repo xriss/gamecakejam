@@ -42,6 +42,8 @@ end
 hud.setup=function()
 
 	hud.loads()
+	
+	hud.time=60*60*2
 
 end
 
@@ -57,6 +59,12 @@ end
 
 
 hud.update=function()
+
+	hud.time=hud.time-1
+	if hud.time<0 then
+		hud.time=0 
+		main.next=oven.rebake(oven.modgame..".main_menu")
+	end
 
 	if bikes.list then
 
@@ -113,7 +121,7 @@ hud.draw=function(step)
 		end
 	end
 
-	local s="http://"..(serv.ip or "....").."/"
+	local s="Visit http://"..(serv.ip or "....").."/ to join!"
 	local sw=font.width(s) -- how wide the string is
 
 	local x=32
@@ -125,6 +133,24 @@ hud.draw=function(step)
 	gl.Color(1,1,1,1)
 	font.draw(s)
 
+	if hud.time and hud.time>0 then
+		font.set_size(48,0)
+
+		local sc=math.floor(hud.time/60)
+		local mn=math.floor(sc/60)
+		sc=sc%60
+		local s=string.format("%02d:%02d",mn,sc)
+		local sw=font.width(s) -- how wide the string is
+
+		local x=1024-32-sw
+		local y=8
+		font.set_xy(x+1,y+1)
+		gl.Color(0,0,0,1)
+		font.draw(s)
+		font.set_xy(x-1,y-1)
+		gl.Color(1,1,1,1)
+		font.draw(s)
+	end
 
 end
 

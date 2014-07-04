@@ -24,6 +24,7 @@ M.bake=function(oven,items)
 	local sheets=cake.sheets
 
 	local bikes=oven.rebake(oven.modgame..".bikes")
+	local beep=oven.rebake(oven.modgame..".beep")
 	
 items.loads=function()
 
@@ -79,6 +80,86 @@ items.draw=function()
 
 end
 	
+items.insert=function(item,opts)
+	item=item or items.create(nil,opts)
+	items.remove(item)
+	table.insert(items.list,item)
+	return item
+end
+
+items.remove=function(item)
+	for i=#items.list,1,-1 do local v=items.list[i]
+		if item==v then
+			table.remove(items.list,i)
+		end
+	end
+end
+
+
+items.create=function(item,opts)
+
+	item=item or {}
+
+	item.setup=function(item,opts)
+		opts=opts or {}
+		item.px=opts.px or 512+256
+		item.py=opts.py or (((math.random(32768)%4)*90)-180)
+		
+		item.vx=opts.vx or -1
+		item.vy=opts.vy or 0
+
+		item.draw_index=opts.draw_index or ((math.random(32768)%2)+1)
+		item.draw_size=opts.draw_size or 64
+
+		return item
+	end
+
+	item.clean=function(item)
+	end
+
+	item.update=function(item)
+		item.px=item.px+item.vx
+		item.py=item.py+item.vy
+		
+		if item.px < -(512+256) then
+			item.remove_from_list=true
+		end
+		
+		for i,bike in ipairs(bikes.list) do
+			local dx=bike.px-item.px
+			local dy=(bike.py-90)-item.py
+			local dd=dx*dx+dy*dy
+			if dd<90*90 then
+				beep.play(bike.sfx1)
+				if item.draw_index==1 then
+					bike.score=bike.score+1
+				else
+					bike.score=bike.score-2
+				end
+				if bike.score<0 then bike.score=0 end -- no negative scores
+				item.remove_from_list=true
+				break
+			end
+		end
+
+	end
+
+	item.draw=function(item)
+
+		local ss=sheets.get("imgs/items")
+		
+--		gl.PushMatrix()
+
+		local v=item
+		ss:draw(v.draw_index,v.px,v.py,v.rz,v.draw_size,v.draw_size)
+	
+--		gl.PopMatrix()
+	end
+	
+	return item:setup(opts)
+end
+
+
 	return items
 end
 

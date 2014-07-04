@@ -26,6 +26,54 @@ M.bake=function(oven,beep)
 		["002"]={
 			name="oggs/002",
 		},
+		["003"]={
+			name="oggs/003",
+		},
+		["004"]={
+			name="oggs/004",
+		},
+		["005"]={
+			name="oggs/005",
+		},
+		["006"]={
+			name="oggs/006",
+		},
+		["007"]={
+			name="oggs/007",
+		},
+		["008"]={
+			name="oggs/008",
+		},
+		["009"]={
+			name="oggs/009",
+		},
+		["010"]={
+			name="oggs/010",
+		},
+		["011"]={
+			name="oggs/011",
+		},
+		["012"]={
+			name="oggs/012",
+		},
+		["013"]={
+			name="oggs/013",
+		},
+		["014"]={
+			name="oggs/014",
+		},
+		["015"]={
+			name="oggs/015",
+		},
+		["016"]={
+			name="oggs/016",
+		},
+		["017"]={
+			name="oggs/017",
+		},
+		["018"]={
+			name="oggs/018",
+		},
 
 	}
 
@@ -84,7 +132,7 @@ M.bake=function(oven,beep)
 		local function default()
 		
 			q1:stream_ogg{name="oggs/depart"}
-			q1.gain=1
+			q1.gain=0.25
 			q1.pitch=1
 			
 		end

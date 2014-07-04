@@ -24,6 +24,8 @@ M.bake=function(oven,bikes)
 	local sheets=cake.sheets
 
 	local ground=oven.rebake(oven.modgame..".ground")
+	local items=oven.rebake(oven.modgame..".items")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 --	local bike={}
 	
@@ -74,6 +76,10 @@ bikes.update=function()
 
 	if bikes.pulse_time==0 then
 --		ground.vx=ground.vx-16
+
+		if math.random(100) < 75 then
+			items.insert(nil,nil)--{px=512+256,py=60,vx=-1,vy=0,draw_index=1,draw_size=64})
+		end
 	end
 	
 	for i=#bikes.list,1,-1 do local v=bikes.list[i]
@@ -149,7 +155,7 @@ bikes.create=function(bike,opts)
 				py=-48,
 				rz=0,
 				draw_size=64,
-				draw_index=opts.avatar or 2,
+				draw_index=opts.avatar or 5,
 				bounce=3,
 				bouncev=0,
 		}
@@ -162,6 +168,9 @@ bikes.create=function(bike,opts)
 		bike.vy=opts.vy or 0
 		
 		bike.score=0
+		
+		bike.sfx1=string.format("%03d",(math.random(32768)%18)+1) -- pick a random
+		bike.sfx2=string.format("%03d",(math.random(32768)%18)+1) -- pick a random
 		
 		return bike		
 	end
@@ -241,10 +250,10 @@ end
 		
 		local lx=512-32
 		local ly=180
-		if bike.px<-lx then bike.px=-lx bike.vx= (math.abs(bike.vx)+1) b() end
-		if bike.px> lx then bike.px= lx bike.vx=-(math.abs(bike.vx)+1) b() end
-		if bike.py<-ly then bike.py=-ly bike.vy= (math.abs(bike.vy)+1) b() end
-		if bike.py> ly then bike.py= ly bike.vy=-(math.abs(bike.vy)+1) b() end
+		if bike.px<-lx then bike.px=-lx bike.vx= (math.abs(bike.vx)+1) b() beep.play(bike.sfx2) end
+		if bike.px> lx then bike.px= lx bike.vx=-(math.abs(bike.vx)+1) b() beep.play(bike.sfx2) end
+		if bike.py<-ly then bike.py=-ly bike.vy= (math.abs(bike.vy)+1) b() beep.play(bike.sfx2) end
+		if bike.py> ly then bike.py= ly bike.vy=-(math.abs(bike.vy)+1) b() beep.play(bike.sfx2) end
 		
 		for i,wheel in ipairs(bike.wheels) do
 			wheel.rz=(wheel.rz+8)%360
