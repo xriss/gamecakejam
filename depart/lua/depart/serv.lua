@@ -106,6 +106,14 @@ end
 			serv.server=assert(socket.bind("*",1111)) -- needs to be a high port
 			
 			serv.connections:insert(serv.server)
+
+
+			local mySocket = socket.udp()
+			mySocket:setpeername("192.168.1.23","2323")
+			serv.ip, serv.port = mySocket:getsockname()-- returns IP and (random) Port 
+			
+			print("Server IP is : "..serv.ip)
+ 
 		end
 	end	
 	
@@ -125,7 +133,7 @@ end
 	end
 	serv.client_disconnect=function(client)
 		client:close()
-		serv.connections:remove(input)
+		serv.connections:remove(client)
 		serv.client_disconnected(client)
 	end
 	serv.client_data=function(client,data)

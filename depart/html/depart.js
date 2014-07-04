@@ -100,7 +100,7 @@ var pulse=function()
 			$(".char").css({"background-image":""});
 		}
 		
-		console.log(avatar);
+//		console.log(avatar);
 	};
 	$.ajax({
 		dataType:"jsonp",

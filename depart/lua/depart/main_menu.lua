@@ -27,9 +27,11 @@ M.bake=function(oven,menu)
 	
 	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
 
+	local hud=oven.rebake(oven.modgame..".hud")
+	local serv=oven.rebake(oven.modgame..".serv")
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -96,9 +98,29 @@ menu.draw=function()
 	else
 		sheets.get("imgs/title"):draw(1,512,256,nil,1024,512)
 		
-		sscores.draw("arcade2")
+--		sscores.draw("arcade2")
+		
+		
+		font.set(cake.fonts.get("Vera")) -- default font
+
+		font.set_size(40,0) -- 32 pixels high
+
+		local s="http://"..(serv.ip or "....").."/"
+		local sw=font.width(s) -- how wide the string is
+
+		local x,y=512-128-64-40,256+64+32+16
+		font.set_xy(x-(sw/2)+2,y+2)
+		gl.Color(0,0,0,1)
+		font.draw(s)
+
+--[[
+		font.set_xy(x-(sw/2)-2,y-2)
+		gl.Color(1,1,1,1)
+		font.draw(s)
+]]
 
 		gui.draw()	
+		hud.draw()
 	end
 	
 end

@@ -42,7 +42,7 @@ ground.setup=function()
 	ground.px =0
 	ground.px2=0
 	ground.px3=0
-	ground.vx=-4
+	ground.vx=-12
 
 end
 
@@ -59,7 +59,7 @@ end
 
 ground.update=function()
 
-	if ground.vx*ground.vx > 4 then ground.vx=ground.vx*31/32 end
+--	if ground.vx*ground.vx > 8*8 then ground.vx=ground.vx*31/32 end
 
 	ground.px =(ground.px +ground.vx  )%1024
 	ground.px2=(ground.px2+ground.vx/2)%1024

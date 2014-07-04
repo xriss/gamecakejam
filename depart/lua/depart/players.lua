@@ -47,7 +47,7 @@ players.pulsemsg=function(it,msg)
 		if player.bike then player.bike.player=player end -- got one
 	end
 	if player.bike then
-		player.bike.rotation=player.rotation
+--		player.bike.rotation=player.rotation
 	end
 	
 	local ret={}
@@ -88,7 +88,7 @@ players.pulse=function(it)
 	
 	it.ret_code=200
 	it.ret_data=m.callback.."("..wjson.encode(it.ret)..");\n"
-
+	it.ret_head="Content-Type: text/javascript; charset=utf-8\r\n"
 end
 
 players.update=function()

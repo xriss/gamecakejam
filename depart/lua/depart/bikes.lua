@@ -23,7 +23,9 @@ M.bake=function(oven,bikes)
 	local flat=canvas.flat
 	local sheets=cake.sheets
 
-	local bike={}
+	local ground=oven.rebake(oven.modgame..".ground")
+
+--	local bike={}
 	
 bikes.loads=function()
 
@@ -36,7 +38,7 @@ bikes.setup=function()
 	bikes.list={}
 	
 	bikes.px=512   - 128
-	bikes.py=512+64-192
+	bikes.py=512+64-192-16
 	
 	bikes.pulse_time=0
 	
@@ -66,7 +68,13 @@ end
 
 bikes.update=function()
 	
-	bikes.pulse_time=(bikes.pulse_time+1)%240
+	bikes.pulse_time=(bikes.pulse_time+1)%120
+	
+	bikes.pulse_scale=1-(bikes.pulse_time/120)
+
+	if bikes.pulse_time==0 then
+--		ground.vx=ground.vx-16
+	end
 	
 	for i=#bikes.list,1,-1 do local v=bikes.list[i]
 		v:update()
@@ -153,6 +161,7 @@ bikes.create=function(bike,opts)
 		bike.vx=opts.vx or 0
 		bike.vy=opts.vy or 0
 		
+		bike.score=0
 		
 		return bike		
 	end
@@ -175,13 +184,21 @@ end
 
 	bike.update=function(bike)
 	
-		local friction=254/256
+		local function b() bike.set_bounce(math.random(4),math.random(4),math.random(4)) end
+
+		local friction=252/256
 		
-		local ax=(-bike.px)/512
-		local ay=(-bike.py)/512
-		local dd=ax*ax + ay*ay
-		ax=ax*dd*4
-		ay=ay*dd*4
+		local ax=(-bike.px)/(1024*4)
+		local ay=0--(-bike.py)/512
+--		local dd=ax*ax + ay*ay
+--		ax=ax*dd*4
+--		ay=ay*dd*4
+
+		local ppyd=90
+		local ppyi=math.floor(bike.py/ppyd)*ppyd
+		local ppyf=(bike.py%ppyd)-(ppyd/2)
+		if ppyf*ppyf < 8*8 then ppyf=0 end -- clamp center
+		ay=ay + (-2*ppyf/ppyd)
 		
 		local howclose=90
 		for i,v in ipairs(bikes.list) do -- push away from all close bikes
@@ -204,19 +221,16 @@ end
 		bike.vy=bike.vy+ay
 		
 		if bikes.pulse_time==0 then
-
-			bike.rotation_pulse=8
-			
-
+			if bike.player then bike.rotation=bike.player.rotation b() else bike.rotation=nil end
+			bike.rotation_pulse=5+((256-bike.px)/256)
 		end
 		
-		if bike.rotation then
-		bike.rotation_pulse=1/4
+		if bike.rotation and bike.rotation_pulse then
 			local rc=math.cos(math.pi*bike.rotation/180)
 			local rs=math.sin(math.pi*bike.rotation/180)
 			bike.vx=bike.vx+(rc*bike.rotation_pulse)
 			bike.vy=bike.vy+(rs*bike.rotation_pulse)
---			bike.rotation_pulse=bike.rotation_pulse*2/4
+			bike.rotation_pulse=bike.rotation_pulse*2/4
 		end
 		
 		bike.vx=bike.vx*friction
@@ -226,12 +240,11 @@ end
 		bike.py=bike.py+bike.vy
 		
 		local lx=512-32
-		local ly=192
-		local function b() bike.set_bounce(math.random(4),math.random(4),math.random(4)) end
-		if bike.px<-lx then bike.vx= math.abs(bike.vx) b() end
-		if bike.px> lx then bike.vx=-math.abs(bike.vx) b() end
-		if bike.py<-ly then bike.vy= math.abs(bike.vy) b() end
-		if bike.py> ly then bike.vy=-math.abs(bike.vy) b() end
+		local ly=180
+		if bike.px<-lx then bike.px=-lx bike.vx= (math.abs(bike.vx)+1) b() end
+		if bike.px> lx then bike.px= lx bike.vx=-(math.abs(bike.vx)+1) b() end
+		if bike.py<-ly then bike.py=-ly bike.vy= (math.abs(bike.vy)+1) b() end
+		if bike.py> ly then bike.py= ly bike.vy=-(math.abs(bike.vy)+1) b() end
 		
 		for i,wheel in ipairs(bike.wheels) do
 			wheel.rz=(wheel.rz+8)%360
