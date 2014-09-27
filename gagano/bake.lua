@@ -35,10 +35,7 @@ end
 
 for i,v in ipairs{
 	"fonts/Vera.ttf",
-	"wskins/soapbar/border.png",
-	"wskins/soapbar/buttin.png",
-	"wskins/soapbar/buttof.png",
-	"wskins/soapbar/button.png",
+	"wskins/soapbar.png",
 } do
 	wbake.create_dir_for_file("data/"..v)
 	wbake.copyfile("../../mods/data/"..v,"data/"..v)
@@ -52,3 +49,4 @@ os.execute("zip -r out/gagano.zip data lua opts.lua")
 -- include snapshot of base modules for version safeness, probably.
 os.execute("cp -r ../../bin/lua/wetgenes out/lua/")
 os.execute("cd out ; zip -r gagano.zip lua")
+
