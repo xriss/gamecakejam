@@ -78,7 +78,7 @@ ship.setup=function(opts)
 
 	ship.idx=opts.idx
 
-	ship.px=256
+	ship.px=ship.idx*256-128
 	ship.py=(768-32)-96
 	ship.rz=0
 
@@ -106,66 +106,7 @@ ship.clean=function()
 
 end
 
-ship.msg=function(m)
-
---	print (wstr.dump(m))
---[[	
-	if m.class == "mouse" then
-		ship.mouse 	= true
-		ship.px     = m.x
-		ship.mouse_y= m.y
-			
-		if m.action == 1 then
-			ship.fire = true			
-		elseif m.action == -1 then
-			ship.fire  = false
-			ship.left  = false
-			ship.right = false			
-		end
-			
-	end
-	
-	if m.class == "key" then
-		
-		ship.mouse = false
-		
-		if m.keyname == "left" then
-			
-			if m.action == 1 then
-				ship.left = true
-			elseif m.action == -1 then
-				ship.left = false
-			end
-			
-		end
-		
-		if m.keyname == "right" then
-			
-			if m.action == 1 then
-				ship.right = true
-			elseif m.action == -1 then
-				ship.right = false
-			end
-			
-		end
-		
-		if m.keyname == "space" then
-			
-			if m.action == 1 then
-				ship.fire = true
-			elseif m.action == -1 then
-				ship.fire = false
-			end
-			
-		end
-		
-	end
-]]
-
-end
-
 ship.update=function()
-
 
 	local ups=srecaps.ups(ship.idx)
 	local axis=ups.axis()
@@ -209,20 +150,7 @@ ship.update=function()
 		ship.rz=ship.dead
 		return
 	end
-	
---[[	if ship.fire and ship.mouse then
-		if ship.mouse_x<=ship.px-20 then
-			ship.left  = true
-			ship.right = false
-		elseif ship.mouse_x>=ship.px+20 then
-			ship.left  = false
-			ship.right = true	
-		else
-			ship.left  = false
-			ship.right = false
-		end
-	end
-]]
+
 	if ship.left then
 	
 		if ship.vx>0 then ship.vx=0 end
@@ -290,6 +218,25 @@ ship.update=function()
 			ship.die()
 			v.die(v)
 			return
+		end
+	end
+
+	for i,v in ipairs(ships) do
+		if v~=ship and v.state=="alive" then
+			local dx=ship.px-v.px
+			local dy=ship.py-v.py
+			
+			if dx*dx+dy*dy<=32*32 then
+				if ship.vx>0 and v.px>ship.px then
+					v.vx=v.vx+ship.vx
+					ship.vx=-ship.vx
+					ship.px=v.px-32
+				elseif ship.vx<0 and v.px<ship.px then
+					v.vx=v.vx+ship.vx
+					ship.vx=-ship.vx
+					ship.px=v.px+32
+				end
+			end
 		end
 	end
 	
