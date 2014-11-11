@@ -72,7 +72,22 @@ item.update=function(it)
 	it.px=it.px+it.vx
 	it.py=it.py+it.vy
 	
-	if it.py>768 	then it.flava="dead" return end
+	if it.py>768 	then
+		it.flava="dead"
+
+		local ship=ships[math.random(1,2)] -- pick one randomly (if both are dead)
+		if ship.state=="dead" then
+			ship.live(it)
+			return
+		end
+		for _,ship in ipairs(ships) do
+			if ship.state=="dead" then
+				ship.live(it)
+				return
+			end
+		end
+		return
+	end
 --	if it.py<0 		then it.flava="dead" return end
 --	if it.px>512 	then it.flava="dead" return end
 --	if it.px<0 		then it.flava="dead" return end

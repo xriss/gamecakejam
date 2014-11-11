@@ -78,6 +78,11 @@ ship.setup=function(opts)
 
 	ship.idx=opts.idx
 
+	ship.argb=0xffffffff
+	if ship.idx==2 then
+		ship.argb=0xffff44ff
+	end
+
 	ship.px=ship.idx*256-128
 	ship.py=(768-32)-96
 	ship.rz=0
@@ -147,7 +152,7 @@ ship.update=function()
 
 	if ship.state=="dead" then
 		ship.dead=ship.dead+1
-		ship.rz=ship.dead
+--		ship.rz=ship.dead
 		return
 	end
 
@@ -167,17 +172,30 @@ ship.update=function()
 	ship.vx = ship.vx*0.9
 	ship.px = ship.px+ship.vx
 	
+	ship.vy = ship.vy*0.9
+	if ship.vy*ship.vy < 0.001 then ship.vy=0 end
+	ship.py = ship.py+ship.vy
+	if ship.py>((768-32)-96)+1 then
+		ship.vy=ship.vy-0.5
+	elseif ship.py<((768-32)-96)-1 then
+		ship.vy=ship.vy+0.5
+	end
+	
 	if ship.px>512 then
 		ship.px = 512
 		
-		if ship.vx>0 then ship.vx=-ship.vx end
+		if ship.vx>0 then
+			ship.vx=-ship.vx
+		end
 		
 	end
 	
 	if ship.px<0 then
 		ship.px = 0
 		
-		if ship.vx<0 then ship.vx=-ship.vx end
+		if ship.vx<0 then
+			ship.vx=-ship.vx
+		end
 		
 	end
 	
@@ -223,18 +241,35 @@ ship.update=function()
 
 	for i,v in ipairs(ships) do
 		if v~=ship and v.state=="alive" then
+			local vv=v.vx*v.vx+v.vy*v.vy
+			local ss=ship.vx*ship.vx+ship.vy*ship.vy
 			local dx=ship.px-v.px
 			local dy=ship.py-v.py
+			
 			
 			if dx*dx+dy*dy<=32*32 then
 				if ship.vx>0 and v.px>ship.px then
 					v.vx=v.vx+ship.vx
 					ship.vx=-ship.vx
-					ship.px=v.px-32
+					local d=math.sqrt(dx*dx+dy*dy) if d<1/256 then d=1/256 end
+					ship.px=v.px+(34*dx/d)
+					ship.py=v.py+(34*dy/d)
 				elseif ship.vx<0 and v.px<ship.px then
 					v.vx=v.vx+ship.vx
 					ship.vx=-ship.vx
-					ship.px=v.px+32
+					local d=math.sqrt(dx*dx+dy*dy) if d<1/256 then d=1/256 end
+					ship.px=v.px+(34*dx/d)
+					ship.py=v.py+(34*dy/d)
+				end
+
+				local d=0
+				if		v.py>ship.py	then	d=-1
+				elseif	v.py<ship.py	then	d=1
+				elseif	ss>vv			then	d=-1
+										else	d=1		end
+				if d~=0 then
+					ship.vy=ship.vy+math.sqrt(ss+vv)*(-1*d)
+					v.vy=v.vy+math.sqrt(ss+vv)*(1*d)
 				end
 			end
 		end
@@ -247,6 +282,7 @@ ship.draw=function()
 	if ship.state=="dead" then return end
 	local image=sheets.get("imgs/ships01")
 	
+	gl.Color(gl.C8(ship.argb))
 	image:draw(1,ship.px,ship.py,ship.rz,64,64)
 	
 	local image=sheets.get("imgs/items01")
@@ -259,6 +295,14 @@ ship.draw=function()
 	elseif ship.power=="sureshot" then
 		image:draw(7,ship.px,ship.py,ship.rz,64,64)
 	end
+end
+
+ship.live=function(it)
+	ship.px=it.px
+	ship.py=it.py
+	ship.state="alive"
+	ship.dead=0
+	beep.play("power")
 end
 
 ship.die=function()
