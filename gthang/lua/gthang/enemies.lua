@@ -31,7 +31,7 @@ M.bake=function(oven,enemies)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local bullets=oven.rebake(oven.modgame..".bullets")
-	local ship=oven.rebake(oven.modgame..".ship")
+	local ships=oven.rebake(oven.modgame..".ships")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 	local items=oven.rebake(oven.modgame..".items")
@@ -206,6 +206,7 @@ enemy.update=function(it)
 ]]	elseif it.flava=="seeker" then
 		it.countdown=it.countdown-1
 		if it.countdown<=0 then
+			local ship=ships[math.random(1,2)] -- pick random ship
 			local dx=ship.px-it.px
 			local dy=ship.py-it.py
 			local dd=dx*dx+dy*dy
@@ -226,6 +227,7 @@ enemy.update=function(it)
 		it.cool=it.cool-1
 		
 		if it.cool<=0 then
+			local ship=ships[math.random(1,2)] -- pick random ship
 			local dx=ship.px-it.px
 			local dy=ship.py-it.py
 			local dd=dx*dx+dy*dy

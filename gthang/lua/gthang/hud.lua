@@ -35,7 +35,7 @@ M.bake=function(oven,hud)
 	local enemies=oven.rebake(oven.modgame..".enemies")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
-	local ship=oven.rebake(oven.modgame..".ship")
+	local ships=oven.rebake(oven.modgame..".ships")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -53,7 +53,6 @@ hud.setup=function()
 	sscores.reset()
 	enemies.level=0
 	hud.number=0
-	ship.state="alive"
 	
 end
 
@@ -127,7 +126,7 @@ hud.draw=function()
 	end
 	
 	font.set_size(16)
-	if ship.state=="dead" then
+	if ships[1].state=="dead" and ships[2].state=="dead"  then
 		t={color=0xffff0000,string="FLY AND NEVER STOP."}
 		font.set_size(38)
 		chat_width=512

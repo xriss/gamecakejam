@@ -30,7 +30,7 @@ M.bake=function(oven,main)
 
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
-	skeys.setup({max_up=1}) -- also calls srecaps.setup
+	skeys.setup({max_up=2}) -- also calls srecaps.setup
 
 	local hud=oven.rebake(oven.modgame..".hud")
 	

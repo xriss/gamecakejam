@@ -31,7 +31,7 @@ M.bake=function(oven,bullets)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local enemies=oven.rebake(oven.modgame..".enemies")
-	local ship=oven.rebake(oven.modgame..".ship")
+	local ships=oven.rebake(oven.modgame..".ships")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 
@@ -91,14 +91,18 @@ bullet.update=function(it)
 				return
 			end
 		end
-	elseif it.flava=="enemy" and ship.state~="dead" then
-		local dx=it.px-ship.px
-		local dy=it.py-ship.py
-		
-		if dx*dx+dy*dy<=30*30 then
-			it.flava="dead"
-			ship.die()
-			return
+	elseif it.flava=="enemy"then
+		for _,ship in ipairs(ships) do
+			if ship.state=="alive" then
+				local dx=it.px-ship.px
+				local dy=it.py-ship.py
+				
+				if dx*dx+dy*dy<=30*30 then
+					it.flava="dead"
+					ship.die()
+					return
+				end
+			end
 		end
 	end
 	

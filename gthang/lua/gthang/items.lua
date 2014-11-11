@@ -31,7 +31,7 @@ M.bake=function(oven,items)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local enemies=oven.rebake(oven.modgame..".enemies")
-	local ship=oven.rebake(oven.modgame..".ship")
+	local ships=oven.rebake(oven.modgame..".ships")
 	local bullets=oven.rebake(oven.modgame..".bullets")
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
@@ -100,24 +100,28 @@ item.update=function(it)
 		end
 	end
 	
-	local dx=it.px-ship.px
-	local dy=it.py-ship.py
-	
-	if dx*dx+dy*dy<=48*48 and ship.state~="dead" then
-		if it.flava=="smartbomb" then
-			for i=1,#enemies.tab do
-				local v=enemies.tab[i]
-				v.die(v)
+	for _,ship in ipairs(ships) do
+		if it.flava~="dead" then
+			local dx=it.px-ship.px
+			local dy=it.py-ship.py
+			
+			if dx*dx+dy*dy<=48*48 and ship.state~="dead" then
+				if it.flava=="smartbomb" then
+					for i=1,#enemies.tab do
+						local v=enemies.tab[i]
+						v.die(v)
+					end
+					hud.score(enemies.level*1000)
+					beep.play("power")
+					it.flava="dead"
+				else
+					ship.power=it.flava
+					hud.score(enemies.level*1000)
+					beep.play("power")
+					it.flava="dead"
+					return
+				end
 			end
-			hud.score(enemies.level*1000)
-			beep.play("power")
-			it.flava="dead"
-		else
-			ship.power=it.flava
-			hud.score(enemies.level*1000)
-			beep.play("power")
-			it.flava="dead"
-			return
 		end
 	end
 	

@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,ship)
-	local ship=ship or {}
-	ship.oven=oven
+M.bake=function(oven,ships)
+	local ships=ships or {}
+	ships.oven=oven
 	
-	ship.modname=M.modname
+	ships.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -41,11 +41,42 @@ M.bake=function(oven,ship)
 
 
 
-ship.loads=function()
+ships.msg=function()
+end
+ships.loads=function()
+end
+ships.setup=function()
+	ships[1]=(ships[1] or ships.ship()).setup({idx=1})
+	ships[2]=(ships[2] or ships.ship()).setup({idx=2})
+
+	for i,ship in ipairs(ships) do
+		ship.state="alive"
+	end
 
 end
+ships.clean=function()
+	for i,ship in ipairs(ships) do ship.clean() end
+end
+ships.update=function()
+	for i,ship in ipairs(ships) do ship.update() end
+	if ships[1].state=="dead" and ships[2].state=="dead" then
+		if ships[1].dead>240 and ships[2].dead>240 then
+			main.next=oven.rebake(oven.modgame..".main_menu")
+		end
+		return
+	end
+end
+ships.draw=function()
+	for i,ship in ipairs(ships) do ship.draw() end
+end
+
+-- create a new ship
+ships.ship=function(ship)
+ship=ship or {}
 		
-ship.setup=function()
+ship.setup=function(opts)
+
+	ship.idx=opts.idx
 
 	ship.px=256
 	ship.py=(768-32)-96
@@ -68,6 +99,7 @@ ship.setup=function()
 	ship.mouse_x=0
 	ship.mouse_y=0
 	
+	return ship
 end
 
 ship.clean=function()
@@ -135,7 +167,7 @@ end
 ship.update=function()
 
 
-	local ups=srecaps.ups()
+	local ups=srecaps.ups(ship.idx)
 	local axis=ups.axis()
 	
 	if ups.button("mouse_left_set") then
@@ -175,9 +207,6 @@ ship.update=function()
 	if ship.state=="dead" then
 		ship.dead=ship.dead+1
 		ship.rz=ship.dead
-		if ship.dead>240 then
-			main.next=oven.rebake(oven.modgame..".main_menu")
-		end
 		return
 	end
 	
@@ -305,4 +334,7 @@ ship.die=function()
 end
 
 	return ship
+end
+
+	return ships
 end
