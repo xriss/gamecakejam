@@ -158,7 +158,7 @@ ship.update=function()
 
 	if ship.state=="spawn" then
 		ship.spawn=ship.spawn+1
-		if ship.spawn>256 then -- gave up and died (slow fade out, press fire to start)
+		if ship.spawn>512 then -- gave up and died (slow fade out, press fire to start)
 			ship.state="dead"
 			ship.dead=ship.spawn
 		end
@@ -244,17 +244,19 @@ ship.update=function()
 		end
 	end
 	
-	for i,v in ipairs(enemies.tab) do
-		local dx=ship.px-v.px
-		local dy=ship.py-v.py
-		
-		if dx*dx+dy*dy<=32*32 then
-			ship.die()
-			v.die(v)
-			return
+	if ship.state~="spawn" then -- do not die during spawn
+		for i,v in ipairs(enemies.tab) do
+			local dx=ship.px-v.px
+			local dy=ship.py-v.py
+			
+			if dx*dx+dy*dy<=32*32 then
+				ship.die()
+				v.die(v)
+				return
+			end
 		end
 	end
-
+	
 	for i,v in ipairs(ships) do
 		if v~=ship and v.state=="alive" then
 			local vv=v.vx*v.vx+v.vy*v.vy
@@ -284,8 +286,8 @@ ship.update=function()
 				elseif	ss>vv			then	d=-1
 										else	d=1		end
 				if d~=0 then
-					ship.vy=ship.vy+math.sqrt(ss+vv)*(-1*d)
-					v.vy=v.vy+math.sqrt(ss+vv)*(1*d)
+					ship.vy=ship.vy+math.sqrt(ss+vv)*(-0.25*d)
+					v.vy=v.vy+math.sqrt(ss+vv)*(0.25*d)
 				end
 			end
 		end
@@ -302,7 +304,7 @@ ship.draw=function()
 
 	if ship.state=="spawn" then
 		local r,g,b,a=gl.C8(ship.argb)
-		local m=(256-ship.spawn)/256
+		local m=(512-ship.spawn)/512
 		if m<0 then m=0 end
 		gl.Color(r*m,g*m,b*m,a*m)
 	end
