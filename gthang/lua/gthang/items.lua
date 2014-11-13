@@ -75,12 +75,14 @@ item.update=function(it)
 	if it.py>768 	then
 		it.flava="dead"
 
+--[[
 		local ship=ships[math.random(1,2)] -- pick one randomly (if both are dead)
 		if ship.state=="dead" then
 			ship.live(it)
 			return
 		end
-		for _,ship in ipairs(ships) do
+]]
+		for _,ship in ipairs(ships) do -- player one spawns first if both are dead
 			if ship.state=="dead" then
 				ship.live(it)
 				return

@@ -49,10 +49,6 @@ ships.setup=function()
 	ships[1]=(ships[1] or ships.ship()).setup({idx=1})
 	ships[2]=(ships[2] or ships.ship()).setup({idx=2})
 
-	for i,ship in ipairs(ships) do
-		ship.state="alive"
-	end
-
 end
 ships.clean=function()
 	for i,ship in ipairs(ships) do ship.clean() end
@@ -79,9 +75,6 @@ ship.setup=function(opts)
 	ship.idx=opts.idx
 
 	ship.argb=0xffffffff
-	if ship.idx==2 then
-		ship.argb=0xffff44ff
-	end
 
 	ship.px=ship.idx*256-128
 	ship.py=(768-32)-96
@@ -104,6 +97,13 @@ ship.setup=function(opts)
 	ship.mouse_x=0
 	ship.mouse_y=0
 	
+	if ship.idx==2 then
+		ship.argb=0xffff44ff
+		ship.state="spawn"
+		ship.spawn=0
+		ship.py=768
+	end
+
 	return ship
 end
 
@@ -156,6 +156,14 @@ ship.update=function()
 		return
 	end
 
+	if ship.state=="spawn" then
+		ship.spawn=ship.spawn+1
+		if ship.spawn>256 then -- gave up and died (slow fade out, press fire to start)
+			ship.state="dead"
+			ship.dead=ship.spawn
+		end
+	end
+
 	if ship.left then
 	
 		if ship.vx>0 then ship.vx=0 end
@@ -172,13 +180,17 @@ ship.update=function()
 	ship.vx = ship.vx*0.9
 	ship.px = ship.px+ship.vx
 	
-	ship.vy = ship.vy*0.9
-	if ship.vy*ship.vy < 0.001 then ship.vy=0 end
-	ship.py = ship.py+ship.vy
-	if ship.py>((768-32)-96)+1 then
-		ship.vy=ship.vy-0.5
-	elseif ship.py<((768-32)-96)-1 then
-		ship.vy=ship.vy+0.5
+	if ship.state~="spawn" then -- do not fix height of spawn
+
+		ship.vy = ship.vy*0.9
+		if ship.vy*ship.vy < 0.001 then ship.vy=0 end
+		ship.py = ship.py+ship.vy
+		if ship.py>((768-32)-96)+1 then
+			ship.vy=ship.vy-0.5
+		elseif ship.py<((768-32)-96)-1 then
+			ship.vy=ship.vy+0.5
+		end
+
 	end
 	
 	if ship.px>512 then
@@ -204,6 +216,10 @@ ship.update=function()
 	if ship.fire then
 		if ship.cool<=0 then
 			ship.cool=32
+			
+			if ship.state=="spawn" then -- enter game on first shot
+				ship.state="alive"
+			end
 			
 			if ship.power=="splitshot" then
 				ship.cool=32
@@ -283,6 +299,14 @@ ship.draw=function()
 	local image=sheets.get("imgs/ships01")
 	
 	gl.Color(gl.C8(ship.argb))
+
+	if ship.state=="spawn" then
+		local r,g,b,a=gl.C8(ship.argb)
+		local m=(256-ship.spawn)/256
+		if m<0 then m=0 end
+		gl.Color(r*m,g*m,b*m,a*m)
+	end
+
 	image:draw(1,ship.px,ship.py,ship.rz,64,64)
 	
 	local image=sheets.get("imgs/items01")
@@ -300,8 +324,9 @@ end
 ship.live=function(it)
 	ship.px=it.px
 	ship.py=it.py
-	ship.state="alive"
+	ship.state="spawn"
 	ship.dead=0
+	ship.spawn=0
 	beep.play("power")
 end
 

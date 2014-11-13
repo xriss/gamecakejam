@@ -113,7 +113,7 @@ print("Missing sound FX for "..id)
 				qq.gain=2
 				qq.pitch=1
 			end
-			qq.oggs={"oggs/theme"}
+			qq.oggs={"oggs/vapours"}
 --			qq.og=nil -- force old ogg to stop
 --			if al then al.SourceStop(sounds.strs[1].source) end
 
