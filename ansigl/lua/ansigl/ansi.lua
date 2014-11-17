@@ -94,29 +94,29 @@ M.cmap=function(opts)
 				cmap.bg=0
 				cmap.fg=7
 				cmap.bold=0
-				cmap.bright=0
+				cmap.blink=0
 				cmap.italic=false
 				cmap.underline=false
 			elseif c==1 then
 				cmap.bold=8
 			elseif c==3 then
---				cmap.italic=true
+				cmap.italic=true
 			elseif c==4 then
---				cmap.underline=true
+				cmap.underline=true
 			elseif c==5 then
 				cmap.blink=8
 			elseif c==7 or c==27 then
---				local t=cmap.fg
---				cmap.fg=cmap.bg
---				cmap.bg=t
+				local t=cmap.fg
+				cmap.fg=cmap.bg
+				cmap.bg=t
 			elseif c==22 then
---				cmap.bold=0
+				cmap.bold=0
 			elseif c==23 then
---				cmap.italic=false
+				cmap.italic=false
 			elseif c==24 then
---				cmap.underline=false
+				cmap.underline=false
 			elseif c==25 then
---				cmap.blink=0
+				cmap.blink=0
 			elseif c>=30 and c<=37 then
 				cmap.fg=c-30
 			elseif c>=40 and c<=47 then
@@ -210,7 +210,7 @@ M.cmap=function(opts)
 
 		else 			-- normal char
 
-			cmap.set( cmap.x + cmap.y*cmap.xh , cmap.base+c1 , cmap.bg , cmap.fg+cmap.bold )
+			cmap.set( cmap.x + cmap.y*cmap.xh , cmap.base+c1 , cmap.bg+cmap.blink , cmap.fg+cmap.bold )
 			inc_x()
 
 		end
