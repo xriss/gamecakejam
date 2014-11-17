@@ -36,7 +36,8 @@ main.loads=function()
 	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
 	sheets.loads_and_chops({
-		{"imgs/dos_16x16_8x16",1/16,1/16,1/32,1/32},
+		{"imgs/dos_16x16_8x16",1/16,1/16,0,0},
+		{"imgs/dos437_32x8_9x16",1/32,1/8,0,0},
 	})
 	
 end

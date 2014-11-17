@@ -5,8 +5,8 @@ local global=require("global") -- prevent accidental global use
 local opts={
 	times=true, -- request simple time keeping samples
 	
-	width=640,	-- display basics
-	height=480,
+	width=720,	-- display basics
+	height=512,
 --	show="full",
 	title="ansigl",
 	start="ansigl.main", -- rebake this mod

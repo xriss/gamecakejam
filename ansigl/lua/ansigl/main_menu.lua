@@ -131,13 +131,13 @@ void main(void)
 	vec4 d;
 	vec4 bg,fg;
 	vec2 t1=v_texcoord.xy+map_pos.xy;				// input uv
-	vec2 t2=floor(mod(t1.xy,fnt_siz.xy)) ;					// character uv
+	vec2 t2=floor(mod(t1.xy,fnt_siz.xy)) ;			// char uv
 	vec2 t3=floor(t1.xy/fnt_siz.xy)/map_pos.zw;		// map uv
 
 	d=texture2D(tex_map, t3).rgba;	
-	bg=texture2D(tex_pal, vec2(d.z,0)).rgba;
-	fg=texture2D(tex_pal, vec2(d.w,0)).rgba;
-	c=texture2D(tex_fnt, (t2+(d.xy*256.0*fnt_siz.xy))/fnt_siz.zw , -16.0).r;
+	bg=texture2D(tex_pal, vec2(d.z,0), -16.0).rgba;
+	fg=texture2D(tex_pal, vec2(d.w,0), -16.0).rgba;
+	c=texture2D(tex_fnt, (t2+(floor(d.xy*255.0)*fnt_siz.xy))/fnt_siz.zw , -16.0).r;
 	gl_FragColor=mix(bg,fg,c);
 
 }
@@ -150,6 +150,23 @@ end
 menu.setup=function()
 
 	menu.loads()
+
+	local ansi=require("ansigl.ansi")
+	local a=io.open("test/zO-geekColly.ans","rb"):read("*all")
+	menu.cmap=ansi.cmap({xh=80,yh=32})
+	menu.looper=menu.cmap.print_looper(a)
+
+	local data={}
+	for y=0,255 do
+		for x=0,255 do
+			data[1+y*256*4+x*4  ]=0
+			data[1+y*256*4+x*4+1]=0
+			data[1+y*256*4+x*4+2]=0
+			data[1+y*256*4+x*4+3]=0
+		end
+	end
+	menu.mmap=data
+
 
 end
 
@@ -164,24 +181,42 @@ menu.msg=function(m)
 	
 end
 
+menu.wait=0
 menu.update=function()
-	
+	menu.wait=menu.wait+1
+--	if menu.wait>10 then
+--		menu.wait=0
+	for i=1,16 do
+		menu.looper()
+	end
+--	end
 end
 
 menu.draw=function()
 	
 -- test the texture
 	for i=0,15 do
-		sheets.get("imgs/dos_16x16_8x16"):draw(49+i,32+i*8,360,nil,8,16)
+		sheets.get("imgs/dos437_32x8_9x16"):draw(49+i,32+i*8,360,nil,8,16)
 	end
 
 -- colours
 	local data={
 		0,		0,		0,		255,
+		170,	0,		0,		255,
+		0,		170,	0,		255,
+		170,	85,		0,		255,
+		0,		0,		170,	255,
+		170,	0,		170,	255,
+		0,		170,	170,	255,
+		170,	170,	170,	255,
+		85,		85,		85,		255,
+		255,	85,		85,		255,
+		85,		255,	85,		255,
+		255,	255,	85,		255,
+		85,		85,		255,	255,
+		255,	85,		255,	255,
+		85,		255,	255,	255,
 		255,	255,	255,	255,
-		255,	0,		0,		255,
-		0,		255,	0,		255,
-		0,		0,		255,	255,
 	}
 	canvas.vdat_check(#data) -- make sure we have space in the buffer
 	pack.save_array(data,"u8",0,#data,canvas.vdat)
@@ -198,31 +233,14 @@ menu.draw=function()
 		canvas.vdat )
 		
 -- charmap
-	local dat1={
-		0,		3,		0,		1,
-		1,		3,		0,		2,
-		2,		3,		0,		3,
-		3,		3,		0,		4,
-		4,		3,		0,		1,
-		5,		3,		0,		1,
-		6,		3,		0,		1,
-		7,		3,		0,		1,
-		8,		3,		0,		1,
-		9,		3,		0,		1,
-		10,		3,		0,		1,
-		11,		3,		0,		1,
-		12,		3,		0,		1,
-		13,		3,		0,		1,
-		14,		3,		0,		1,
-		15,		3,		0,		1,
-	}
-	local data={}
-	for y=0,255 do
-		for x=0,255 do
-			data[1+y*256*4+x*4  ]=y%16
-			data[1+y*256*4+x*4+1]=x%16
-			data[1+y*256*4+x*4+2]=0
-			data[1+y*256*4+x*4+3]=1+((x+y)%5)
+	local data=menu.mmap
+	for y=0,31 do
+		for x=0,79 do
+			local a,b,c=menu.cmap.get(x+y*80)
+			data[1+y*256*4+x*4  ]=a%32
+			data[1+y*256*4+x*4+1]=math.floor(a/32)
+			data[1+y*256*4+x*4+2]=b
+			data[1+y*256*4+x*4+3]=c
 		end
 	end
 
@@ -242,10 +260,10 @@ menu.draw=function()
 
 
 	local data={
-		128,		128,		0,		0,		0,
-		128+128,	128,		0,		128,	0,
-		128,		128+128,	0,		0,		128,
-		128+128,	128+128,	0,		128,	128,
+		0,		0,		0,		0,		0,
+		0+80*9,	0,		0,		80*9,	0,
+		0,		0+512,	0,		0,		512,
+		0+80*9,	0+512,	0,		80*9,	512,
 	}
 
 	local datalen=#data
@@ -269,7 +287,7 @@ menu.draw=function()
 	gl.BindTexture( gl.TEXTURE_2D , menu.tex_map )
 
 	gl.ActiveTexture(gl.TEXTURE0) gl.Uniform1i( p:uniform("tex_fnt"), 0 )
-	gl.BindTexture( gl.TEXTURE_2D , sheets.get("imgs/dos_16x16_8x16").img.gl )
+	gl.BindTexture( gl.TEXTURE_2D , sheets.get("imgs/dos437_32x8_9x16").img.gl )
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE)
@@ -281,7 +299,7 @@ menu.draw=function()
 
 	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
 	
-	gl.Uniform4f( p:uniform("fnt_siz"), 8,16,128,256 )
+	gl.Uniform4f( p:uniform("fnt_siz"), 9,16,512,128 )
 	gl.Uniform4f( p:uniform("map_pos"), 0,0,256,256 )
 
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
