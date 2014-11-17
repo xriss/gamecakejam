@@ -175,7 +175,7 @@ M.cmap=function(opts)
 
 		end
 
-		if idx>#str then return nil end
+		if idx>#str then return nil end -- end of stream
 		
 		local c1=getc()
 		local c2=peekc()
