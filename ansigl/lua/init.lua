@@ -6,7 +6,7 @@ local opts={
 	times=true, -- request simple time keeping samples
 	
 	width=720,	-- display basics
-	height=512,
+	height=512*1,
 --	show="full",
 	title="ansigl",
 	start="ansigl.main", -- rebake this mod

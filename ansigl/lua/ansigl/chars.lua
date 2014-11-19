@@ -264,8 +264,8 @@ chars.draw=function(x,y,w,h)
 
 	x=x or 0
 	y=y or 0
-	w=w or main.opts.width
-	h=h or main.opts.height
+	w=w or oven.opts.width
+	h=h or oven.opts.height
 
 	local data={
 		x,		y,		0,		0,	0,

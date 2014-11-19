@@ -51,11 +51,11 @@ main_scroll.setup=function()
 	main_scroll.loads()
 	chars.setup()
 
-	local map=ansi.cmap({resize=true,hx=80,yh=1})
+	local map=ansi.cmap({resize=true,xh=80,yh=1})
 	map.y=1
 	map.print(io.open("test/zO-geekColly.ans","rb"):read("*all"))
 	chars.set_map(map)
-	chars.y=-512
+	chars.y=-oven.opts.height
 
 end
 
@@ -73,12 +73,12 @@ end
 main_scroll.update=function()
 
 	chars.y=chars.y+1
-	if chars.y>chars.map.yh*chars.font_h then chars.y=-512 end
+	if chars.y>chars.map.yh*chars.font_h then chars.y=-oven.opts.height end
 end
 
 main_scroll.draw=function()
 	
-	chars.draw(0,0,80*9,512)
+	chars.draw(0,0,oven.opts.width,oven.opts.height)
 
 end
 
