@@ -161,8 +161,8 @@ chars.set_font=function(font)
 	chars.font_name="imgs/dos437_32x8_9x16"
 	chars.font_w=9
 	chars.font_h=16
-	chars.font_tw=512 -- 32*9
-	chars.font_th=128 -- 8*16
+--	chars.font_tw=512 -- 32*9
+--	chars.font_th=128 -- 8*16
 
 	sheets.loads_and_chops({
 		{chars.font_name,1/32,1/8,0,0},
@@ -307,7 +307,7 @@ chars.draw=function(x,y,w,h)
 
 	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
 	
-	gl.Uniform4f( p:uniform("fnt_siz"), chars.font_w,chars.font_h,chars.font_tw,chars.font_th )
+	gl.Uniform4f( p:uniform("fnt_siz"), chars.font_w,chars.font_h,sheets.get(chars.font_name).img.gl_width or 0,sheets.get(chars.font_name).img.gl_height or 0 )
 	gl.Uniform4f( p:uniform("map_pos"), chars.x,chars.y,chars.w,chars.h )
 
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
