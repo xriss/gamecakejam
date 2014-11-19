@@ -52,6 +52,7 @@ main_scroll.setup=function()
 	chars.setup()
 
 	local map=ansi.cmap({resize=true,hx=80,yh=1})
+	map.y=1
 	map.print(io.open("test/zO-geekColly.ans","rb"):read("*all"))
 	chars.set_map(map)
 	chars.y=-512
