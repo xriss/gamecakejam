@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,menu)
-	local menu=menu or {}
-	menu.oven=oven
+M.bake=function(oven,chars)
+	local chars=chars or {}
+	chars.oven=oven
 	
-	menu.modname=M.modname
+	chars.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -29,21 +29,14 @@ M.bake=function(oven,menu)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
---	local beep=oven.rebake(oven.modgame..".beep")
 
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
-
-	local layout=cake.layouts.create{}
+chars.loads=function()
 
 
-
-menu.loads=function()
-
-	menu.tex_pal=assert(gl.GenTexture())
-	menu.tex_map=assert(gl.GenTexture())
+	chars.tex_pal=assert(gl.GenTexture())
+	chars.tex_map=assert(gl.GenTexture())
 	
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_pal )
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_pal )
 	gl.TexImage2D(
 		gl.TEXTURE_2D,
 		0,
@@ -55,7 +48,7 @@ menu.loads=function()
 		gl.UNSIGNED_BYTE,
 		string.rep(string.char(0), 256 * 1 * 4) ) --blank the texture
 
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_map )
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_map )
 	gl.TexImage2D(
 		gl.TEXTURE_2D,
 		0,
@@ -68,13 +61,13 @@ menu.loads=function()
 		string.rep(string.char(0), 256 * 256 * 4) ) --blank the texture
 
 
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_pal )	
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_pal )	
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)
 	
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_map )
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_map )
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE)
@@ -82,7 +75,7 @@ menu.loads=function()
 	
 	gl.CheckError()
 
-	gl.progsrc("test_font",[[
+	gl.progsrc("draw_chars",[[
 	
 {shaderprefix}
 #line ]]..debug.getinfo(1).currentline..[[
@@ -145,59 +138,40 @@ void main(void)
 ]]	)
 
 
+
 end
 		
-menu.setup=function()
+chars.setup=function()
 
-	menu.loads()
+	chars.loads()
 
-	local ansi=require("ansigl.ansi")
-	local a=io.open("test/zO-geekColly.ans","rb"):read("*all")
-	menu.cmap=ansi.cmap({xh=80,yh=32})
-	menu.looper=menu.cmap.print_looper(a)
 
-	local data={}
-	for y=0,255 do
-		for x=0,255 do
-			data[1+y*256*4+x*4  ]=0
-			data[1+y*256*4+x*4+1]=0
-			data[1+y*256*4+x*4+2]=0
-			data[1+y*256*4+x*4+3]=0
-		end
-	end
-	menu.mmap=data
-
+	chars.set_font()
+	chars.set_pal()
+	chars.set_map()
 
 end
 
-menu.clean=function()
+chars.clean=function()
 
 end
 
-menu.msg=function(m)
+chars.set_font=function(font)
 
---	print(wstr.dump(m))
+	chars.font_name="imgs/dos437_32x8_9x16"
+	chars.font_w=9
+	chars.font_h=16
+	chars.font_tw=512 -- 32*9
+	chars.font_th=128 -- 8*16
 
-	
+	sheets.loads_and_chops({
+		{chars.font_name,1/32,1/8,0,0},
+	})
+
 end
 
-menu.wait=0
-menu.update=function()
-	menu.wait=menu.wait+1
---	if menu.wait>10 then
---		menu.wait=0
-	for i=1,16 do
-		menu.looper()
-	end
---	end
-end
 
-menu.draw=function()
-	
--- test the texture
-	for i=0,15 do
-		sheets.get("imgs/dos437_32x8_9x16"):draw(49+i,32+i*8,360,nil,8,16)
-	end
+chars.set_pal=function(pal)
 
 -- colours
 	local data={
@@ -220,7 +194,7 @@ menu.draw=function()
 	}
 	canvas.vdat_check(#data) -- make sure we have space in the buffer
 	pack.save_array(data,"u8",0,#data,canvas.vdat)
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_pal )
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_pal )
 	gl.TexImage2D(
 		gl.TEXTURE_2D,
 		0,
@@ -231,22 +205,47 @@ menu.draw=function()
 		gl.RGBA,
 		gl.UNSIGNED_BYTE,
 		canvas.vdat )
-		
+
+end
+
+
+chars.set_map=function(map)
+
+	chars.map=map
+
+	chars.x=0
+	chars.y=0
+	chars.w=256
+	chars.h=256
+	
 -- charmap
-	local data=menu.mmap
-	for y=0,31 do
-		for x=0,79 do
-			local a,b,c=menu.cmap.get(x+y*80)
-			data[1+y*256*4+x*4  ]=a%32
-			data[1+y*256*4+x*4+1]=math.floor(a/32)
-			data[1+y*256*4+x*4+2]=b
-			data[1+y*256*4+x*4+3]=c
+	local data={}
+	for y=0,255 do
+		for x=0,255 do
+			data[1+y*256*4+x*4  ]=0
+			data[1+y*256*4+x*4+1]=0
+			data[1+y*256*4+x*4+2]=0
+			data[1+y*256*4+x*4+3]=0
+		end
+	end
+	
+	if map then
+		for y=0,255 do
+			for x=0,255 do
+				local a,b,c=map.getxy(x,y)
+				if a then
+					data[1+y*256*4+x*4  ]=a%32
+					data[1+y*256*4+x*4+1]=math.floor(a/32)
+					data[1+y*256*4+x*4+2]=b
+					data[1+y*256*4+x*4+3]=c
+				end
+			end
 		end
 	end
 
 	canvas.vdat_check(#data) -- make sure we have space in the buffer
 	pack.save_array(data,"u8",0,#data,canvas.vdat)
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_map )
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_map )
 	gl.TexImage2D(
 		gl.TEXTURE_2D,
 		0,
@@ -258,12 +257,21 @@ menu.draw=function()
 		gl.UNSIGNED_BYTE,
 		canvas.vdat )
 
+end
+
+
+chars.draw=function(x,y,w,h)
+
+	x=x or 0
+	y=y or 0
+	w=w or main.opts.width
+	h=h or main.opts.height
 
 	local data={
-		0,		0,		0,		0,		0,
-		0+80*9,	0,		0,		80*9,	0,
-		0,		0+512,	0,		0,		512,
-		0+80*9,	0+512,	0,		80*9,	512,
+		x,		y,		0,		0,	0,
+		x+w,	y,		0,		w,	0,
+		x,		y+h,	0,		0,	h,
+		x+w,	y+h,	0,		w,	h,
 	}
 
 	local datalen=#data
@@ -272,7 +280,7 @@ menu.draw=function()
 	
 	pack.save_array(data,"f32",0,datalen,canvas.vdat)
 
-	local p=gl.program("test_font")
+	local p=gl.program("draw_chars")
 	gl.UseProgram( p[0] )
 
 	gl.BindBuffer(gl.ARRAY_BUFFER,canvas.get_vb())
@@ -281,13 +289,13 @@ menu.draw=function()
 -- bind textures (3)
 
 	gl.ActiveTexture(gl.TEXTURE2) gl.Uniform1i( p:uniform("tex_pal"), 2 )
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_pal )
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_pal )
 
 	gl.ActiveTexture(gl.TEXTURE1) gl.Uniform1i( p:uniform("tex_map"), 1 )
-	gl.BindTexture( gl.TEXTURE_2D , menu.tex_map )
+	gl.BindTexture( gl.TEXTURE_2D , chars.tex_map )
 
 	gl.ActiveTexture(gl.TEXTURE0) gl.Uniform1i( p:uniform("tex_fnt"), 0 )
-	gl.BindTexture( gl.TEXTURE_2D , sheets.get("imgs/dos437_32x8_9x16").img.gl )
+	gl.BindTexture( gl.TEXTURE_2D , sheets.get(chars.font_name).img.gl or 0)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE)
@@ -299,8 +307,8 @@ menu.draw=function()
 
 	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
 	
-	gl.Uniform4f( p:uniform("fnt_siz"), 9,16,512,128 )
-	gl.Uniform4f( p:uniform("map_pos"), 0,0,256,256 )
+	gl.Uniform4f( p:uniform("fnt_siz"), chars.font_w,chars.font_h,chars.font_tw,chars.font_th )
+	gl.Uniform4f( p:uniform("map_pos"), chars.x,chars.y,chars.w,chars.h )
 
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
 	gl.EnableVertexAttribArray(p:attrib("a_vertex"))	
@@ -312,5 +320,5 @@ menu.draw=function()
 	
 end
 
-	return menu
+	return chars
 end

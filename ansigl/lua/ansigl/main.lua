@@ -35,10 +35,10 @@ main.loads=function()
 
 	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
-	sheets.loads_and_chops({
-		{"imgs/dos_16x16_8x16",1/16,1/16,0,0},
-		{"imgs/dos437_32x8_9x16",1/32,1/8,0,0},
-	})
+--	sheets.loads_and_chops({
+--		{"imgs/dos_16x16_8x16",1/16,1/16,0,0},
+--		{"imgs/dos437_32x8_9x16",1/32,1/8,0,0},
+--	})
 	
 end
 		
@@ -50,7 +50,7 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
-	main.next=oven.rebake(oven.modgame..".main_menu")
+	main.next=oven.rebake(oven.modgame..".main_scroll")
 	
 	main.change()
 end

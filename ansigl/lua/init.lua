@@ -18,8 +18,9 @@ require("apps").default_paths() -- default search paths so things can easily be 
 
 math.randomseed( os.time() ) -- try and randomise a little bit better
 
--- setup oven with vanilla cake setup and save as a global value
-global.oven=require("wetgenes.gamecake.oven").bake(opts).preheat()
+return require("ansigl.cmd").start(opts)
 
+-- setup oven with vanilla cake setup and save as a global value
+--global.oven=require("wetgenes.gamecake.oven").bake(opts).preheat()
 -- this will busy loop or hand back control depending on the system we are running on, eitherway opts.start will run next 
-return oven:serv()
+--return oven:serv()

@@ -14,6 +14,9 @@ M.cmap=function(opts)
 	opts=opts or {}
 	local cmap=opts.cmap or {}
 
+	cmap.flags={} -- flags
+	cmap.flags.resize=opts.resize
+	
 -- size of screen
 	cmap.xh=opts.xh or 80
 	cmap.yh=opts.yh or 80
@@ -49,6 +52,9 @@ M.cmap=function(opts)
 		i=1+i*3
 		return cmap.tab[i],cmap.tab[i+1],cmap.tab[i+2]
 	end
+	cmap.getxy=function(x,y)
+		return cmap.get(x+y*cmap.xh)
+	end
 
 
 	cmap.print=function(str)
@@ -76,9 +82,14 @@ M.cmap=function(opts)
 		end
 
 		local scroll_y=function()
-			cmap.y=cmap.y-1
-			for i=1,cmap.xh do table.remove(cmap.tab,1) table.remove(cmap.tab,1) table.remove(cmap.tab,1) end
-			for i=1,cmap.xh do cmap.tab[#cmap.tab+1]=0 cmap.tab[#cmap.tab+1]=0 cmap.tab[#cmap.tab+1]=0 end
+			if cmap.flags.resize then
+				for i=1,cmap.xh do cmap.tab[#cmap.tab+1]=0 cmap.tab[#cmap.tab+1]=0 cmap.tab[#cmap.tab+1]=0 end
+				cmap.yh=cmap.yh+1
+			else
+				cmap.y=cmap.y-1
+				for i=1,cmap.xh do table.remove(cmap.tab,1) table.remove(cmap.tab,1) table.remove(cmap.tab,1) end
+				for i=1,cmap.xh do cmap.tab[#cmap.tab+1]=0 cmap.tab[#cmap.tab+1]=0 cmap.tab[#cmap.tab+1]=0 end
+			end
 		end
 		local inc_y=function()
 			cmap.y=cmap.y+1
