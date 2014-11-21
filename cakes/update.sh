@@ -1,8 +1,11 @@
 cd `dirname $0`
 
-rm *.cake
+#rm *.cake
 
-for dir in ../*/ ; do
+wild=$1
+: ${wild:="*"}
+
+for dir in ../$wild/ ; do
 
 	echo $dir
 
