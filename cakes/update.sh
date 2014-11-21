@@ -9,8 +9,8 @@ for dir in ../*/ ; do
 	cd $dir
 	../bake >/dev/null
 
-	rm  -rf ${dir}out
-	rm  -rf ${dir}data
+#	rm  -rf ${dir}out
+#	rm  -rf ${dir}data
 
 	if [ -d "${dir}out/" ]; then
 		for f in ${dir}out/*.zip; do 
