@@ -15,10 +15,41 @@ local M={ modname=(...) } ; package.loaded[M.modname]=M
 M.start=function(opts)
 	local dowin=false
 	
-	print("test")
-	dowin=true
+local help=[[
+
+Example commandlines.
+
+	gamecake ansigl.cake filename.ansi
+Render the given ansi file, without a filename nothing will be shown.
+
+	gamecake ansigl.cake filename.ansi --fullscreen
+Render in fullscreen mode.
+	
+]]
+	
+	opts.ansibins={}
 	for i=1,#opts do
-		print(i,opts[i])
+		local v=opts[i]
+		
+-- try and read an ansi file
+		local fp=io.open(v,"rb")
+		if fp then
+			local it={}
+			it.filename=v
+			it.data=fp:read("*all")
+			
+			opts.ansibins[#opts.ansibins+1]=it
+			fp:close()
+		end
+		
+		if v=="--fullscreen" then opts.show="full" end
+
+	end
+
+	if #opts.ansibins>0 then
+		dowin=true
+	else
+		print(help)
 	end
 
 	if dowin then

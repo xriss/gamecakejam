@@ -53,7 +53,7 @@ main_scroll.setup=function()
 
 	local map=ansi.cmap({resize=true,xh=80,yh=1})
 	map.y=1
-	map.print(io.open("test/zO-geekColly.ans","rb"):read("*all"))
+	map.print(opts.ansibins[1].data)
 	chars.set_map(map)
 	chars.y=-oven.opts.height
 
