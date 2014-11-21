@@ -130,7 +130,7 @@ void main(void)
 	d=texture2D(tex_map, t3).rgba;	
 	bg=texture2D(tex_pal, vec2(d.z,0), -16.0).rgba;
 	fg=texture2D(tex_pal, vec2(d.w,0), -16.0).rgba;
-	c=texture2D(tex_fnt, (t2+(floor(d.xy*255.0)*fnt_siz.xy))/fnt_siz.zw , -16.0).r;
+	c=texture2D(tex_fnt, (t2+(floor((d.xy*255.0*fnt_siz.xy)+vec2(0.5,0.5))))/fnt_siz.zw , -16.0).r;
 	gl_FragColor=mix(bg,fg,c);
 
 }
@@ -158,14 +158,15 @@ end
 
 chars.set_font=function(font)
 
-	chars.font_name="imgs/dos437_32x8_9x16"
+--	chars.font_name="imgs/dos437_32x8_9x16"
+	chars.font_name="imgs/ansilove_font_pc_80x25"
 	chars.font_w=9
 	chars.font_h=16
---	chars.font_tw=512 -- 32*9
---	chars.font_th=128 -- 8*16
+	chars.font_cw=256
+	chars.font_ch=1
 
 	sheets.loads_and_chops({
-		{chars.font_name,1/32,1/8,0,0},
+		{chars.font_name,1/256,1/1,0,0},
 	})
 
 end
@@ -234,8 +235,8 @@ chars.set_map=function(map)
 			for x=0,255 do
 				local a,b,c=map.getxy(x,y)
 				if a then
-					data[1+y*256*4+x*4  ]=a%32
-					data[1+y*256*4+x*4+1]=math.floor(a/32)
+					data[1+y*256*4+x*4  ]=(a)%chars.font_cw
+					data[1+y*256*4+x*4+1]=math.floor((a)/chars.font_cw)
 					data[1+y*256*4+x*4+2]=b
 					data[1+y*256*4+x*4+3]=c
 				end
