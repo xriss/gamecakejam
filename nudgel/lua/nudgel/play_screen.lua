@@ -447,8 +447,8 @@ uniform sampler2D tex0;
 
 varying vec2  v_texcoord;
 
-uniform vec4 center;
-
+uniform vec4 center; 	// 0.5,0.5,0.5,0.5
+uniform vec4 distort;	// 0.25,0.25,1.0,0.03
 
 vec3 rgb2hsv(vec3 c)
 {
@@ -472,14 +472,14 @@ void main(void)
 {
 	vec2  uv=v_texcoord;
 	uv-=center.xy;
-	float p=length(uv);
-	uv=uv*pow(p,0.03);
+	float p=length(uv*distort.xy);
+	uv=(uv)*pow(p*distort.z,distort.w);
 	uv+=center.zw;
 
 // color shift
 	vec3 rgb=texture2D(tex0, uv).rgb;
 	vec3 hsv=rgb2hsv(rgb);
-	hsv.x=fract(hsv.x+(p/8.0));
+	hsv.x=fract(hsv.x+p);
 	rgb=hsv2rgb(hsv);
 	
 	gl_FragColor=vec4( rgb, 1.0 );

@@ -117,6 +117,7 @@ play.draw=function()
 		local c=cs[math.random(#cs)]
 		gl.Color(c[1],c[2],c[3],c[4])
 		local t=wstr.split_whitespace("Art gallery and performance space in Bradford (UK) hosting exhibitions, concerts, film screenings and other events")
+		local t={"fuse"}
 		local s=(t[math.random(#t)])
 		font.set_xy(128+(math.random(32)-16)-(font.width(s)/2),128+(math.random(32)-16)-16) -- 32 pixels high
 		font.draw(s)
@@ -144,7 +145,8 @@ play.draw=function()
 		cc[1]=0.5+cc[1]/32
 		cc[2]=0.5+cc[2]/32
 		gl.Uniform4f( p:uniform("center"), cc[1],cc[2],cc[1],cc[2] )
-
+		gl.Uniform4f( p:uniform("distort"), 0.25,0.25,1.0,0.03 )
+--		gl.Uniform4f( p:uniform("distort"), 1,0.25,1.0,0.03 )
 		return p
 	end)	
 	play.next_frame()
