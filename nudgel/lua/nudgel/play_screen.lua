@@ -5,6 +5,8 @@ local pack=require("wetgenes.pack")
 local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
+local wv4l2=require("wetgenes.v4l2")
+local wgrd=require("wetgenes.grd")
 
 local function dprint(a) print(wstr.dump(a)) end
 
@@ -25,6 +27,7 @@ M.bake=function(oven,screen)
 	local gl=oven.gl
 	local sheets=cake.sheets
 	local layouts=cake.layouts
+
 
 	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
 
@@ -480,6 +483,7 @@ void main(void)
 	vec3 rgb=texture2D(tex0, uv).rgb;
 	vec3 hsv=rgb2hsv(rgb);
 	hsv.x=fract(hsv.x+p);
+	hsv.y=1.0;
 	rgb=hsv2rgb(hsv);
 	
 	gl_FragColor=vec4( rgb, 1.0 );
@@ -532,6 +536,55 @@ void main(void)
 ]]	)
 
 
+	gl.progsrc("nudgel_cam",[[
+	
+{shaderprefix}
+#line ]]..1+debug.getinfo(1).currentline..[[
+
+uniform mat4 modelview;
+uniform mat4 projection;
+uniform vec4 color;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+ 
+void main()
+{
+    gl_Position = vec4(a_vertex, 1.0);
+	v_texcoord=a_texcoord;
+}
+
+]],[[
+
+{shaderprefix}
+#line ]]..1+debug.getinfo(1).currentline..[[
+
+#if defined(GL_FRAGMENT_PRECISION_HIGH)
+precision highp float; /* really need better numbers if possible */
+#endif
+
+uniform sampler2D tex0;
+uniform sampler2D cam0;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+
+void main(void)
+{
+	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
+	vec2  uv=v_texcoord;
+	vec3 c1=texture2D(cam0, vx-(uv*vx)).rgb;
+	vec3 c2=texture2D(tex0, uv).rgb;
+	float m=length(c1);
+
+	gl_FragColor=vec4( mix(c2,c1,0.5*m) , 1.0 );
+}
+
+]]	)
+
 
 
 end
@@ -546,6 +599,40 @@ screen.setup=function()
 	screen.fbos={}
 	screen.fbos[1]=framebuffers.create(256,256,0)
 	screen.fbos[2]=framebuffers.create(256,256,0)
+
+	screen.cams={}
+	screen.cams[1]=assert(gl.GenTexture())
+	screen.cams[2]=assert(gl.GenTexture())
+	screen.cam_idx=1
+	screen.cam_fw=640/1024
+	screen.cam_fh=480/512
+
+-- create starting black textures so we can just update an area
+	for i=1,2 do
+
+		gl.BindTexture( gl.TEXTURE_2D , screen.cams[i] )
+		
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,	gl.CLAMP_TO_EDGE)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,	gl.CLAMP_TO_EDGE)
+
+		gl.TexImage2D(
+			gl.TEXTURE_2D,
+			0,
+			gl.RGB,
+			1024,
+			512,
+			0,
+			gl.RGB,
+			gl.UNSIGNED_BYTE,
+			string.rep("\0",3*1024*512) )
+	end
+
+	screen.vid=assert(wv4l2.open("/dev/video0"))
+	wv4l2.capture_start(screen.vid,{width=640,height=480,buffer_count=2,format="UYVY"})
+
+
 
 end
 
@@ -564,6 +651,26 @@ end
 
 screen.update=function()
 
+
+	local t=wv4l2.capture_read_grd(screen.vid,screen.vidgrd and screen.vidgrd[0]) -- reuse last grd
+	if t then
+		screen.vidgrd=screen.vidgrd or wgrd.create(t)
+
+		gl.BindTexture( gl.TEXTURE_2D , screen.cams[screen.cam_idx] )
+		gl.TexSubImage2D(
+			gl.TEXTURE_2D,
+			0,
+			0,0,
+			640,480,
+			gl.RGB,
+			gl.UNSIGNED_BYTE,
+			screen.vidgrd.data )
+		gl.GenerateMipmap(gl.TEXTURE_2D)
+		
+		return true
+	end
+
+	return false
 end
 
 
