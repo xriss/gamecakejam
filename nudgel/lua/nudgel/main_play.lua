@@ -118,7 +118,7 @@ play.draw=function()
 		end)	
 		play.next_frame()
 			
-		screen.draw(play.frame_draw, (854/2) , -(480/2)*1.2 )
+		screen.draw(play.frame_draw, -(854/2) , -(480/2)*1.2 )
 	
 		return
 	end
@@ -198,7 +198,7 @@ play.draw=function()
 	play.next_frame()
 		
 --	screen.draw(play.frame_draw,(854/2)/256)
-	screen.draw(play.frame_draw, (854/2) , -(480/2)*1.2 )
+	screen.draw(play.frame_draw, -(854/2) , -(480/2)*1.2 )
 	
 
 
