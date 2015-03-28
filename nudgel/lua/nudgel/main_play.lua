@@ -100,6 +100,31 @@ end
 
 
 play.draw=function()
+
+	if main.cam=="raw" then -- just show a rawcam feed
+	
+		screen.draw_feed(play.frame_disp,play.frame_draw,function()
+			local p=gl.program("nudgel_rawcam")
+			gl.UseProgram( p[0] )
+
+			gl.Uniform1i( p:uniform("tex0"), 0 )
+			gl.Uniform1i( p:uniform("cam0"), 1 )
+
+			gl.ActiveTexture(gl.TEXTURE1)
+			gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
+			gl.ActiveTexture(gl.TEXTURE0)
+
+			return p
+		end)	
+		play.next_frame()
+			
+		screen.draw(play.frame_draw, (854/2) , -(480/2)*1.2 )
+	
+		return
+	end
+	
+
+
 	
 	screen.draw_into_start(play.frame_draw)
 --	font.set("Vera") -- 32 pixels high
@@ -119,7 +144,7 @@ play.draw=function()
 		gl.Color(c[1],c[2],c[3],c[4])
 		local t=wstr.split_whitespace("Art gallery and performance space in Bradford (UK) hosting exhibitions, concerts, film screenings and other events")
 		local s=(t[math.random(#t)])
-		font.set_xy(128+(math.random(32)-16)-(font.width(s)/2),128+(math.random(32)-16)-16) -- 32 pixels high
+		font.set_xy(256+(math.random(32)-16)-(font.width(s)/2),256+(math.random(32)-16)-16) -- 32 pixels high
 		font.draw(s)
 
 	end
@@ -172,7 +197,8 @@ play.draw=function()
 	end)	
 	play.next_frame()
 		
-	screen.draw(play.frame_draw,1.6)
+--	screen.draw(play.frame_draw,(854/2)/256)
+	screen.draw(play.frame_draw, (854/2) , -(480/2)*1.2 )
 	
 
 

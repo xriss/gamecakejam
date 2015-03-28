@@ -43,380 +43,6 @@ M.bake=function(oven,screen)
 		
 screen.loads=function()
 
-	gl.progsrc("bigtrouble_bloom_pick",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-attribute vec3 a_vertex;
-attribute vec2 a_texcoord;
-
-varying vec2  v_texcoord;
- 
-void main()
-{
-    gl_Position = vec4(a_vertex, 1.0);
-	v_texcoord=a_texcoord;
-}
-
-]],[[
-
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-#if defined(GL_FRAGMENT_PRECISION_HIGH)
-precision highp float; /* really need better numbers if possible */
-#endif
-
-uniform sampler2D tex;
-
-uniform vec4  img_siz; /* 0,1 image size and 2,3 size of texture */
-uniform vec4  img_off; /* texture offset (for sub layers) */
-
-varying vec2  v_texcoord;
-
-void main(void)
-{
-	vec4  c;
-	c=texture2D(tex, v_texcoord).rgba;
-
-// spread the bloom around rgb space a little
-	c.r=0.25*(c.r*2.0+c.g    +c.b    );
-	c.g=0.25*(c.r    +c.g*2.0+c.b    );
-	c.b=0.25*(c.r    +c.g    +c.b*2.0);
-
-	gl_FragColor=vec4( c.rgb*c.rgb , 1.0 );
-}
-
-]]	)
-
-
-	gl.progsrc("bigtrouble_bloom_blur",[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-uniform mat4 modelview;
-uniform mat4 projection;
-uniform vec4 color;
-
-attribute vec3 a_vertex;
-attribute vec2 a_texcoord;
-
-varying vec2  v_texcoord;
- 
-void main()
-{
-    gl_Position = vec4(a_vertex, 1.0);
-	v_texcoord=a_texcoord;
-}
-
-]],[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-#if defined(GL_FRAGMENT_PRECISION_HIGH)
-precision highp float; /* really need better numbers if possible */
-#endif
-
-uniform sampler2D tex;
-
-varying vec2  v_texcoord;
-
-uniform vec4  pix_siz; /* 0,1 pixel size */
-
-
-void main(void)
-{
-	vec2 td;
-	vec2  tc=v_texcoord;
-	vec4  c;
-
-	c =texture2D(tex,tc).rgba*(4.0/16.0);
-	c+=texture2D(tex,tc+pix_siz.xy* 1.0).rgba*(3.0/16.0);
-	c+=texture2D(tex,tc+pix_siz.xy*-1.0).rgba*(3.0/16.0);
-	c+=texture2D(tex,tc+pix_siz.xy* 2.0).rgba*(2.0/16.0);
-	c+=texture2D(tex,tc+pix_siz.xy*-2.0).rgba*(2.0/16.0);
-	c+=texture2D(tex,tc+pix_siz.xy* 3.0).rgba*(1.0/16.0);
-	c+=texture2D(tex,tc+pix_siz.xy*-3.0).rgba*(1.0/16.0);
-
-	gl_FragColor=c.rgba;
-}
-
-]]	)
-
-
-	gl.progsrc("bigtrouble_bloom",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-uniform mat4 modelview;
-uniform mat4 projection;
-uniform vec4 color;
-
-attribute vec3 a_vertex;
-attribute vec2 a_texcoord;
-
-varying vec2  v_texcoord;
-varying vec4  v_color;
- 
-void main()
-{
-    gl_Position = projection * modelview * vec4(a_vertex.xy, 0.0 , 1.0);
-    gl_Position.z+=a_vertex.z;
-	v_texcoord=a_texcoord;
-	v_color=color;
-}
-
-]],[[
-
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-#if defined(GL_FRAGMENT_PRECISION_HIGH)
-precision highp float; /* really need better numbers if possible */
-#endif
-
-uniform sampler2D tex0;
-
-varying vec2  v_texcoord;
-varying vec4  v_color;
-
-void main(void)
-{
-	gl_FragColor=vec4( texture2D(tex0, v_texcoord).rgb, 0.0 )*v_color;
-}
-
-]]	)
-
-
-	gl.progsrc("bigtrouble_scanline",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-uniform mat4 modelview;
-uniform mat4 projection;
-uniform vec4 color;
-
-attribute vec3 a_vertex;
-attribute vec2 a_texcoord;
-
-varying vec2  v_texcoord;
-varying vec4  v_color;
- 
-void main()
-{
-    gl_Position = projection * modelview * vec4(a_vertex.xy, 0.0 , 1.0);
-    gl_Position.z+=a_vertex.z;
-	v_texcoord=a_texcoord;
-	v_color=color;
-}
-
-]],[[
-
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-#if defined(GL_FRAGMENT_PRECISION_HIGH)
-precision highp float; /* really need better numbers if possible */
-#endif
-
-uniform sampler2D tex;
-
-varying vec2  v_texcoord;
-varying vec4  v_color;
-
-
-const vec2 xo = vec2(1.0/256.0,0.0);
-const vec2 ss = vec2(256.0,256.0);
-const vec2 oo = vec2(1.0/256.0,1.0/256.0);
-
-void main(void)
-{
-	vec2 tb;
-
-	vec4  c,c2;
-	
-	float aa;
-
-	tb=(floor(v_texcoord*ss)+vec2(0.5,0.5))*oo;
-
-	c=texture2D(tex, tb).rgba;
-
-
-	aa=2.0*(fract(v_texcoord.x*256.0)-0.5);
-	if(aa<0.0)
-	{
-		c2=texture2D(tex, tb-xo ).rgba;
-		aa=clamp(aa,-1.0,0.0);
-		aa=aa*aa;
-		c=mix(c,c2,aa*0.5);
-	}
-	else
-	{
-		c2=texture2D(tex, tb+xo).rgba;
-		aa=clamp(aa,0.0,1.0);
-		aa=aa*aa;
-		c=mix(c,c2,aa*0.5);
-	}
-
-
-// scanline	
-	aa=2.0*(fract(v_texcoord.y*256.0)-0.5);
-	aa*=aa*aa*aa;
-	c.rgb=c.rgb*(1.0-aa);
-	
-	gl_FragColor=vec4(c.rgb,1.0)*v_color;
-
-}
-
-]]	)
-
-	gl.progsrc("bigtrouble_bleed",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-uniform mat4 modelview;
-uniform mat4 projection;
-uniform vec4 color;
-
-attribute vec3 a_vertex;
-attribute vec2 a_texcoord;
-
-varying vec2  v_texcoord;
-varying vec4  v_color;
- 
-void main()
-{
-    gl_Position = projection * modelview * vec4(a_vertex.xy, 0.0 , 1.0);
-    gl_Position.z+=a_vertex.z;
-	v_texcoord=a_texcoord;
-	v_color=color;
-}
-
-]],[[
-
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
-
-#if defined(GL_FRAGMENT_PRECISION_HIGH)
-precision highp float; /* really need better numbers if possible */
-#endif
-
-uniform sampler2D tex;
-
-varying vec2  v_texcoord;
-varying vec4  v_color;
-
-
-const vec2 xo = vec2(1.0/256.0,0.0);
-const vec2 ss = vec2(256.0,256.0);
-const vec2 oo = vec2(1.0/256.0,1.0/256.0);
-
-void main(void)
-{
-/*
-	vec2 tb;
-
-	vec4  c,c2;
-	
-	float aa;
-
-	tb=(floor(v_texcoord*ss)+vec2(0.5,0.5))*oo;
-
-	c=texture2D(tex, tb).rgba;
-
-
-	aa=2.0*(fract(v_texcoord.x*256.0)-0.5);
-	if(aa<0.0)
-	{
-		c2=texture2D(tex, tb-xo ).rgba;
-		aa=clamp(aa,-1.0,0.0);
-		aa=aa*aa;
-		c=mix(c,c2,aa*0.5);
-	}
-	else
-	{
-		c2=texture2D(tex, tb+xo).rgba;
-		aa=clamp(aa,0.0,1.0);
-		aa=aa*aa;
-		c=mix(c,c2,aa*0.5);
-	}
-
-
-// scanline	
-	aa=2.0*(fract(v_texcoord.y*256.0)-0.5);
-	aa*=aa*aa*aa;
-	c.rgb=c.rgb*(1.0-aa);
-	
-	gl_FragColor=vec4(c.rgb,1.0)*v_color;
-*/
-
-	vec4  c,c2;
-	int cx,cy;
-	float dd,d;
-	vec2  vd,vc;
-	vec2 td;	
-	float aa;
-	
-// fetch the 9 colors that we plan to blend
-
-	vc.x=1.0+fract(v_texcoord.x*256.0);
-	vc.y=1.0+fract(v_texcoord.y*256.0);
-	
-	c=vec4(0.0,0.0,0.0,0.0);
-
-	for(cy=0;cy<=2;cy++)
-	{
-		for(cx=0;cx<=2;cx++)
-		{
-			td.x=v_texcoord.x+((cx-1.0)/256.0);
-			td.y=v_texcoord.y+((cy-1.0)/256.0);
-			c2=texture2D(tex, td).rgba;
-			
-			vd.x=cx+0.5-vc.x;
-			vd.y=cy+0.5-vc.y;
-			dd=vd.x*vd.x+vd.y*vd.y;
-			d=sqrt(dd)/min( (c2.r+c2.g+c2.b) , 1.25 );
-			d=sqrt( clamp(1.0-d,0.0,1.0) );
-			c=max(c,c2*d);
-
-/* chroma split ? needs too many pixels to work well
-			vd.x=cx+0.5     -vc.x;
-			vd.y=cy+0.5-0.1-vc.y;
-			d=sqrt(vd.x*vd.x+vd.y*vd.y)/(c2.r*1.25);
-			d=sqrt( clamp(1.0-d,0.0,1.0) );
-			c.r=max(c.r,c2.r*d);
-
-			vd.x=cx+0.5+0.1-vc.x;
-			vd.y=cy+0.5+0.1-vc.y;
-			d=sqrt(vd.x*vd.x+vd.y*vd.y)/(c2.g*1.25);
-			d=sqrt( clamp(1.0-d,0.0,1.0) );
-			c.g=max(c.g,c2.g*d);
-
-			vd.x=cx+0.5-0.1-vc.x;
-			vd.y=cy+0.5+0.1-vc.y;
-			d=sqrt(vd.x*vd.x+vd.y*vd.y)/(c2.b*1.25);
-			d=sqrt( clamp(1.0-d,0.0,1.0) );
-			c.b=max(c.b,c2.b*d);
-
-			c.a=1.0;
-*/
-
-		}
-	}
-	gl_FragColor=vec4(c.rgb*c.a*c.a,1.0); // no alpha in this mode, but use a*a to increase the strength of the dark edges
-
-
-}
-
-]]	)
-
-
-
-
 	gl.progsrc("nudgel_test",[[
 	
 {shaderprefix}
@@ -585,6 +211,53 @@ void main(void)
 
 ]]	)
 
+	gl.progsrc("nudgel_rawcam",[[
+	
+{shaderprefix}
+#line ]]..1+debug.getinfo(1).currentline..[[
+
+uniform mat4 modelview;
+uniform mat4 projection;
+uniform vec4 color;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+ 
+void main()
+{
+    gl_Position = vec4(a_vertex, 1.0);
+	v_texcoord=a_texcoord;
+}
+
+]],[[
+
+{shaderprefix}
+#line ]]..1+debug.getinfo(1).currentline..[[
+
+#if defined(GL_FRAGMENT_PRECISION_HIGH)
+precision highp float; /* really need better numbers if possible */
+#endif
+
+uniform sampler2D tex0;
+uniform sampler2D cam0;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+
+void main(void)
+{
+	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
+	vec2  uv=v_texcoord;
+	vec3 c1=texture2D(cam0, vx-(uv*vx)).rgb;
+	vec3 c2=texture2D(tex0, uv).rgb;
+//	float m=length(c1);
+	gl_FragColor=vec4( c1 , 1.0 );
+}
+
+]]	)
 
 
 end
@@ -593,12 +266,12 @@ screen.setup=function()
 
 	screen.loads()
 
-	screen.fbo=framebuffers.create(256,256,1)
-	screen.lay=layouts.create{parent={x=0,y=0,w=256,h=256}}
+	screen.fbo=framebuffers.create(512,512,1)
+	screen.lay=layouts.create{parent={x=0,y=0,w=512,h=512}}
 
 	screen.fbos={}
-	screen.fbos[1]=framebuffers.create(256,256,0)
-	screen.fbos[2]=framebuffers.create(256,256,0)
+	screen.fbos[1]=framebuffers.create(512,512,0)
+	screen.fbos[2]=framebuffers.create(512,512,0)
 
 	screen.cams={}
 	screen.cams[1]=assert(gl.GenTexture())
@@ -630,7 +303,21 @@ screen.setup=function()
 	end
 
 	screen.vid=assert(wv4l2.open("/dev/video0"))
-	wv4l2.capture_start(screen.vid,{width=640,height=480,buffer_count=2,format="UYVY"})
+
+--print(wstr.dump(wv4l2.capture_list(screen.vid)))
+
+	local t=wv4l2.capture_list(screen.vid)
+	local fmt
+--	dprint(t)
+	for i,v in ipairs(t) do
+--		dprint(v)
+		if (v.format=="UYVY") or (v.format=="YUYV") then fmt=v.format break end
+	end
+--	print("FORMAT="..fmt)
+	wv4l2.capture_start(screen.vid,{width=640,height=480,buffer_count=2,format=fmt})
+
+
+--print(wstr.dump(wv4l2.info(screen.vid)))
 
 
 
@@ -679,7 +366,7 @@ screen.draw_bloom_setup=function()
 
 	local fbo=screen.fbos[1]
 	fbo:bind_frame()
-	gl.Viewport( 0 , 0 , 256 , 256 )
+	gl.Viewport( 0 , 0 , 512 , 512 )
 
 	local data={
 		-1,	-1,		0,		0,	0,
@@ -869,24 +556,24 @@ end
 
 
 -- draw fbo to the main screen
-screen.draw=function(a,s)
+screen.draw=function(a,sx,sy)
 
 	local fbos=screen.fbos
 
 	
 	
 	gl.PushMatrix()
-	gl.Translate(320,240,0)
+	gl.Translate(854/2,480/2,0)
 
 	fbos[a]:bind_texture()
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 --	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 
 --	local r,g,b,a=gl.color_get_rgba()
-	local v3=gl.apply_modelview( {fbos[a].w*-s,	fbos[a].h* s,	0,1} )
-	local v1=gl.apply_modelview( {fbos[a].w*-s,	fbos[a].h*-s,	0,1} ) -- draw at 256*256 scale
-	local v4=gl.apply_modelview( {fbos[a].w* s,	fbos[a].h* s,	0,1} )
-	local v2=gl.apply_modelview( {fbos[a].w* s,	fbos[a].h*-s,	0,1} )
+	local v3=gl.apply_modelview( {-sx,	 sy,	0,1} )
+	local v1=gl.apply_modelview( {-sx,	-sy,	0,1} )
+	local v4=gl.apply_modelview( { sx,	 sy,	0,1} )
+	local v2=gl.apply_modelview( { sx,	-sy,	0,1} )
 
 	local t={
 		v3[1],	v3[2],	v3[3],	0,				0, 			

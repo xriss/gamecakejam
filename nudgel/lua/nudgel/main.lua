@@ -41,6 +41,14 @@ end
 		
 main.setup=function()
 
+	for i,v in ipairs(opts) do
+		if v=="cam" then
+			main.cam="raw"
+		end
+	end
+
+	oven.rebake_mod("wetgenes.gamecake.mods.mouse").active=false -- disable mouse on PI
+
 	main.loads()
 	
 	main.last=nil

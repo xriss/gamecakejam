@@ -5,7 +5,7 @@ local global=require("global") -- prevent accidental global use
 local opts={
 	times=true, -- request simple time keeping samples
 	
-	width=640,	-- display basics
+	width=854,	-- display basics
 	height=480,
 --	show="full",
 	title="nudgel",
