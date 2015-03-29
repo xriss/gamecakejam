@@ -101,7 +101,7 @@ end
 
 play.draw=function()
 
-	if main.cam=="raw" then -- just show a rawcam feed
+	if main.cam=="rgb" then -- just show a rawcam feed
 	
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
 			local p=gl.program("nudgel_rawcam")
@@ -118,11 +118,32 @@ play.draw=function()
 		end)	
 		play.next_frame()
 			
-		screen.draw(play.frame_draw, -(854/2) , -(480/2)*1.2 )
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
 	
 		return
 	end
 	
+	if main.cam=="depth" then -- just show a rawcam feed
+	
+		screen.draw_feed(play.frame_disp,play.frame_draw,function()
+			local p=gl.program("nudgel_depthcam")
+			gl.UseProgram( p[0] )
+
+			gl.Uniform1i( p:uniform("tex0"), 0 )
+			gl.Uniform1i( p:uniform("cam0"), 1 )
+
+			gl.ActiveTexture(gl.TEXTURE1)
+			gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
+			gl.ActiveTexture(gl.TEXTURE0)
+
+			return p
+		end)	
+		play.next_frame()
+			
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+	
+		return
+	end
 
 
 	
@@ -198,7 +219,7 @@ play.draw=function()
 	play.next_frame()
 		
 --	screen.draw(play.frame_draw,(854/2)/256)
-	screen.draw(play.frame_draw, -(854/2) , -(480/2)*1.2 )
+	screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
 	
 
 

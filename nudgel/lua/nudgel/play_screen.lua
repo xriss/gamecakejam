@@ -254,7 +254,62 @@ void main(void)
 	vec3 c1=texture2D(cam0, vx-(uv*vx)).rgb;
 	vec3 c2=texture2D(tex0, uv).rgb;
 //	float m=length(c1);
-	gl_FragColor=vec4( c1 , 1.0 );
+	gl_FragColor=vec4( c1, 1.0 );
+}
+
+]]	)
+
+	gl.progsrc("nudgel_depthcam",[[
+	
+{shaderprefix}
+#line ]]..1+debug.getinfo(1).currentline..[[
+
+uniform mat4 modelview;
+uniform mat4 projection;
+uniform vec4 color;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+ 
+void main()
+{
+    gl_Position = vec4(a_vertex, 1.0);
+	v_texcoord=a_texcoord;
+}
+
+]],[[
+
+{shaderprefix}
+#line ]]..1+debug.getinfo(1).currentline..[[
+
+#if defined(GL_FRAGMENT_PRECISION_HIGH)
+precision highp float; /* really need better numbers if possible */
+#endif
+
+uniform sampler2D tex0;
+uniform sampler2D cam0;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+
+float band(float fl, float fh, float fn)
+{
+	if(fn>fh) return 0.0f;
+	if(fn<fl) return 0.0f;
+	return 1.0f;
+}
+
+void main(void)
+{
+	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
+	vec2  uv=v_texcoord;
+	vec3 c1=texture2D(cam0, vx-(uv*vx)).rgb;
+	vec3 c2=texture2D(tex0, uv).rgb;
+	float m=c1.g+(c1.r/256.0);
+	gl_FragColor=vec4( 0.0 , band(0.6,0.8,m) , 0.0 , 1.0 );
 }
 
 ]]	)
@@ -285,8 +340,8 @@ screen.setup=function()
 
 		gl.BindTexture( gl.TEXTURE_2D , screen.cams[i] )
 		
-		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR)
-		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,	gl.CLAMP_TO_EDGE)
 		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,	gl.CLAMP_TO_EDGE)
 
@@ -302,23 +357,28 @@ screen.setup=function()
 			string.rep("\0",3*1024*512) )
 	end
 
-	screen.vid=assert(wv4l2.open("/dev/video0"))
 
---print(wstr.dump(wv4l2.capture_list(screen.vid)))
+	print( "VIDEO : ",pcall(function()
+		local vid=assert(wv4l2.open(main.device or "/dev/video0"))
 
-	local t=wv4l2.capture_list(screen.vid)
-	local fmt
---	dprint(t)
-	for i,v in ipairs(t) do
---		dprint(v)
-		if (v.format=="UYVY") or (v.format=="YUYV") then fmt=v.format break end
-	end
---	print("FORMAT="..fmt)
-	wv4l2.capture_start(screen.vid,{width=640,height=480,buffer_count=2,format=fmt})
+	--print(wstr.dump(wv4l2.capture_list(vid)))
+
+		local t=wv4l2.capture_list(vid)
+		local fmt
+	--	dprint(t)
+		for i,v in ipairs(t) do
+	--		dprint(v)
+			if (v.format=="Y10B") then fmt=v.format break end
+			if (v.format=="UYVY") or (v.format=="YUYV") then fmt=v.format break end
+		end
+	--	print("FORMAT="..fmt)
+		wv4l2.capture_start(vid,{width=640,height=480,buffer_count=2,format=fmt})
 
 
---print(wstr.dump(wv4l2.info(screen.vid)))
-
+		print(wstr.dump(wv4l2.info(vid)))
+		
+		screen.vid=vid -- success
+	end) )
 
 
 end
@@ -338,23 +398,26 @@ end
 
 screen.update=function()
 
+	if screen.vid then
 
-	local t=wv4l2.capture_read_grd(screen.vid,screen.vidgrd and screen.vidgrd[0]) -- reuse last grd
-	if t then
-		screen.vidgrd=screen.vidgrd or wgrd.create(t)
+		local t=wv4l2.capture_read_grd(screen.vid,screen.vidgrd and screen.vidgrd[0]) -- reuse last grd
+		if t then
+			screen.vidgrd=screen.vidgrd or wgrd.create(t)
 
-		gl.BindTexture( gl.TEXTURE_2D , screen.cams[screen.cam_idx] )
-		gl.TexSubImage2D(
-			gl.TEXTURE_2D,
-			0,
-			0,0,
-			640,480,
-			gl.RGB,
-			gl.UNSIGNED_BYTE,
-			screen.vidgrd.data )
-		gl.GenerateMipmap(gl.TEXTURE_2D)
-		
-		return true
+			gl.BindTexture( gl.TEXTURE_2D , screen.cams[screen.cam_idx] )
+			gl.TexSubImage2D(
+				gl.TEXTURE_2D,
+				0,
+				0,0,
+				640,480,
+				gl.RGB,
+				gl.UNSIGNED_BYTE,
+				screen.vidgrd.data )
+			gl.GenerateMipmap(gl.TEXTURE_2D)
+			
+			return true
+		end
+	
 	end
 
 	return false

@@ -41,9 +41,18 @@ end
 		
 main.setup=function()
 
+	main.device=nil
+	main.cam=nil
+	main.flip=1
 	for i,v in ipairs(opts) do
 		if v=="cam" then
-			main.cam="raw"
+			main.cam="rgb"
+		elseif v=="depth" then
+			main.cam="depth"
+		elseif v=="flip" then
+			main.flip=-1
+		elseif v:sub(1,5)=="/dev/" then
+			main.device=v
 		end
 	end
 
