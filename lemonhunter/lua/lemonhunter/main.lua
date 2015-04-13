@@ -11,6 +11,7 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
 M.bake=function(state,main)
+	local oven=state
 	local main=main or {}
 	main.state=state
 	
@@ -20,7 +21,11 @@ M.bake=function(state,main)
 	local font=canvas.font
 	local flat=canvas.flat
 	local gl=state.gl
-	
+
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	skeys.setup({max_up=1}) -- also calls srecaps.setup
+		
 	local layout=cake.layouts.create{}
 
 	main.modname=M.modname
@@ -105,6 +110,8 @@ main.msg=function(m)
 		m.y=m.y+(480/2)
 	end
 
+	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+
 	if main.now and main.now.msg then
 		main.now.msg(m)
 	end
@@ -115,6 +122,8 @@ main.update=function()
 
 	main.change()
 
+	srecaps.step()
+	
 	for i,v in pairs(main.input.volatile) do
 		main.input[i]=v 
 	end

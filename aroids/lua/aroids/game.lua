@@ -33,6 +33,9 @@ bake=function(oven,game)
 	local gl=oven.gl
 	local layout=cake.layouts.create{}
 
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+	skeys.setup({max_up=1}) -- also calls srecaps.setup
 	
 	
 --	local cards=state.rebake("dike.cards")
@@ -97,7 +100,10 @@ end
 
 game.msg=function(m)
 --	print(wstr.dump(m))
-	
+
+	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+
+
 	if m.class=="key" then
 		local name
 		if m.keyname=="up" then
@@ -132,6 +138,7 @@ end
 game.update=function()
 
 	game.change()
+	srecaps.step()
 
 	for i,v in pairs(game.input.volatile) do
 		game.input[i]=v 
