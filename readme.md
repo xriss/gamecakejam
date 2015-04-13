@@ -52,7 +52,7 @@ happen, you will also need the my sdk repo for all the android tools.
 NACL or EMSCRIPTEN
 ------------------
 
-The web solution, currently chrome only.
+The web solution, runs best on chrome and second best on firefox.
 Play online at http://play.4lfa.com/gamecake
 
 
