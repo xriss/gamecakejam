@@ -15,20 +15,20 @@ The gamecake engine allows these games to work on:
 LINUX
 -----
 
-My main build is tested on ubuntu (technically xubuntu).
-
-
-BUT SERIOUSLY JUST RUN THE WINDOWS BUILD UNDER WINE
----------------------------------------------------
-
-It works 100% all of the time without any DLL hell problems or having 
-to build any code from source. 
+This is built against LSB, so the binaries should work on most distros.
 
 
 WINDOWS
 -------
 
-Wine and XP compatible with the focus on wine.
+Wine and XP compatible with the focus on wine so this can also be run
+on most linux platforms.
+
+
+OSX
+---
+
+This should now work fine on recent Macs.
 
 
 RASPBERRY PI
@@ -39,6 +39,7 @@ from the command line. The RASPI is also "minimum required specs" if
 your machine is not as powerful as one of these then don't expect 
 everything to work.
 
+
 ANDROID
 -------
 
@@ -47,18 +48,13 @@ things building into an APK file but its not impossible the my lua
 repository contains the android build and scripts to make this 
 happen, you will also need the my sdk repo for all the android tools.
 
-NACL
-----
+
+NACL or EMSCRIPTEN
+------------------
 
 The web solution, currently chrome only.
 Play online at http://play.4lfa.com/gamecake
 
-
-The exact state of these platforms is currently in a state of flux due 
-to on going development.
-
-The windows build should always work under wine so it is perversely the 
-most compatible cross platform build.
 
 
 Finally this is just the source code, if you want to run any of the 
@@ -66,20 +62,7 @@ games then you will need the engine as well. There are a number of
 ways of getting this but remember that different operating systems 
 require different versions of the gamecake engine.
 
-
-Via PPA for Ubuntu.
-
-	sudo add-apt-repository ppa:kriss-o/gamecake
-	sudo apt-get update
-	sudo apt-get install gamecake
-
-then you may CD into a any game directory and start the just by 
-running "gamecake", you must be in the right directory for gamecake to 
-know which game you want to run
-
-
-
-Via mercurial for windows/ubuntu/debian/raspberrypi
+Via mercurial for windows/ubuntu/debian/raspi
 
 	hg clone https://bitbucket.org/xixs/gamecakejam
 	hg clone https://bitbucket.org/xixs/bin
