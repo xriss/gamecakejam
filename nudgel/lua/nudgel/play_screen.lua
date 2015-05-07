@@ -7,6 +7,7 @@ local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
 local wv4l2=require("wetgenes.v4l2")
 local wgrd=require("wetgenes.grd")
+local wzips=require("wetgenes.zips")
 
 local function dprint(a) print(wstr.dump(a)) end
 
@@ -43,7 +44,8 @@ M.bake=function(oven,screen)
 		
 screen.loads=function()
 
-	require(oven.modgame..".play_screen_glsl").create_shaders(oven)
+	local filename="lua/"..(oven.modgame..".play_screen"):gsub("%.","/")..".glsl"
+	gl.shader_sources( wzips.readfile(filename) , filename )
 
 end
 

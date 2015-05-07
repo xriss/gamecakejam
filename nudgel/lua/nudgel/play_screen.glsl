@@ -1,28 +1,8 @@
--- copy all globals into locals, some locals are prefixed with a G to reduce name clashes
-local coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,Gload,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require=coroutine,package,string,table,math,io,os,debug,assert,dofile,error,_G,getfenv,getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,type,unpack,_VERSION,xpcall,module,require
 
-local pack=require("wetgenes.pack")
-local wwin=require("wetgenes.win")
-local wstr=require("wetgenes.string")
-local tardis=require("wetgenes.tardis")	-- matrix/vector math
-local wv4l2=require("wetgenes.v4l2")
-local wgrd=require("wetgenes.grd")
-
-local function dprint(a) print(wstr.dump(a)) end
-
---module
-local M={ modname=(...) } ; package.loaded[M.modname]=M
+#SHADER "nudgel_test"
 
 
---create some named shaders
-M.create_shaders=function(oven)
-
-	local gl=oven.gl
-
-	gl.progsrc("nudgel_test",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
@@ -39,10 +19,9 @@ void main()
 	v_texcoord=a_texcoord;
 }
 
-]],[[
+#endif
+#ifdef FRAGMENT_SHADER
 
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
 
 #if defined(GL_FRAGMENT_PRECISION_HIGH)
 precision highp float; /* really need better numbers if possible */
@@ -91,13 +70,13 @@ void main(void)
 	gl_FragColor=vec4( rgb, 1.0 );
 }
 
-]]	)
+#endif
 
 
-	gl.progsrc("nudgel_dark",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#SHADER "nudgel_dark"
+
+
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
@@ -115,10 +94,8 @@ void main()
 	v_texcoord=a_texcoord;
 }
 
-]],[[
-
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#endif
+#ifdef FRAGMENT_SHADER
 
 #if defined(GL_FRAGMENT_PRECISION_HIGH)
 precision highp float; /* really need better numbers if possible */
@@ -135,13 +112,13 @@ void main(void)
 	gl_FragColor=vec4( texture2D(tex0, uv).rgb*(127.0/128.0), 1.0 );
 }
 
-]]	)
+#endif
 
 
-	gl.progsrc("nudgel_cam",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#SHADER "nudgel_cam"
+
+
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
@@ -159,10 +136,9 @@ void main()
 	v_texcoord=a_texcoord;
 }
 
-]],[[
+#endif
+#ifdef FRAGMENT_SHADER
 
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
 
 #if defined(GL_FRAGMENT_PRECISION_HIGH)
 precision highp float; /* really need better numbers if possible */
@@ -185,12 +161,13 @@ void main(void)
 	gl_FragColor=vec4( mix(c2,c1,0.5*m) , 1.0 );
 }
 
-]]	)
+#endif
 
-	gl.progsrc("nudgel_rawcam",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+
+#SHADER "nudgel_rawcam"
+
+
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
@@ -208,10 +185,9 @@ void main()
 	v_texcoord=a_texcoord;
 }
 
-]],[[
+#endif
+#ifdef FRAGMENT_SHADER
 
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
 
 #if defined(GL_FRAGMENT_PRECISION_HIGH)
 precision highp float; /* really need better numbers if possible */
@@ -233,33 +209,33 @@ void main(void)
 	gl_FragColor=vec4( c1, 1.0 );
 }
 
-]]	)
+#endif
 
-	gl.progsrc("nudgel_depthcam",[[
-	
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+
+#SHADER "nudgel_depthcam"
+
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+
+uniform vec4 color;
+ 
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
-uniform vec4 color;
 
 attribute vec3 a_vertex;
 attribute vec2 a_texcoord;
 
-varying vec2  v_texcoord;
-varying vec4  v_color;
- 
 void main()
 {
     gl_Position = vec4(a_vertex, 1.0);
 	v_texcoord=a_texcoord;
 }
 
-]],[[
-
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#endif
+#ifdef FRAGMENT_SHADER
 
 #if defined(GL_FRAGMENT_PRECISION_HIGH)
 precision highp float; /* really need better numbers if possible */
@@ -267,9 +243,6 @@ precision highp float; /* really need better numbers if possible */
 
 uniform sampler2D tex0;
 uniform sampler2D cam0;
-
-varying vec2  v_texcoord;
-varying vec4  v_color;
 
 float band(float fl, float fh, float fn)
 {
@@ -288,13 +261,13 @@ void main(void)
 	gl_FragColor=vec4( 0.0 , band(0.6,0.8,m) , 0.0 , 1.0 );
 }
 
-]]	)
+#endif
 
 
+#SHADER "nudgel_wave"
 
-	gl.progsrc("nudgel_wave",[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
@@ -311,9 +284,8 @@ void main()
 	v_texcoord=a_texcoord;
 }
 
-]],[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#endif
+#ifdef FRAGMENT_SHADER
 
 uniform sampler2D tex0;
 uniform sampler2D tex1;
@@ -348,11 +320,13 @@ void main(void)
 	}
 }
 
-	]])
+#endif
 
-	gl.progsrc("nudgel_fft",[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+
+#SHADER "nudgel_fft"
+
+
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
@@ -368,9 +342,8 @@ void main()
 	v_texcoord=a_texcoord;
 }
 
-]],[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#endif
+#ifdef FRAGMENT_SHADER
 
 uniform sampler2D tex0; 
 uniform sampler2D tex1; 
@@ -405,12 +378,13 @@ void main(void)
 	}
 }
 
-	]])
+#endif
 
 
-	gl.progsrc("nudgel_camfft",[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#SHADER "nudgel_camfft"
+
+
+#ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
 uniform mat4 projection;
@@ -426,9 +400,8 @@ void main()
 	v_texcoord=a_texcoord;
 }
 
-]],[[
-{shaderprefix}
-#line ]]..1+debug.getinfo(1).currentline..[[
+#endif
+#ifdef FRAGMENT_SHADER
 
 uniform sampler2D tex0; 
 uniform sampler2D tex1; 
@@ -456,7 +429,4 @@ void main(void)
 	gl_FragColor=vec4(mix(c2,vec3(1.0,1.0,1.0),p*32.0),1.0);
 }
 
-	]])
-
-
-end
+#endif
