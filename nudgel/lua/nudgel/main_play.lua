@@ -35,8 +35,8 @@ M.bake=function(oven,play)
 --	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local screen=oven.rebake(oven.modgame..".play_screen")
+	local sound=oven.rebake(oven.modgame..".play_sound")
 	
-play.back="imgs/title"
 
 play.loads=function()
 
@@ -47,6 +47,7 @@ play.setup=function()
 	play.loads()
 	
 	screen.setup()
+	sound.setup()
 
 	play.reset(1)
 
@@ -55,6 +56,7 @@ end
 play.clean=function()
 
 	screen.clean()
+	sound.clean()
 
 
 end
@@ -67,6 +69,9 @@ play.msg=function(m)
 end
 
 play.update=function()
+
+	local t=sound.update()
+	play.newfft=play.newfft or t
 
 	local t=screen.update()
 	play.newcam=play.newcam or t
@@ -151,6 +156,7 @@ play.draw=function()
 --	font.set("Vera") -- 32 pixels high
 	font.set_size(32,0) -- 32 pixels high
 
+--[[
 	if math.random(100)<10 then
 		local cs={
 			{1,0,0,1},
@@ -169,7 +175,8 @@ play.draw=function()
 		font.draw(s)
 
 	end
-	
+]]
+
 	screen.draw_into_stop(play.frame_draw)
 
 	gl.Color(1,1,1,1)
@@ -178,6 +185,8 @@ play.draw=function()
 --	if play.newcam then
 --		play.newcam=false
 --	if math.random(100)<10 then
+
+--[[
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
 			local p=gl.program("nudgel_cam")
 			gl.UseProgram( p[0] )
@@ -193,6 +202,31 @@ play.draw=function()
 			return p
 		end)
 		play.next_frame()
+]]
+
+		screen.draw_feed(play.frame_disp,play.frame_draw,function()
+			local p=gl.program("nudgel_camfft")
+			gl.UseProgram( p[0] )
+			
+			gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
+
+			gl.Uniform1i( p:uniform("tex0"), 0 )
+			gl.Uniform1i( p:uniform("tex1"), 1 )
+			gl.Uniform1i( p:uniform("cam0"), 2 )
+
+			gl.ActiveTexture(gl.TEXTURE2)
+			gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
+
+			gl.ActiveTexture(gl.TEXTURE1)
+			gl.BindTexture(gl.TEXTURE_2D,sound.fft_tex)
+
+			gl.ActiveTexture(gl.TEXTURE0)
+
+			return p
+		end)
+		play.next_frame()
+
+
 --	end
 --	end
 
@@ -217,6 +251,8 @@ play.draw=function()
 		return p
 	end)	
 	play.next_frame()
+
+
 		
 --	screen.draw(play.frame_draw,(854/2)/256)
 	screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )

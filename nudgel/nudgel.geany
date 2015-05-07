@@ -1,0 +1,34 @@
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=4
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=nudgel
+base_path=/home/kriss/hg/gamecakejam/nudgel
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=72
+
+[VTE]
+last_dir=/home/kriss/hg/gamecakejam/nudgel
+
+[build-menu]
+NF_00_LB=_Make
+NF_00_CM=../bake
+NF_00_WD=%p
+EX_00_LB=_Execute
+EX_00_CM=../start windowed
+EX_00_WD=%p
