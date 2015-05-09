@@ -32,3 +32,6 @@ NF_00_WD=%p
 EX_00_LB=_Execute
 EX_00_CM=../start windowed
 EX_00_WD=%p
+
+[files]
+current_page=-1

@@ -73,7 +73,7 @@ void main(void)
 #endif
 
 
-#SHADER "nudgel_dark"
+#SHADER "nudgel_fade"
 
 
 #ifdef VERTEX_SHADER
@@ -109,7 +109,7 @@ varying vec4  v_color;
 void main(void)
 {
 	vec2  uv=v_texcoord;
-	gl_FragColor=vec4( texture2D(tex0, uv).rgb*(127.0/128.0), 1.0 );
+	gl_FragColor=vec4( texture2D(tex0, uv).rgb*(120.0/128.0), 1.0 );
 }
 
 #endif
@@ -354,10 +354,10 @@ varying vec2  v_texcoord;
 void main(void)
 {
 
-	float x=v_texcoord[0];
-	if(x<0.5) { x=0.5-x; } else {x=x-0.5;}
-	float p=texture2D(tex1, vec2(x,0.0) )[0];
-	if(x<1.0/128.0){p=0.0;}
+	float x=v_texcoord[0]*2.0;
+	if(x<1.0) { x=1.0-x; } else {x=x-1.0;}
+	float p=texture2D(tex1, vec2(x/8.0,0.0) )[0];
+//	if(x<1.0/128.0){p=0.0;}
 
 //	gl_FragColor=vec4(0.0,0.0,0.0,1.0);
 	gl_FragColor=texture2D(tex0,v_texcoord);
@@ -381,7 +381,7 @@ void main(void)
 #endif
 
 
-#SHADER "nudgel_camfft"
+#SHADER "nudgel_depfft"
 
 
 #ifdef VERTEX_SHADER
@@ -418,15 +418,284 @@ void main(void)
 	vec3 c1=texture2D(cam0, vx-(uv*vx)).rgb;
 
 
-	float x=length(c1)/64.0;
-//	if(x<0.5) { x=0.5-x; } else {x=x-0.5;}
-	float p=texture2D(tex1, vec2(x,0.0) )[0];
-//	if(x<1.0/64.0){p=0.0;}
-
+//	float x=length(c1);
+	float x=c1.g+(c1.r/256.0);
 
 	vec3 c2=texture2D(tex0,v_texcoord).rgb;
 
-	gl_FragColor=vec4(mix(c2,vec3(1.0,1.0,1.0),p*32.0),1.0);
+#define DEPTH_MIN (0.125)
+#define DEPTH_MAX (1.0-0.03125)
+
+	if( (x>=DEPTH_MIN) && (x<=DEPTH_MAX) )
+	{
+		x=(x-DEPTH_MIN)/(DEPTH_MAX-DEPTH_MIN);
+		float p=texture2D(tex1, vec2((x)/16.0,0.0) )[0];
+		gl_FragColor=vec4(mix(c2,vec3(1.0,1.0,1.0),p*32.0),1.0);
+	}
+	else
+	{
+		gl_FragColor=vec4(c2,1.0);
+	}
+
+
+
+
+//	gl_FragColor=vec4(mix(c2,vec3(1.0,1.0,1.0),x),1.0);
 }
 
 #endif
+
+
+#SHADER "nudgel_depmov"
+
+
+#ifdef VERTEX_SHADER
+
+uniform mat4 modelview;
+uniform mat4 projection;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+ 
+void main()
+{
+    gl_Position = vec4(a_vertex, 1.0);
+	v_texcoord=a_texcoord;
+}
+
+#endif
+#ifdef FRAGMENT_SHADER
+
+uniform sampler2D tex0; 
+uniform sampler2D tex1; 
+uniform sampler2D cam0;
+uniform sampler2D cam1;
+
+uniform vec4  color;
+varying vec2  v_texcoord;
+
+void main(void)
+{
+
+	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
+	vec2  uv=v_texcoord;
+	vec3 c1a=texture2D(cam0, vx-(uv*vx)).rgb;
+	vec3 c1b=texture2D(cam1, vx-(uv*vx)).rgb;
+
+
+//	float x=length(c1);
+	float x1=c1a.g+(c1a.r/256.0);
+	float x2=c1b.g+(c1b.r/256.0);
+
+	vec3 c2=texture2D(tex0,v_texcoord).rgb;
+
+#define DEPTH_MIN (0.125)
+#define DEPTH_MAX (1.0-0.03125)
+
+//	if( (x1>=DEPTH_MIN) && (x2>=DEPTH_MIN) && (x1<=DEPTH_MAX) && (x2<=DEPTH_MAX))
+//	{
+		float a=abs(x1-x2);
+		
+		gl_FragColor=vec4(mix(c2,vec3(1.0,1.0,1.0),a*8.0),1.0);
+//	}
+//	else
+//	{
+//		gl_FragColor=vec4(c2,1.0);
+//	}
+}
+
+#endif
+
+
+#SHADER "nudgel_deprange"
+
+
+#ifdef VERTEX_SHADER
+
+uniform mat4 modelview;
+uniform mat4 projection;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+ 
+void main()
+{
+    gl_Position = vec4(a_vertex, 1.0);
+	v_texcoord=a_texcoord;
+}
+
+#endif
+#ifdef FRAGMENT_SHADER
+
+uniform sampler2D tex0; 
+uniform sampler2D tex1; 
+uniform sampler2D cam0;
+uniform sampler2D cam1;
+
+uniform vec4  color;
+varying vec2  v_texcoord;
+
+void main(void)
+{
+
+	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
+	vec2  uv=v_texcoord;
+	vec3 c1a=texture2D(cam0, vx-(uv*vx)).rgb;
+	float x1=c1a.g+(c1a.r/256.0);
+
+	vec3 c2=texture2D(tex0,v_texcoord).rgb;
+
+#define DEPTH_MIN (0.25)
+#define DEPTH_MAX (1.0-0.25)
+
+	if( (x1>=DEPTH_MIN)  && (x1<=DEPTH_MAX))
+	{
+		gl_FragColor=vec4(1.0,1.0,1.0,1.0);
+	}
+	else
+	{
+		gl_FragColor=vec4(c2,1.0);
+	}
+}
+
+#endif
+
+
+
+#SHADER "nudgel_life"
+
+
+#ifdef VERTEX_SHADER
+
+uniform mat4 modelview;
+uniform mat4 projection;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+ 
+void main()
+{
+    gl_Position = vec4(a_vertex, 1.0);
+	v_texcoord=a_texcoord;
+}
+
+#endif
+#ifdef FRAGMENT_SHADER
+
+uniform sampler2D tex0; 
+uniform sampler2D tex1; 
+
+uniform vec4  color;
+varying vec2  v_texcoord;
+
+void main(void)
+{
+
+	vec3 c1=texture2D(tex0,v_texcoord).rgb;
+
+	float a=0;
+
+#define ONE (1.0/512.0)
+
+	a+=texture2D(tex0,v_texcoord + vec2(-ONE,-ONE) ).g;
+	a+=texture2D(tex0,v_texcoord + vec2(   0,-ONE) ).g;
+	a+=texture2D(tex0,v_texcoord + vec2( ONE,-ONE) ).g;
+	a+=texture2D(tex0,v_texcoord + vec2(-ONE,   0) ).g;
+//	a+=texture2D(tex0,v_texcoord + vec2(   0,-ONE) ).g;
+	a+=texture2D(tex0,v_texcoord + vec2( ONE,   0) ).g;
+	a+=texture2D(tex0,v_texcoord + vec2(-ONE, ONE) ).g;
+	a+=texture2D(tex0,v_texcoord + vec2(   0, ONE) ).g;
+	a+=texture2D(tex0,v_texcoord + vec2( ONE, ONE) ).g;
+	
+	if( (a>=2.5) && (a<=3.5) ) // born
+	{
+		if(c1.r >= 0.5) // live
+		{
+			gl_FragColor=vec4(c1,1.0);
+		}
+		else
+		{
+			gl_FragColor=vec4(1.0,1.0,1.0,1.0);
+//			gl_FragColor=vec4(1.0,1.0,1.0,1.0);
+		}
+	}
+	else
+	if( (a>=2.5) && (a<=4.5) ) // live
+	{
+		gl_FragColor=vec4(c1,1.0);
+	}
+	else // die
+	{
+		gl_FragColor=vec4(c1/8.0,1.0);
+//		gl_FragColor=vec4(0.0,0.0,0.0,1.0);
+	}
+
+
+
+}
+
+#endif
+
+
+#SHADER "nudgel_blur"
+
+
+#ifdef VERTEX_SHADER
+
+uniform mat4 modelview;
+uniform mat4 projection;
+uniform vec4 color;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+ 
+void main()
+{
+    gl_Position = vec4(a_vertex, 1.0);
+	v_texcoord=a_texcoord;
+}
+
+#endif
+#ifdef FRAGMENT_SHADER
+
+#if defined(GL_FRAGMENT_PRECISION_HIGH)
+precision highp float; /* really need better numbers if possible */
+#endif
+
+uniform sampler2D tex0;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+
+
+uniform vec4  blur_step;  /* 0,1 pixel size */
+uniform float blur_fade; /* 1.0 or less to darken */
+
+
+void main(void)
+{
+	vec3  c;
+
+	c=texture2D(tex0,v_texcoord).rgb*(4.0/16.0);
+	c+=texture2D(tex0,v_texcoord+blur_step.xy* 1.0).rgb*(3.0/16.0);
+	c+=texture2D(tex0,v_texcoord+blur_step.xy*-1.0).rgb*(3.0/16.0);
+	c+=texture2D(tex0,v_texcoord+blur_step.xy* 2.0).rgb*(2.0/16.0);
+	c+=texture2D(tex0,v_texcoord+blur_step.xy*-2.0).rgb*(2.0/16.0);
+	c+=texture2D(tex0,v_texcoord+blur_step.xy* 3.0).rgb*(1.0/16.0);
+	c+=texture2D(tex0,v_texcoord+blur_step.xy*-3.0).rgb*(1.0/16.0);
+
+	gl_FragColor=vec4(c.rgb*blur_fade,1.0);
+}
+
+#endif
+
+

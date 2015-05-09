@@ -36,6 +36,7 @@ M.bake=function(oven,play)
 
 	local screen=oven.rebake(oven.modgame..".play_screen")
 	local sound=oven.rebake(oven.modgame..".play_sound")
+	local parts=oven.rebake(oven.modgame..".play_parts")
 	
 
 play.loads=function()
@@ -48,6 +49,7 @@ play.setup=function()
 	
 	screen.setup()
 	sound.setup()
+	parts.setup()
 
 	play.reset(1)
 
@@ -57,6 +59,7 @@ play.clean=function()
 
 	screen.clean()
 	sound.clean()
+	parts.clean()
 
 
 end
@@ -75,6 +78,9 @@ play.update=function()
 
 	local t=screen.update()
 	play.newcam=play.newcam or t
+
+	parts.update()
+
 end
 
 play.frame_draw=0
@@ -205,7 +211,7 @@ play.draw=function()
 ]]
 
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
-			local p=gl.program("nudgel_camfft")
+			local p=gl.program("nudgel_depmov")
 			gl.UseProgram( p[0] )
 			
 			gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
@@ -213,6 +219,10 @@ play.draw=function()
 			gl.Uniform1i( p:uniform("tex0"), 0 )
 			gl.Uniform1i( p:uniform("tex1"), 1 )
 			gl.Uniform1i( p:uniform("cam0"), 2 )
+			gl.Uniform1i( p:uniform("cam1"), 3 )
+
+			gl.ActiveTexture(gl.TEXTURE3)
+			gl.BindTexture(gl.TEXTURE_2D,screen.cams[ 1 + (screen.cam_idx%2) ])
 
 			gl.ActiveTexture(gl.TEXTURE2)
 			gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
@@ -239,8 +249,9 @@ play.draw=function()
 	play.next_frame()
 ]]
 
+
 	screen.draw_feed(play.frame_disp,play.frame_draw,function()
-		local p=gl.program("nudgel_test")
+		local p=gl.program("nudgel_fade")
 		gl.UseProgram( p[0] )
 		local cc={(math.random(128)-64)/64,(math.random(128)-64)/64}
 		cc[1]=0.5+cc[1]/32
@@ -253,11 +264,33 @@ play.draw=function()
 	play.next_frame()
 
 
+
+--[[
+	screen.draw_feed(play.frame_disp,play.frame_draw,function()
+		local p=gl.program("nudgel_blur")
+		gl.UseProgram( p[0] )
+		gl.Uniform4f( p:uniform("blur_step"), 1/512,0,0,0 )
+		gl.Uniform1f( p:uniform("blur_fade"), 31/32 )
+		return p
+	end)	
+	play.next_frame()
+
+	screen.draw_feed(play.frame_disp,play.frame_draw,function()
+		local p=gl.program("nudgel_blur")
+		gl.UseProgram( p[0] )
+		gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
+		gl.Uniform1f( p:uniform("blur_fade"), 31/32 )
+		return p
+	end)	
+	play.next_frame()
+]]
+
 		
 --	screen.draw(play.frame_draw,(854/2)/256)
 	screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
 	
 
+	parts.draw( main.flip*(854/2) , main.flip*(480/2) )
 
 
 end

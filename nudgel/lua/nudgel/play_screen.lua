@@ -91,7 +91,7 @@ screen.setup=function()
 
 
 	print( "VIDEO : ",pcall(function()
-		local vid=assert(wv4l2.open(main.device or "/dev/video0"))
+		local vid=assert(wv4l2.open(main.device or "/dev/video1"))
 
 	--print(wstr.dump(wv4l2.capture_list(vid)))
 
@@ -146,6 +146,8 @@ screen.update=function()
 				gl.UNSIGNED_BYTE,
 				screen.vidgrd.data )
 			gl.GenerateMipmap(gl.TEXTURE_2D)
+			
+			screen.cam_idx=(screen.cam_idx%2)+1
 			
 			return true
 		end
