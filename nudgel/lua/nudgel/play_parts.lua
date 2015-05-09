@@ -39,7 +39,7 @@ parts.setup=function()
 
 	parts.loads()
 	
-	parts.size=64
+	parts.size=128
 
 	parts.fbos={}
 	parts.fbos[1]=framebuffers.create(parts.size*2,parts.size*2,0)
@@ -133,7 +133,25 @@ parts.update=function()
 		
 		local p=gl.program("nudgel_parts_test")
 		gl.UseProgram( p[0] )
---		gl.Uniform4f( p:uniform("distort"), 1,0.25,1.0,0.03 )
+
+		local v=sound.dir or {0,0,0,0}
+--		print(v[1],v[2])
+		gl.Uniform4f(  p:uniform("sound_velocity") , v[1],v[2],v[3],v[4] )
+		
+		
+		gl.Uniform1i( p:uniform("cam0"), 1 )
+		gl.ActiveTexture(gl.TEXTURE1)
+		gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
+
+		gl.Uniform1i( p:uniform("cam1"), 2 )
+		gl.ActiveTexture(gl.TEXTURE2)
+		gl.BindTexture(gl.TEXTURE_2D,screen.cams[1+(screen.cam_idx%2)])
+
+		gl.Uniform1i( p:uniform("fft0"), 3 )
+		gl.ActiveTexture(gl.TEXTURE3)
+		gl.BindTexture(gl.TEXTURE_2D,sound.fft_tex)
+
+
 		return p
 
 	end)

@@ -183,6 +183,8 @@ play.draw=function()
 	end
 ]]
 
+	parts.draw( 1 , 1)
+
 	screen.draw_into_stop(play.frame_draw)
 
 	gl.Color(1,1,1,1)
@@ -210,8 +212,9 @@ play.draw=function()
 		play.next_frame()
 ]]
 
+--[[
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
-			local p=gl.program("nudgel_depmov")
+			local p=gl.program("nudgel_fft")
 			gl.UseProgram( p[0] )
 			
 			gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
@@ -235,7 +238,7 @@ play.draw=function()
 			return p
 		end)
 		play.next_frame()
-
+]]
 
 --	end
 --	end
@@ -249,7 +252,7 @@ play.draw=function()
 	play.next_frame()
 ]]
 
-
+--[[
 	screen.draw_feed(play.frame_disp,play.frame_draw,function()
 		local p=gl.program("nudgel_fade")
 		gl.UseProgram( p[0] )
@@ -262,10 +265,10 @@ play.draw=function()
 		return p
 	end)	
 	play.next_frame()
+]]
 
 
 
---[[
 	screen.draw_feed(play.frame_disp,play.frame_draw,function()
 		local p=gl.program("nudgel_blur")
 		gl.UseProgram( p[0] )
@@ -283,14 +286,14 @@ play.draw=function()
 		return p
 	end)	
 	play.next_frame()
-]]
+
 
 		
 --	screen.draw(play.frame_draw,(854/2)/256)
 	screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
 	
 
-	parts.draw( main.flip*(854/2) , main.flip*(480/2) )
+--	parts.draw( main.flip*(854/2) , main.flip*(480/2) )
 
 
 end

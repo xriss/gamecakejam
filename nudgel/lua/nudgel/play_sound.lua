@@ -171,8 +171,29 @@ sound.writetexturefft=function()
 		dir=dir/mag
 	end
 	
+	local f=math.floor(dir*sound.samplerate/2)
+	
+	local x=(f/2000)
+	if x<0 then x=0 end
+	if x>1 then x=1 end
+	local y=(f/2000)*mag/256
+	if y<0 then y=0 end
+	if y>1 then y=1 end
+	sound.dir={x-0.5,y,0,0}
+
+--[[
+	sound.dir[1]=(t-0.5)*2
+	sound.dir[2]=(t<0.5) and (t) or (1-t)
+	local d=math.sqrt(sound.dir[1]^2 + sound.dir[2]^2)
+	if d>0 then
+		sound.dir[1]=sound.dir[1]/d
+		sound.dir[2]=sound.dir[2]/d
+	end
+	sound.dir[3]=sound.dir[1]*mag
+	sound.dir[4]=sound.dir[2]*mag
+]]
+	
 	if mag>16 then
-		local f=math.floor(dir*sound.samplerate/2)
 		local s=sound.freq2note(f) or ""
 		print(s,math.floor(mag),f)
 	end
