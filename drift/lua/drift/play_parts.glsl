@@ -109,7 +109,7 @@ void main(void)
 	{
 			v00=vec2(v_texcoord.x,v_texcoord.y);
 			v01.x=sound_velocity.y*(v_texcoord.x-0.5)/8.0;
-			v01.y=sound_velocity.y/8.0;
+			v01.y=((1.0-v_texcoord.x)+sound_velocity.y)/16.0;
 			t10=vec4(0.0,0.0,0.0,0.0);
 			t11=vec4( hsv2rgb( vec3(1.0-(d0*d0),1.0,1.0) ) , p*8.0);
 

@@ -14,7 +14,7 @@ M.bake=function(oven,main)
 	main=main or {}
 	main.modname=M.modname
 	
-	oven.modgame="nudgel"
+	oven.modgame="drift"
 	
 	local gl=oven.gl
 	local cake=oven.cake

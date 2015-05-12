@@ -8,8 +8,8 @@ local opts={
 	width=854,	-- display basics
 	height=480,
 --	show="full",
-	title="nudgel",
-	start="nudgel.main", -- rebake this mod
+	title="drift",
+	start="drift.main", -- rebake this mod
 	fps=60,
 	... -- include commandline opts
 }
