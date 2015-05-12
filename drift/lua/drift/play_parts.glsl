@@ -115,7 +115,7 @@ void main(void)
 
 			v01*=p*2.0;
 
-			v00.xy+=v01.xy;
+			v00.xy+=v01.xy; // wiggle the first draw point a little
 	}
 	else
 	{
