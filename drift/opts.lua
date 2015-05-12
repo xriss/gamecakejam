@@ -1,9 +1,9 @@
 
 -- the displayed name
-title="nudgel"
+title="drift"
 
 
 -- the internal name, used for the base game module
-name="nudgel"
+name="drift"
 
 
