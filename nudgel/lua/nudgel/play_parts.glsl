@@ -20,32 +20,18 @@ attribute vec2 a_vertex;
 void main()
 {
 	vec2 base=(a_vertex+0.25)/parts_size;	
-//    v_vertex = vec2(-1.0,-1.0) + base*2.0;
 
 	vec4 t00=texture2D(tex0,base);
 	vec4 t10=texture2D(tex0,base+vec2(0.5/parts_size,0.0));
 	vec4 t01=texture2D(tex0,base+vec2(0.0,0.5/parts_size));
 	vec4 t11=texture2D(tex0,base+vec2(0.5/parts_size,0.5/parts_size));
     
-//    gl_Position=  vec4( vec2(-1.0,-1.0) + 
-//				( vec2( t00.x+(t00.z*255.0/65536.0) , t00.y+(t00.w*255.0/65536.0) )*2.0 ) , 0.0 , 1.0);
     gl_Position=  vec4( vec2(-1.0,-1.0) + 
 				( vec2( t00.x , t00.y )*2.0 ) , 0.0 , 1.0);
-//    gl_Position=  vec4( vec2(-1.0,-1.0) + 
-//				( vec2( base.x , base.y )*2.0 ) , 0.0 , 1.0);
 
 	gl_PointSize = point_size;
 	
 	color=t11;
-
-
-
-/*
-	color=vec4(vec2(-1.0,-1.0) + base*2.0,0.0,1.0);
-    gl_Position=  vec4( vec2(-1.0,-1.0) + 
-				( vec2( base.x , base.y )*2.0 ) , 0.0 , 1.0);
-*/
-
 }
 
 #endif
@@ -60,7 +46,7 @@ void main(void)
 #endif
 
 
-#SHADER "nudgel_parts_test"
+#SHADER "nudgel_parts_step"
 
 #if defined(GL_FRAGMENT_PRECISION_HIGH)
 precision highp float; /* really need better numbers if possible */
@@ -114,9 +100,8 @@ void main(void)
 	v01=v01-vec2(0.5,0.5);
 
 	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
-	vec2 uv=v_texcoord;
 
-	vec3 c0=texture2D(cam0, vx-(uv*vx)).rgb;
+	vec3 c0=texture2D(cam0, vx-(v_texcoord*vx)).rgb;
 	float d0=c0.g+(c0.r*255.0/65536.0);
 	float p=texture2D(fft0, vec2((d0*d0)/8.0,0.0) )[0];
 
@@ -126,7 +111,6 @@ void main(void)
 			v01.x=sound_velocity.y*(v_texcoord.x-0.5)/8.0;
 			v01.y=sound_velocity.y/8.0;
 			t10=vec4(0.0,0.0,0.0,0.0);
-//			t11=vec4(1.0-t,0,t*2.0,p*16.0);
 			t11=vec4( hsv2rgb( vec3(1.0-(d0*d0),1.0,1.0) ) , p*8.0);
 
 			v01*=p*2.0;
@@ -135,6 +119,7 @@ void main(void)
 	}
 	else
 	{
+//		v01+=(v00-v_texcoord)*vec2(1.0/64.0,1.0/64.0);
 		v01.y=v01.y-(128.0/65536.0);
 		
 		v00.xy+=v01.xy;
@@ -144,7 +129,7 @@ void main(void)
 		if( (v00.y>=1.0) && (v01.y>0.0) ) { v01.y=-v01.y*0.5; }
 		if( (v00.y<=0.0) && (v01.y<0.0) ) { v01.y=-v01.y*0.5; }
 		
-		t11.a-=2.0/255.0;
+		t11.a-=4.0/255.0;
 	}
 
 	v00=clamp( v00 , vec2(0.0,0.0) , vec2(1.0,1.0));
