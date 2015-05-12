@@ -136,13 +136,27 @@ play.draw=function()
 	
 	if main.cam=="depth" then -- just show a rawcam feed
 	
+
+	screen.draw_feed(play.frame_disp,play.frame_draw,function()
+		local p=gl.program("nudgel_blur")
+		gl.UseProgram( p[0] )
+		gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
+		gl.Uniform1f( p:uniform("blur_fade"), 0/256 )
+		return p
+	end)	
+	play.next_frame()
+	
+	
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
-			local p=gl.program("nudgel_depthcam")
+			local p=gl.program("nudgel_dep")
 			gl.UseProgram( p[0] )
 
 			gl.Uniform1i( p:uniform("tex0"), 0 )
 			gl.Uniform1i( p:uniform("cam0"), 1 )
+			gl.Uniform1i( p:uniform("cam1"), 2 )
 
+			gl.ActiveTexture(gl.TEXTURE2)
+			gl.BindTexture(gl.TEXTURE_2D,screen.cams[1+(screen.cam_idx%2)])
 			gl.ActiveTexture(gl.TEXTURE1)
 			gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
 			gl.ActiveTexture(gl.TEXTURE0)
@@ -214,7 +228,7 @@ play.draw=function()
 
 --[[
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
-			local p=gl.program("nudgel_fft")
+			local p=gl.program("nudgel_depfft")
 			gl.UseProgram( p[0] )
 			
 			gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
@@ -273,7 +287,7 @@ play.draw=function()
 		local p=gl.program("nudgel_blur")
 		gl.UseProgram( p[0] )
 		gl.Uniform4f( p:uniform("blur_step"), 1/512,0,0,0 )
-		gl.Uniform1f( p:uniform("blur_fade"), 31/32 )
+		gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
 		return p
 	end)	
 	play.next_frame()
@@ -282,7 +296,7 @@ play.draw=function()
 		local p=gl.program("nudgel_blur")
 		gl.UseProgram( p[0] )
 		gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
-		gl.Uniform1f( p:uniform("blur_fade"), 31/32 )
+		gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
 		return p
 	end)	
 	play.next_frame()
@@ -291,7 +305,17 @@ play.draw=function()
 		
 --	screen.draw(play.frame_draw,(854/2)/256)
 	screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
-	
+
+--[[
+	screen.draw_feed(play.frame_disp,play.frame_draw,function()
+		local p=gl.program("nudgel_blur")
+		gl.UseProgram( p[0] )
+		gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
+		gl.Uniform1f( p:uniform("blur_fade"), 0/256 )
+		return p
+	end)	
+	play.next_frame()
+]]
 
 --	parts.draw( main.flip*(854/2) , main.flip*(480/2) )
 

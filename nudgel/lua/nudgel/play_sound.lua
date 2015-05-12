@@ -100,6 +100,7 @@ sound.setup=function()
 	sound.u8_dat=pack.alloc(sound.fftsiz/2)
 
 	sound.count=0
+	sound.div=1
 end
 
 
@@ -119,6 +120,7 @@ sound.readdata=function()
 		kissfft.push(sound.fft,sound.dsamples,sound.fftsiz)
 		sound.count=sound.count+1
 		if sound.count>0 then
+			sound.div=1.0/sound.count
 			sound.count=0
 			return sound.dsamples
 		end
@@ -135,7 +137,7 @@ sound.writetextures16=function()
     gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE)
     gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)
 
-    gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE_ALPHA, sound.fftsiz, 1, 0, gl.LUMINANCE_ALPHA, gl.UNSIGNED_BYTE, sound.dsamples )
+    gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE_ALPHA, sound.fftsiz/2, 1, 0, gl.LUMINANCE_ALPHA, gl.UNSIGNED_BYTE, sound.dsamples )
 
 end
 
@@ -148,10 +150,12 @@ sound.writetexturefft=function()
 
 	local mindat=sound.fftsiz*sound.fftclip
 	for i=1,#fdat do
-		fdat[i]=256*fdat[i]/sound.fftsiz -- the size effects the volume
+		fdat[i]=256*(fdat[i]*sound.div)/sound.fftsiz -- the size effects the volume
 		if i<=mindat then sampu8[i]=0 else
-		sampu8[i]=clamp( (fdat[i] or 0 ) )	-- convert to bytes
+			sampu8[i]=clamp( (fdat[i] or 0 ) )	-- convert to bytes
 		end
+-- fake
+--		sampu8[i]=clamp( (256-i or 0 ) )
 	end
 	
 	local dir,mag=0,0
@@ -180,6 +184,8 @@ sound.writetexturefft=function()
 	if y<0 then y=0 end
 	if y>1 then y=1 end
 	sound.dir={x-0.5,y,0,0}
+	
+--	sound.dir={1,0,0,0}
 
 --[[
 	sound.dir[1]=(t-0.5)*2
@@ -197,7 +203,8 @@ sound.writetexturefft=function()
 		local s=sound.freq2note(f) or ""
 		print(s,math.floor(mag),f)
 	end
-	
+
+
 	gl.BindTexture(gl.TEXTURE_2D, sound.fft_tex)
     gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
     gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
@@ -208,6 +215,7 @@ sound.writetexturefft=function()
 
 	pack.save_array(sampu8,"u8",0,#sampu8,sound.u8_dat)
     gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, #sampu8, 1, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, sound.u8_dat )
+
 end
 
 

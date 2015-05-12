@@ -37,6 +37,8 @@ M.bake=function(oven,screen)
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local framebuffers=oven.rebake("wetgenes.gamecake.framebuffers")
+	framebuffers.TEXTURE_MIN_FILTER=gl.NEAREST
+	framebuffers.TEXTURE_MAG_FILTER=gl.NEAREST	
 	
 --	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 --	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -57,18 +59,24 @@ screen.setup=function()
 	screen.lay=layouts.create{parent={x=0,y=0,w=512,h=512}}
 
 	screen.fbos={}
-	screen.fbos[1]=framebuffers.create(512,512,0)
-	screen.fbos[2]=framebuffers.create(512,512,0)
-
+	for i=1,2 do
+		screen.fbos[i]=framebuffers.create(512,512,0)
+		screen.fbos[i]:bind_texture()
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,	gl.CLAMP_TO_EDGE)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,	gl.CLAMP_TO_EDGE)
+	end
+	
 	screen.cams={}
-	screen.cams[1]=assert(gl.GenTexture())
-	screen.cams[2]=assert(gl.GenTexture())
 	screen.cam_idx=1
 	screen.cam_fw=640/1024
 	screen.cam_fh=480/512
 
 -- create starting black textures so we can just update an area
 	for i=1,2 do
+
+		screen.cams[i]=assert(gl.GenTexture())
 
 		gl.BindTexture( gl.TEXTURE_2D , screen.cams[i] )
 		
@@ -89,10 +97,18 @@ screen.setup=function()
 			string.rep("\0",3*1024*512) )
 	end
 
-
-	print( "VIDEO : ",pcall(function()
-		local vid=assert(wv4l2.open(main.device or "/dev/video1"))
-
+	local vid=nil
+	for i=4,0,-1 do
+		local s,e=pcall( function()
+			vid=assert(wv4l2.open(main.device or "/dev/video"..i))
+		end)
+		if vid then
+			print( "VIDEO : ",i)
+			break
+		end
+	end
+	
+	if vid then
 	--print(wstr.dump(wv4l2.capture_list(vid)))
 
 		local t=wv4l2.capture_list(vid)
@@ -110,7 +126,9 @@ screen.setup=function()
 		print(wstr.dump(wv4l2.info(vid)))
 		
 		screen.vid=vid -- success
-	end) )
+	else
+		print("NO VIDEO DEVICE FOUND")
+	end
 
 
 end
@@ -145,7 +163,10 @@ screen.update=function()
 				gl.RGB,
 				gl.UNSIGNED_BYTE,
 				screen.vidgrd.data )
-			gl.GenerateMipmap(gl.TEXTURE_2D)
+
+			gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+			gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)	
+--			gl.GenerateMipmap(gl.TEXTURE_2D)
 			
 			screen.cam_idx=(screen.cam_idx%2)+1
 			
@@ -187,7 +208,9 @@ screen.draw_bloom_setup=function()
 
 	screen.fbo:bind_texture()
 --	gl.Uniform1i( p:uniform("tex"), 0 )
-	
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+		
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
 	gl.EnableVertexAttribArray(p:attrib("a_vertex"))
 	
@@ -239,12 +262,18 @@ screen.draw_bloom_blur=function()
 	gl.EnableVertexAttribArray(p:attrib("a_texcoord"))
 
 	fbos[1]:bind_texture()
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	
 	gl.Uniform4f( p:uniform("pix_siz"), fbos[2].uvw/fbos[2].w,0,0,1 )
 	gl.DrawArrays(gl.TRIANGLE_STRIP,0,4)
 
 
 	fbos[1]:bind_frame()
 	fbos[2]:bind_texture()
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	
 	gl.Uniform4f( p:uniform("pix_siz"), 0,fbos[2].uvh/fbos[2].h,0,1 )
 	gl.DrawArrays(gl.TRIANGLE_STRIP,0,4)
 
@@ -288,9 +317,10 @@ screen.draw_feed=function(a,b,f)
 
 	gl.ActiveTexture(gl.TEXTURE0)
 	fbos[b]:bind_texture()
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	
 --	gl.Uniform1i( p:uniform("tex0"), 0 )
---	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
---	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 		
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
 	gl.EnableVertexAttribArray(p:attrib("a_vertex"))
@@ -362,7 +392,7 @@ screen.draw=function(a,sx,sy)
 
 	fbos[a]:bind_texture()
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
---	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 
 --	local r,g,b,a=gl.color_get_rgba()
 	local v3=gl.apply_modelview( {-sx,	 sy,	0,1} )

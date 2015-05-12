@@ -22,6 +22,8 @@ M.bake=function(oven,parts)
 	local gl=oven.gl
 	
 	local framebuffers=oven.rebake("wetgenes.gamecake.framebuffers")
+	framebuffers.TEXTURE_MIN_FILTER=gl.NEAREST
+	framebuffers.TEXTURE_MAG_FILTER=gl.NEAREST	
 
 	local main=oven.rebake(oven.modgame..".main")
 	local screen=oven.rebake(oven.modgame..".play_screen")
@@ -39,11 +41,24 @@ parts.setup=function()
 
 	parts.loads()
 	
-	parts.size=128
+	parts.size=128--128
 
 	parts.fbos={}
 	parts.fbos[1]=framebuffers.create(parts.size*2,parts.size*2,0)
 	parts.fbos[2]=framebuffers.create(parts.size*2,parts.size*2,0)
+
+	for i=1,2 do
+
+		parts.fbos[i]=framebuffers.create(parts.size*2,parts.size*2,0)
+		parts.fbos[i]:bind_texture()
+		
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,	gl.CLAMP_TO_EDGE)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,	gl.CLAMP_TO_EDGE)
+
+	end
+	
 
 
 	parts.vb=gl.GenBuffer()
@@ -105,7 +120,7 @@ parts.draw_feed=function(a,b,f)
 	fbos[b]:bind_texture()
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
-
+	
 	gl.Uniform1f( p:uniform("parts_size"), parts.size )
 
 	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
@@ -142,15 +157,21 @@ parts.update=function()
 		gl.Uniform1i( p:uniform("cam0"), 1 )
 		gl.ActiveTexture(gl.TEXTURE1)
 		gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
-
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	
 		gl.Uniform1i( p:uniform("cam1"), 2 )
 		gl.ActiveTexture(gl.TEXTURE2)
 		gl.BindTexture(gl.TEXTURE_2D,screen.cams[1+(screen.cam_idx%2)])
-
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	
 		gl.Uniform1i( p:uniform("fft0"), 3 )
 		gl.ActiveTexture(gl.TEXTURE3)
 		gl.BindTexture(gl.TEXTURE_2D,sound.fft_tex)
-
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+		gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	
 
 		return p
 
@@ -168,7 +189,7 @@ parts.draw=function(sx,sy)
 	gl.UseProgram( p[0] )
 
 	gl.Uniform1f( p:uniform("parts_size"), parts.size )
-	gl.Uniform1f( p:uniform("point_size"), oven.win.height/parts.size )
+	gl.Uniform1f( p:uniform("point_size"), 1+(512/parts.size) )
 
 	gl.BindBuffer(gl.ARRAY_BUFFER,parts.vb)
 
@@ -178,8 +199,8 @@ parts.draw=function(sx,sy)
 	parts.fbos[1+(parts.fboidx%2)]:bind_texture()
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
-
-	gl.DrawArrays(gl.POINTS,0,parts.vb_len)
+	
+	gl.DrawArrays(gl.POINTS,0,parts.vb_len/2)
 
 --[[
 	local a=1+(parts.fboidx%2)
@@ -191,7 +212,7 @@ parts.draw=function(sx,sy)
 	fbos[a]:bind_texture()
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
-
+	
 	local v3=gl.apply_modelview( {-sx,	 sy,	0,1} )
 	local v1=gl.apply_modelview( {-sx,	-sy,	0,1} )
 	local v4=gl.apply_modelview( { sx,	 sy,	0,1} )

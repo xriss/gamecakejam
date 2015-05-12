@@ -212,14 +212,23 @@ void main(void)
 #endif
 
 
-#SHADER "nudgel_depthcam"
+#SHADER "nudgel_dep"
 
 
 varying vec2  v_texcoord;
 varying vec4  v_color;
 
 uniform vec4 color;
- 
+
+
+vec3 hsv2rgb(vec3 c)
+{
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+
 #ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
@@ -246,9 +255,9 @@ uniform sampler2D cam0;
 
 float band(float fl, float fh, float fn)
 {
-	if(fn>fh) return 0.0f;
-	if(fn<fl) return 0.0f;
-	return 1.0f;
+	if(fn>fh) return 0.0;
+	if(fn<fl) return 0.0;
+	return 1.0;
 }
 
 void main(void)
@@ -257,8 +266,15 @@ void main(void)
 	vec2  uv=v_texcoord;
 	vec3 c1=texture2D(cam0, vx-(uv*vx)).rgb;
 	vec3 c2=texture2D(tex0, uv).rgb;
-	float m=c1.g+(c1.r/256.0);
-	gl_FragColor=vec4( 0.0 , band(0.6,0.8,m) , 0.0 , 1.0 );
+	float m=c1.g+(c1.r*255.0/65536.0);
+	if(m>=1.0) // no data
+	{
+		gl_FragColor=vec4( 0.0,0.0,0.0, 1.0 );
+	}
+	else
+	{
+		gl_FragColor=vec4( hsv2rgb(vec3(1.0-(m*m),1.0,1.0)) , 1.0 );
+	}
 }
 
 #endif
@@ -448,6 +464,13 @@ void main(void)
 
 #SHADER "nudgel_depmov"
 
+vec3 hsv2rgb(vec3 c)
+{
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
 
 #ifdef VERTEX_SHADER
 
@@ -478,32 +501,34 @@ varying vec2  v_texcoord;
 
 void main(void)
 {
-
 	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
 	vec2  uv=v_texcoord;
 	vec3 c1a=texture2D(cam0, vx-(uv*vx)).rgb;
 	vec3 c1b=texture2D(cam1, vx-(uv*vx)).rgb;
 
-
-//	float x=length(c1);
-	float x1=c1a.g+(c1a.r/256.0);
-	float x2=c1b.g+(c1b.r/256.0);
+	float x1=c1a.g+(c1a.r*255.0/65536.0);
+	float x2=c1b.g+(c1b.r*255.0/65536.0);
 
 	vec3 c2=texture2D(tex0,v_texcoord).rgb;
+//c2=vec3(0.0,0.0,0.0);
 
-#define DEPTH_MIN (0.125)
-#define DEPTH_MAX (1.0-0.03125)
-
-//	if( (x1>=DEPTH_MIN) && (x2>=DEPTH_MIN) && (x1<=DEPTH_MAX) && (x2<=DEPTH_MAX))
-//	{
-		float a=abs(x1-x2);
-		
-		gl_FragColor=vec4(mix(c2,vec3(1.0,1.0,1.0),a*8.0),1.0);
-//	}
-//	else
-//	{
-//		gl_FragColor=vec4(c2,1.0);
-//	}
+	if( (x1>=1.0) || (x2>=1.0) ) // bad data
+	{
+		gl_FragColor=vec4(0.0,0.0,0.0,1.0);
+	}
+	else
+	{
+		float a=abs(x1-x2);		
+		if(a>(1.0/255.0))
+		{
+			float m=x1<x2?x1:x2; // pick the lowest of the two
+			gl_FragColor=vec4(hsv2rgb(vec3(1.0-(m*m),1.0,1.0)),1.0);
+		}
+		else
+		{
+			gl_FragColor=vec4(c2,1.0);
+		}
+	}
 }
 
 #endif
@@ -693,7 +718,7 @@ void main(void)
 	c+=texture2D(tex0,v_texcoord+blur_step.xy* 3.0).rgb*(1.0/16.0);
 	c+=texture2D(tex0,v_texcoord+blur_step.xy*-3.0).rgb*(1.0/16.0);
 
-	gl_FragColor=vec4(c.rgb*blur_fade,1.0);
+	gl_FragColor=vec4(c.rgb*blur_fade-vec3(1.0/255.0,1.0/255.0,1.0/255.0),1.0);
 }
 
 #endif

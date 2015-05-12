@@ -36,7 +36,16 @@ void main()
 
 	gl_PointSize = point_size;
 	
-	color=t11; //vec4(v_vertex,0.0,1.0);
+	color=t11;
+
+
+
+/*
+	color=vec4(vec2(-1.0,-1.0) + base*2.0,0.0,1.0);
+    gl_Position=  vec4( vec2(-1.0,-1.0) + 
+				( vec2( base.x , base.y )*2.0 ) , 0.0 , 1.0);
+*/
+
 }
 
 #endif
@@ -44,7 +53,7 @@ void main()
 
 void main(void)
 {
-	if( color.a==0 ) { discard; }
+	if( color.a==0.0 ) { discard; }
 	gl_FragColor=color*color.a;
 }
 
@@ -94,82 +103,35 @@ void main(void)
 	vec2 tt=(fract(v_texcoord*parts_size)-0.25)*2.0;
 	vec2 vv=floor(v_texcoord*parts_size);
 	vec2 base=(vv+0.25)/parts_size;	
-	vec4 t00=texture2D(tex0,base);
-	vec4 t10=texture2D(tex0,base+vec2(0.5/parts_size,0.0));
-	vec4 t01=texture2D(tex0,base+vec2(0.0,0.5/parts_size));
-	vec4 t11=texture2D(tex0,base+vec2(0.5/parts_size,0.5/parts_size));
+	vec4 t00=texture2D(tex0,base,-16.0);
+	vec4 t10=texture2D(tex0,base+vec2(0.5/parts_size,0.0),-16.0);
+	vec4 t01=texture2D(tex0,base+vec2(0.0,0.5/parts_size),-16.0);
+	vec4 t11=texture2D(tex0,base+vec2(0.5/parts_size,0.5/parts_size),-16.0);
 
 	vec2 v00=t00.xy+(t00.zw*(255.0/65536.0));
 	vec2 v01=t01.xy+(t01.zw*(255.0/65536.0));
 	
 	v01=v01-vec2(0.5,0.5);
 
-	if(t11.a==0.0)
+	vec2 vx=vec2(640.0/1024.0,480.0/512.0);
+	vec2 uv=v_texcoord;
+
+	vec3 c0=texture2D(cam0, vx-(uv*vx)).rgb;
+	float d0=c0.g+(c0.r*255.0/65536.0);
+	float p=texture2D(fft0, vec2((d0*d0)/8.0,0.0) )[0];
+
+	if( (t11.a<=p*8.0) && (d0<1.0) )
 	{
-		vec2 vx=vec2(640.0/1024.0,480.0/512.0);
-		vec2 uv=v_texcoord;
-		vec3 c0=texture2D(cam0, vx-(uv*vx)).rgb;
-		vec3 c1=texture2D(cam1, vx-(uv*vx)).rgb;
-
-		float d0=c0.g+(c0.r*255.0/65536);
-		float d1=c1.g+(c1.r*255.0/65536);
-
-//		if( abs(d0-d1) > 0.125 ) // new particle
-//		{
-
-
-#define DEPTH_MIN (0.125)
-#define DEPTH_MAX (1.0-0.03125)
-
-//			if( (x>=DEPTH_MIN) && (x<=DEPTH_MAX) )
-			{
-//				x=(x-DEPTH_MIN)/(DEPTH_MAX-DEPTH_MIN);
-	
-				float t=( (d0-DEPTH_MIN)/(DEPTH_MAX-DEPTH_MIN) );
-
-				float p=texture2D(fft0, vec2(t/16.0,0.0) )[0];
-				
-//				if(p>0.125)
-//				{
-					v00=vec2(v_texcoord.x,v_texcoord.y);
-					v01.x=sound_velocity.y*(v_texcoord.x-0.5)/64.0;
-					v01.y=sound_velocity.y/32.0;
-					t10=vec4(0.0,0.0,0.0,0.0);
-//					t11=vec4(1.0-t,0,t*2.0,p*16.0);
-					t11=vec4( hsv2rgb( vec3(t,1.0,1.0) ) , p*16.0);
-
-					v01*=p*1.0;
-//				}
-			}
-
-
-
-//			float t=v_texcoord[0]*2.0;
-//			if(t<1.0) { t=1.0-t; } else {t=t-1.0;}
-//			float p=texture2D(fft0, vec2(t/8.0,0.0) ).r;
-
-//			v01.x=p*(v_texcoord.x-0.5);
-//			v01.y=p;
-
-/*
 			v00=vec2(v_texcoord.x,v_texcoord.y);
-			v01.x=sound_velocity.y*(v_texcoord.x-0.5)/64.0;
-			v01.y=sound_velocity.y/32.0;
+			v01.x=sound_velocity.y*(v_texcoord.x-0.5)/8.0;
+			v01.y=sound_velocity.y/8.0;
 			t10=vec4(0.0,0.0,0.0,0.0);
-			t11=vec4(1.0,1.0,1.0,length(v01)+0.5);
-*/
+//			t11=vec4(1.0-t,0,t*2.0,p*16.0);
+			t11=vec4( hsv2rgb( vec3(1.0-(d0*d0),1.0,1.0) ) , p*8.0);
+
+			v01*=p*2.0;
 
 			v00.xy+=v01.xy;
-/*
-		}
-		else
-		{
-			v00=vec2(0.0,0.0);
-			v01=vec2(0.0,0.0);
-			t10=vec4(0.0,0.0,0.0,0.0);
-			t11=vec4(0.0,0.0,0.0,0.0);
-		}
-*/
 	}
 	else
 	{
@@ -182,8 +144,7 @@ void main(void)
 		if( (v00.y>=1.0) && (v01.y>0.0) ) { v01.y=-v01.y*0.5; }
 		if( (v00.y<=0.0) && (v01.y<0.0) ) { v01.y=-v01.y*0.5; }
 		
-		t11.a-=4.0/255.0;
-
+		t11.a-=2.0/255.0;
 	}
 
 	v00=clamp( v00 , vec2(0.0,0.0) , vec2(1.0,1.0));
