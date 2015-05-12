@@ -120,7 +120,7 @@ void main(void)
 	float d0=c0.g+(c0.r*255.0/65536.0);
 	float p=texture2D(fft0, vec2((d0*d0)/8.0,0.0) )[0];
 
-	if( (t11.a<=p*8.0) && (d0<1.0) )
+	if( (t11.a<=p*8.0) && (d0<(254.0/255.0)) && (d0>(1.0/255.0)) )
 	{
 			v00=vec2(v_texcoord.x,v_texcoord.y);
 			v01.x=sound_velocity.y*(v_texcoord.x-0.5)/8.0;
