@@ -37,6 +37,7 @@ M.bake=function(oven,play)
 	local screen=oven.rebake(oven.modgame..".play_screen")
 	local sound=oven.rebake(oven.modgame..".play_sound")
 	local parts=oven.rebake(oven.modgame..".play_parts")
+	local lines=oven.rebake(oven.modgame..".play_lines")
 	
 
 play.loads=function()
@@ -50,6 +51,7 @@ play.setup=function()
 	screen.setup()
 	sound.setup()
 	parts.setup()
+	lines.setup()
 
 	play.reset(1)
 
@@ -60,14 +62,31 @@ play.clean=function()
 	screen.clean()
 	sound.clean()
 	parts.clean()
+	lines.clean()
 
 
 end
 
 play.msg=function(m)
 
---	print(wstr.dump(m))
 
+	if m.class=="key" then
+	
+		if m.action==1 then
+		
+			if #m.keyname==2 and m.keyname:sub(1,1)=="f" then
+			
+				local n=m.keyname:sub(2,2):byte()-("0"):byte()
+				
+				main.mode=main.modes[n] or main.mode
+				
+				print("mode:"..main.mode)
+			
+			end
+		
+		end
+	
+	end
 	
 end
 
@@ -95,10 +114,12 @@ play.reset=function(a)
 	play.frame_draw=a
 	play.frame_disp=1+(a%2)
 	
+--[[
 	screen.draw_into_start(a)
 	gl.ClearColor(1,0,0,1)
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 	screen.draw_into_stop(a)
+]]
 
 end
 
@@ -166,13 +187,13 @@ play.draw=function()
 	end
 
 
-	local draw_blur=function()
+	local draw_blur=function(fade)
 		
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
 			local p=gl.program("nudgel_blur")
 			gl.UseProgram( p[0] )
 			gl.Uniform4f( p:uniform("blur_step"), 1/512,0,0,0 )
-			gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
+			gl.Uniform1f( p:uniform("blur_fade"), fade or 252/256 )
 			return p
 		end)	
 		play.next_frame()
@@ -181,7 +202,7 @@ play.draw=function()
 			local p=gl.program("nudgel_blur")
 			gl.UseProgram( p[0] )
 			gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
-			gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
+			gl.Uniform1f( p:uniform("blur_fade"), fade or 252/256 )
 			return p
 		end)	
 		play.next_frame()
@@ -191,13 +212,18 @@ play.draw=function()
 	local draw_parts=function()
 	
 		screen.draw_into_start(play.frame_draw)
-		parts.draw( 1 , 1)
+		parts.draw( 1 , 1)  -- normal draw into current fbo
 		screen.draw_into_stop(play.frame_draw)
 		
-		 -- we draw over the top of what we have but do not call next_frame
-
 	end
 
+	local draw_lines=function()
+	
+		screen.draw_into_start(play.frame_draw)
+		lines.draw( 1 , 1)  -- normal draw into current fbo
+		screen.draw_into_stop(play.frame_draw)
+
+	end
 
 	if main.mode=="rgb" then -- just show a rawcam feed
 	
@@ -217,7 +243,7 @@ play.draw=function()
 
 	elseif main.mode=="partdif" then
 
-		parts.update("nudgel_parts_step")
+		parts.update("nudgel_parts_step_dif")
 
 		draw_parts()
 		draw_blur()
@@ -235,134 +261,17 @@ play.draw=function()
 		gl.Color(1,1,1,1)
 		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
 
+	elseif main.mode=="line" then
+
+--		draw_black()
+		draw_blur((256-6)/256)
+		draw_lines()
+		
+		gl.Color(1,1,1,1)
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+
 	end
 	
-
---	screen.draw_into_start(play.frame_draw)
---	font.set("Vera") -- 32 pixels high
---	font.set_size(32,0) -- 32 pixels high
-
---[[
-	if math.random(100)<10 then
-		local cs={
-			{1,0,0,1},
-			{0,1,0,1},
-			{0,0,1,1},
-			{1,1,0,1},
-			{1,0,1,1},
-			{0,1,1,1},
---			{1,1,1,1},
-		}
-		local c=cs[math.random(#cs)]
-		gl.Color(c[1],c[2],c[3],c[4])
-		local t=wstr.split_whitespace("Art gallery and performance space in Bradford (UK) hosting exhibitions, concerts, film screenings and other events")
-		local s=(t[math.random(#t)])
-		font.set_xy(256+(math.random(32)-16)-(font.width(s)/2),256+(math.random(32)-16)-16) -- 32 pixels high
-		font.draw(s)
-
-	end
-]]
-
---	parts.draw( 1 , 1)
-
---	screen.draw_into_stop(play.frame_draw)
-
---	gl.Color(1,1,1,1)
-
-
---	if play.newcam then
---		play.newcam=false
---	if math.random(100)<10 then
-
---[[
-		screen.draw_feed(play.frame_disp,play.frame_draw,function()
-			local p=gl.program("nudgel_cam")
-			gl.UseProgram( p[0] )
-			
-			gl.Uniform1i( p:uniform("tex0"), 0 )
-			gl.Uniform1i( p:uniform("cam0"), 1 )
-
-			gl.ActiveTexture(gl.TEXTURE1)
-			gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
-
-			gl.ActiveTexture(gl.TEXTURE0)
-
-			return p
-		end)
-		play.next_frame()
-]]
-
---[[
-		screen.draw_feed(play.frame_disp,play.frame_draw,function()
-			local p=gl.program("nudgel_depfft")
-			gl.UseProgram( p[0] )
-			
-			gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
-
-			gl.Uniform1i( p:uniform("tex0"), 0 )
-			gl.Uniform1i( p:uniform("tex1"), 1 )
-			gl.Uniform1i( p:uniform("cam0"), 2 )
-			gl.Uniform1i( p:uniform("cam1"), 3 )
-
-			gl.ActiveTexture(gl.TEXTURE3)
-			gl.BindTexture(gl.TEXTURE_2D,screen.cams[ 1 + (screen.cam_idx%2) ])
-
-			gl.ActiveTexture(gl.TEXTURE2)
-			gl.BindTexture(gl.TEXTURE_2D,screen.cams[screen.cam_idx])
-
-			gl.ActiveTexture(gl.TEXTURE1)
-			gl.BindTexture(gl.TEXTURE_2D,sound.fft_tex)
-
-			gl.ActiveTexture(gl.TEXTURE0)
-
-			return p
-		end)
-		play.next_frame()
-]]
-
---	end
---	end
-
---[[
-	screen.draw_feed(play.frame_disp,play.frame_draw,function()
-		local p=gl.program("nudgel_dark")
-		gl.UseProgram( p[0] )
-		return p
-	end)
-	play.next_frame()
-]]
-
---[[
-	screen.draw_feed(play.frame_disp,play.frame_draw,function()
-		local p=gl.program("nudgel_fade")
-		gl.UseProgram( p[0] )
-		local cc={(math.random(128)-64)/64,(math.random(128)-64)/64}
-		cc[1]=0.5+cc[1]/32
-		cc[2]=0.5+cc[2]/32
-		gl.Uniform4f( p:uniform("center"), cc[1],cc[2],cc[1],cc[2] )
-		gl.Uniform4f( p:uniform("distort"), 0.25,0.25,1.0,0.03 )
---		gl.Uniform4f( p:uniform("distort"), 1,0.25,1.0,0.03 )
-		return p
-	end)	
-	play.next_frame()
-]]
-
---	screen.draw(play.frame_draw,(854/2)/256)
-
---[[
-	screen.draw_feed(play.frame_disp,play.frame_draw,function()
-		local p=gl.program("nudgel_blur")
-		gl.UseProgram( p[0] )
-		gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
-		gl.Uniform1f( p:uniform("blur_fade"), 0/256 )
-		return p
-	end)	
-	play.next_frame()
-]]
-
---	parts.draw( main.flip*(854/2) , main.flip*(480/2) )
-
-
 end
 
 	return play

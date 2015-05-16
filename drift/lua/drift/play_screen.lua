@@ -295,6 +295,7 @@ screen.draw=function(a,sx,sy)
 	gl.PushMatrix()
 	gl.Translate(854/2,480/2,0)
 
+	gl.ActiveTexture(gl.TEXTURE0)
 	fbos[a]:bind_texture()
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)

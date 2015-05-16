@@ -46,13 +46,17 @@ main.setup=function()
 	main.flip=1
 	
 	main.mode="partdif"
+
+	main.mode="line"
 	
 	local modes={
 		"rgb",
 		"dep",
 		"partdif",
 		"partfft",
+		"line",
 	} for i,v in ipairs(modes) do modes[v]=i end
+	main.modes=modes
 		
 	for i,v in ipairs(opts) do
 	
