@@ -142,11 +142,11 @@ end
 parts.msg=function(m)
 end
 
-parts.update=function()
+parts.update=function(progname)
 
 	parts.draw_feed(parts.fboidx,1+(parts.fboidx%2),function()
 		
-		local p=gl.program("nudgel_parts_step")
+		local p=gl.program(progname or "nudgel_parts_step")
 		gl.UseProgram( p[0] )
 
 		local v=sound.dir or {0,0,0,0}

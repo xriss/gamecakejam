@@ -79,8 +79,6 @@ play.update=function()
 	local t=screen.update()
 	play.newcam=play.newcam or t
 
-	parts.update()
-
 end
 
 play.frame_draw=0
@@ -112,8 +110,22 @@ end
 
 play.draw=function()
 
-	if main.cam=="rgb" then -- just show a rawcam feed
+	local draw_black=function()
 	
+		screen.draw_feed(play.frame_disp,play.frame_draw,function()
+			local p=gl.program("nudgel_blur")
+			gl.UseProgram( p[0] )
+			gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
+			gl.Uniform1f( p:uniform("blur_fade"), 0/256 )
+			return p
+		end)	
+		play.next_frame()
+		
+	end
+	
+	
+	local draw_rgb=function()
+
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
 			local p=gl.program("nudgel_rawcam")
 			gl.UseProgram( p[0] )
@@ -128,24 +140,10 @@ play.draw=function()
 			return p
 		end)	
 		play.next_frame()
-			
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
-	
-		return
+
 	end
 	
-	if main.cam=="depth" then -- just show a rawcam feed
-	
-
-	screen.draw_feed(play.frame_disp,play.frame_draw,function()
-		local p=gl.program("nudgel_blur")
-		gl.UseProgram( p[0] )
-		gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
-		gl.Uniform1f( p:uniform("blur_fade"), 0/256 )
-		return p
-	end)	
-	play.next_frame()
-	
+	local draw_dep=function()
 	
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
 			local p=gl.program("nudgel_dep")
@@ -164,17 +162,85 @@ play.draw=function()
 			return p
 		end)	
 		play.next_frame()
-			
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
-	
-		return
+
 	end
 
 
+	local draw_blur=function()
+		
+		screen.draw_feed(play.frame_disp,play.frame_draw,function()
+			local p=gl.program("nudgel_blur")
+			gl.UseProgram( p[0] )
+			gl.Uniform4f( p:uniform("blur_step"), 1/512,0,0,0 )
+			gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
+			return p
+		end)	
+		play.next_frame()
+
+		screen.draw_feed(play.frame_disp,play.frame_draw,function()
+			local p=gl.program("nudgel_blur")
+			gl.UseProgram( p[0] )
+			gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
+			gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
+			return p
+		end)	
+		play.next_frame()
 	
-	screen.draw_into_start(play.frame_draw)
+	end
+	
+	local draw_parts=function()
+	
+		screen.draw_into_start(play.frame_draw)
+		parts.draw( 1 , 1)
+		screen.draw_into_stop(play.frame_draw)
+		
+		 -- we draw over the top of what we have but do not call next_frame
+
+	end
+
+
+	if main.mode=="rgb" then -- just show a rawcam feed
+	
+		draw_black()
+		draw_rgb()
+
+		gl.Color(1,1,1,1)
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+		
+	elseif main.mode=="dep" then
+
+		draw_black()
+		draw_dep()
+
+		gl.Color(1,1,1,1)
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+
+	elseif main.mode=="partdif" then
+
+		parts.update("nudgel_parts_step")
+
+		draw_parts()
+		draw_blur()
+
+		gl.Color(1,1,1,1)
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+
+	elseif main.mode=="partfft" then
+
+		parts.update("nudgel_parts_step")
+
+		draw_parts()
+		draw_blur()
+		
+		gl.Color(1,1,1,1)
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+
+	end
+	
+
+--	screen.draw_into_start(play.frame_draw)
 --	font.set("Vera") -- 32 pixels high
-	font.set_size(32,0) -- 32 pixels high
+--	font.set_size(32,0) -- 32 pixels high
 
 --[[
 	if math.random(100)<10 then
@@ -197,11 +263,11 @@ play.draw=function()
 	end
 ]]
 
-	parts.draw( 1 , 1)
+--	parts.draw( 1 , 1)
 
-	screen.draw_into_stop(play.frame_draw)
+--	screen.draw_into_stop(play.frame_draw)
 
-	gl.Color(1,1,1,1)
+--	gl.Color(1,1,1,1)
 
 
 --	if play.newcam then
@@ -281,30 +347,7 @@ play.draw=function()
 	play.next_frame()
 ]]
 
-
-
-	screen.draw_feed(play.frame_disp,play.frame_draw,function()
-		local p=gl.program("nudgel_blur")
-		gl.UseProgram( p[0] )
-		gl.Uniform4f( p:uniform("blur_step"), 1/512,0,0,0 )
-		gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
-		return p
-	end)	
-	play.next_frame()
-
-	screen.draw_feed(play.frame_disp,play.frame_draw,function()
-		local p=gl.program("nudgel_blur")
-		gl.UseProgram( p[0] )
-		gl.Uniform4f( p:uniform("blur_step"), 0,1/512,0,0 )
-		gl.Uniform1f( p:uniform("blur_fade"), 252/256 )
-		return p
-	end)	
-	play.next_frame()
-
-
-		
 --	screen.draw(play.frame_draw,(854/2)/256)
-	screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
 
 --[[
 	screen.draw_feed(play.frame_disp,play.frame_draw,function()

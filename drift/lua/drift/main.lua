@@ -44,16 +44,32 @@ main.setup=function()
 	main.device=nil
 	main.cam=nil
 	main.flip=1
+	
+	main.mode="partdif"
+	
+	local modes={
+		"rgb",
+		"dep",
+		"partdif",
+		"partfft",
+	} for i,v in ipairs(modes) do modes[v]=i end
+		
 	for i,v in ipairs(opts) do
-		if v=="cam" then
-			main.cam="rgb"
-		elseif v=="depth" then
-			main.cam="depth"
-		elseif v=="flip" then
+	
+		if v=="flip" then
 			main.flip=-1
 		elseif v:sub(1,5)=="/dev/" then
 			main.device=v
+			
+		else
+		
+			if modes[v] then -- check start mode
+				main.mode=v			
+			end
+		
 		end
+		
+		
 	end
 
 	oven.rebake_mod("wetgenes.gamecake.mods.mouse").active=false -- disable mouse on PI

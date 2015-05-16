@@ -98,14 +98,25 @@ screen.setup=function()
 	end
 
 	local vid=nil
-	for i=4,0,-1 do
-		local s,e=pcall( function()
-			vid=assert(wv4l2.open(main.device or "/dev/video"..i))
-		end)
-		if vid then
-			print( "VIDEO : ",i)
-			break
+	
+	if main.device then -- force device name
+	
+		vid=assert(wv4l2.open(main.device))
+
+		print( "VIDEO : ",main.device)
+	
+	else -- guess and try a few
+	
+		for i=4,0,-1 do
+			local s,e=pcall( function()
+				vid=assert(wv4l2.open("/dev/video"..i))
+			end)
+			if vid then
+				print( "VIDEO : ",i)
+				break
+			end
 		end
+		
 	end
 	
 	if vid then
@@ -176,112 +187,6 @@ screen.update=function()
 	end
 
 	return false
-end
-
-
-screen.draw_bloom_setup=function()
---do return end
-
-	local fbo=screen.fbos[1]
-	fbo:bind_frame()
-	gl.Viewport( 0 , 0 , 512 , 512 )
-
-	local data={
-		-1,	-1,		0,		0,	0,
-		 1,	-1,		0,		1,	0,
-		-1,	 1,		0,		0,	1,
-		 1,	 1,		0,		1,	1,
-	}
-
-	local datalen=#data
-	local datasize=datalen*4 -- we need this much vdat memory
-	canvas.vdat_check(datasize) -- make sure we have space in the buffer
-	
-	pack.save_array(data,"f32",0,datalen,canvas.vdat)
-
-	local p
-	p=gl.program("bigtrouble_bloom_pick")
-	gl.UseProgram( p[0] )
-
-	gl.BindBuffer(gl.ARRAY_BUFFER,canvas.get_vb())
-	gl.BufferData(gl.ARRAY_BUFFER,datasize,canvas.vdat,gl.DYNAMIC_DRAW)
-
-	screen.fbo:bind_texture()
---	gl.Uniform1i( p:uniform("tex"), 0 )
-	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
-	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
-		
-	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
-	gl.EnableVertexAttribArray(p:attrib("a_vertex"))
-	
-	gl.VertexAttribPointer(p:attrib("a_texcoord"),2,gl.FLOAT,gl.FALSE,20,12)
-	gl.EnableVertexAttribArray(p:attrib("a_texcoord"))
-
-	gl.DrawArrays(gl.TRIANGLE_STRIP,0,4)
-
-	fbo.bind_frame() -- restore old frame
-	canvas.layout.restore()
-		
-end
-
-
--- perform a blur to the input fbo, after this you may grab the outpub fbo and draw it
-screen.draw_bloom_blur=function()
-
-	local fbos=screen.fbos
-
-	fbos[2]:bind_frame()
-	gl.Viewport( 0 , 0 , fbos[2].w , fbos[2].h )
-
-	local data={
-		-1,	-1,		0,		0,				0,
-		 1,	-1,		0,		fbos[2].uvw,	0,
-		-1,	 1,		0,		0,				fbos[2].uvh,
-		 1,	 1,		0,		fbos[2].uvw,	fbos[2].uvh,
-	}
-
-	local datalen=#data
-	local datasize=datalen*4 -- we need this much vdat memory
-	canvas.vdat_check(datasize) -- make sure we have space in the buffer
-	
-	pack.save_array(data,"f32",0,datalen,canvas.vdat)
-
-	local p
-	p=gl.program("bigtrouble_bloom_blur")
-	gl.UseProgram( p[0] )
-
-	gl.BindBuffer(gl.ARRAY_BUFFER,canvas.get_vb())
-	gl.BufferData(gl.ARRAY_BUFFER,datasize,canvas.vdat,gl.DYNAMIC_DRAW)
-
-	gl.ActiveTexture(gl.TEXTURE0)
-	
-	gl.VertexAttribPointer(p:attrib("a_vertex"),3,gl.FLOAT,gl.FALSE,20,0)
-	gl.EnableVertexAttribArray(p:attrib("a_vertex"))
-	
-	gl.VertexAttribPointer(p:attrib("a_texcoord"),2,gl.FLOAT,gl.FALSE,20,12)
-	gl.EnableVertexAttribArray(p:attrib("a_texcoord"))
-
-	fbos[1]:bind_texture()
-	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
-	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
-	
-	gl.Uniform4f( p:uniform("pix_siz"), fbos[2].uvw/fbos[2].w,0,0,1 )
-	gl.DrawArrays(gl.TRIANGLE_STRIP,0,4)
-
-
-	fbos[1]:bind_frame()
-	fbos[2]:bind_texture()
-	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
-	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
-	
-	gl.Uniform4f( p:uniform("pix_siz"), 0,fbos[2].uvh/fbos[2].h,0,1 )
-	gl.DrawArrays(gl.TRIANGLE_STRIP,0,4)
-
-
-	fbos[1].bind_frame() -- restore old frame
-
-	canvas.layout.restore()
-
 end
 
 -- draw from buffer b into buffer a with f(p) used to select a program
