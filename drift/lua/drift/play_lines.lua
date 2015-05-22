@@ -37,7 +37,7 @@ lines.setup=function()
 
 	lines.loads()
 	
-	lines.size=64	
+	lines.size=64--64	
 
 	lines.vb=gl.GenBuffer()
 	local data={} local p=function(d) data[#data+1]=d end
@@ -49,7 +49,9 @@ lines.setup=function()
 			p(x) p(y+1)
 		end
 	end
+
 --horizgrid
+
 	for y=0,lines.size do
 		for x=0,lines.size-1 do
 			p(x)   p(y)
@@ -67,6 +69,43 @@ lines.setup=function()
 	gl.BufferData(gl.ARRAY_BUFFER,datasize,cake.canvas.vdat,gl.STATIC_DRAW)
 	lines.vb_len=datalen
 
+	lines.add=0
+
+
+	lines.vb2=gl.GenBuffer()
+	local data={} local p=function(d) data[#data+1]=d end
+
+-- vertgrid	
+	for x=0,lines.size-1 do
+		for y=0,lines.size-1 do
+
+
+			p(x)     p(y)
+			p(x+0.5) p(y+0.5)
+			p(x+0.5) p(y+0.5)
+			p(x+1)   p(y+1)
+
+			p(x+1)   p(y)
+			p(x+0.5) p(y+0.5)
+			p(x+0.5) p(y+0.5)
+			p(x )    p(y+1)
+				
+		end
+	end
+
+
+
+	local datalen=#data
+	local datasize=datalen*4 -- we need this much vdat memory
+	cake.canvas.vdat_check(datasize) -- make sure we have space in the buffer
+	pack.save_array(data,"f32",0,datalen,cake.canvas.vdat)
+	
+	gl.BindBuffer(gl.ARRAY_BUFFER,lines.vb2)
+	gl.BufferData(gl.ARRAY_BUFFER,datasize,cake.canvas.vdat,gl.STATIC_DRAW)
+	lines.vb2_len=datalen
+	
+	
+
 end
 
 lines.clean=function()
@@ -77,10 +116,12 @@ end
 
 lines.update=function(progname)
 	
+	lines.add=(lines.add+1)%16384
 end
 
-lines.draw=function(sx,sy)
+lines.draw=function(n)
 
+	if not n then n="" else n=tostring(n) end
 
 	local p
 	p=gl.program("nudgel_lines_draw")
@@ -89,8 +130,10 @@ lines.draw=function(sx,sy)
 	gl.Uniform1f( p:uniform("lines_size"), lines.size )
 	gl.Uniform1f( p:uniform("point_size"), 1 )
 
-	gl.BindBuffer(gl.ARRAY_BUFFER,lines.vb)
+	gl.Uniform4f( p:uniform("offset"), -((lines.add%128)/128),((lines.add%128)/128),0,0 )
 
+	gl.BindBuffer(gl.ARRAY_BUFFER,lines["vb"..n])
+	
 	gl.VertexAttribPointer(p:attrib("a_vertex"),2,gl.FLOAT,gl.FALSE,8,0)
 	gl.EnableVertexAttribArray(p:attrib("a_vertex"))
 
@@ -114,10 +157,20 @@ lines.draw=function(sx,sy)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 	
+	gl.Uniform1i( p:uniform("wav0"), 4 )
+	gl.ActiveTexture(gl.TEXTURE4)
+	gl.BindTexture(gl.TEXTURE_2D,sound.s16_tex)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+
+
+
+	
+	
 	local v=sound.dir or {0,0,0,0}
 	gl.Uniform4f(  p:uniform("sound_velocity") , v[1],v[2],v[3],v[4] )
 	
-	gl.DrawArrays(gl.LINES,0,lines.vb_len/2)
+	gl.DrawArrays(gl.LINES,0,lines["vb"..n.."_len"]/2)
 
 	gl.ActiveTexture(gl.TEXTURE0)
 end

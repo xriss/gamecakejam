@@ -1,4 +1,50 @@
 
+#shader "raw_tex_inv"
+
+#ifdef VERTEX_SHADER
+
+uniform mat4 modelview;
+uniform mat4 projection;
+uniform vec4 color;
+
+attribute vec3 a_vertex;
+attribute vec2 a_texcoord;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+ 
+void main()
+{
+	gl_PointSize=3.0;
+    gl_Position = projection * vec4(a_vertex.xyz , 1.0);
+	v_texcoord=a_texcoord;
+	v_color=vec4(1.0,1.0,1.0,1.0);
+}
+
+#endif
+#ifdef FRAGMENT_SHADER
+
+uniform sampler2D tex;
+
+varying vec2  v_texcoord;
+varying vec4  v_color;
+
+void main(void)
+{
+	if( v_texcoord[0] <= -1.0 ) // special uv request to ignore the texture (use -2 as flag)
+	{
+		gl_FragColor=v_color ;
+	}
+	else
+	{
+		gl_FragColor=vec4( (vec3(1.0,1.0,1.0) - texture2D(tex, v_texcoord).rgb),1.0  )* v_color;
+	}
+}
+
+#endif
+
+
+
 #SHADER "nudgel_test"
 
 
@@ -269,11 +315,11 @@ void main(void)
 	float m=c1.g+(c1.r*255.0/65536.0);
 	if(m>=1.0) // no data
 	{
-		gl_FragColor=vec4( 0.0,0.0,0.0, 1.0 );
+		gl_FragColor=color*vec4( 0.0,0.0,0.0, 1.0 );
 	}
 	else
 	{
-		gl_FragColor=vec4( hsv2rgb(vec3(1.0-(m*m),1.0,1.0)) , 1.0 );
+		gl_FragColor=color*vec4( hsv2rgb(vec3(1.0-(m*m),1.0,1.0)) , 1.0 );
 	}
 }
 

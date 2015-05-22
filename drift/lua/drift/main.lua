@@ -55,6 +55,8 @@ main.setup=function()
 		"partdif",
 		"partfft",
 		"line",
+		"line2",
+		"depblur",
 	} for i,v in ipairs(modes) do modes[v]=i end
 	main.modes=modes
 		
@@ -64,7 +66,9 @@ main.setup=function()
 			main.flip=-1
 		elseif v:sub(1,5)=="/dev/" then
 			main.device=v
-			
+
+		elseif v=="inv" then
+			main.inv=true -- color invert display
 		else
 		
 			if modes[v] then -- check start mode

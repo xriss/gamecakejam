@@ -88,24 +88,30 @@ end
 
 sound.setup=function()
 
+	sound.fft_tex=gl.GenTexture()
+	sound.s16_tex=gl.GenTexture()
+
+pcall(function()
 	sound.dev=alc.CaptureOpenDevice(nil,sound.samplerate,al.FORMAT_MONO16,44100)
 	alc.CaptureStart(sound.dev)
 	
 	sound.fft=kissfft.start(sound.fftsiz)
 	sound.dsamples=pack.alloc(sound.fftsiz*2)
 
-	sound.fft_tex=gl.GenTexture()
-	sound.s16_tex=gl.GenTexture()
-
 	sound.u8_dat=pack.alloc(sound.fftsiz/2)
 
 	sound.count=0
 	sound.div=1
+	
+	sound.active=true
+end)
+
 end
 
 
 sound.clean=function()
-
+	if not sound.active then return end
+	
 	alc.CaptureStop(sound.dev)
 	alc.CaptureCloseDevice(sound.dev)
 
@@ -221,6 +227,7 @@ end
 
 
 sound.update=function()
+	if not sound.active then return end
 
 	if sound.readdata() then
 		while sound.readdata() do end -- catch up sound

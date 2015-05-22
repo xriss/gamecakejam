@@ -288,7 +288,7 @@ end
 
 
 -- draw fbo to the main screen
-screen.draw=function(a,sx,sy)
+screen.draw=function(a,sx,sy,inv)
 
 	local fbos=screen.fbos
 
@@ -338,7 +338,11 @@ screen.draw=function(a,sx,sy)
 ]]
 
 	gl.Color(1,1,1,1)
-	flat.tristrip("rawuv",t,"raw_tex")
+	if inv then
+		flat.tristrip("rawuv",t,"raw_tex_inv")
+	else
+		flat.tristrip("rawuv",t,"raw_tex")
+	end
 --	flat.tristrip("rawuv",t,"bigtrouble_scanline")
 --	flat.tristrip("rawuv",t,"bigtrouble_bleed")
 

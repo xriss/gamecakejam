@@ -82,6 +82,8 @@ play.msg=function(m)
 				
 				print("mode:"..main.mode)
 			
+			elseif m.keyname=="back" then
+				main.inv=not main.inv -- color invert
 			end
 		
 		end
@@ -91,6 +93,8 @@ play.msg=function(m)
 end
 
 play.update=function()
+
+	lines.update()
 
 	local t=sound.update()
 	play.newfft=play.newfft or t
@@ -164,7 +168,7 @@ play.draw=function()
 
 	end
 	
-	local draw_dep=function()
+	local draw_dep=function(r,g,b,a)
 	
 		screen.draw_feed(play.frame_disp,play.frame_draw,function()
 			local p=gl.program("nudgel_dep")
@@ -174,6 +178,8 @@ play.draw=function()
 			gl.Uniform1i( p:uniform("cam0"), 1 )
 			gl.Uniform1i( p:uniform("cam1"), 2 )
 
+			gl.Uniform4f( p:uniform("color"), r,g,b,a )
+			
 			gl.ActiveTexture(gl.TEXTURE2)
 			gl.BindTexture(gl.TEXTURE_2D,screen.cams[1+(screen.cam_idx%2)])
 			gl.ActiveTexture(gl.TEXTURE1)
@@ -217,29 +223,38 @@ play.draw=function()
 		
 	end
 
-	local draw_lines=function()
+	local draw_lines=function(n)
 	
 		screen.draw_into_start(play.frame_draw)
-		lines.draw( 1 , 1)  -- normal draw into current fbo
+		lines.draw(n)  -- normal draw into current fbo
 		screen.draw_into_stop(play.frame_draw)
 
 	end
-
+	
 	if main.mode=="rgb" then -- just show a rawcam feed
 	
 		draw_black()
 		draw_rgb()
 
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 		
 	elseif main.mode=="dep" then
 
 		draw_black()
-		draw_dep()
+		draw_dep(1,1,1,1)
 
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+
+	elseif main.mode=="depblur" then
+
+--		draw_black()
+		draw_dep(1/16,1/16,1/16,1/16)
+		draw_blur(1)
+
+		gl.Color(1,1,1,1)
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="partdif" then
 
@@ -249,7 +264,7 @@ play.draw=function()
 		draw_blur()
 
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="partfft" then
 
@@ -259,7 +274,7 @@ play.draw=function()
 		draw_blur()
 		
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="line" then
 
@@ -268,7 +283,16 @@ play.draw=function()
 		draw_lines()
 		
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 )
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+
+	elseif main.mode=="line2" then
+
+--		draw_black()
+		draw_blur((256-6)/256)
+		draw_lines(2)
+		
+		gl.Color(1,1,1,1)
+		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	end
 	
