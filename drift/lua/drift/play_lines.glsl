@@ -36,9 +36,9 @@ mat4 rotmaty(float angle)
 	float s = sin(angle);
 	float c = cos(angle);
 
-	return mat4(c  ,0.0,-s  ,0.0,
+	return mat4(c  ,0.0,-s ,0.0,
 				0.0,1.0,0.0,0.0,
-				s  ,0.0,c ,0.0,
+				s  ,0.0,c  ,0.0,
 				0.0,0.0,0.0,1.0);
 }
 
@@ -47,7 +47,7 @@ vec4 getpos(vec4 p)
 	mat4 m=rotmaty(smoothstep(0.0,1.0,wobble[0])*0.5-0.25);
 	p=m*p;
 
-	float dz=((1.0/16.0)+max(0.0,p.z));
+	float dz=((1.0/16.0)+max(0.0,p.z)*2.0);
 	p.x=p.x/dz;
 	p.y=p.y/dz;
 	
@@ -70,14 +70,15 @@ void main()
 //	pos.y+=(w-0.5)*2.0;
 
 	vec3 c0=texture2D(cam0, vx-(((pos)/lines_size)*vx)).rgb;
-	float d0=c0.g+(c0.r*255.0/65536.0);
+	float d0=c0.g*(255.0/256.0)+(c0.r*255.0/65536.0);
 
 	vec3 c1=texture2D(cam1, vx-(((pos)/lines_size)*vx)).rgb;
-	float d1=c1.g+(c1.r*255.0/65536.0);
+	float d1=c1.g*(255.0/256.0)+(c1.r*255.0/65536.0);
 		
 	float p=abs(d0-d1);
 
-	if( (d0<(255.0/255.0)) && (d0>(0.0/255.0)) && (d1<(255.0/255.0)) && (d1>(0.0/255.0)) )
+//	if( (d0<(255.0/256.0)) && (d0>(0.0/256.0)) && (d1<(255.0/256.0)) && (d1>(0.0/256.0)) )
+	if( (d0>0.0) && (d1>0.0) )
 	{
 //		bad=0.0;
 
