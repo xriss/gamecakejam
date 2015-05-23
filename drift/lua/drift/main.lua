@@ -44,6 +44,7 @@ main.setup=function()
 	main.device=nil
 	main.cam=nil
 	main.flip=1
+	main.flipx=1
 	
 	main.mode="partdif"
 
@@ -64,6 +65,8 @@ main.setup=function()
 	
 		if v=="flip" then
 			main.flip=-1
+		elseif v=="flipx" then
+			main.flipx=-1
 		elseif v:sub(1,5)=="/dev/" then
 			main.device=v
 

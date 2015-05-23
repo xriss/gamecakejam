@@ -237,7 +237,7 @@ play.draw=function()
 		draw_rgb()
 
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 		
 	elseif main.mode=="dep" then
 
@@ -245,7 +245,7 @@ play.draw=function()
 		draw_dep(1,1,1,1)
 
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="depblur" then
 
@@ -254,7 +254,7 @@ play.draw=function()
 		draw_blur(1)
 
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="partdif" then
 
@@ -264,7 +264,7 @@ play.draw=function()
 		draw_blur()
 
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="partfft" then
 
@@ -274,7 +274,7 @@ play.draw=function()
 		draw_blur()
 		
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="line" then
 
@@ -283,7 +283,7 @@ play.draw=function()
 		draw_lines()
 		
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	elseif main.mode=="line2" then
 
@@ -292,7 +292,7 @@ play.draw=function()
 		draw_lines(2)
 		
 		gl.Color(1,1,1,1)
-		screen.draw(play.frame_draw, main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
 	end
 	

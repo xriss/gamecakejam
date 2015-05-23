@@ -132,6 +132,10 @@ lines.draw=function(n)
 
 	gl.Uniform4f( p:uniform("offset"), -((lines.add%128)/128),((lines.add%128)/128),0,0 )
 
+	local t=function(n) local t=(lines.add%n)/n if t<=0.5 then return t*2 else return (1-t)*2 end end
+	gl.Uniform4f( p:uniform("wobble"), t(512),t(256),t(128),t(64) )
+
+
 	gl.BindBuffer(gl.ARRAY_BUFFER,lines["vb"..n])
 	
 	gl.VertexAttribPointer(p:attrib("a_vertex"),2,gl.FLOAT,gl.FALSE,8,0)
