@@ -47,9 +47,10 @@ vec4 getpos(vec4 p)
 	mat4 m=rotmaty(smoothstep(0.0,1.0,wobble[0])*0.5-0.25);
 	p=m*p;
 
-	float dz=((1.0/16.0)+max(0.0,p.z)*2.0);
-	p.x=p.x/dz;
-	p.y=p.y/dz;
+	float dz=((1.0/16.0)+max(0.0,p.z)*32.0);
+	p.x=40.0*p.x/dz;
+	p.y=40.0*p.y/dz;
+	p.z=(p.z/2.0)+0.25;
 	
 	return p;
 }
@@ -77,22 +78,21 @@ void main()
 		
 	float p=abs(d0-d1);
 
-//	if( (d0<(255.0/256.0)) && (d0>(0.0/256.0)) && (d1<(255.0/256.0)) && (d1>(0.0/256.0)) )
-	if( (d0>0.0) && (d1>0.0) )
+	if( (d0<(250.0/256.0)) && (d0>(1.0/256.0)) && (d1<(250.0/256.0)) && (d1>(1.0/256.0)) )
 	{
 //		bad=0.0;
 
-		float dz=(d0+d1)/2.0;		
-		float ff=texture2D(fft0, vec2((dz*dz)/8.0,0.0) )[0];
+		float d=d0<d1?d0:d1;
+		d=d*d;
+		float ff=texture2D(fft0, vec2((d),0.0) )[0];
 		
-		dz=max(0.0,dz-(ff*8.0));
+		float dz=max(0.0,(d)-(ff));
 		gl_Position=getpos( vec4( (vec2(-1.0,-1.0)+((pos)*2.0/lines_size)) , dz , 1.0 ) );
 
 		gl_PointSize = 1.0;
 
 
-		float d=d0<d1?d0:d1;
-		color=vec4( hsv2rgb( vec3(1.0-(d*d),0.5,1.0) ) , 0.5+p);
+		color=vec4( hsv2rgb( vec3(1.0-(d),0.5,1.0) ) , 0.5+p);
 	}
 	else
 	{
@@ -100,7 +100,7 @@ void main()
 
 		gl_Position=getpos( vec4( (vec2(-1.0,-1.0)+((pos)*2.0/lines_size)) , 1.0 , 1.0 ) );
 		gl_PointSize = 1.0;
-		color=vec4( hsv2rgb( vec3(1.0,0.5,1.0) ) , 0.0);
+		color=vec4( hsv2rgb( vec3(1.0,0.5,1.0) ) , 0.25);
 	}
 		
 }

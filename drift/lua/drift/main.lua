@@ -49,6 +49,7 @@ main.setup=function()
 	main.mode="partdif"
 
 	main.mode="line"
+--	main.mode="sound"
 	
 	local modes={
 		"rgb",
@@ -58,6 +59,7 @@ main.setup=function()
 		"line",
 		"line2",
 		"depblur",
+		"sound",
 	} for i,v in ipairs(modes) do modes[v]=i end
 	main.modes=modes
 		

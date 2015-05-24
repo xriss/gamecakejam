@@ -294,6 +294,15 @@ play.draw=function()
 		gl.Color(1,1,1,1)
 		screen.draw(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
 
+	elseif main.mode=="sound" then
+
+--		draw_black()
+--		draw_blur((256-6)/256)
+--		draw_lines(2)
+		
+		gl.Color(1,1,1,1)
+		sound.draw_fft(play.frame_draw, main.flipx*main.flip*(854/2) , main.flip*(480/2)*1.2 , main.inv)
+
 	end
 	
 end

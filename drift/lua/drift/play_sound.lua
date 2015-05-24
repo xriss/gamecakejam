@@ -7,7 +7,7 @@ local pack=require("wetgenes.pack")
 local al=require("al")
 local alc=require("alc")
 local kissfft=require("kissfft.core")
-
+local wzips=require("wetgenes.zips")
 
 local function dprint(a) print(wstr.dump(a)) end
 
@@ -27,7 +27,10 @@ M.bake=function(oven,sound)
 
 -- configurable defaults
 
-sound.fftsiz=1024*4
+sound.history=128
+sound.index=0
+
+sound.fftsiz=1024*2
 sound.samplerate=44100
 
 sound.fftclip=0/1024 -- ignore the low end buckets (relative to fftsize)
@@ -82,28 +85,40 @@ end
 
 sound.loads=function()
 
---	require(oven.modgame..".play_sound_glsl").create_shaders(oven)
-
+	local filename="lua/"..(oven.modgame..".play_sound"):gsub("%.","/")..".glsl"
+	gl.shader_sources( wzips.readfile(filename) , filename )
+	
 end
 
 sound.setup=function()
 
+	sound.dstr=""
+
+	sound.loads()
+	
 	sound.fft_tex=gl.GenTexture()
 	sound.s16_tex=gl.GenTexture()
 
 pcall(function()
-	sound.dev=alc.CaptureOpenDevice(nil,sound.samplerate,al.FORMAT_MONO16,44100)
+	sound.dev=alc.CaptureOpenDevice(nil,sound.samplerate,al.FORMAT_MONO16,32768)
 	alc.CaptureStart(sound.dev)
 	
 	sound.fft=kissfft.start(sound.fftsiz)
 	sound.dsamples=pack.alloc(sound.fftsiz*2)
 
-	sound.u8_dat=pack.alloc(sound.fftsiz/2)
+	sound.u8_dat=pack.alloc(sound.fftsiz)
 
 	sound.count=0
 	sound.div=1
 	
 	sound.active=true
+
+	gl.BindTexture(gl.TEXTURE_2D, sound.s16_tex)
+	gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE_ALPHA, sound.fftsiz, sound.history, 0, gl.LUMINANCE_ALPHA, gl.UNSIGNED_BYTE, string.rep("/0/0",sound.history*sound.fftsiz) )
+   
+	gl.BindTexture(gl.TEXTURE_2D, sound.fft_tex)
+	gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE_ALPHA, sound.fftsiz/2, sound.history, 0, gl.LUMINANCE_ALPHA, gl.UNSIGNED_BYTE, string.rep("/0/0",sound.history*sound.fftsiz/2) )
+      
 end)
 
 end
@@ -121,6 +136,25 @@ sound.count=0
 sound.readdata=function()
 	
 	local c=alc.Get(sound.dev,alc.CAPTURE_SAMPLES) -- available samples
+
+	if c>=sound.fftsiz then
+	
+--		local s=pack.tostring( alc.CaptureSamples(sound.dev,nil,sound.fftsiz)) -- grab all available samples as a string
+--print(c,#s)
+	
+		sound.dstr=alc.CaptureSamples(sound.dev,sound.dsamples,sound.fftsiz)
+--		if #sound.dstr>=sound.fftsiz*2 then -- most recent samples
+--			sound.dstr=sound.dstr:sub(-sound.fftsiz*2)
+		
+			kissfft.push(sound.fft,sound.dstr,sound.fftsiz)
+		
+			sound.index=(sound.index+1)%sound.history
+			
+			return sound.dstr
+
+--		end
+	end
+--[[
 	if c>sound.fftsiz then
 		alc.CaptureSamples(sound.dev,sound.dsamples)
 		kissfft.push(sound.fft,sound.dsamples,sound.fftsiz)
@@ -131,6 +165,7 @@ sound.readdata=function()
 			return sound.dsamples
 		end
 	end
+]]
 
 end
 
@@ -138,13 +173,38 @@ end
 sound.writetextures16=function()
 
 	gl.BindTexture(gl.TEXTURE_2D, sound.s16_tex)
-    gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
-    gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
-    gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE)
-    gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)
 
-    gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE_ALPHA, sound.fftsiz/2, 1, 0, gl.LUMINANCE_ALPHA, gl.UNSIGNED_BYTE, sound.dsamples )
+--print("dstr",#sound.dstr,tostring(pack.tolightuserdata(sound.dstr)),sound.dsamples)
 
+-- segfault if I do not take a copy...
+-- must be something to do with drivers and memory churn?
+
+--	pack.copy(sound.dstr,sound.dsamples)
+
+--[[
+	local samps16=pack.load_array(sound.dstr,"s16",0,#sound.dstr)
+	local sampu8={}
+	local byte=function(a) return ((a+32768)/(65536/256)) end
+	local clamp=function(a) if a>255 then return 255 elseif a<0 then return 0 else return math.floor(a) end end
+	for i=1,#samps16 do
+		sampu8[#sampu8+1]=clamp( byte( samps16[ i ] ) )
+		sampu8[#sampu8+1]=clamp( byte( samps16[ i ] ) )
+	end
+print(#samps16,#sound.dstr,#sampu8)
+]]
+--	pack.copy(sound.dstr,sound.dsamples)
+
+--	pack.save_array(sampu8,"u8",0,#sampu8,sound.dsamples)
+	
+	
+	
+--	gl.TexSubImage2D(gl.TEXTURE_2D,0, 0,sound.index, sound.fftsiz,1, gl.LUMINANCE_ALPHA,gl.UNSIGNED_BYTE, sound.dsamples )
+	gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE_ALPHA, sound.fftsiz, 1, 0, gl.LUMINANCE_ALPHA, gl.UNSIGNED_BYTE, sound.dsamples )
+ 	
 end
 
 
@@ -156,10 +216,11 @@ sound.writetexturefft=function()
 
 	local mindat=sound.fftsiz*sound.fftclip
 	for i=1,#fdat do
-		fdat[i]=256*(fdat[i]*sound.div)/sound.fftsiz -- the size effects the volume
-		if i<=mindat then sampu8[i]=0 else
-			sampu8[i]=clamp( (fdat[i] or 0 ) )	-- convert to bytes
-		end
+		fdat[i]=fdat[i]*sound.fftsiz -- the size effects the volume
+--		if i<=mindat then sampu8[#sampu8+1]=0 sampu8[#sampu8+1]=0 else
+			sampu8[#sampu8+1]=clamp( (fdat[i] or 0 ) )	-- convert to bytes
+			sampu8[#sampu8+1]=clamp( (fdat[i] or 0 ) )	-- convert to bytes
+--		end
 -- fake
 --		sampu8[i]=clamp( (256-i or 0 ) )
 	end
@@ -220,7 +281,9 @@ sound.writetexturefft=function()
 
 
 	pack.save_array(sampu8,"u8",0,#sampu8,sound.u8_dat)
-    gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, #sampu8, 1, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, sound.u8_dat )
+
+--	gl.TexSubImage2D(gl.TEXTURE_2D,0, 0,sound.index, #sampu8/2,1, gl.LUMINANCE_ALPHA,gl.UNSIGNED_BYTE, sound.u8_dat )
+    gl.TexImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, #sampu8/2, 1, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, sound.u8_dat )
 
 end
 
@@ -230,7 +293,7 @@ sound.update=function()
 	if not sound.active then return end
 
 	if sound.readdata() then
-		while sound.readdata() do end -- catch up sound
+--		while sound.readdata() do end -- catch up sound
 	
 		sound.fdat=kissfft.pull(sound.fft)
 
@@ -244,7 +307,63 @@ sound.update=function()
 
 end
 
-sound.draw=function()
+-- debug draw
+sound.draw_sound=function(a,sx,sy,inv)
+
+	gl.PushMatrix()
+	gl.Translate(854/2,480/2,0)
+
+	gl.ActiveTexture(gl.TEXTURE0)
+	gl.BindTexture(gl.TEXTURE_2D, sound.s16_tex)
+
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+
+--	local r,g,b,a=gl.color_get_rgba()
+	local v3=gl.apply_modelview( {-sx,	 sy,	0,1} )
+	local v1=gl.apply_modelview( {-sx,	-sy,	0,1} )
+	local v4=gl.apply_modelview( { sx,	 sy,	0,1} )
+	local v2=gl.apply_modelview( { sx,	-sy,	0,1} )
+
+	local t={
+		v3[1],	v3[2],	v3[3],	0,	0, 			
+		v1[1],	v1[2],	v1[3],	0,	1,
+		v4[1],	v4[2],	v4[3],	1,	0, 			
+		v2[1],	v2[2],	v2[3],	1,	1,
+	}
+	gl.Color(1,1,1,1)
+	cake.canvas.flat.tristrip("rawuv",t,"drift_sound")
+
+	gl.PopMatrix()
+end
+-- debug draw
+sound.draw_fft=function(a,sx,sy,inv)
+
+	gl.PushMatrix()
+	gl.Translate(854/2,480/2,0)
+
+	gl.ActiveTexture(gl.TEXTURE0)
+	gl.BindTexture(gl.TEXTURE_2D, sound.fft_tex)
+
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
+	gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+
+--	local r,g,b,a=gl.color_get_rgba()
+	local v3=gl.apply_modelview( {-sx,	 sy,	0,1} )
+	local v1=gl.apply_modelview( {-sx,	-sy,	0,1} )
+	local v4=gl.apply_modelview( { sx,	 sy,	0,1} )
+	local v2=gl.apply_modelview( { sx,	-sy,	0,1} )
+
+	local t={
+		v3[1],	v3[2],	v3[3],	0,	0, 			
+		v1[1],	v1[2],	v1[3],	0,	1,
+		v4[1],	v4[2],	v4[3],	1,	0, 			
+		v2[1],	v2[2],	v2[3],	1,	1,
+	}
+	gl.Color(1,1,1,1)
+	cake.canvas.flat.tristrip("rawuv",t,"drift_fft")
+
+	gl.PopMatrix()
 end
 
 
