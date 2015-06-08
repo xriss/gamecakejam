@@ -78,7 +78,7 @@ void main()
 		
 	float p=abs(d0-d1);
 
-	if( (d0<(250.0/256.0)) && (d0>(1.0/256.0)) && (d1<(250.0/256.0)) && (d1>(1.0/256.0)) )
+	if( (d0<(255.0/256.0)) && (d0>(4.0/256.0)) && (d1<(255.0/256.0)) && (d1>(4.0/256.0)) )
 	{
 //		bad=0.0;
 
@@ -86,7 +86,7 @@ void main()
 		d=d*d;
 		float ff=texture2D(fft0, vec2((d),0.0) )[0];
 		
-		float dz=max(0.0,(d)-(ff));
+		float dz=max(0.0,(d)-(ff*0.25));
 		gl_Position=getpos( vec4( (vec2(-1.0,-1.0)+((pos)*2.0/lines_size)) , dz , 1.0 ) );
 
 		gl_PointSize = 1.0;

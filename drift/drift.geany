@@ -23,7 +23,7 @@ long_line_behaviour=1
 long_line_column=72
 
 [VTE]
-last_dir=/home/kriss/hg/gamecakejam
+last_dir=/home/kriss/hg/gamecakejam/drift
 
 [build-menu]
 NF_00_LB=_Make
@@ -34,4 +34,25 @@ EX_00_CM=../start windowed
 EX_00_WD=%p
 
 [files]
-current_page=0
+current_page=4
+FILE_NAME_0=158;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Finit.lua;0;4
+FILE_NAME_1=3938;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fplay_screen.lua;0;4
+FILE_NAME_2=6891;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fmain_play.lua;0;4
+FILE_NAME_3=728;GLSL;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fplay_screen.glsl;0;4
+FILE_NAME_4=1662;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fmain.lua;0;4
+FILE_NAME_5=5499;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fplay_sound.lua;0;4
+FILE_NAME_6=2621;GLSL;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fplay_sound.glsl;0;4
+FILE_NAME_7=4172;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_al%2Fcode%2Falc.lua;0;4
+FILE_NAME_8=7802;C;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_al%2Fcode%2Flua_alc.c;0;4
+FILE_NAME_9=20617;C;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_pack%2Fcode%2Flua_pack.c;0;4
+FILE_NAME_10=11668;C;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_kissfft%2Fkissfft%2Fkiss_fft.c;0;4
+FILE_NAME_11=0;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_kissfft%2Fpremake4.lua;0;4
+FILE_NAME_12=3327;C;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_kissfft%2Fcode%2Flua_kissfft.c;0;4
+FILE_NAME_13=8294;C;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_gles%2Fcode%2Flua_gles.c;0;4
+FILE_NAME_14=0;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Flua%2Flua_gles%2Fcode%2Fgles.lua;0;4
+FILE_NAME_15=9452;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fbin%2Flua%2Fwetgenes%2Fgamecake%2Fcanvas.lua;0;4
+FILE_NAME_16=2864;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fbin%2Flua%2Fwetgenes%2Fpack.lua;0;4
+FILE_NAME_17=1657;GLSL;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fplay_lines.glsl;0;4
+FILE_NAME_18=3395;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fapps%2Fpinest%2Flua%2Ffft_display.lua;0;4
+FILE_NAME_19=0;GLSL;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fplay_parts.glsl;0;4
+FILE_NAME_20=0;Lua;0;EUTF-8;1;1;1;%2Fhome%2Fkriss%2Fhg%2Fgamecakejam%2Fdrift%2Flua%2Fdrift%2Fplay_lines.lua;0;4
