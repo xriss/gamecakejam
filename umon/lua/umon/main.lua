@@ -45,7 +45,7 @@ main.loads=function()
 		{"imgs/char_01",1/4,1/4,0.5/4,0.5/4},		
 		{"imgs/icon_01",1/4,1/4,0.5/4,0.5/4},		
 		{"imgs/butt_01",1/4,1/2,0.5/4,0.5/2},		
-		{"imgs/world_01",1/1,1/2,0.5/1,0.5/2},		
+		{"imgs/world_01",1/1,1/3,0.5/1,0.5/3},		
 
 	})
 	images.TEXTURE_MIN_FILTER=nil

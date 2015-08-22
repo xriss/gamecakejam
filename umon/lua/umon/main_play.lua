@@ -34,6 +34,8 @@ M.bake=function(oven,play)
 	local nodes=oven.rebake(oven.modgame..".nodes")
 	local world=oven.rebake(oven.modgame..".world")
 
+	local draw_screen=oven.rebake(oven.modgame..".draw_screen")
+
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
@@ -46,6 +48,8 @@ play.setup=function()
 	play.loads()
 
 
+	draw_screen.setup()
+
 	nodes.setup()
 
 --	beep.stream("play")
@@ -56,7 +60,7 @@ play.clean=function()
 
 	nodes.clean()
 
-	gui.clean()
+	draw_screen.clean()
 
 end
 
@@ -87,14 +91,21 @@ play.update=function()
 end
 
 play.draw=function()
-	
+
+	draw_screen.draw_into(function()
+
 --	sheets.get("imgs/play_back"):draw(1,400,300,nil,800,600)
 
-	world.draw()
-	
-	nodes.draw()
+		world.draw()
+		
+		nodes.draw()
 
 --	sscores.draw("arcade2")
+
+	end)
+
+--	gl.Scale(800/640,600/480,1)
+	draw_screen.draw()
 
 	
 end

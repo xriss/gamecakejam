@@ -66,6 +66,7 @@ world.draw=function()
 	gl.PushMatrix()
 	gl.Translate(world.px,world.py,0)
 	
+	sheets.get("imgs/world_01"):draw(3,0,0,nil,256*3,48*3)
 	sheets.get("imgs/world_01"):draw(2,0,0,nil,256*3,48*3)
 
 	for i=1,16 do
