@@ -41,7 +41,7 @@ main.loads=function()
 
 -- pixel style
 
-		{"imgs/char_01",1/1,1/1,0.5/1,0.5/1},		
+		{"imgs/char_01",1/4,1/4,0.5/4,0.5/4},		
 		{"imgs/icon_01",1/1,1/1,0.5/1,0.5/1},		
 		{"imgs/world_01",1/1,1/1,0.5/1,0.5/1},		
 
