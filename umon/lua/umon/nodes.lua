@@ -46,6 +46,8 @@ node.setup=function(it,opt)
 	it.def=opt.def or 0		-- their troops, costs this many troops to take over this node
 
 	it.flava=opt.flava or "none"
+	
+	it.icon=opt.icon or 1
 
 	
 	return it
@@ -57,7 +59,7 @@ end
 node.draw=function(it)
 
 	sheets.get("imgs/butt_01"):draw(1,it.px,it.py,nil,32*2,32*2)
-	sheets.get("imgs/icon_01"):draw(1,it.px-24,it.py-24,nil,16*2,16*2)
+	sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
 	
 	if it.num>0 then -- our troops
 
@@ -95,24 +97,28 @@ nodes.setup=function()
 		px=0,py=0,
 		num=2,def=0,
 		flava="base",
+		icon=1,
 	}
 
 	nodes.add{
 		px=80,py=8,
 		num=0,def=1,
 		flava="teeth",
+		icon=2,
 	}
 
 	nodes.add{
 		px=80*2,py=16,
 		num=0,def=2,
 		flava="teeth",
+		icon=3,
 	}
 
 	nodes.add{
 		px=80*3,py=24,
 		num=0,def=3,
 		flava="teeth",
+		icon=4,
 	}
 
 end
