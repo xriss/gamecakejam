@@ -47,6 +47,9 @@ main.loads=function()
 		{"imgs/world_01",1/1,1/1,0.5/1,0.5/1},		
 
 	})
+
+	oven.cake.fonts.loads({"slkscr"}) -- load 1st builtin font, a basic 8x8 font
+
 	images.TEXTURE_MIN_FILTER=nil
 	images.TEXTURE_MAG_FILTER=nil
 

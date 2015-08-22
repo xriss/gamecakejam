@@ -63,7 +63,7 @@ node.draw=function(it)
 
 		local s=""..it.num
 		local w=font.width(s)
-		font.set_xy(it.px-(w/2),it.py-16)
+		font.set_xy(it.px-math.floor(w/2),it.py-23)
 		font.draw(s)
 	
 	elseif it.def>0 then -- npc troops
@@ -72,7 +72,7 @@ node.draw=function(it)
 	
 		local s=""..it.def
 		local w=font.width(s)
-		font.set_xy(it.px-(w/2),it.py-16)
+		font.set_xy(it.px-math.floor(w/2),it.py-23)
 		font.draw(s)
 	
 		gl.Color(1,1,1,1)
@@ -99,7 +99,7 @@ nodes.setup=function()
 
 	nodes.add{
 		px=80,py=8,
-		num=0,def=2,
+		num=0,def=1,
 		flava="teeth",
 	}
 
@@ -111,7 +111,7 @@ nodes.setup=function()
 
 	nodes.add{
 		px=80*3,py=24,
-		num=0,def=2,
+		num=0,def=3,
 		flava="teeth",
 	}
 
@@ -150,8 +150,8 @@ nodes.draw=function()
 	gl.PushMatrix()
 	gl.Translate(px,py,0)
 	
-	font.set(cake.fonts.get("Vera")) -- default font
-	font.set_size(24,0)
+	font.set(cake.fonts.get("slkscr")) -- default font
+	font.set_size(32,0)
 
 	for i,it in ipairs(nodes.tab) do
 		it:draw()
