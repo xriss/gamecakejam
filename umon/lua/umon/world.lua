@@ -69,7 +69,16 @@ world.draw=function()
 	sheets.get("imgs/world_01"):draw(2,0,0,nil,256*3,48*3)
 
 	for i=1,16 do
-		sheets.get("imgs/char_01"):draw(i,-400+i*50,4*3,nil,32*3,32*3)
+		local px=-400+i*50
+		local py=4*3
+	
+		gl.Color(0,0,0,0.75)
+		sheets.get("imgs/char_01"):draw(i,px-3,py,nil,32*3,32*3)
+		sheets.get("imgs/char_01"):draw(i,px+3,py,nil,32*3,32*3)
+		sheets.get("imgs/char_01"):draw(i,px,py-3,nil,32*3,32*3)
+
+		gl.Color(1,1,1,1)
+		sheets.get("imgs/char_01"):draw(i,px,py,nil,32*3,32*3)
 	end
 	
 	sheets.get("imgs/world_01"):draw(1,0,0,nil,256*3,48*3)
