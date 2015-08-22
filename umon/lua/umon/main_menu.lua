@@ -34,7 +34,7 @@ M.bake=function(oven,menu)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
-	local layout=cake.layouts.create{}
+--	local layout=cake.layouts.create{}
 
 
 menu.loads=function()
@@ -84,7 +84,7 @@ menu.draw=function()
 	
 	if sgui.active then
 
-		layout.viewport() -- clear clip area
+	--	layout.viewport() -- clear clip area
 
 		gl.ClearColor(pack.argb4_pmf4(0xf004))
 		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)

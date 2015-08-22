@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,play)
-	local play=play or {}
-	play.oven=oven
+M.bake=function(oven,nodes)
+	local nodes=nodes or {}
+	nodes.oven=oven
 	
-	play.modname=M.modname
+	nodes.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -25,67 +25,38 @@ M.bake=function(oven,play)
 	local gl=oven.gl
 	local sheets=cake.sheets
 	
-	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
-	local nodes=oven.rebake(oven.modgame..".nodes")
-
-	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
-
-play.loads=function()
+nodes.loads=function()
 
 end
 		
-play.setup=function()
+nodes.setup=function()
 
-	play.loads()
-
-
-	nodes.setup()
-
---	beep.stream("play")
+	nodes.loads()
 
 end
 
-play.clean=function()
-
-	nodes.clean()
-
-	gui.clean()
+nodes.clean=function()
 
 end
 
-play.msg=function(m)
+nodes.msg=function(m)
 
 --	print(wstr.dump(m))
-	
-end
-
-play.update=function()
-
-	nodes.update()
 
 end
 
-play.draw=function()
-	
---	sheets.get("imgs/play_back"):draw(1,400,300,nil,800,600)
-
-	sheets.get("imgs/world_01"):draw(1,800/2,16+144/2,nil,256*3,48*3)
-
-	sheets.get("imgs/char_01"):draw(1,800/2-64,16+144/2,nil,32*3,32*3)
-	sheets.get("imgs/icon_01"):draw(1,800/2+64,16+144/2,nil,32*3,32*3)
-
-	nodes.draw()
-
---	sscores.draw("arcade2")
-
+nodes.update=function()
 	
 end
 
-	return play
+nodes.draw=function()
+
+end
+
+	return nodes
 end
