@@ -33,7 +33,8 @@ M.bake=function(oven,main)
 	
 main.loads=function()
 
-	oven.cake.fonts.loads({1,"Vera"}) -- load 1st builtin font, a basic 8x8 font
+	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	oven.cake.fonts.loads({"slkscr"}) 
 	
 	images.TEXTURE_MIN_FILTER=gl.NEAREST
 	images.TEXTURE_MAG_FILTER=gl.NEAREST
@@ -47,9 +48,6 @@ main.loads=function()
 		{"imgs/world_01",1/1,1/1,0.5/1,0.5/1},		
 
 	})
-
-	oven.cake.fonts.loads({"slkscr"}) -- load 1st builtin font, a basic 8x8 font
-
 	images.TEXTURE_MIN_FILTER=nil
 	images.TEXTURE_MAG_FILTER=nil
 

@@ -59,9 +59,23 @@ play.clean=function()
 
 end
 
+play.mx=0
+play.my=0
+play.mb=0
 play.msg=function(m)
 
---	print(wstr.dump(m))
+	print(wstr.dump(m))
+	
+	if m.class=="mouse" then
+	
+		play.mx=m.x
+		play.my=m.y
+		
+		if m.keyname=="left" then
+			if m.action==1 then play.mb=1 elseif m.action==-1 then play.mb=0 end
+		end
+	
+	end
 	
 end
 

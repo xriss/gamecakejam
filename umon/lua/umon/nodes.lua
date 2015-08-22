@@ -28,6 +28,7 @@ M.bake=function(oven,nodes)
 
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
+	local play=oven.rebake(oven.modgame..".main_play")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
@@ -58,10 +59,23 @@ node.update=function(it)
 end
 node.draw=function(it)
 
+	local mx=play.mx-nodes.px
+	local my=play.my-nodes.py
 	
+	local dx=mx-it.px
+	local dy=my-it.py
+	
+	local over=1
+	if ( (dx*dx + dy*dy) < 32*32 ) then
+		over=2
+		if play.mb==1 then
+			over=3
+		end
+	end
+
 	if it.num>0 then -- our troops
 
-		sheets.get("imgs/butt_01"):draw(1,it.px,it.py,nil,32*2,32*2)
+		sheets.get("imgs/butt_01"):draw(over,it.px,it.py,nil,32*2,32*2)
 		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
 
 		local s=""..it.num
@@ -71,7 +85,7 @@ node.draw=function(it)
 	
 	elseif it.def>0 then -- npc troops
 
-		sheets.get("imgs/butt_01"):draw(1+4,it.px,it.py,nil,32*2,32*2)
+		sheets.get("imgs/butt_01"):draw(over+4,it.px,it.py,nil,32*2,32*2)
 		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
 
 		gl.Color(0,0,0,1)
@@ -139,10 +153,11 @@ end
 
 nodes.draw=function()
 
-	local px,py=800/2,600/2+100
+	nodes.px=800/2
+	nodes.py=600/2+100
 
 	gl.PushMatrix()
-	gl.Translate(px,py,0)
+	gl.Translate(nodes.px,nodes.py,0)
 	
 	font.set(cake.fonts.get("slkscr")) -- default font
 	font.set_size(32,0)
