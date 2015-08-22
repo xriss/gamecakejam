@@ -116,7 +116,7 @@ nodes.setup=function()
 		
 			nodes.add{
 				px=i*80 - 350,py=j*80-250,
-				num=i-4,def=i,
+				num=i-4-2+j,def=i-2+j,
 				flava="base",
 				icon=i,
 			}
