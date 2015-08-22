@@ -54,16 +54,16 @@ draw_screen.setup=function()
 
 	draw_screen.loads()
 
-	draw_screen.fbo=framebuffers.create(1024,512,1)
+	draw_screen.fbo=framebuffers.create(1024,1024,1)
 
 	draw_screen.fbo:bind_texture()
 
-	draw_screen.lay=layouts.create{parent={x=0,y=0,w=1024,h=512}}
+	draw_screen.lay=layouts.create{parent={x=0,y=0,w=1024,h=1024}}
 
 -- effect fbos 1 and 2 for bloom processing
 	draw_screen.fxbos={}
-	draw_screen.fxbos[1]=framebuffers.create(1024,512,0)
-	draw_screen.fxbos[2]=framebuffers.create(1024,512,0)
+	draw_screen.fxbos[1]=framebuffers.create(1024,1024,0)
+	draw_screen.fxbos[2]=framebuffers.create(1024,1024,0)
 
 
 end
@@ -90,7 +90,7 @@ draw_screen.draw_bloom_pick=function()
 
 	local fbo=draw_screen.fxbos[1]
 	fbo:bind_frame()
-	gl.Viewport( 0 , 0 , 1024 , 512 )
+	gl.Viewport( 0 , 0 , 1024 , 1024 )
 
 	local data={
 		-1,	-1,		0,		0,	0,
@@ -205,8 +205,8 @@ draw_screen.draw_into=function(callback)
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 	gl.DepthMask(gl.FALSE)
 
-	gl.Translate(0,512-480,0) -- fix the top position for a 640x480 view
-	gl.Scale(640/800,480/600,1)
+	gl.Translate(0,1024-600,0) -- fix the top position for a 800x600 view
+--	gl.Scale(640/800,480/600,1)
 
 		callback()
 
@@ -249,23 +249,23 @@ draw_screen.draw=function(sx,sy)
 			fbo:bind_texture()
 			gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
 			gl.Color(1.0,1.0,1.0,1)
-			shadername="draw_screen?crt2"
+			shadername="draw_screen?crt"
 			
 		else --bloom
 
 			gl.ActiveTexture(gl.TEXTURE0)
 			draw_screen.fxbos[1]:bind_texture()
 			gl.Color(0.75,0.75,0.75,1)
-			shadername="bloom_screen_draw?crt2"
+			shadername="bloom_screen_draw?crt"
 		
 		end
 	
 		flat.tristrip("xyzuv",{
 
 			-sx,	 sy,		0,		0,					0, 			
-			-sx,	-sy,		0,		0,					(480+0)/512,
-			 sx,	 sy,		0,		(640+0)/1024,		0, 			
-			 sx,	-sy,		0,		(640+0)/1024,		(480+0)/512,
+			-sx,	-sy,		0,		0,					(600+0)/1024,
+			 sx,	 sy,		0,		(800+0)/1024,		0, 			
+			 sx,	-sy,		0,		(800+0)/1024,		(600+0)/1024,
 
 		},shadername,function(p)
 --			local player=basket.player
@@ -276,7 +276,7 @@ draw_screen.draw=function(sx,sy)
 --				xp=xp-32 if xp<0 then xp=0 end if xp>640-64 then xp=640-32 end xp=xp+32
 --				yp=yp-32 if yp<0 then yp=0 end if yp>480-64 then xp=480-32 end yp=yp+32
 				
-				gl.Uniform2f( p:uniform("focus"), 0 , (600)-0 )
+				gl.Uniform2f( p:uniform("focus"), 0 , (800)-0 )
 				gl.Uniform1f( p:uniform("distortion"), 1/1 )
 		end)
 

@@ -193,11 +193,11 @@ uniform sampler2D tex0;
 
 void main(void)
 {
-	vec2 mm=vec2((640.0+32.0)/1024.0,(480.0+32.0)/512.0);
-	vec2 ff=focus/vec2(1024.0,512.0);
+	vec2 mm=vec2((800.0+32.0)/1024.0,(600.0+32.0)/1024.0);
+	vec2 ff=focus/vec2(1024.0,1024.0);
 #ifdef crt
 	vec2 uv=v_texcoord/mm;
-	uv=curve_crt(uv,2.0,1.0/32.0)*mm;
+	uv=curve_crt(uv,2.0,1.0/8.0)*mm;
 #else
 	vec2 uv=v_texcoord;
 #endif
@@ -296,11 +296,11 @@ float squish(float n)
 #endif
 
 #define FIX(a) (a-(0.0/1024.0))
-#define FIY(a) (a-(0.0/512.0))
+#define FIY(a) (a-(0.0/1024.0))
 
 const vec2 xo = vec2(1.0/1024.0,0.0);
-const vec2 ss = vec2(1024.0,512.0);
-const vec2 oo = vec2(1.0/1024.0,1.0/512.0);
+const vec2 ss = vec2(1024.0,1024.0);
+const vec2 oo = vec2(1.0/1024.0,1.0/1024.0);
 
 void main2(void)
 {
@@ -308,12 +308,12 @@ void main2(void)
 }
 void main(void)
 {
-	vec2 mm=vec2((640.0+32.0)/1024.0,(480.0+32.0)/512.0);
-	vec2 ff=focus/vec2(1024.0,512.0);
+	vec2 mm=vec2((800.0+32.0)/1024.0,(600.0+32.0)/1024.0);
+	vec2 ff=focus/vec2(1024.0,1024.0);
 
 #ifdef crt
 	vec2 uv=v_texcoord/mm;
-	uv=curve_crt(uv,2.0,1.0/32.0)*mm;
+	uv=curve_crt(uv,2.0,1.0/8.0)*mm;
 #else
 	vec2 uv=v_texcoord;
 #endif
@@ -377,9 +377,9 @@ void main(void)
 
 
 // scanline	
-//	if( abs(v_texcoord.y - uv.y)<(32.0/512.0) )
+//	if( abs(v_texcoord.y - uv.y)<(32.0/1024.0) )
 //	{
-		aa=2.0*(fract(uv.y*200.0)-0.5);
+		aa=2.0*(fract(uv.y*800.0/3.0)-0.5);
 		aa*=aa*aa*aa*(1.0-0.0);
 //		c.rgb=c.rgb*(1.0-aa);
 //	}
@@ -388,7 +388,7 @@ void main(void)
 
 
 
-//	vec2 puv=vec2(1024.0,512.0)*uv;
+//	vec2 puv=vec2(1024.0,1024.0)*uv;
 //	gl_FragColor=texture2D(tex0,uv)*v_color;
 
 }
