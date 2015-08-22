@@ -64,7 +64,7 @@ play.my=0
 play.mb=0
 play.msg=function(m)
 
-	print(wstr.dump(m))
+--	print(wstr.dump(m))
 	
 	if m.class=="mouse" then
 	
