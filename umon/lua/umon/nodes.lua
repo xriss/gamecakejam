@@ -93,34 +93,18 @@ nodes.setup=function()
 	nodes.loads()
 	nodes.tab={}
 	
-	nodes.add{
-		px=0,py=0,
-		num=2,def=0,
-		flava="base",
-		icon=1,
-	}
+	for j=1,5 do
+		for i=1,8 do
+		
+			nodes.add{
+				px=i*80 - 350,py=j*80-250,
+				num=i-4,def=i,
+				flava="base",
+				icon=i,
+			}
 
-	nodes.add{
-		px=80,py=8,
-		num=0,def=1,
-		flava="teeth",
-		icon=2,
-	}
-
-	nodes.add{
-		px=80*2,py=16,
-		num=0,def=2,
-		flava="teeth",
-		icon=3,
-	}
-
-	nodes.add{
-		px=80*3,py=24,
-		num=0,def=3,
-		flava="teeth",
-		icon=4,
-	}
-
+		end
+	end
 end
 
 nodes.clean=function()
@@ -151,7 +135,7 @@ end
 
 nodes.draw=function()
 
-	local px,py=800/2,600/2+200
+	local px,py=800/2,600/2+100
 
 	gl.PushMatrix()
 	gl.Translate(px,py,0)
