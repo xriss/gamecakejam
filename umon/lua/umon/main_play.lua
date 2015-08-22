@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,menu)
-	local menu=menu or {}
-	menu.oven=oven
+M.bake=function(oven,play)
+	local play=play or {}
+	play.oven=oven
 	
-	menu.modname=M.modname
+	play.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -36,29 +36,28 @@ M.bake=function(oven,menu)
 
 	local layout=cake.layouts.create{}
 
-
-menu.loads=function()
+play.loads=function()
 
 end
 		
-menu.setup=function()
+play.setup=function()
 
-	menu.loads()
+	play.loads()
 
 	gui.setup()
-	gui.page("menu")
+	gui.page("play")
 
---	beep.stream("menu")
+--	beep.stream("play")
 
 end
 
-menu.clean=function()
+play.clean=function()
 
 	gui.clean()
 
 end
 
-menu.msg=function(m)
+play.msg=function(m)
 
 --	print(wstr.dump(m))
 
@@ -70,7 +69,7 @@ menu.msg=function(m)
 	
 end
 
-menu.update=function()
+play.update=function()
 
 	if sgui.active then
 		sgui.update()	
@@ -80,25 +79,19 @@ menu.update=function()
 	
 end
 
-menu.draw=function()
+play.draw=function()
 	
-	if sgui.active then
+--	sheets.get("imgs/play_back"):draw(1,400,300,nil,800,600)
 
-		layout.viewport() -- clear clip area
+	sheets.get("imgs/world_01"):draw(1,800/2,16+144/2,nil,256*3,48*3)
 
-		gl.ClearColor(pack.argb4_pmf4(0xf004))
-		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
+	sheets.get("imgs/char_01"):draw(1,800/2-64,16+144/2,nil,32*3,32*3)
+	sheets.get("imgs/icon_01"):draw(1,800/2+64,16+144/2,nil,32*3,32*3)
 
-		sgui.draw()	
-	else
-		sheets.get("imgs/title_back"):draw(1,400,300,nil,800,600)
-		
-		sscores.draw("arcade2")
+--	sscores.draw("arcade2")
 
-		gui.draw()	
-	end
 	
 end
 
-	return menu
+	return play
 end

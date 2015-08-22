@@ -44,7 +44,7 @@ print(act,w.id)
 		if act=="click" then
 			if w.id=="start" then
 				sscores.set(0)
-				main.next=oven.rebake(oven.modgame..".main_game")
+				main.next=oven.rebake(oven.modgame..".main_play")
 			elseif w.id=="menu" then
 				gui.spage("settings")
 			elseif w.id=="profiles" then

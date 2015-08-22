@@ -39,10 +39,24 @@ main.loads=function()
 	images.TEXTURE_MAG_FILTER=gl.NEAREST
 	oven.cake.sheets.loads_and_chops({
 
-		{"imgs/title_back",1/1,1/1,0.5/1,0.5/1},		
+-- pixel style
+
+		{"imgs/char_01",1/1,1/1,0.5/1,0.5/1},		
+		{"imgs/icon_01",1/1,1/1,0.5/1,0.5/1},		
+		{"imgs/world_01",1/1,1/1,0.5/1,0.5/1},		
+
 	})
 	images.TEXTURE_MIN_FILTER=nil
 	images.TEXTURE_MAG_FILTER=nil
+
+	oven.cake.sheets.loads_and_chops({
+
+-- smooth style
+
+		{"imgs/title_back",1/1,1/1,0.5/1,0.5/1},		
+		{"imgs/play_back",1/1,1/1,0.5/1,0.5/1},		
+
+	})
 	
 	
 end
@@ -56,6 +70,7 @@ main.setup=function()
 	main.next=nil
 	
 	main.next=oven.rebake(oven.modgame..".main_menu")
+	main.next=oven.rebake(oven.modgame..".main_play")
 	
 	main.change()
 end
