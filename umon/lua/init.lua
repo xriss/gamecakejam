@@ -5,8 +5,8 @@ local global=require("global") -- prevent accidental global use
 local opts={
 	times=true, -- request simple time keeping samples
 	
-	width=640,	-- display basics
-	height=480,
+	width=800,	-- display basics
+	height=600,
 --	show="full",
 	title="umon",
 	start="umon.main", -- rebake this mod

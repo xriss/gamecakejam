@@ -61,24 +61,24 @@ print(act,w.id)
 	
 	function gui.pages.menu(master)
 
-		local top=master:add({hx=640,hy=480,class="fill",font="Vera",text_size=24})
+		local top=master:add({hx=800,hy=600,class="fill",font="Vera",text_size=24})
 
-		top:add({hx=640,hy=360})
+		top:add({hx=800,hy=360+120})
 		
 		top:add({hx=40,hy=40})
 		top:add({hx=180,hy=40,color=0xffcccccc,text="Hello",style="indent"})
-		top:add({hx=380,hy=40,color=0xffcccccc,text=sprofiles.get("name"),id="profiles",hooks=gui.hooks})
+		top:add({hx=380+160,hy=40,color=0xffcccccc,text=sprofiles.get("name"),id="profiles",hooks=gui.hooks})
 		top:add({hx=40,hy=40})
 
-		top:add({hx=640,hy=20})
+		top:add({hx=800,hy=20})
 
 		top:add({hx=20,hy=40})
-		top:add({hx=280,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({hx=280+80,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
 		top:add({hx=40,hy=40})
-		top:add({hx=280,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=280+80,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
 		top:add({hx=20,hy=40})
 
-		top:add({hx=640,hy=20})
+		top:add({hx=800,hy=20})
 		
 	end
 

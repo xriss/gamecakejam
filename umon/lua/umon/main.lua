@@ -21,6 +21,7 @@ M.bake=function(oven,main)
 	local opts=oven.opts
 	local canvas=cake.canvas
 	local layouts=cake.layouts
+	local images=cake.images
 	local font=canvas.font
 	local flat=canvas.flat
 
@@ -34,8 +35,15 @@ main.loads=function()
 
 	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
 	
-	oven.cake.images.loads({
+	images.TEXTURE_MIN_FILTER=gl.NEAREST
+	images.TEXTURE_MAG_FILTER=gl.NEAREST
+	oven.cake.sheets.loads_and_chops({
+
+		{"imgs/title_back",1/1,1/1,0.5/1,0.5/1},		
 	})
+	images.TEXTURE_MIN_FILTER=nil
+	images.TEXTURE_MAG_FILTER=nil
+	
 	
 end
 		
