@@ -248,6 +248,7 @@ draw_screen.draw=function(sx,sy)
 			gl.ActiveTexture(gl.TEXTURE0)
 			fbo:bind_texture()
 			gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST)
+			gl.TexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST)
 			gl.Color(1.0,1.0,1.0,1)
 			shadername="draw_screen?crt"
 			
