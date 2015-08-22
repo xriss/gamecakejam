@@ -11,11 +11,11 @@ local function dprint(a) print(wstr.dump(a)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
-M.bake=function(oven,menu)
-	local menu=menu or {}
-	menu.oven=oven
+M.bake=function(oven,play)
+	local play=play or {}
+	play.oven=oven
 	
-	menu.modname=M.modname
+	play.modname=M.modname
 
 	local cake=oven.cake
 	local opts=oven.opts
@@ -31,74 +31,61 @@ M.bake=function(oven,menu)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
+	local nodes=oven.rebake(oven.modgame..".nodes")
+
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
---	local layout=cake.layouts.create{}
-
-
-menu.loads=function()
+play.loads=function()
 
 end
 		
-menu.setup=function()
+play.setup=function()
 
-	menu.loads()
+	play.loads()
 
-	gui.setup()
-	gui.page("menu")
 
---	beep.stream("menu")
+	nodes.setup()
+
+--	beep.stream("play")
 
 end
 
-menu.clean=function()
+play.clean=function()
+
+	nodes.clean()
 
 	gui.clean()
 
 end
 
-menu.msg=function(m)
+play.msg=function(m)
 
 --	print(wstr.dump(m))
-
-	if sgui.active then
-		sgui.msg(m)	
-	else
-		gui.msg(m)
-	end
 	
 end
 
-menu.update=function()
+play.update=function()
 
-	if sgui.active then
-		sgui.update()	
-	else
-		gui.update()
-	end
+	nodes.update()
+
+end
+
+play.draw=function()
+	
+--	sheets.get("imgs/play_back"):draw(1,400,300,nil,800,600)
+
+	sheets.get("imgs/world_01"):draw(1,800/2,16+144/2,nil,256*3,48*3)
+
+	sheets.get("imgs/char_01"):draw(1,800/2-64,16+144/2,nil,32*3,32*3)
+	sheets.get("imgs/icon_01"):draw(1,800/2+64,16+144/2,nil,32*3,32*3)
+
+	nodes.draw()
+
+--	sscores.draw("arcade2")
+
 	
 end
 
-menu.draw=function()
-	
-	if sgui.active then
-
-	--	layout.viewport() -- clear clip area
-
-		gl.ClearColor(pack.argb4_pmf4(0xf004))
-		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
-
-		sgui.draw()	
-	else
-		sheets.get("imgs/title_back"):draw(1,400,300,nil,800,600)
-		
-		sscores.draw("arcade2")
-
-		gui.draw()	
-	end
-	
-end
-
-	return menu
+	return play
 end
