@@ -30,6 +30,25 @@ M.bake=function(oven,nodes)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
+	local console=oven.rebake("wetgenes.gamecake.mods.console")
+
+
+local node={} ; node.__index=node
+
+node.setup=function(it,opt)
+	local it=it or {}
+	it.setmetatable(it,node) -- allow : functions
+	
+	return it
+end
+node.clean=function(it)
+end
+node.update=function(it)
+end
+node.draw=function(it)
+end
+
+
 nodes.loads=function()
 
 end
@@ -37,11 +56,16 @@ end
 nodes.setup=function()
 
 	nodes.loads()
+	nodes.tab={}
 
 end
 
 nodes.clean=function()
 
+	for i,v in ipairs(nodes.tab) do
+		node.clean(v)
+	end
+	
 end
 
 nodes.msg=function(m)
@@ -51,12 +75,29 @@ nodes.msg=function(m)
 end
 
 nodes.update=function()
-	
+
+	for i=#nodes.tab,1,-1 do
+		local it=nodes.tab[i]
+		bode.update(it)
+		if it.flava=="dead" then
+			table.remove(nodes.tab,i)
+		end
+	end
+
 end
 
 nodes.draw=function()
 
+	for i,it in ipairs(nodes.tab) do
+		node.draw(it)
+	end
+	
+	gl.Color(1,1,1,1)
+	
+	console.display ("nodes "..#nodes.tab)
+
 end
+
 
 	return nodes
 end
