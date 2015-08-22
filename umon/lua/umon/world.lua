@@ -31,6 +31,8 @@ M.bake=function(oven,world)
 	local play=oven.rebake(oven.modgame..".main_play")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
+	local chars=oven.rebake(oven.modgame..".chars")
+	
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
 world.loads=function()
@@ -40,11 +42,14 @@ end
 world.setup=function()
 
 	world.loads()
+	
+	chars.setup()
 
 end
 
 world.clean=function()
 
+	chars.clean()
 	
 end
 
@@ -55,6 +60,8 @@ world.msg=function(m)
 end
 
 world.update=function()
+
+	chars.update()
 
 end
 
@@ -69,6 +76,10 @@ world.draw=function()
 	sheets.get("imgs/world_01"):draw(3,0,0,nil,256*3,48*3)
 	sheets.get("imgs/world_01"):draw(2,0,0,nil,256*3,48*3)
 
+
+	chars.draw()
+	
+--[[
 	for i=1,16 do
 		local px=-400+i*50
 		local py=8*3
@@ -81,7 +92,7 @@ world.draw=function()
 		gl.Color(1,1,1,1)
 		sheets.get("imgs/char_01"):draw(i,px,py,nil,32*3,32*3)
 	end
-	
+]]	
 	sheets.get("imgs/world_01"):draw(1,0,0,nil,256*3,48*3)
 	
 	gl.PopMatrix()

@@ -50,6 +50,7 @@ play.setup=function()
 
 	draw_screen.setup()
 
+	world.setup()
 	nodes.setup()
 
 --	beep.stream("play")
@@ -59,6 +60,7 @@ end
 play.clean=function()
 
 	nodes.clean()
+	world.clean()
 
 	draw_screen.clean()
 
@@ -86,6 +88,7 @@ end
 
 play.update=function()
 
+	world.update()
 	nodes.update()
 
 end
