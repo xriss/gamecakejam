@@ -33,7 +33,7 @@ M.bake=function(oven,main)
 	
 main.loads=function()
 
-	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	oven.cake.fonts.loads({1,"Vera"}) -- load 1st builtin font, a basic 8x8 font
 	
 	images.TEXTURE_MIN_FILTER=gl.NEAREST
 	images.TEXTURE_MAG_FILTER=gl.NEAREST
@@ -42,7 +42,8 @@ main.loads=function()
 -- pixel style
 
 		{"imgs/char_01",1/4,1/4,0.5/4,0.5/4},		
-		{"imgs/icon_01",1/1,1/1,0.5/1,0.5/1},		
+		{"imgs/icon_01",1/4,1/4,0.5/4,0.5/4},		
+		{"imgs/butt_01",1/1,1/1,0.5/1,0.5/1},		
 		{"imgs/world_01",1/1,1/1,0.5/1,0.5/1},		
 
 	})

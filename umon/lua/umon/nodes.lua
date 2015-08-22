@@ -37,7 +37,16 @@ local node={} ; node.__index=node
 
 node.setup=function(it,opt)
 	local it=it or {}
-	it.setmetatable(it,node) -- allow : functions
+	setmetatable(it,node) -- allow : functions
+	
+	it.px=opt.px or 0
+	it.py=opt.py or 0
+
+	it.num=opt.num or 0		-- our troops
+	it.def=opt.def or 0		-- their troops, costs this many troops to take over this node
+
+	it.flava=opt.flava or "none"
+
 	
 	return it
 end
@@ -46,6 +55,30 @@ end
 node.update=function(it)
 end
 node.draw=function(it)
+
+	sheets.get("imgs/butt_01"):draw(1,it.px,it.py,nil,32*2,32*2)
+	sheets.get("imgs/icon_01"):draw(1,it.px-24,it.py-24,nil,16*2,16*2)
+	
+	if it.num>0 then -- our troops
+
+		local s=""..it.num
+		local w=font.width(s)
+		font.set_xy(it.px-(w/2),it.py-16)
+		font.draw(s)
+	
+	elseif it.def>0 then -- npc troops
+
+		gl.Color(0,0,0,1)
+	
+		local s=""..it.def
+		local w=font.width(s)
+		font.set_xy(it.px-(w/2),it.py-16)
+		font.draw(s)
+	
+		gl.Color(1,1,1,1)
+	end
+
+
 end
 
 
@@ -57,6 +90,30 @@ nodes.setup=function()
 
 	nodes.loads()
 	nodes.tab={}
+	
+	nodes.add{
+		px=0,py=0,
+		num=2,def=0,
+		flava="base",
+	}
+
+	nodes.add{
+		px=80,py=8,
+		num=0,def=2,
+		flava="teeth",
+	}
+
+	nodes.add{
+		px=80*2,py=16,
+		num=0,def=2,
+		flava="teeth",
+	}
+
+	nodes.add{
+		px=80*3,py=24,
+		num=0,def=2,
+		flava="teeth",
+	}
 
 end
 
@@ -78,7 +135,7 @@ nodes.update=function()
 
 	for i=#nodes.tab,1,-1 do
 		local it=nodes.tab[i]
-		bode.update(it)
+		it:update()
 		if it.flava=="dead" then
 			table.remove(nodes.tab,i)
 		end
@@ -88,13 +145,41 @@ end
 
 nodes.draw=function()
 
+	local px,py=800/2,600/2+200
+
+	gl.PushMatrix()
+	gl.Translate(px,py,0)
+	
+	font.set(cake.fonts.get("Vera")) -- default font
+	font.set_size(24,0)
+
 	for i,it in ipairs(nodes.tab) do
-		node.draw(it)
+		it:draw()
 	end
+
+	gl.PopMatrix()
 	
 	gl.Color(1,1,1,1)
 	
 	console.display ("nodes "..#nodes.tab)
+
+end
+
+nodes.add=function(opt)
+
+	local it=node.setup({},opt)
+	nodes.tab[#nodes.tab+1]=it
+
+end
+
+nodes.remove=function(it)
+
+	for i,v in ipairs(nodes.tab) do
+		if v==it then
+			table.remove(nodes.tab,i)
+			return
+		end
+	end
 
 end
 
