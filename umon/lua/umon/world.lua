@@ -70,7 +70,7 @@ world.draw=function()
 
 	for i=1,16 do
 		local px=-400+i*50
-		local py=4*3
+		local py=8*3
 	
 		gl.Color(0,0,0,0.75)
 		sheets.get("imgs/char_01"):draw(i,px-3,py,nil,32*3,32*3)
