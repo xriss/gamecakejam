@@ -5,6 +5,8 @@ local global=require("global") -- prevent accidental global use
 local opts={
 	times=true, -- request simple time keeping samples
 	
+	disable_sounds=true, -- mute it, dood
+	
 	width=800,	-- display basics
 	height=600,
 --	show="full",

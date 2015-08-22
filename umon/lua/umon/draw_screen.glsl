@@ -142,7 +142,7 @@ float square_squish1(float u,float a,float m)
 vec2 square_squish(vec2 uv,vec2 focus)
 {
 	vec2 a=vec2(0.125,0.25);
-	float a4=a/4.0;
+//	float a4=a/4.0;
 	
 /*
 
