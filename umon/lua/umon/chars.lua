@@ -90,7 +90,7 @@ chars.setup=function()
 			px=-400+i*50,py=8*3,
 			flava="base",
 			char=1+(i-1)*4,
-			frame=(i*16)%64,
+			frame=(i*8)%64,
 		}
 	end
 end
