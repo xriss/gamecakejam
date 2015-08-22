@@ -58,10 +58,11 @@ node.update=function(it)
 end
 node.draw=function(it)
 
-	sheets.get("imgs/butt_01"):draw(1,it.px,it.py,nil,32*2,32*2)
-	sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
 	
 	if it.num>0 then -- our troops
+
+		sheets.get("imgs/butt_01"):draw(1,it.px,it.py,nil,32*2,32*2)
+		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
 
 		local s=""..it.num
 		local w=font.width(s)
@@ -69,6 +70,9 @@ node.draw=function(it)
 		font.draw(s)
 	
 	elseif it.def>0 then -- npc troops
+
+		sheets.get("imgs/butt_01"):draw(1+4,it.px,it.py,nil,32*2,32*2)
+		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
 
 		gl.Color(0,0,0,1)
 	
