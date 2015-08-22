@@ -32,6 +32,7 @@ M.bake=function(oven,play)
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local nodes=oven.rebake(oven.modgame..".nodes")
+	local world=oven.rebake(oven.modgame..".world")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -89,10 +90,8 @@ play.draw=function()
 	
 --	sheets.get("imgs/play_back"):draw(1,400,300,nil,800,600)
 
-	sheets.get("imgs/world_01"):draw(1,800/2,16+144/2,nil,256*3,48*3)
-
-	sheets.get("imgs/char_01"):draw(1,800/2-64,16+144/2,nil,32*3,32*3)
-
+	world.draw()
+	
 	nodes.draw()
 
 --	sscores.draw("arcade2")
