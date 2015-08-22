@@ -78,7 +78,6 @@ play.draw=function()
 	sheets.get("imgs/world_01"):draw(1,800/2,16+144/2,nil,256*3,48*3)
 
 	sheets.get("imgs/char_01"):draw(1,800/2-64,16+144/2,nil,32*3,32*3)
-	sheets.get("imgs/icon_01"):draw(1,800/2+64,16+144/2,nil,32*3,32*3)
 
 	nodes.draw()
 
