@@ -53,7 +53,7 @@ mon.setup=function()
 			def=1,
 			spd=1,
 			hit=5,
-			name="monster",
+			name="umon",
 	}
 	
 	it.px=opt.px or -350
