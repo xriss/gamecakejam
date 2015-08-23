@@ -141,7 +141,7 @@ main.draw=function()
 	layout.apply( opts.width,opts.height,1/4,opts.height*4 )
 	canvas.gl_default() -- reset gl state
 		
-	gl.ClearColor(pack.argb4_pmf4(0xf000))
+	gl.ClearColor(pack.argb4_pmf4(0xf201))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
 	gl.PushMatrix()
