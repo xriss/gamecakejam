@@ -193,7 +193,7 @@ uniform sampler2D tex0;
 
 void main(void)
 {
-	vec2 mm=vec2((800.0+32.0)/1024.0,(600.0+32.0)/1024.0);
+	vec2 mm=vec2((800.0+0.0)/1024.0,(600.0+0.0)/1024.0);
 	vec2 ff=focus/vec2(1024.0,1024.0);
 #ifdef crt
 	vec2 uv=v_texcoord/mm;
@@ -201,6 +201,11 @@ void main(void)
 #else
 	vec2 uv=v_texcoord;
 #endif
+
+	if( uv.x<0.0 || uv.x>mm.x || uv.y<0.0 || uv.y>mm.y)
+	{
+		discard;
+	}
 	
 	if( uv.x < ff.x )
 	{
@@ -308,7 +313,7 @@ void main2(void)
 }
 void main(void)
 {
-	vec2 mm=vec2((800.0+32.0)/1024.0,(600.0+32.0)/1024.0);
+	vec2 mm=vec2((800.0+0.0)/1024.0,(600.0+0.0)/1024.0);
 	vec2 ff=focus/vec2(1024.0,1024.0);
 
 #ifdef crt
@@ -317,6 +322,11 @@ void main(void)
 #else
 	vec2 uv=v_texcoord;
 #endif
+
+	if( uv.x<0.0 || uv.x>mm.x || uv.y<0.0 || uv.y>mm.y)
+	{
+		discard;
+	}
 
 //	vec2 ss=vec2(0.5,1.0);
 	float yf=1.0;
@@ -359,28 +369,28 @@ void main(void)
 
 	c=texture2D(tex0, tb).rgba;
 
-	aa=2.0*(fract(uv.x*1024.0)-0.5);
-	if(aa<0.0)
-	{
-		c2=texture2D(tex0, tb-xo ).rgba;
-		aa=clamp(aa,-1.0,0.0);
-		aa=aa*aa;
-		c=mix(c,c2,aa*0.5);
-	}
-	else
-	{
-		c2=texture2D(tex0, tb+xo).rgba;
-		aa=clamp(aa,0.0,1.0);
-		aa=aa*aa;
-		c=mix(c,c2,aa*0.5);
-	}
+//	aa=2.0*(fract(uv.x*1024.0/3.0)-0.5);
+//	if(aa<0.0)
+//	{
+//		c2=texture2D(tex0, tb-xo ).rgba;
+//		aa=clamp(aa,-1.0,0.0);
+//		aa=aa*aa;
+//		c=mix(c,c2,aa*0.5);
+//	}
+//	else
+//	{
+//		c2=texture2D(tex0, tb+xo).rgba;
+//		aa=clamp(aa,0.0,1.0);
+//		aa=aa*aa;
+//		c=mix(c,c2,aa*0.5);
+//	}
 
 
 // scanline	
 //	if( abs(v_texcoord.y - uv.y)<(32.0/1024.0) )
 //	{
-		aa=2.0*(fract(uv.y*800.0/3.0)-0.5);
-		aa*=aa*aa*aa*(1.0-0.0);
+//		aa=2.0*(fract(uv.y*800.0/3.0)-0.5);
+//		aa*=aa*aa*aa*(1.0-0.5);
 //		c.rgb=c.rgb*(1.0-aa);
 //	}
 

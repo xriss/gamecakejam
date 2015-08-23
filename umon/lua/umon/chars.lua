@@ -39,15 +39,21 @@ local char={} ; char.__index=char
 char.setup=function(it,opt)
 	local it=it or {}
 	setmetatable(it,char) -- allow : functions
+
 	
 	it.px=opt.px or 0
 	it.py=opt.py or 0
+
+	it.vx=opt.vx or 0
+	it.vy=opt.vy or 0
 
 	it.flava=opt.flava or "none"
 	
 	it.char=opt.char or 17
 	
-	it.frame=opt.frame or 0
+	it.wait=0
+	it.count=opt.count or 0
+	it.anim=opt.anim or "idle"
 
 	
 	return it
@@ -55,14 +61,55 @@ end
 char.clean=function(it)
 end
 char.update=function(it)
-	it.frame=(it.frame+1)%64
+
+	if it==chars.tab[#chars.tab] then -- the active char
+
+		if it.anim=="idle" then
+		
+			it.wait=it.wait+1
+			if it.wait>=60 then
+				it.anim="jump"
+				it.vx=-1
+				it.vy=-5
+				it.wait=0
+			end
+		
+		end
+	
+		if it.anim=="jump" then
+		
+			it.py=it.py+it.vy
+			it.vy=it.vy+1/4
+
+			if it.py > 8*3 and it.vy>=0 then
+				it.wait=0
+				it.py=8*3
+				it.vy=0
+				it.anim="idle"
+			end
+			it.px=it.px+it.vx
+			if it.px<-370 then -- end of line
+				it.px=-370
+			end
+			
+		end
+	end
+
+	local _
+	if     it.anim=="jump" then
+		_,it.count=math.modf(it.count+(1/64))
+		it.frame=math.floor(it.count*4)
+	elseif it.anim=="idle" then
+		_,it.count=math.modf(it.count+(1/64))
+		it.frame=math.floor(it.count*4)
+	end
 end
 char.draw=function(it)
 
 	local i=it.char
 	local px=it.px
 	local py=it.py
-	local f=math.floor(it.frame/16)
+	local f=it.frame
 
 	gl.Color(0,0,0,0.75)
 	sheets.get("imgs/char_01"):draw(i+f,px-3,py,nil,32*3,32*3)
@@ -85,12 +132,13 @@ chars.setup=function()
 	chars.loads()
 	chars.tab={}
 	
-	for i=1,16 do
-				chars.add{
-			px=-400+i*50,py=8*3,
+	for i=1,8 do
+		chars.add{
+			px=400-i*50,py=8*3,
 			flava="base",
 			char=1+(i-1)*4,
-			frame=(i*8)%64,
+			count=((i*8)%64)/64,
+			anim="idle",
 		}
 	end
 end
