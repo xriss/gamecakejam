@@ -275,22 +275,37 @@ nodes.draw=function()
 			
 			
 			local n=it.num+1
-			lines[1]={txt="Level up for "..n.." gold"}
+			lines[1]={txt="Level up for "..n.." gold",y=fy} fy=fy+fs
 			
 			for _,l in ipairs(it.links) do
 
 				local v=nodes.tab[l]
-				if v.def>v.num then
-					lines[#lines+1]={txt="Attack against "..v.def}
+				if v.def>v.num and it.num>v.def then
+					lines[#lines+1]={txt="Invade "..v.def,y=fy} fy=fy+fs
 				end
+				
 			end
+			
+			fy=y+8
 
 
 			gl.Color(pack.argb4_pmf4(0xf004))
 			flat.quad(x,y,x+w,y+h)
 			gl.Color(1,1,1,1)
 
+			local mx=play.mx-nodes.px
+			local my=play.my-nodes.py
+
 			for i,v in ipairs(lines) do
+			
+				gl.Color(1/2,1/2,1/2,1/2)
+
+				if mx>=fx and mx<=fx+w-16 then
+					if my>=v.y and mx<v.y+fs then -- over
+						gl.Color(1,1,1,1)
+					end
+				end
+			
 				font.set_xy(fx,fy) font.draw(v.txt) fy=fy+fs
 			end
 
