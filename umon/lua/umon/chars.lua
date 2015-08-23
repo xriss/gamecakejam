@@ -147,7 +147,7 @@ chars.setup=function()
 		chars.add{
 			px=400-i*50,py=8*3,
 			flava="base",
-			char=1+(i-1)*4,
+			char=1+(i-1)*8,
 			count=((i*8)%64)/64,
 			anim="idle",
 		}
