@@ -33,6 +33,8 @@ M.bake=function(oven,nodes)
 
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
+	local stats=oven.rebake(oven.modgame..".stats")
+	local mon=oven.rebake(oven.modgame..".mon")
 
 local node={} ; node.__index=node
 
@@ -262,31 +264,39 @@ nodes.draw=function()
 		
 		if it.num>=it.def then -- a menu
 		
-			local w,h=300,200
-			local x,y=nodes.hx/2-w/2,nodes.hy/2-h/2
 
 			local lines={}
 
 			font.set(cake.fonts.get("slkscr")) -- default font
 			font.set_size(16,0)
 
-			local fx,fy=x+8,y+8
-			local fs=20
-			
-			
 			local n=it.num+1
-			lines[1]={txt="Level up for "..n.." gold",y=fy} fy=fy+fs
+			if mon.gold>=n then -- need gold
+				lines[#lines+1]={txt="Level up for "..n.." gold",cmd="levelup",gold=n}
+				lines[#lines].width=font.width(lines[#lines].txt)
+			end
 			
 			for _,l in ipairs(it.links) do
 
 				local v=nodes.tab[l]
 				if v.def>v.num and it.num>v.def then
-					lines[#lines+1]={txt="Invade "..v.def,y=fy} fy=fy+fs
+					lines[#lines+1]={txt="Invade "..v.def,cmd="invade",dst=v}
+					lines[#lines].width=font.width(lines[#lines].txt)
 				end
 				
 			end
+
+			lines[#lines+1]={txt="Close PopUp",cmd="close"}
+			lines[#lines].width=font.width(lines[#lines].txt)
 			
-			fy=y+8
+			local fs=24
+			local w,h=16,#lines*fs+16
+
+			for _,l in ipairs(lines) do if l.width+16>w then w=l.width+16 end end
+
+
+			local x,y=nodes.hx/2-w/2,nodes.hy/2-h/2
+			local fx,fy=x+8,y+8
 
 
 			gl.Color(pack.argb4_pmf4(0xf004))
@@ -296,13 +306,16 @@ nodes.draw=function()
 			local mx=play.mx-nodes.px
 			local my=play.my-nodes.py
 
+
+			local over=nil
 			for i,v in ipairs(lines) do
 			
 				gl.Color(1/2,1/2,1/2,1/2)
 
 				if mx>=fx and mx<=fx+w-16 then
-					if my>=v.y and mx<v.y+fs then -- over
+					if my>=fy and my<fy+fs then -- over
 						gl.Color(1,1,1,1)
+						over=v -- remember selection
 					end
 				end
 			
@@ -310,7 +323,27 @@ nodes.draw=function()
 			end
 
 			
-			if play.click then nodes.menu=nil play.click=false end
+			if play.click then
+				if over then -- clicked on something
+				
+					if over.cmd=="levelup" then
+					
+						it.num=it.num+1
+						mon.gold=mon.gold-over.gold
+						mon.atk=mon.atk+1
+						mon.hit=mon.hit+1
+						mon.def=mon.def+1
+						mon.spd=mon.spd+1
+						stats.print("Umon increased their stats for "..over.gold.." gold")
+					
+						
+					elseif over.cmd=="invade" then
+					
+					end
+					
+				end
+				nodes.menu=nil play.click=false
+			end
 		else
 		
 			nodes.menu=nil
