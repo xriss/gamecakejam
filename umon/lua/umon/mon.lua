@@ -175,10 +175,21 @@ mon.update=function()
 		it.frame=15
 	end
 	
-	if it.anim=="dead" and it.rest>4 then
+	if it.anim=="dead" and it.rest>=3 then
 	
 		world.rest()
 	
+	end
+
+	if it.anim=="rest" then
+		it.wait=it.wait+1
+		if it.wait>30 then
+			it.wait=0
+			it.hit=it.hit+1
+		end
+		if it.hit>=it.hitmax then
+			world.fight()
+		end
 	end
 	
 end
@@ -223,8 +234,9 @@ mon.goto_fight=function()
 	
 	it.anim="idle"
 	it.rest=0
+	it.wait=0
 	
-	it.px=0
+	it.px=-350
 	it.py=24
 	
 	it.vx=0

@@ -192,8 +192,13 @@ end
 chars.setup=function()
 
 	chars.loads()
-	chars.tab={}
 	
+	chars.goto_fight()
+end
+
+chars.goto_fight=function()
+
+	chars.tab={}	
 	local m=8
 	for i=1,m do
 		chars.add{
@@ -210,6 +215,7 @@ chars.setup=function()
 			name=names[1+m-i],
 		}
 	end
+
 end
 
 chars.clean=function()

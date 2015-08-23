@@ -47,6 +47,8 @@ fight.setup=function(it,opt)
 	it.spd=opt.spd or 0		-- speed of attack
 	it.hit=opt.hit or 0		-- health hit points 0==dead
 	
+	it.hitmax=it.hit -- remember max
+	
 	it.rest=0
 	
 	it.name=opt.name or "someone"

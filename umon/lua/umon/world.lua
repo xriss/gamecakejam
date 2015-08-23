@@ -106,6 +106,13 @@ world.rest=function()
 	world.scene="rest"
 end
 
+-- goto fight scene
+world.fight=function()
+	mon.goto_fight()
+	chars.goto_fight()
+	world.scene=nil
+end
+
 
 	return world
 end
