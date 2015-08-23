@@ -34,6 +34,7 @@ M.bake=function(oven,chars)
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
 	local mon=oven.rebake(oven.modgame..".mon")
+	local fight=oven.rebake(oven.modgame..".fight")
 
 local char={} ; char.__index=char
 
@@ -56,8 +57,7 @@ char.setup=function(it,opt)
 	it.count=opt.count or 0
 	it.anim=opt.anim or "idle"
 	
-	it.speed=opt.speed or 60
-
+	fight.setup(it,opt)
 	
 	return it
 end
@@ -65,12 +65,12 @@ char.clean=function(it)
 end
 char.update=function(it)
 
-	if it==chars.tab[#chars.tab] then -- the active char
+	if it==chars.get_active() then -- the active char
 
 		if it.anim=="idle" then
 		
 			it.wait=it.wait+1
-			if it.wait>=it.speed then
+			if it.wait>=fight.get_wait(it) then
 				it.anim="jump"
 				it.vx=-1
 				it.vy=-5
@@ -100,10 +100,40 @@ char.update=function(it)
 			if e then
 				if it.vx<0 and it.px<e.px+24 then -- attack
 					it.vx=-it.vx
+					
+					fight.attack(it,e)
+					
 				end
 			end
 			
 		end
+		
+		if it.anim~="die" and it.anim~="dead" then
+			if it.hit<=0 then -- time to die
+	
+				it.anim="die"
+				it.vx=1
+				it.vy=-6
+
+			end
+		end
+		
+		if it.anim=="die" then
+		
+			it.px=it.px+it.vx
+			it.py=it.py+it.vy
+			it.vy=it.vy+1
+			
+			if it.py > 8*3 and it.vy>=0 then
+				it.wait=0
+				it.py=8*3
+				it.vy=0
+				it.vx=0
+				it.anim="dead"
+			end
+			
+		end
+		
 	end
 
 	local _
@@ -113,6 +143,10 @@ char.update=function(it)
 	elseif it.anim=="idle" then
 		_,it.count=math.modf(it.count+(1/64))
 		it.frame=math.floor(it.count*4)
+	elseif it.anim=="die" then
+		it.frame=4
+	elseif it.anim=="dead" then
+		it.frame=5
 	end
 end
 char.draw=function(it)
@@ -143,13 +177,19 @@ chars.setup=function()
 	chars.loads()
 	chars.tab={}
 	
-	for i=1,8 do
+	local m=8
+	for i=1,m do
 		chars.add{
 			px=400-i*50,py=8*3,
 			flava="base",
 			char=1+(i-1)*8,
 			count=((i*8)%64)/64,
 			anim="idle",
+			atk=1+m-i,
+			def=1+m-i,
+			spd=1+m-i,
+			hit=1+m-i,
+			name="villager",
 		}
 	end
 end
@@ -208,8 +248,12 @@ chars.remove=function(it)
 
 end
 
-chars.top=function()
-	return chars.tab[#chars.tab]
+chars.get_active=function()
+	for i=#chars.tab,1,-1 do
+		local n=chars.tab[i]
+		if n.anim~="dead" then return n end
+	end
+	return nil
 end
 
 
