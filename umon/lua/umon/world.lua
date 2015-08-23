@@ -32,6 +32,7 @@ M.bake=function(oven,world)
 --	local beep=oven.rebake(oven.modgame..".beep")
 
 	local chars=oven.rebake(oven.modgame..".chars")
+	local mon=oven.rebake(oven.modgame..".mon")
 	
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
@@ -43,12 +44,14 @@ world.setup=function()
 
 	world.loads()
 	
+	mon.setup()
 	chars.setup()
 
 end
 
 world.clean=function()
 
+	mon.clean()
 	chars.clean()
 	
 end
@@ -61,6 +64,7 @@ end
 
 world.update=function()
 
+	mon.update()
 	chars.update()
 
 end
@@ -78,6 +82,7 @@ world.draw=function()
 
 
 	chars.draw()
+	mon.draw()
 	
 --[[
 	for i=1,16 do

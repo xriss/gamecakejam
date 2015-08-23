@@ -33,6 +33,7 @@ M.bake=function(oven,chars)
 
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
+	local mon=oven.rebake(oven.modgame..".mon")
 
 local char={} ; char.__index=char
 
@@ -78,6 +79,8 @@ char.update=function(it)
 	
 		if it.anim=="jump" then
 		
+			local e=mon
+
 			it.py=it.py+it.vy
 			it.vy=it.vy+1/4
 
@@ -90,6 +93,12 @@ char.update=function(it)
 			it.px=it.px+it.vx
 			if it.px<-370 then -- end of line
 				it.px=-370
+			end
+			
+			if e then
+				if it.vx<0 and it.px<e.px+24 then -- attack
+					it.vx=-it.vx
+				end
 			end
 			
 		end
@@ -195,6 +204,10 @@ chars.remove=function(it)
 		end
 	end
 
+end
+
+chars.top=function()
+	return chars.tab[#chars.tab]
 end
 
 
