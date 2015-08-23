@@ -172,12 +172,12 @@ mon.draw=function()
 	local f=it.frame
 
 	gl.Color(0,0,0,0.75)
-	sheets.get("imgs/char_01"):draw(i+f,px-3,py,nil,32*3,32*3)
-	sheets.get("imgs/char_01"):draw(i+f,px+3,py,nil,32*3,32*3)
-	sheets.get("imgs/char_01"):draw(i+f,px,py-3,nil,32*3,32*3)
+	sheets.get("imgs/mon_01"):draw(i+f,px-3,py,nil,32*3,32*3)
+	sheets.get("imgs/mon_01"):draw(i+f,px+3,py,nil,32*3,32*3)
+	sheets.get("imgs/mon_01"):draw(i+f,px,py-3,nil,32*3,32*3)
 
 	gl.Color(1,1,1,1)
-	sheets.get("imgs/char_01"):draw(i+f,px,py,nil,32*3,32*3)
+	sheets.get("imgs/mon_01"):draw(i+f,px,py,nil,32*3,32*3)
 
 
 end
