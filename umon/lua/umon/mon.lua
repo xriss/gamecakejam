@@ -34,6 +34,7 @@ M.bake=function(oven,mon)
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
 	local chars=oven.rebake(oven.modgame..".chars")
+	local fight=oven.rebake(oven.modgame..".fight")
 
 local char={} ; char.__index=char
 
@@ -46,7 +47,13 @@ mon.setup=function()
 	mon.loads()
 
 	local it=mon
-	local opt={}
+	local opt={
+			atk=1,
+			def=1,
+			spd=1,
+			hit=5,
+			name="monster",
+	}
 	
 	it.px=opt.px or -350
 	it.py=opt.py or 24
@@ -62,7 +69,7 @@ mon.setup=function()
 	it.count=opt.count or 0
 	it.anim=opt.anim or "idle"
 	
-	it.speed=opt.speed or 50
+	fight.setup(it,opt)
 
 end
 
@@ -83,7 +90,7 @@ mon.update=function()
 	if it.anim=="idle" then
 	
 		it.wait=it.wait+1
-		if it.wait>=it.speed then
+		if it.wait>=fight.get_wait(it) then
 			it.anim="jump"
 			it.vx=1
 			it.vy=-5
@@ -94,7 +101,7 @@ mon.update=function()
 
 	if it.anim=="jump" then
 	
-		local e=chars.top()
+		local e=chars.get_active()
 	
 		it.py=it.py+it.vy
 		it.vy=it.vy+1
@@ -113,9 +120,37 @@ mon.update=function()
 		if e then
 			if it.vx>0 and it.px>e.px-24 then -- attack
 				it.vx=-it.vx
+
+				fight.attack(it,e)
 			end
 		end
 
+		
+	end
+
+	if it.anim~="die" and it.anim~="dead" then
+		if it.hit<=0 then -- time to die
+
+			it.anim="die"
+			it.vx=-1
+			it.vy=-6
+
+		end
+	end
+	
+	if it.anim=="die" then
+	
+		it.px=it.px+it.vx
+		it.py=it.py+it.vy
+		it.vy=it.vy+1
+		
+		if it.py > 8*3 and it.vy>=0 then
+			it.wait=0
+			it.py=8*3
+			it.vy=0
+			it.vx=0
+			it.anim="dead"
+		end
 		
 	end
 
@@ -126,6 +161,10 @@ mon.update=function()
 	elseif it.anim=="idle" then
 		_,it.count=math.modf(it.count+(1/64))
 		it.frame=math.floor(it.count*4)
+	elseif it.anim=="die" then
+		it.frame=4
+	elseif it.anim=="dead" then
+		it.frame=5
 	end
 	
 end
