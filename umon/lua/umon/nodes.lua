@@ -117,7 +117,7 @@ nodes.setup=function()
 	nodes.px=800-nodes.hx-16
 	nodes.py=600-nodes.hy-16
 
-	
+--[[	
 	for j=1,4 do
 		for i=1,6 do
 		
@@ -130,6 +130,78 @@ nodes.setup=function()
 
 		end
 	end
+]]
+
+--1y
+
+	nodes.add{
+		px=140,py=80,
+		num=0,def=6,
+		flava="base",
+		icon=6,
+		links={2},
+	}
+
+	nodes.add{
+		px=230,py=110,
+		num=0,def=5,
+		flava="base",
+		icon=5,
+		links={1,3,5},
+	}
+
+	nodes.add{
+		px=345,py=110,
+		num=0,def=7,
+		flava="base",
+		icon=7,
+		links={2,4},
+	}
+
+	nodes.add{
+		px=435,py=80,
+		num=0,def=8,
+		flava="base",
+		icon=8,
+		links={3,6},
+	}
+
+--2y
+
+	nodes.add{
+		px=210,py=280,
+		num=0,def=2,
+		flava="base",
+		icon=2,
+		links={2,6,7},
+	}
+
+	nodes.add{
+		px=450,py=290,
+		num=0,def=4,
+		flava="base",
+		icon=4,
+		links={4,8},
+	}
+
+--3y
+
+	nodes.add{
+		px=110,py=350,
+		num=1,def=1,
+		flava="base",
+		icon=1,
+		links={5},
+	}
+
+	nodes.add{
+		px=380,py=350,
+		num=0,def=3,
+		flava="base",
+		icon=3,
+		links={5,6},
+	}
+
 end
 
 nodes.clean=function()
@@ -167,6 +239,7 @@ nodes.draw=function()
 	flat.quad(0,0,nodes.hx,nodes.hy)
 	gl.Color(1,1,1,1)
 
+	sheets.get("imgs/map_01"):draw(1,nodes.hx/2,nodes.hy/2,nil,nodes.hx,nodes.hy)
 	
 	font.set(cake.fonts.get("slkscr")) -- default font
 	font.set_size(32,0)
@@ -181,6 +254,8 @@ nodes.draw=function()
 	
 	console.display ("nodes "..#nodes.tab)
 
+
+	console.display ("mouse "..(play.mx-nodes.px)..","..(play.my-nodes.py))
 end
 
 nodes.add=function(opt)
