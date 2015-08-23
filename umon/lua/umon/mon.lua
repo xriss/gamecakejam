@@ -162,9 +162,9 @@ mon.update=function()
 		_,it.count=math.modf(it.count+(1/64))
 		it.frame=math.floor(it.count*4)
 	elseif it.anim=="die" then
-		it.frame=4
+		it.frame=15
 	elseif it.anim=="dead" then
-		it.frame=5
+		it.frame=16
 	end
 	
 end
