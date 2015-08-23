@@ -35,7 +35,9 @@ M.bake=function(oven,mon)
 
 	local chars=oven.rebake(oven.modgame..".chars")
 	local fight=oven.rebake(oven.modgame..".fight")
-
+	local world=oven.rebake(oven.modgame..".world")
+	
+	
 local char={} ; char.__index=char
 
 mon.loads=function()
@@ -131,7 +133,7 @@ mon.update=function()
 		
 	end
 
-	if it.anim~="die" and it.anim~="dead" then
+	if it.anim~="die" and it.anim~="dead" and it.anim~="rest" then
 		if it.hit<=0 then -- time to die
 
 			it.anim="die"
@@ -164,10 +166,19 @@ mon.update=function()
 	elseif it.anim=="idle" then
 		_,it.count=math.modf(it.count+(1/64))
 		it.frame=math.floor(it.count*4)
+	elseif it.anim=="rest" then
+		_,it.count=math.modf(it.count+(1/64))
+		it.frame=math.floor(8+it.count*4)
 	elseif it.anim=="die" then
 		it.frame=14
 	elseif it.anim=="dead" then
 		it.frame=15
+	end
+	
+	if it.anim=="dead" and it.rest>4 then
+	
+		world.rest()
+	
 	end
 	
 end
@@ -191,6 +202,35 @@ mon.draw=function()
 
 end
 
+mon.goto_rest=function()
+
+	local it=mon
+	
+	it.anim="rest"
+	it.rest=0
+	
+	it.px=0
+	it.py=24
+	
+	it.vx=0
+	it.vy=0
+
+end
+
+mon.goto_fight=function()
+
+	local it=mon
+	
+	it.anim="idle"
+	it.rest=0
+	
+	it.px=0
+	it.py=24
+	
+	it.vx=0
+	it.vy=0
+
+end
 
 
 	return mon

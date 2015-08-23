@@ -217,6 +217,7 @@ chars.clean=function()
 	for i,v in ipairs(chars.tab) do
 		char.clean(v)
 	end
+	chars.tab={}
 	
 end
 

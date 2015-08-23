@@ -77,32 +77,35 @@ world.draw=function()
 	gl.PushMatrix()
 	gl.Translate(world.px,world.py,0)
 	
-	sheets.get("imgs/world_01"):draw(3,0,0,nil,256*3,48*3)
-	sheets.get("imgs/world_01"):draw(2,0,0,nil,256*3,48*3)
-
-
+	if world.scene=="rest" then
+		sheets.get("imgs/rest_01"):draw(3,0,0,nil,256*3,48*3)
+		sheets.get("imgs/rest_01"):draw(2,0,0,nil,256*3,48*3)
+	else
+		sheets.get("imgs/world_01"):draw(3,0,0,nil,256*3,48*3)
+		sheets.get("imgs/world_01"):draw(2,0,0,nil,256*3,48*3)
+	end
+	
 	chars.draw()
 	mon.draw()
 	
---[[
-	for i=1,16 do
-		local px=-400+i*50
-		local py=8*3
-	
-		gl.Color(0,0,0,0.75)
-		sheets.get("imgs/char_01"):draw(i,px-3,py,nil,32*3,32*3)
-		sheets.get("imgs/char_01"):draw(i,px+3,py,nil,32*3,32*3)
-		sheets.get("imgs/char_01"):draw(i,px,py-3,nil,32*3,32*3)
-
-		gl.Color(1,1,1,1)
-		sheets.get("imgs/char_01"):draw(i,px,py,nil,32*3,32*3)
+	if world.scene=="rest" then
+		sheets.get("imgs/rest_01"):draw(1,0,0,nil,256*3,48*3)
+	else
+		sheets.get("imgs/world_01"):draw(1,0,0,nil,256*3,48*3)
 	end
-]]	
-	sheets.get("imgs/world_01"):draw(1,0,0,nil,256*3,48*3)
 	
 	gl.PopMatrix()
 	gl.Color(1,1,1,1)
 end
+
+-- goto rest scene
+world.rest=function()
+
+	mon.goto_rest()
+	chars.clean()
+	world.scene="rest"
+end
+
 
 	return world
 end
