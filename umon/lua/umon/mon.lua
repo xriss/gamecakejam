@@ -48,6 +48,7 @@ mon.setup=function()
 
 	local it=mon
 	local opt={
+			gold=0,
 			atk=1,
 			def=1,
 			spd=1,

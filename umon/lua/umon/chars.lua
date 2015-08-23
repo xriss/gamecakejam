@@ -189,6 +189,7 @@ chars.setup=function()
 			def=1+m-i,
 			spd=1+m-i,
 			hit=1+m-i,
+			gold=1+m-i,
 			name="villager",
 		}
 	end

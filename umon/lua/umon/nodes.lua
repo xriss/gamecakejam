@@ -110,12 +110,19 @@ nodes.setup=function()
 
 	nodes.loads()
 	nodes.tab={}
+
+	nodes.hx=552
+	nodes.hy=408
+
+	nodes.px=800-nodes.hx-16
+	nodes.py=600-nodes.hy-16
+
 	
-	for j=1,5 do
-		for i=1,8 do
+	for j=1,4 do
+		for i=1,6 do
 		
 			nodes.add{
-				px=i*80 - 350,py=j*80-250,
+				px=i*80,py=j*80,
 				num=i-4-2+j,def=i-1+j,
 				flava="base",
 				icon=i,
@@ -153,11 +160,13 @@ end
 
 nodes.draw=function()
 
-	nodes.px=800/2
-	nodes.py=600/2+100
-
 	gl.PushMatrix()
 	gl.Translate(nodes.px,nodes.py,0)
+
+	gl.Color(pack.argb4_pmf4(0xf001))
+	flat.quad(0,0,nodes.hx,nodes.hy)
+	gl.Color(1,1,1,1)
+
 	
 	font.set(cake.fonts.get("slkscr")) -- default font
 	font.set_size(32,0)

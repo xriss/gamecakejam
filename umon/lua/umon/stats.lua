@@ -43,6 +43,8 @@ end
 stats.setup=function()
 
 	stats.loads()
+	
+	stats.lines={}
 
 end
 
@@ -60,6 +62,13 @@ end
 
 stats.update=function()
 
+
+end
+
+stats.print=function(s)
+
+	table.insert(stats.lines,1,s)
+	while #stats.lines>8 do table.remove(stats.lines,#stats.lines) end
 
 end
 
@@ -81,16 +90,44 @@ stats.draw=function()
 	font.set(cake.fonts.get("slkscr")) -- default font
 	font.set_size(24,0)
 
+	local a=1
+	local r,g,b=0,1,0
+
 	local x,y=0,0
 	local fs=24
 	
 	local it=mon
 	
-	font.set_xy(x,y) font.draw(" HIT = "..it.hit) y=y+fs
-	font.set_xy(x,y) font.draw(" ATK = "..it.atk) y=y+fs
-	font.set_xy(x,y) font.draw(" DEF = "..it.def) y=y+fs
-	font.set_xy(x,y) font.draw(" SPD = "..it.spd) y=y+fs
+	gl.Color(r*a,g*a,b*a,a)
+
+	font.set_xy(x,y) font.draw(" GOLD = "..it.gold) y=y+fs
+	font.set_xy(x,y) font.draw(" HEALTH = "..it.hit) y=y+fs
+	font.set_xy(x,y) font.draw(" ATTACK = "..it.atk) y=y+fs
+	font.set_xy(x,y) font.draw(" DEFENCE = "..it.def) y=y+fs
+	font.set_xy(x,y) font.draw(" SPEED = "..it.spd) y=y+fs
 	
+	font.set_size(16,0) fs=16
+	y=y+fs
+
+	for i=1,8 do
+		local l=stats.lines[i]
+		if not l then break end
+		
+		local ls=font.wrap(l,{w=stats.hx-8})
+		
+		for j,s in ipairs(ls) do
+			gl.Color(r*a,g*a,b*a,a)
+			font.set_xy(x+4,y) font.draw(s) y=y+fs
+
+			if y+fs>=stats.hy then break end
+		end
+		
+		y=y+(fs/2)
+	
+		a=a-(1/8)
+		if a<=0 then break end
+		if y+fs>=stats.hy then break end
+	end
 	
 	
 	gl.PopMatrix()

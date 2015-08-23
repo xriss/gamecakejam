@@ -33,11 +33,14 @@ M.bake=function(oven,fight)
 
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
+	local stats=oven.rebake(oven.modgame..".stats")
 	local mon=oven.rebake(oven.modgame..".mon")
 
 
 -- add fight stats
 fight.setup=function(it,opt)
+
+	it.gold=opt.gold or 0	-- loot
 
 	it.atk=opt.atk or 0		-- attack power
 	it.def=opt.def or 0		-- defence power
@@ -62,6 +65,8 @@ end
 -- perform attack it hits et
 fight.attack=function(it,et)
 
+	if it.hit==0 or et.hit==0 then return et.hit end
+
 	local ad=it.atk - et.def
 	if ad<=0 then ad=1 end -- minimum damage
 	
@@ -73,10 +78,16 @@ fight.attack=function(it,et)
 		et.hit=0
 
 		s=it.name.." knocks out "..et.name
+		
+		if it.name=="monster" then -- loot
+		
+			it.gold=it.gold+et.gold
+
+		end
 
 	end
 
-	print(s)
+	stats.print(s)
 	
 	return et.hit
 end
