@@ -100,6 +100,7 @@ stats.draw=function()
 	
 	gl.Color(r*a,g*a,b*a,a)
 
+	font.set_xy(x,y) font.draw(" RANK = "..it.rank) y=y+fs
 	font.set_xy(x,y) font.draw(" GOLD = "..it.gold) y=y+fs
 	font.set_xy(x,y) font.draw(" HEALTH = "..it.hit) y=y+fs
 	font.set_xy(x,y) font.draw(" ATTACK = "..it.atk) y=y+fs
