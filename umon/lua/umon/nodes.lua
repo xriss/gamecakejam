@@ -73,7 +73,7 @@ node.draw=function(it)
 		end
 	end
 
-	if it.num>0 then -- our troops
+	if it.num>=it.def then -- our troops
 
 		sheets.get("imgs/butt_01"):draw(over,it.px,it.py,nil,32*2,32*2)
 		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
@@ -188,7 +188,7 @@ nodes.setup=function()
 
 	nodes.add{
 		px=110,py=350,
-		num=1,def=1,
+		num=0,def=0,
 		flava="base",
 		icon=1,
 		links={5},
@@ -253,9 +253,12 @@ nodes.draw=function()
 	gl.Color(1,1,1,1)
 	
 	console.display ("nodes "..#nodes.tab)
-
-
 	console.display ("mouse "..(play.mx-nodes.px)..","..(play.my-nodes.py))
+	
+	if nodes.menu then -- popup
+	
+	end
+	
 end
 
 nodes.add=function(opt)
