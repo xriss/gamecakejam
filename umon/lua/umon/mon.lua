@@ -157,8 +157,8 @@ mon.update=function()
 
 	local _
 	if     it.anim=="jump" then
-		_,it.count=math.modf(it.count+(1/64))
-		it.frame=math.floor(it.count*4)
+		_,it.count=math.modf(it.count+(1/16))
+		it.frame=math.floor(4+it.count*4)
 	elseif it.anim=="idle" then
 		_,it.count=math.modf(it.count+(1/64))
 		it.frame=math.floor(it.count*4)
