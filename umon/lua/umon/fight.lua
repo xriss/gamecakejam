@@ -47,6 +47,8 @@ fight.setup=function(it,opt)
 	it.spd=opt.spd or 0		-- speed of attack
 	it.hit=opt.hit or 0		-- health hit points 0==dead
 	
+	it.rest=0
+	
 	it.name=opt.name or "someone"
 
 	return it
@@ -64,6 +66,11 @@ end
 
 -- perform attack it hits et
 fight.attack=function(it,et)
+
+	if et.name=="umon" and et.anim=="dead" then -- timeout to rest scene using hits
+		et.rest=et.rest+1
+	end
+
 
 	if it.hit==0 or et.hit==0 then return et.hit end
 
