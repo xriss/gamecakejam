@@ -334,6 +334,7 @@ nodes.draw=function()
 						mon.hit=mon.hit+1
 						mon.def=mon.def+1
 						mon.spd=mon.spd+1
+						mon.hitmax=mon.hitmax+1
 						stats.print("Umon increased their stats for "..over.gold.." gold")
 					
 						
