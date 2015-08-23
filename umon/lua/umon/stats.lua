@@ -84,7 +84,7 @@ stats.draw=function()
 	gl.Translate(stats.px,stats.py,0)
 	
 	gl.Color(pack.argb4_pmf4(0xf010))
-	flat.quad(0,0,stats.hx,stats.hy)
+--	flat.quad(0,0,stats.hx,stats.hy)
 	gl.Color(1,1,1,1)
 	
 	font.set(cake.fonts.get("slkscr")) -- default font

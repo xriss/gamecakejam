@@ -96,11 +96,15 @@ play.draw=function()
 
 	draw_screen.draw_into(function()
 
+		sheets.get("imgs/overlay1"):draw(1,400,300,nil,800,600)
+
 		world.draw()
 		
 		nodes.draw()
 
 		stats.draw()
+
+		sheets.get("imgs/overlay2"):draw(1,400,300,nil,800,600)
 
 --	sscores.draw("arcade2")
 

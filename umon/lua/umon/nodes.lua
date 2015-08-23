@@ -236,7 +236,7 @@ nodes.draw=function()
 	gl.Translate(nodes.px,nodes.py,0)
 
 	gl.Color(pack.argb4_pmf4(0xf001))
-	flat.quad(0,0,nodes.hx,nodes.hy)
+--	flat.quad(0,0,nodes.hx,nodes.hy)
 	gl.Color(1,1,1,1)
 
 	sheets.get("imgs/map_01"):draw(1,nodes.hx/2,nodes.hy/2,nil,nodes.hx,nodes.hy)

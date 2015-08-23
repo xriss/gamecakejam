@@ -58,6 +58,10 @@ main.loads=function()
 
 -- smooth style
 
+		{"imgs/overlay1",1/1,1/1,0.5/1,0.5/1},		
+		{"imgs/overlay2",1/1,1/1,0.5/1,0.5/1},		
+
+
 		{"imgs/map_01",1/1,1/1,0.5/1,0.5/1},		
 		{"imgs/splash",1/1,1/1,0.5/1,0.5/1},		
 		{"imgs/title_back",1/1,1/1,0.5/1,0.5/1},		
