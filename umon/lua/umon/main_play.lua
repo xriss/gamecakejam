@@ -79,6 +79,10 @@ play.msg=function(m)
 		if m.keyname=="left" then
 			if m.action==1 then play.mb=1 elseif m.action==-1 then play.mb=0 end
 		end
+
+		if m.keyname=="left" then
+			if m.action==-1 then play.click=true end
+		end
 	
 	end
 	
@@ -89,6 +93,7 @@ play.update=function()
 	world.update()
 	nodes.update()
 	stats.update()
+
 
 end
 
@@ -111,7 +116,7 @@ play.draw=function()
 	end)
 	draw_screen.draw()
 
-	
+	play.click=false
 end
 
 	return play

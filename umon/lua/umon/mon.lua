@@ -56,6 +56,8 @@ mon.setup=function()
 			name="umon",
 	}
 	
+	it.rank=1
+	
 	it.px=opt.px or -350
 	it.py=opt.py or 24
 
