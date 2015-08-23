@@ -55,6 +55,8 @@ char.setup=function(it,opt)
 	it.wait=0
 	it.count=opt.count or 0
 	it.anim=opt.anim or "idle"
+	
+	it.speed=opt.speed or 60
 
 	
 	return it
@@ -68,7 +70,7 @@ char.update=function(it)
 		if it.anim=="idle" then
 		
 			it.wait=it.wait+1
-			if it.wait>=60 then
+			if it.wait>=it.speed then
 				it.anim="jump"
 				it.vx=-1
 				it.vy=-5
@@ -82,7 +84,7 @@ char.update=function(it)
 			local e=mon
 
 			it.py=it.py+it.vy
-			it.vy=it.vy+1/4
+			it.vy=it.vy+1
 
 			if it.py > 8*3 and it.vy>=0 then
 				it.wait=0

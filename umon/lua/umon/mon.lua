@@ -37,40 +37,6 @@ M.bake=function(oven,mon)
 
 local char={} ; char.__index=char
 
-char.setup=function(it,opt)
-	local it=it or {}
-	setmetatable(it,char) -- allow : functions
-
-	
-	it.px=opt.px or 0
-	it.py=opt.py or 0
-
-	it.vx=opt.vx or 0
-	it.vy=opt.vy or 0
-
-	it.flava=opt.flava or "none"
-	
-	it.char=opt.char or 17
-	
-	it.wait=0
-	it.count=opt.count or 0
-	it.anim=opt.anim or "idle"
-
-	
-	return it
-end
-char.clean=function(it)
-end
-char.update=function(it)
-
-
-end
-char.draw=function(it)
-
-
-end
-
-
 mon.loads=function()
 
 end
@@ -96,6 +62,7 @@ mon.setup=function()
 	it.count=opt.count or 0
 	it.anim=opt.anim or "idle"
 	
+	it.speed=opt.speed or 50
 
 end
 
@@ -116,7 +83,7 @@ mon.update=function()
 	if it.anim=="idle" then
 	
 		it.wait=it.wait+1
-		if it.wait>=60 then
+		if it.wait>=it.speed then
 			it.anim="jump"
 			it.vx=1
 			it.vy=-5
@@ -130,7 +97,7 @@ mon.update=function()
 		local e=chars.top()
 	
 		it.py=it.py+it.vy
-		it.vy=it.vy+1/4
+		it.vy=it.vy+1
 
 		if it.py > 8*3 and it.vy>=0 then
 			it.wait=0
@@ -139,7 +106,7 @@ mon.update=function()
 			it.anim="idle"
 		end
 		it.px=it.px+it.vx
-		if it.px>370 then -- end of line
+		if it.px>370 then -- end of line (win)
 			it.px=370
 		end
 
