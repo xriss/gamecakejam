@@ -49,6 +49,8 @@ node.setup=function(it,opt)
 	it.flava=opt.flava or "none"
 	
 	it.icon=opt.icon or 1
+	
+	it.links=opt.links or {}
 
 	
 	return it
@@ -66,10 +68,15 @@ node.draw=function(it)
 	local dy=my-it.py
 	
 	local over=1
-	if ( (dx*dx + dy*dy) < 32*32 ) then
-		over=2
-		if play.mb==1 then
-			over=3
+	if not nodes.menu then
+		if ( (dx*dx + dy*dy) < 32*32 ) then
+			over=2
+			if play.mb==1 then
+				over=3
+			end
+			if play.click then
+				if not nodes.menu then nodes.menu=it.idx play.click=false end
+			end
 		end
 	end
 
@@ -85,7 +92,7 @@ node.draw=function(it)
 	
 	elseif it.def>0 then -- npc troops
 
-		sheets.get("imgs/butt_01"):draw(over+4,it.px,it.py,nil,32*2,32*2)
+		sheets.get("imgs/butt_01"):draw(4,it.px,it.py,nil,32*2,32*2)
 		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
 
 		gl.Color(0,0,0,1)
@@ -248,6 +255,55 @@ nodes.draw=function()
 		it:draw()
 	end
 
+
+	if nodes.menu then -- popup
+	
+		local it=nodes.tab[nodes.menu]
+		
+		if it.num>=it.def then -- a menu
+		
+			local w,h=300,200
+			local x,y=nodes.hx/2-w/2,nodes.hy/2-h/2
+
+			local lines={}
+
+			font.set(cake.fonts.get("slkscr")) -- default font
+			font.set_size(16,0)
+
+			local fx,fy=x+8,y+8
+			local fs=20
+			
+			
+			local n=it.num+1
+			lines[1]={txt="Level up for "..n.." gold"}
+			
+			for _,l in ipairs(it.links) do
+
+				local v=nodes.tab[l]
+				if v.def>v.num then
+					lines[#lines+1]={txt="Attack against "..v.def}
+				end
+			end
+
+
+			gl.Color(pack.argb4_pmf4(0xf004))
+			flat.quad(x,y,x+w,y+h)
+			gl.Color(1,1,1,1)
+
+			for i,v in ipairs(lines) do
+				font.set_xy(fx,fy) font.draw(v.txt) fy=fy+fs
+			end
+
+			
+			if play.click then nodes.menu=nil play.click=false end
+		else
+		
+			nodes.menu=nil
+			
+		end
+	
+	end
+
 	gl.PopMatrix()
 	
 	gl.Color(1,1,1,1)
@@ -255,15 +311,13 @@ nodes.draw=function()
 	console.display ("nodes "..#nodes.tab)
 	console.display ("mouse "..(play.mx-nodes.px)..","..(play.my-nodes.py))
 	
-	if nodes.menu then -- popup
-	
-	end
 	
 end
 
 nodes.add=function(opt)
 
 	local it=node.setup({},opt)
+	it.idx=#nodes.tab+1
 	nodes.tab[#nodes.tab+1]=it
 
 end
