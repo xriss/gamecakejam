@@ -36,6 +36,23 @@ M.bake=function(oven,chars)
 	local mon=oven.rebake(oven.modgame..".mon")
 	local fight=oven.rebake(oven.modgame..".fight")
 
+local names={
+
+	"Lilu",
+	"Paige",
+	"Clarisa",
+	"Devon",
+	"Horatio",
+	"Tom",
+	"David",
+	"Merick",
+	"Nene",
+	"Shawn",
+	"Puri",
+	"Bambi",
+}
+
+
 local char={} ; char.__index=char
 
 char.setup=function(it,opt)
@@ -182,7 +199,7 @@ chars.setup=function()
 		chars.add{
 			px=400-i*50,py=8*3,
 			flava="base",
-			char=1+(i-1)*8,
+			char=1+(m-i)*8,
 			count=((i*8)%64)/64,
 			anim="idle",
 			atk=1+m-i,
@@ -190,7 +207,7 @@ chars.setup=function()
 			spd=1+m-i,
 			hit=1+m-i,
 			gold=1+m-i,
-			name="villager",
+			name=names[1+m-i],
 		}
 	end
 end

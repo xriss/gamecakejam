@@ -30,6 +30,8 @@ M.bake=function(oven,main)
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
+
+	local draw_screen=oven.rebake(oven.modgame..".draw_screen")
 	
 main.loads=function()
 
@@ -56,6 +58,7 @@ main.loads=function()
 
 -- smooth style
 
+		{"imgs/splash",1/1,1/1,0.5/1,0.5/1},		
 		{"imgs/title_back",1/1,1/1,0.5/1,0.5/1},		
 		{"imgs/play_back",1/1,1/1,0.5/1,0.5/1},		
 
@@ -72,8 +75,10 @@ main.setup=function()
 	main.now=nil
 	main.next=nil
 	
+	draw_screen.setup()
+
 	main.next=oven.rebake(oven.modgame..".main_menu")
-	main.next=oven.rebake(oven.modgame..".main_play")
+--	main.next=oven.rebake(oven.modgame..".main_play")
 	
 	main.change()
 end

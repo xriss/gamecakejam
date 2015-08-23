@@ -48,9 +48,6 @@ play.setup=function()
 
 	play.loads()
 
-
-	draw_screen.setup()
-
 	world.setup()
 	nodes.setup()
 	stats.setup()
@@ -64,8 +61,6 @@ play.clean=function()
 	nodes.clean()
 	world.clean()
 	stats.clean()
-
-	draw_screen.clean()
 
 end
 
@@ -110,7 +105,6 @@ play.draw=function()
 --	sscores.draw("arcade2")
 
 	end)
-
 	draw_screen.draw()
 
 	

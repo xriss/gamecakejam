@@ -79,7 +79,7 @@ fight.attack=function(it,et)
 
 		s=it.name.." knocks out "..et.name
 		
-		if it.name=="monster" then -- loot
+		if it.name=="umon" then -- loot
 		
 			it.gold=it.gold+et.gold
 
