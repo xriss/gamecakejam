@@ -47,8 +47,8 @@ menu.setup=function()
 
 	menu.loads()
 
-	gui.setup()
-	gui.page("menu")
+--	gui.setup()
+--	gui.page("menu")
 
 --	beep.stream("menu")
 
@@ -56,7 +56,7 @@ end
 
 menu.clean=function()
 
-	gui.clean()
+--	gui.clean()
 
 end
 
@@ -64,35 +64,41 @@ menu.msg=function(m)
 
 --	print(wstr.dump(m))
 
+--[[
 	if sgui.active then
 		sgui.msg(m)	
 	else
 		gui.msg(m)
+	end
+]]
+	
+	if m.action==1 then
+		main.next=oven.rebake(oven.modgame..".main_play")
 	end
 	
 end
 
 menu.update=function()
 
-	if sgui.active then
-		sgui.update()	
-	else
-		gui.update()
-	end
+--	if sgui.active then
+--		sgui.update()	
+--	else
+--		gui.update()
+--	end
 	
 end
 
 menu.draw=function()
 	
-	if sgui.active then
+--	if sgui.active then
 
 	--	layout.viewport() -- clear clip area
 
-		gl.ClearColor(pack.argb4_pmf4(0xf004))
-		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
+--		gl.ClearColor(pack.argb4_pmf4(0xf004))
+--		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
-		sgui.draw()	
-	else
+--		sgui.draw()	
+--	else
 	
 		draw_screen.draw_into(function()
 
@@ -105,7 +111,7 @@ menu.draw=function()
 		end)
 		draw_screen.draw()
 	
-	end
+--	end
 	
 end
 
