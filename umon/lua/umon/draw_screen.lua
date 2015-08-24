@@ -5,7 +5,6 @@ local pack=require("wetgenes.pack")
 local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
-local wv4l2=require("wetgenes.v4l2")
 local wgrd=require("wetgenes.grd")
 local wzips=require("wetgenes.zips")
 
