@@ -29,7 +29,7 @@ M.bake=function(oven,world)
 	local gui=oven.rebake(oven.modgame..".gui")
 	local main=oven.rebake(oven.modgame..".main")
 	local play=oven.rebake(oven.modgame..".main_play")
---	local beep=oven.rebake(oven.modgame..".beep")
+	local beep=oven.rebake(oven.modgame..".beep")
 
 	local chars=oven.rebake(oven.modgame..".chars")
 	local mon=oven.rebake(oven.modgame..".mon")
@@ -104,6 +104,9 @@ world.rest=function()
 	mon.goto_rest()
 	chars.clean()
 	world.scene="rest"
+
+	beep.stream("rest")
+	
 end
 
 -- goto fight scene
@@ -111,6 +114,9 @@ world.fight=function()
 	chars.goto_fight()
 	mon.goto_fight()
 	world.scene=nil
+	
+	beep.stream("play")
+
 end
 
 
