@@ -60,7 +60,7 @@ end
 -- perform attack it hits et
 fight.get_wait=function(it)
 
-	local n=60-it.spd
+	local n=60-(it.spd*4)
 	if n<10 then n=10 end
 	
 	return n

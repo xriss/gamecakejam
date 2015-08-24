@@ -98,14 +98,12 @@ stats.draw=function()
 	
 	local it=mon
 	
-	gl.Color(r*a,g*a,b*a,a)
-
-	font.set_xy(x,y) font.draw(" RANK = "..it.rank) y=y+fs
-	font.set_xy(x,y) font.draw(" GOLD = "..it.gold) y=y+fs
-	font.set_xy(x,y) font.draw(" HEALTH = "..it.hit) y=y+fs
-	font.set_xy(x,y) font.draw(" ATTACK = "..it.atk) y=y+fs
-	font.set_xy(x,y) font.draw(" DEFENCE = "..it.def) y=y+fs
-	font.set_xy(x,y) font.draw(" SPEED = "..it.spd) y=y+fs
+	gl.Color(pack.argb4_pmf4(0xffff))	font.set_xy(x,y) font.draw(" RANK = "..it.rank) y=y+fs
+	gl.Color(pack.argb4_pmf4(0xfff0))	font.set_xy(x,y) font.draw(" GOLD = "..it.gold) y=y+fs
+	gl.Color(pack.argb4_pmf4(0xff00))	font.set_xy(x,y) font.draw(" HEALTH = "..it.hit) y=y+fs
+	gl.Color(pack.argb4_pmf4(0xf0f0))	font.set_xy(x,y) font.draw(" ATTACK = "..it.atk) y=y+fs
+	gl.Color(pack.argb4_pmf4(0xf00f))	font.set_xy(x,y) font.draw(" DEFENCE = "..it.def) y=y+fs
+	gl.Color(pack.argb4_pmf4(0xf08f))	font.set_xy(x,y) font.draw(" SPEED = "..it.spd) y=y+fs
 	
 	font.set_size(16,0) fs=16
 	y=y+fs
