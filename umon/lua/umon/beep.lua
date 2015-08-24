@@ -34,6 +34,15 @@ M.bake=function(state,beep)
 		["kill2"]={
 			name="oggs/human_die2",
 		},
+		["fight1"]={
+			name="oggs/fight1",
+		},
+		["fight2"]={
+			name="oggs/fight2",
+		},
+		["fight3"]={
+			name="oggs/fight3",
+		},
 	}
 
 -- load all the sample referenced in the ids table
@@ -89,20 +98,25 @@ print("Missing sound FX for "..id)
 	
 		local qq=cake.sounds.queues[1]
 	
-		if     id=="play" or id=="menu" then
+		if     id=="play" or id=="menu" or id=="rest" then
 
 			qq.BufferData=nil
 			if not qq.oggs then
 				qq.ogg_loop=true
 				qq.state="play_queue"
 				qq.oggs={}
-				qq.gain=0.25
+				qq.gain=1.0
 				qq.pitch=1
 			end
-			qq.oggs={"oggs/umon_theme"}
-			
---			qq.og=nil -- force old ogg to stop
---			if al then al.SourceStop(sounds.strs[1].source) end
+			if id=="rest" then
+				qq.og=nil -- force old ogg to stop
+				if al then al.SourceStop(sounds.strs[1].source) end
+				qq.oggs={"oggs/mon_rest"}
+			else
+				qq.og=nil -- force old ogg to stop
+				if al then al.SourceStop(sounds.strs[1].source) end
+				qq.oggs={"oggs/umon_theme1"}
+			end
 
 --		else		
 --			qq.oggs=nil

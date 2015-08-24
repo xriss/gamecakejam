@@ -36,6 +36,7 @@ M.bake=function(oven,fight)
 	local stats=oven.rebake(oven.modgame..".stats")
 	local mon=oven.rebake(oven.modgame..".mon")
 
+	local beep=oven.rebake(oven.modgame..".beep")
 
 -- add fight stats
 fight.setup=function(it,opt)
@@ -106,6 +107,9 @@ fight.attack=function(it,et)
 	end
 
 	stats.print(s)
+	
+	local r=math.random(3)
+	beep.play("fight"..r)
 
 	
 	
