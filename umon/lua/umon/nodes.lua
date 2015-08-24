@@ -82,10 +82,25 @@ node.draw=function(it)
 		end
 	end
 
-	if it.num>=it.def then -- our troops
+	local draw=function(n,i,x,y,w,h)
 
-		sheets.get("imgs/butt_01"):draw(over,it.px,it.py,nil,32*2,32*2)
-		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
+		gl.Color(0,0,0,1)
+
+		sheets.get(n):draw(i,x+2,y,nil,w,h)
+		sheets.get(n):draw(i,x-2,y,nil,w,h)
+		sheets.get(n):draw(i,x,y+2,nil,w,h)
+		sheets.get(n):draw(i,x,y-2,nil,w,h)
+
+		gl.Color(1,1,1,1)
+		
+		sheets.get(n):draw(i,x,y,nil,w,h)
+		
+	end
+
+	if it.num>=it.def then -- our troops
+		
+		draw("imgs/butt_01",over,it.px,it.py,32*2,32*2)
+		draw("imgs/icon_01",it.icon,it.px-24,it.py-24,16*2,16*2)
 
 		local s=""..it.num
 		local w=font.width(s)
@@ -94,8 +109,8 @@ node.draw=function(it)
 	
 	elseif it.def>0 then -- npc troops
 
-		sheets.get("imgs/butt_01"):draw(5,it.px,it.py,nil,32*2,32*2)
-		sheets.get("imgs/icon_01"):draw(it.icon,it.px-24,it.py-24,nil,16*2,16*2)
+		draw("imgs/butt_01",5,it.px,it.py,32*2,32*2)
+		draw("imgs/icon_01",it.icon,it.px-24,it.py-24,16*2,16*2)
 
 		gl.Color(0,0,0,1)
 	
