@@ -42,14 +42,14 @@ local powers={
 		name="Teeth",
 		atk=1,
 		hit=1,
-		gold=1,
+		gold=1.5,
 	},
 
 	{
 		name="Skin",
 		def=2,
 		hit=2,
-		gold=1,
+		gold=1.5,
 	},
 
 	{
@@ -64,6 +64,7 @@ local powers={
 		name="Wings",
 		spd=3,
 		def=1,
+		hit=-1,
 		gold=2,
 	},
 
@@ -73,7 +74,7 @@ local powers={
 		def=2,
 		spd=-1,
 		hit=2,
-		gold=3,
+		gold=2.5,
 	},
 
 	{
@@ -370,9 +371,12 @@ nodes.draw=function()
 			font.set(cake.fonts.get("slkscr")) -- default font
 			font.set_size(16,0)
 
-			local n=(it.num+1)*it.power.gold
+			local n=math.floor(it.power.gold^it.num)
 			if mon.gold>=n and it.num<9 then -- need gold
 				lines[#lines+1]={txt="Upgrade your "..it.power.name.." for "..n.." gold",cmd="levelup",gold=n}
+				lines[#lines].width=font.width(lines[#lines].txt)
+			elseif it.num<9 then
+				lines[#lines+1]={txt="Need "..n.." gold to upgrade",cmd="nop"}
 				lines[#lines].width=font.width(lines[#lines].txt)
 			end
 			
@@ -413,7 +417,7 @@ nodes.draw=function()
 				gl.Color(1/2,1/2,1/2,1/2)
 
 				if mx>=fx and mx<=fx+w-16 then
-					if my>=fy and my<fy+fs then -- over
+					if my>=fy and my<fy+fs and v.cmd~="nop" then -- over
 						gl.Color(1,1,1,1)
 						over=v -- remember selection
 					end

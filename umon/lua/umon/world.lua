@@ -108,8 +108,8 @@ end
 
 -- goto fight scene
 world.fight=function()
-	mon.goto_fight()
 	chars.goto_fight()
+	mon.goto_fight()
 	world.scene=nil
 end
 

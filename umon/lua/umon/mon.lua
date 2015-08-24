@@ -128,7 +128,7 @@ mon.update=function()
 
 		if e then
 			if it.vx>0 and it.px>e.px-24 then -- attack
-				it.vx=-it.vx
+				it.vx=-it.vx/2
 
 				fight.attack(it,e)
 			end
@@ -179,7 +179,7 @@ mon.update=function()
 		it.frame=15
 	end
 	
-	if it.anim=="dead" and it.rest>=3 then
+	if it.anim=="dead" and it.rest>=1 then
 	
 		world.rest()
 	
@@ -230,6 +230,8 @@ mon.goto_rest=function()
 	it.vx=0
 	it.vy=0
 	
+	if it.hit>=it.hitmax then it.hit=it.hitmax-1 end
+	
 --	it.hit=0
 
 end
@@ -242,7 +244,7 @@ mon.goto_fight=function()
 	it.rest=0
 	it.wait=0
 	
-	it.px=-350
+	it.px=400-(#chars.tab+3)*50
 	it.py=24
 	
 	it.vx=0
@@ -265,6 +267,11 @@ mon.update_stats=function()
 			end
 		end
 	end
+	
+	if ss.atk<1 then ss.atk=1 end
+	if ss.def<1 then ss.def=1 end
+	if ss.spd<1 then ss.spd=1 end
+	if ss.hit<1 then ss.hit=1 end
 
 	mon.atk=ss.atk
 	mon.def=ss.def

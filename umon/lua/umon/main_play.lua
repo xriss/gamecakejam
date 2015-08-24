@@ -31,6 +31,7 @@ M.bake=function(oven,play)
 	local main=oven.rebake(oven.modgame..".main")
 --	local beep=oven.rebake(oven.modgame..".beep")
 
+	local mon=oven.rebake(oven.modgame..".mon")
 	local nodes=oven.rebake(oven.modgame..".nodes")
 	local world=oven.rebake(oven.modgame..".world")
 	local stats=oven.rebake(oven.modgame..".stats")
@@ -51,6 +52,8 @@ play.setup=function()
 	world.setup()
 	nodes.setup()
 	stats.setup()
+
+	world.fight()
 
 --	beep.stream("play")
 

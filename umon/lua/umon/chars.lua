@@ -117,7 +117,7 @@ char.update=function(it)
 			
 			if e then
 				if it.vx<0 and it.px<e.px+24 then -- attack
-					it.vx=-it.vx
+					it.vx=-it.vx/2
 					
 					fight.attack(it,e)
 					
@@ -211,11 +211,11 @@ chars.goto_fight=function()
 			char=1+(m-i)*8,
 			count=((i*8)%64)/64,
 			anim="idle",
-			atk=1+r-i,
-			def=1+r-i,
-			spd=1+r-i,
-			hit=1+r-i,
-			gold=1+r-i,
+			atk=1+(r-i)*2,
+			def=1+(r-i)*2,
+			spd=1+(r-i)*2,
+			hit=1+(r-i)*2,
+			gold=1+(r-i)*2,
 			name=names[1+m-i],
 		}
 	end
