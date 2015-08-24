@@ -42,14 +42,14 @@ local powers={
 		name="Teeth",
 		atk=1,
 		hit=1,
-		gold=1.5,
+		gold=2,
 	},
 
 	{
 		name="Skin",
 		def=2,
 		hit=2,
-		gold=1.5,
+		gold=2,
 	},
 
 	{
@@ -65,7 +65,7 @@ local powers={
 		spd=3,
 		def=1,
 		hit=-1,
-		gold=2,
+		gold=3,
 	},
 
 	{
@@ -74,14 +74,14 @@ local powers={
 		def=2,
 		spd=-1,
 		hit=2,
-		gold=2.5,
+		gold=3,
 	},
 
 	{
 		name="Claw",
 		atk=3,
 		spd=1,
-		gold=2,
+		gold=4,
 	},
 
 	{
@@ -89,7 +89,7 @@ local powers={
 		spd=3,
 		def=3,
 		hit=1,
-		gold=2,
+		gold=4,
 	},
 
 	{
@@ -97,7 +97,7 @@ local powers={
 		atk=2,
 		def=2,
 		hit=2,
-		gold=2,
+		gold=3,
 	},
 
 	{
@@ -383,7 +383,7 @@ nodes.draw=function()
 			for _,l in ipairs(it.links) do
 
 				local v=nodes.tab[l]
-				if v.def>v.num and it.num>v.def then
+				if v.def>=v.num and it.num>v.def then
 					lines[#lines+1]={txt="Grow some "..v.power.name,cmd="invade",dst=v}
 					lines[#lines].width=font.width(lines[#lines].txt)
 				end
