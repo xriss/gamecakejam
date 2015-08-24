@@ -372,7 +372,7 @@ nodes.draw=function()
 
 			local n=(it.num+1)*it.power.gold
 			if mon.gold>=n then -- need gold
-				lines[#lines+1]={txt="Level up your "..it.power.name.." for "..n.." gold",cmd="levelup",gold=n}
+				lines[#lines+1]={txt="Upgrade your "..it.power.name.." for "..n.." gold",cmd="levelup",gold=n}
 				lines[#lines].width=font.width(lines[#lines].txt)
 			end
 			
