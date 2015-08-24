@@ -57,7 +57,7 @@ play.setup=function()
 
 	world.fight()
 
-	beep.stream("play")
+--	beep.stream("play")
 
 end
 

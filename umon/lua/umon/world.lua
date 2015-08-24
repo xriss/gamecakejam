@@ -115,7 +115,7 @@ world.fight=function()
 	mon.goto_fight()
 	world.scene=nil
 	
-	beep.stream("play")
+	beep.stream("stop")
 
 end
 
