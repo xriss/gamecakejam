@@ -101,6 +101,7 @@ mon.update=function()
 			it.vx=1 + (it.spd/4)
 			it.vy=-5 - (it.atk/4)
 			it.wait=0
+			if it.vy<-10 then it.vy=-10 end
 		end
 	
 	end
@@ -229,7 +230,7 @@ mon.goto_rest=function()
 	it.vx=0
 	it.vy=0
 	
-	it.hit=0
+--	it.hit=0
 
 end
 

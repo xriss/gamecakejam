@@ -89,9 +89,10 @@ char.update=function(it)
 			it.wait=it.wait+1
 			if it.wait>=fight.get_wait(it) then
 				it.anim="jump"
-				it.vx=-1
-				it.vy=-5
+				it.vx=-1 - (it.spd/4)
+				it.vy=-5 - (it.atk/4)
 				it.wait=0
+				if it.vy<-10 then it.vy=-10 end
 			end
 		
 		end

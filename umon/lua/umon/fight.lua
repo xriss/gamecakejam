@@ -77,7 +77,11 @@ fight.attack=function(it,et)
 	if it.hit==0 or et.hit==0 then return et.hit end
 
 	local ad=it.atk - et.def
-	if ad<=0 then ad=1 end -- minimum damage
+	local bk
+	if ad<=0 then
+		bk=-ad
+		ad=1
+	 end -- minimum damage
 	
 	et.hit=et.hit-ad
 	
@@ -94,9 +98,16 @@ fight.attack=function(it,et)
 
 		end
 
+	else
+		if bk then -- splash back
+			it.hit=it.hit-bk
+			if it.hit<=0 then it.hit=1 end -- never die
+		end
 	end
 
 	stats.print(s)
+
+	
 	
 	return et.hit
 end
