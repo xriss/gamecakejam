@@ -41,6 +41,8 @@ M.bake=function(oven,play)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
+	local beep=oven.rebake(oven.modgame..".beep")
+
 play.loads=function()
 
 end
@@ -55,7 +57,7 @@ play.setup=function()
 
 	world.fight()
 
---	beep.stream("play")
+	beep.stream("play")
 
 end
 

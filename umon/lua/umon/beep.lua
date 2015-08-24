@@ -89,17 +89,18 @@ print("Missing sound FX for "..id)
 	
 		local qq=cake.sounds.queues[1]
 	
-		if     id=="game" or id=="menu" then
+		if     id=="play" or id=="menu" then
 
 			qq.BufferData=nil
 			if not qq.oggs then
 				qq.ogg_loop=true
 				qq.state="play_queue"
 				qq.oggs={}
-				qq.gain=2
+				qq.gain=0.25
 				qq.pitch=1
 			end
-			qq.oggs={"oggs/vapours"}
+			qq.oggs={"oggs/umon_theme"}
+			
 --			qq.og=nil -- force old ogg to stop
 --			if al then al.SourceStop(sounds.strs[1].source) end
 

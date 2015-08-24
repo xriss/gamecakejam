@@ -207,14 +207,19 @@ mon.draw=function()
 	local px=it.px
 	local py=it.py
 	local f=it.frame
+	
+	local n="imgs/mon_01"
+	if mon.atk>=20 then
+		n="imgs/mon_02"
+	end
 
 	gl.Color(0,0,0,0.75)
-	sheets.get("imgs/mon_02"):draw(i+f,px-3,py,nil,32*3,32*3)
-	sheets.get("imgs/mon_02"):draw(i+f,px+3,py,nil,32*3,32*3)
-	sheets.get("imgs/mon_02"):draw(i+f,px,py-3,nil,32*3,32*3)
+	sheets.get(n):draw(i+f,px-3,py,nil,32*3,32*3)
+	sheets.get(n):draw(i+f,px+3,py,nil,32*3,32*3)
+	sheets.get(n):draw(i+f,px,py-3,nil,32*3,32*3)
 
 	gl.Color(1,1,1,1)
-	sheets.get("imgs/mon_02"):draw(i+f,px,py,nil,32*3,32*3)
+	sheets.get(n):draw(i+f,px,py,nil,32*3,32*3)
 
 
 end

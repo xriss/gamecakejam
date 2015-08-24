@@ -36,6 +36,8 @@ M.bake=function(oven,menu)
 
 	local draw_screen=oven.rebake(oven.modgame..".draw_screen")
 
+	local beep=oven.rebake(oven.modgame..".beep")
+
 --	local layout=cake.layouts.create{}
 
 
@@ -50,7 +52,7 @@ menu.setup=function()
 --	gui.setup()
 --	gui.page("menu")
 
---	beep.stream("menu")
+	beep.stream("menu")
 
 end
 
