@@ -383,7 +383,7 @@ nodes.draw=function()
 			for _,l in ipairs(it.links) do
 
 				local v=nodes.tab[l]
-				if v.def>=v.num and it.num>v.def then
+				if v.def>v.num and it.num>=v.def then
 					lines[#lines+1]={txt="Grow some "..v.power.name,cmd="invade",dst=v}
 					lines[#lines].width=font.width(lines[#lines].txt)
 				end
