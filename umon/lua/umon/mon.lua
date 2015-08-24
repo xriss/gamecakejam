@@ -36,6 +36,7 @@ M.bake=function(oven,mon)
 	local chars=oven.rebake(oven.modgame..".chars")
 	local fight=oven.rebake(oven.modgame..".fight")
 	local world=oven.rebake(oven.modgame..".world")
+	local nodes=oven.rebake(oven.modgame..".nodes")
 	
 	
 local char={} ; char.__index=char
@@ -50,11 +51,11 @@ mon.setup=function()
 
 	local it=mon
 	local opt={
-			gold=0,
+			gold=1,
 			atk=1,
 			def=1,
 			spd=1,
-			hit=5,
+			hit=1,
 			name="umon",
 	}
 	
@@ -97,8 +98,8 @@ mon.update=function()
 		it.wait=it.wait+1
 		if it.wait>=fight.get_wait(it) then
 			it.anim="jump"
-			it.vx=1
-			it.vy=-5
+			it.vx=1 + (it.spd/4)
+			it.vy=-5 - (it.atk/4)
 			it.wait=0
 		end
 	
@@ -120,6 +121,8 @@ mon.update=function()
 		it.px=it.px+it.vx
 		if it.px>370 then -- end of line (win)
 			it.px=370
+			it.rank=it.rank+1
+			return world.rest()
 		end
 
 		if e then
@@ -225,6 +228,8 @@ mon.goto_rest=function()
 	
 	it.vx=0
 	it.vy=0
+	
+	it.hit=0
 
 end
 
@@ -241,6 +246,30 @@ mon.goto_fight=function()
 	
 	it.vx=0
 	it.vy=0
+
+end
+
+
+mon.update_stats=function()
+
+	local ss={atk=1,def=1,spd=1,hit=1}
+
+	local it=mon
+	
+	for i,v in ipairs(nodes.tab) do
+		if v.num>=v.def then 
+			local p=v.power
+			for n,t in pairs(ss) do
+				ss[n]=ss[n] + (p[n] or 0)*v.num
+			end
+		end
+	end
+
+	mon.atk=ss.atk
+	mon.def=ss.def
+	mon.spd=ss.spd
+	mon.hitmax=ss.hit
+	
 
 end
 

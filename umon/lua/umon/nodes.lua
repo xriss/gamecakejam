@@ -36,6 +36,81 @@ M.bake=function(oven,nodes)
 	local stats=oven.rebake(oven.modgame..".stats")
 	local mon=oven.rebake(oven.modgame..".mon")
 
+local powers={
+
+	{
+		name="Teeth",
+		atk=1,
+		hit=1,
+		gold=1,
+	},
+
+	{
+		name="Skin",
+		def=2,
+		hit=2,
+		gold=1,
+	},
+
+	{
+		name="Spikes",
+		atk=1,
+		def=1,
+		hit=1,
+		gold=2,
+	},
+
+	{
+		name="Wings",
+		spd=3,
+		def=1,
+		gold=2,
+	},
+
+	{
+		name="Tail",
+		atk=2,
+		def=2,
+		spd=-1,
+		hit=2,
+		gold=3,
+	},
+
+	{
+		name="Claw",
+		atk=3,
+		spd=1,
+		gold=2,
+	},
+
+	{
+		name="Leg",
+		spd=3,
+		def=3,
+		hit=1,
+		gold=2,
+	},
+
+	{
+		name="Arm",
+		atk=2,
+		def=2,
+		hit=2,
+		gold=2,
+	},
+
+	{
+		name="Neck",
+		atk=2,
+		hit=2,
+		gold=2,
+	},
+
+
+}
+for i,v in ipairs(powers) do v.idx=i powers[ v.name:lower() ]=i end
+
+
 local node={} ; node.__index=node
 
 node.setup=function(it,opt)
@@ -54,6 +129,7 @@ node.setup=function(it,opt)
 	
 	it.links=opt.links or {}
 
+	it.power=powers[it.icon]
 	
 	return it
 end
@@ -196,8 +272,8 @@ nodes.setup=function()
 		px=210,py=280,
 		num=0,def=2,
 		flava="base",
-		icon=2,
-		links={2,6,7,9},
+		icon=powers.teeth,
+		links={2,7,8,9},
 	}
 
 	nodes.add{
@@ -214,7 +290,7 @@ nodes.setup=function()
 		px=110,py=350,
 		num=0,def=0,
 		flava="base",
-		icon=1,
+		icon=powers.skin,
 		links={5},
 	}
 
@@ -225,7 +301,8 @@ nodes.setup=function()
 		icon=3,
 		links={5,6,9},
 	}
-	
+
+--middle
 		nodes.add{
 		px=350,py=220,
 		num=0,def=9,
@@ -293,9 +370,9 @@ nodes.draw=function()
 			font.set(cake.fonts.get("slkscr")) -- default font
 			font.set_size(16,0)
 
-			local n=it.num+1
+			local n=(it.num+1)*it.power.gold
 			if mon.gold>=n then -- need gold
-				lines[#lines+1]={txt="Level up for "..n.." gold",cmd="levelup",gold=n}
+				lines[#lines+1]={txt="Level up your "..it.power.name.." for "..n.." gold",cmd="levelup",gold=n}
 				lines[#lines].width=font.width(lines[#lines].txt)
 			end
 			
@@ -303,7 +380,7 @@ nodes.draw=function()
 
 				local v=nodes.tab[l]
 				if v.def>v.num and it.num>v.def then
-					lines[#lines+1]={txt="Invade "..v.def,cmd="invade",dst=v}
+					lines[#lines+1]={txt="Grow some "..v.power.name,cmd="invade",dst=v}
 					lines[#lines].width=font.width(lines[#lines].txt)
 				end
 				
@@ -353,17 +430,20 @@ nodes.draw=function()
 					
 						it.num=it.num+1
 						mon.gold=mon.gold-over.gold
-						mon.atk=mon.atk+1
-						
-						mon.def=mon.def+1
-						mon.spd=mon.spd+1
-						mon.hitmax=mon.hitmax+1
+						mon.update_stats()
 						mon.hit=mon.hitmax
-						stats.print("Umon increased their stats for "..over.gold.." gold")
+						stats.print("Umon improved their "..it.power.name.." for "..over.gold.." gold")
 					
 						
 					elseif over.cmd=="invade" then
-					
+
+						local d=over.dst
+						d.num=0
+						it.num=it.num-d.def
+						d.def=0
+						mon.update_stats()
+						mon.hit=mon.hitmax
+						stats.print("Umon grew some "..d.power.name.." but lost some "..it.power.name)
 					end
 					
 				end

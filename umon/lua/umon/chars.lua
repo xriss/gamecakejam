@@ -198,8 +198,11 @@ end
 
 chars.goto_fight=function()
 
-	chars.tab={}	
-	local m=8
+	chars.tab={}
+	
+	local r=mon.rank
+	local m=r
+	if m>12 then m=12 end
 	for i=1,m do
 		chars.add{
 			px=400-i*50,py=8*3,
@@ -207,11 +210,11 @@ chars.goto_fight=function()
 			char=1+(m-i)*8,
 			count=((i*8)%64)/64,
 			anim="idle",
-			atk=1+m-i,
-			def=1+m-i,
-			spd=1+m-i,
-			hit=1+m-i,
-			gold=1+m-i,
+			atk=1+r-i,
+			def=1+r-i,
+			spd=1+r-i,
+			hit=1+r-i,
+			gold=1+r-i,
 			name=names[1+m-i],
 		}
 	end
