@@ -81,12 +81,12 @@ fight.attack=function(it,et)
 	
 	et.hit=et.hit-ad
 	
-	local s=it.name.." hits "..et.name.." for "..ad.." damage "
+	local s=it.name.." terrifies "..et.name.." for "..ad.." sanity "
 
 	if et.hit<=0 then
 		et.hit=0
 
-		s=it.name.." knocks out "..et.name
+		s=it.name.." shocks "..et.name
 		
 		if it.name=="umon" then -- loot
 		

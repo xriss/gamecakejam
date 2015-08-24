@@ -164,7 +164,7 @@ nodes.setup=function()
 		num=0,def=7,
 		flava="base",
 		icon=7,
-		links={2,4},
+		links={2,4,9},
 	}
 
 	nodes.add{
@@ -182,7 +182,7 @@ nodes.setup=function()
 		num=0,def=2,
 		flava="base",
 		icon=2,
-		links={2,6,7},
+		links={2,6,7,9},
 	}
 
 	nodes.add{
@@ -208,7 +208,15 @@ nodes.setup=function()
 		num=0,def=3,
 		flava="base",
 		icon=3,
-		links={5,6},
+		links={5,6,9},
+	}
+	
+		nodes.add{
+		px=350,py=220,
+		num=0,def=9,
+		flava="base",
+		icon=9,
+		links={3,5,8},
 	}
 
 end
