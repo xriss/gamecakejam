@@ -32,6 +32,7 @@ M.bake=function(oven,main)
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 
 	local draw_screen=oven.rebake(oven.modgame..".draw_screen")
+	local beep=oven.rebake(oven.modgame..".beep")
 	
 main.loads=function()
 
@@ -70,7 +71,8 @@ main.loads=function()
 
 	})
 	
-	
+	beep.loads()
+
 end
 		
 main.setup=function()

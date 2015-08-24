@@ -38,6 +38,7 @@ M.bake=function(oven,mon)
 	local world=oven.rebake(oven.modgame..".world")
 	local nodes=oven.rebake(oven.modgame..".nodes")
 	
+	local beep=oven.rebake(oven.modgame..".beep")
 	
 local char={} ; char.__index=char
 
@@ -144,6 +145,7 @@ mon.update=function()
 			it.vx=-1
 			it.vy=-6
 
+			beep.play("die")
 		end
 	end
 	

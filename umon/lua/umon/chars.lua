@@ -36,6 +36,8 @@ M.bake=function(oven,chars)
 	local mon=oven.rebake(oven.modgame..".mon")
 	local fight=oven.rebake(oven.modgame..".fight")
 
+	local beep=oven.rebake(oven.modgame..".beep")
+
 local names={
 
 	"Lilu",
@@ -132,6 +134,12 @@ char.update=function(it)
 				it.anim="die"
 				it.vx=1
 				it.vy=-6
+				
+				if math.random(2)==1 then
+					beep.play("kill1")
+				else
+					beep.play("kill2")
+				end
 
 			end
 		end
