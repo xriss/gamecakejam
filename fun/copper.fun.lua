@@ -21,35 +21,42 @@ hardware={
 		fps=60,
 	},
 	{
+		component="tiles",
+		name="tiles",
+		tile_size={8,8},
+		bitmap_size={16,16},
+	},
+	{
+		component="tiles",
+		name="font",
+		tile_size={4,8},
+		bitmap_size={128,1},
+	},
+	{
 		component="copper",
 		name="copper",
 		size={hx,hy},
 	},
 	{
 		component="tilemap",
-		name="tiles",
-		tile_size={8,8},
-		bitmap_size={16,16},
+		name="map",
+		tiles="tiles",
 		tilemap_size={math.ceil(hx/8),math.ceil(hy/8)},
 	},
 	{
 		component="sprites",
 		name="sprites",
-		tile_size={8,8},
-		bitmap_size={16,16},
+		tiles="tiles",
 	},
 	{
 		component="tilemap",
 		name="text",
-		tile_size={4,8},
-		bitmap_size={128,4},
+		tiles="font",
 		tilemap_size={math.ceil(hx/4),math.ceil(hy/8)},
 	},
 }
 
-
 local tiles={}
-local sprites={}
 local maps={}
 
 local tilemap={
@@ -74,7 +81,7 @@ local tilemap={
 }
 
 
-tiles[0]=[[
+tiles[0x0000]=[[
 . . . . . . . . 
 . . . . . . . . 
 . . . . . . . . 
@@ -84,7 +91,7 @@ tiles[0]=[[
 . . . . . . . . 
 . . . . . . . . 
 ]]
-tiles[1]=[[
+tiles[0x0001]=[[
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
@@ -94,7 +101,7 @@ tiles[1]=[[
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
 ]]
-tiles[2]=[[
+tiles[0x0002]=[[
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
@@ -104,7 +111,7 @@ tiles[2]=[[
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
 ]]
-tiles[3]=[[
+tiles[0x0003]=[[
 7 7 7 7 7 7 7 7 
 7 0 0 0 0 0 0 7 
 7 0 0 0 0 0 0 7 
@@ -115,7 +122,7 @@ tiles[3]=[[
 7 7 7 7 7 7 7 7 
 ]]
 
-sprites[0]=[[
+tiles[0x0100]=[[
 . . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
 . . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
 . . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
@@ -183,8 +190,10 @@ function main(need)
 
 
 -- cache components in locals for less typing
-	local ccopper  = system.components.copper
 	local ctiles   = system.components.tiles
+	local cfont    = system.components.font
+	local ccopper  = system.components.copper
+	local cmap     = system.components.map
 	local csprites = system.components.sprites
 	local ctext    = system.components.text
 
@@ -192,14 +201,13 @@ function main(need)
 
 
 -- copy font data
-	ctext.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
+	cfont.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
 
 -- copy image data
-	bitdown.pixtab_grd( tiles,    bitdown.cmap, ctiles.bitmap_grd   )
-	bitdown.pixtab_grd( sprites,  bitdown.cmap, csprites.bitmap_grd )
+	bitdown.pixtab_tiles( tiles,    bitdown.cmap, ctiles   )
 
 -- screen
-	bitdown.pix_grd(    maps[0],  tilemap,      ctiles.tilemap_grd  )--,0,0,48,32)
+	bitdown.pix_grd(    maps[0],  tilemap,      cmap.tilemap_grd  )--,0,0,48,32)
 	
 -- test text
 	local tx=[[
@@ -221,7 +229,7 @@ Fun is the enjoyment of pleasure, particularly in leisure activities. Fun is an 
 			ctext.px=(ctext.px+1)%360 -- scroll text position
 			
 			csprites.list_reset()
-			csprites.list_add({t=0,h=24,px=100,py=100,rz=ctext.px})
+			csprites.list_add({t=0x0100,h=24,px=100,py=100,rz=ctext.px})
 
 		end
 		if need.clean then done=true end -- cleanup requested

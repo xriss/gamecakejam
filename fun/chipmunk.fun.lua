@@ -23,36 +23,45 @@ hardware={
 		fps=60,
 	},
 	{
+		component="tiles",
+		name="tiles",
+		tile_size={8,8},
+		bitmap_size={16,16},
+	},
+	{
+		component="tiles",
+		name="font",
+		tile_size={4,8},
+		bitmap_size={128,1},
+	},
+	{
 		component="copper",
 		name="copper",
 		size={hx,hy},
 	},
 	{
 		component="tilemap",
-		name="tiles",
-		tile_size={8,8},
-		bitmap_size={16,16},
+		name="map",
+		tiles="tiles",
 		tilemap_size={math.ceil(hx/8),math.ceil(hy/8)},
 	},
 	{
 		component="sprites",
 		name="sprites",
-		tile_size={8,8},
-		bitmap_size={16,16},
+		tiles="tiles",
 	},
 	{
 		component="tilemap",
 		name="text",
-		tile_size={4,8},
-		bitmap_size={128,4},
+		tiles="font",
 		tilemap_size={math.ceil(hx/4),math.ceil(hy/8)},
 	},
 }
 
 
 local tiles={}
-local sprites={}
 local maps={}
+
 
 local tilemap={
 	[0]={0,0,0,0},
@@ -75,8 +84,7 @@ local tilemap={
 	["F "]={ 15,  0,  0,  0,	solid=1},
 }
 
-
-tiles[0]=[[
+tiles[0x0000]=[[
 . . . . . . . . 
 . . . . . . . . 
 . . . . . . . . 
@@ -86,7 +94,7 @@ tiles[0]=[[
 . . . . . . . . 
 . . . . . . . . 
 ]]
-tiles[1]=[[
+tiles[0x0001]=[[
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
@@ -96,7 +104,7 @@ tiles[1]=[[
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
 ]]
-tiles[2]=[[
+tiles[0x0002]=[[
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
@@ -106,7 +114,7 @@ tiles[2]=[[
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
 ]]
-tiles[3]=[[
+tiles[0x0003]=[[
 7 7 7 7 7 7 7 7 
 7 0 0 0 0 0 0 7 
 7 0 0 0 0 0 0 7 
@@ -117,7 +125,7 @@ tiles[3]=[[
 7 7 7 7 7 7 7 7 
 ]]
 
-sprites[0]=[[
+tiles[0x0100]=[[
 . . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
 . . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
 . . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
@@ -174,8 +182,7 @@ maps[0]=[[
 1 . . . 1 1 . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1  
 1 1 . . 1 1 . . . . 1 1 1 . . . . . 1 . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . 1  
 1 1 . . 1 1 . . . 1 1 2 1 1 . . . . 1 1 . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . 1 
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-]]
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ]]
 
 
 
@@ -185,8 +192,10 @@ function main(need)
 
 
 -- cache components in locals for less typing
-	local ccopper  = system.components.copper
 	local ctiles   = system.components.tiles
+	local cfont    = system.components.font
+	local ccopper  = system.components.copper
+	local cmap     = system.components.map
 	local csprites = system.components.sprites
 	local ctext    = system.components.text
 
@@ -194,14 +203,13 @@ function main(need)
 
 
 -- copy font data
-	ctext.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
+	cfont.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
 
 -- copy image data
-	bitdown.pixtab_grd( tiles,    bitdown.cmap, ctiles.bitmap_grd   )
-	bitdown.pixtab_grd( sprites,  bitdown.cmap, csprites.bitmap_grd )
+	bitdown.pixtab_tiles( tiles,    bitdown.cmap, ctiles   )
 
 -- screen
-	bitdown.pix_grd(    maps[0],  tilemap,      ctiles.tilemap_grd  )--,0,0,40,30)--,0,0,48,32)
+	bitdown.pix_grd(    maps[0],  tilemap,      cmap.tilemap_grd  )--,0,0,48,32)
 
 -- map for collision etc
 	local map=bitdown.pix_tiles(  maps[0],  tilemap )
@@ -238,46 +246,11 @@ function main(need)
 					local shape=space.static:shape("box",box[1],box[2],box[3],box[4],1)
 					shape:friction(tile.solid)
 					shape:elasticity(tile.solid)
-					shape:filter(0,flags,0xffffffff) -- we use 4 bits to mark soft edges 
-					shape:collision_type(0x1001) -- used for softedge tiles
 				end
 			end
 
 		end
 	end
-	space:add_handler({
-		presolve=function(it)
---			if it.normal_y <0 then return false end
-
-			local _,flags,_=it.shape_a:filter()
-			local n=tardis.v2.new(it.normal_x,it.normal_y)
-			
---			print("presolve",flags,it.shape_a,it.shape_b,it.normal_x,it.normal_y)
-
-			if bit.band(flags,1)==1 then
-				if n[1]<=0 then n[1]=0 end
-			end
-			if bit.band(flags,2)==2 then
-				if n[2]<=0 then n[2]=0 end
-			end
-			if bit.band(flags,4)==4 then
-				if n[1]>=0 then n[1]=0 end
-			end
-			if bit.band(flags,8)==8 then
-				if n[2]>=0 then n[2]=0 end
-			end
-			
-			if n:len()<1/256 then return false end
-			
-			n:normalize()
-
-			it.normal_x=n[1]
-			it.normal_y=n[2]
-			
-			return true
-		end,
-	},0x1001) -- softedge tiles
-
 	
 	local players={}
 	local players_colors={30,14,18,7,3,22}
@@ -364,7 +337,7 @@ function main(need)
 				if p.active then
 					local px,py=p.body:position()
 					local rz=p.body:angle()
-					csprites.list_add({t=0,h=24,px=px,py=py,rz=180*rz/math.pi,r=p.color.r,g=p.color.g,b=p.color.b,a=p.color.a})
+					csprites.list_add({t=0x0100,h=24,px=px,py=py,rz=180*rz/math.pi,r=p.color.r,g=p.color.g,b=p.color.b,a=p.color.a})
 				end
 			end
 		end

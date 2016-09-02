@@ -21,7 +21,19 @@ hardware={
 		bloom=0.75,
 		filter="scanline",
 		scale=ss,
-		fps=fps,
+		fps=60,
+	},
+	{
+		component="tiles",
+		name="tiles",
+		tile_size={8,8},
+		bitmap_size={16,16},
+	},
+	{
+		component="tiles",
+		name="font",
+		tile_size={4,8},
+		bitmap_size={128,1},
 	},
 	{
 		component="copper",
@@ -30,30 +42,27 @@ hardware={
 	},
 	{
 		component="tilemap",
-		name="tiles",
-		tile_size={8,8},
-		bitmap_size={16,16},
+		name="map",
+		tiles="tiles",
 		tilemap_size={math.ceil(hx/8),math.ceil(hy/8)},
 	},
 	{
 		component="sprites",
 		name="sprites",
-		tile_size={8,8},
-		bitmap_size={16,16},
+		tiles="tiles",
 	},
 	{
 		component="tilemap",
 		name="text",
-		tile_size={4,8},
-		bitmap_size={128,4},
+		tiles="font",
 		tilemap_size={math.ceil(hx/4),math.ceil(hy/8)},
 	},
 }
 
 
 local tiles={}
-local sprites={}
 local maps={}
+
 
 local tilemap={
 	[0]={0,0,0,0},
@@ -80,7 +89,7 @@ local tilemap={
 }
 
 
-tiles[0]=[[
+tiles[0x0000]=[[
 . . . . . . . . 
 . . . . . . . . 
 . . . . . . . . 
@@ -90,7 +99,7 @@ tiles[0]=[[
 . . . . . . . . 
 . . . . . . . . 
 ]]
-tiles[1]=[[
+tiles[0x0001]=[[
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
@@ -100,7 +109,7 @@ tiles[1]=[[
 1 1 1 1 1 1 1 1 
 1 1 1 1 1 1 1 1 
 ]]
-tiles[2]=[[
+tiles[0x0002]=[[
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
@@ -110,7 +119,7 @@ tiles[2]=[[
 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 
 ]]
-tiles[3]=[[
+tiles[0x0003]=[[
 7 7 7 7 7 7 7 7 
 7 0 0 0 0 0 0 7 
 7 0 0 0 0 0 0 7 
@@ -141,7 +150,7 @@ tiles[0x0101]=[[
 . . . . . . . . 
 ]]
 
-sprites[0x0000]=[[
+tiles[0x0200]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
 . . . . . . . . . 7 2 7 7 1 7 . . . . . . . . . 
@@ -167,7 +176,7 @@ sprites[0x0000]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 ]]
-sprites[0x0001]=[[
+tiles[0x0203]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
 . . . . . . . . . 7 2 7 7 1 7 . . . . . . . . . 
@@ -193,7 +202,7 @@ sprites[0x0001]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 ]]
-sprites[0x0002]=[[
+tiles[0x0206]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
 . . . . . . . . . 7 2 7 7 1 7 . . . . . . . . . 
@@ -220,7 +229,7 @@ sprites[0x0002]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 ]]
 
-sprites[0x0003]=[[
+tiles[0x0209]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -247,7 +256,7 @@ sprites[0x0003]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 ]]
 
-sprites[0x0300]=[[
+tiles[0x0500]=[[
 . . . . . . . . 
 . . Y Y Y Y . . 
 . Y Y 7 7 Y Y . 
@@ -292,36 +301,34 @@ maps[0]=[[
 ]]
 
 
-
 function main(need)
 
 	if not need.setup then need=coroutine.yield() end -- wait for setup request (should always be first call)
-
--- cache components in locals for less typing
-	local ccopper  = system.components.copper
-	local ctiles   = system.components.tiles
-	local csprites = system.components.sprites
-	local ctext    = system.components.text
-
-
 
 	local game_time=0
 	local start_time -- set when we add a player
 	local finish_time -- set when all loot is collected
 
+-- cache components in locals for less typing
+	local ctiles   = system.components.tiles
+	local cfont    = system.components.font
+	local ccopper  = system.components.copper
+	local cmap     = system.components.map
+	local csprites = system.components.sprites
+	local ctext    = system.components.text
+
 --	ccopper.shader_name="fun_copper_back_noise"
 
 
 -- copy font data
-	ctext.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
-	ctext.py=-1 --better y spaceing of text
+	cfont.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
 
 -- copy image data
-	bitdown.pixtab_grd( tiles,    bitdown.cmap, ctiles.bitmap_grd   )
-	bitdown.pixtab_grd( sprites,  bitdown.cmap, csprites.bitmap_grd )
+	bitdown.pixtab_tiles( tiles,    bitdown.cmap, ctiles   )
 
 -- screen
-	bitdown.pix_grd(    maps[0],  tilemap,      ctiles.tilemap_grd  )--,0,0,40,30)--,0,0,48,32)
+	bitdown.pix_grd(    maps[0],  tilemap,      cmap.tilemap_grd  )--,0,0,48,32)
+
 
 -- map for collision etc
 	local map=bitdown.pix_tiles(  maps[0],  tilemap )
@@ -449,7 +456,7 @@ function main(need)
 				local item={}
 				items[#items+1]=item
 				
-				item.sprite=0x0003
+				item.sprite=0x0209
 
 				item.active=true
 				item.body=space:body(2,2)
@@ -489,7 +496,7 @@ function main(need)
 			p.body.headroom={}
 			
 			p.frame=0
-			p.frames={0x0000,0x0001,0x0000,0x0002}
+			p.frames={0x0200,0x0203,0x0200,0x0206}
 
 			p.shapes={}
 --			p.shapes[1]=p.body:shape("circle",3,0,-5)
@@ -655,7 +662,7 @@ function main(need)
 					
 					local b=math.sin( (game_time*8 + (loot.px+loot.py)/16 ) )*2
 
-					csprites.list_add({t=0x0300,h=8,px=loot.px,py=loot.py+b})
+					csprites.list_add({t=0x0500,h=8,px=loot.px,py=loot.py+b})
 					
 					if loot.player then
 						loot.player.score=loot.player.score+1

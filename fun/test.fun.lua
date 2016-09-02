@@ -205,7 +205,7 @@ function main(need)
 	cfont.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
 
 -- copy image data
-	bitdown.pixtab_grd( tiles,    bitdown.cmap, ctiles.bitmap_grd   )
+	bitdown.pixtab_tiles( tiles,    bitdown.cmap, ctiles   )
 
 -- screen
 	bitdown.pix_grd(    maps[0],  tilemap,      cmap.tilemap_grd  )--,0,0,48,32)
