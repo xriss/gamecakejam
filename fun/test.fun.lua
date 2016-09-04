@@ -191,7 +191,7 @@ function main(need)
 	if not need.setup then need=coroutine.yield() end -- wait for setup request (should always be first call)
 
 	local sounds=oven.cake.sounds
-	local s=bitsynth.sound.fm_wav({
+	local s=bitsynth.sound.simple_fm({
 		fwav="sine",
 		frequency="C4",
 		adsr={ 0.50 , 0.00 , 0.50 , 0.50 , 0.50 },
