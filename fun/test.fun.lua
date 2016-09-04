@@ -22,6 +22,9 @@ hardware={
 		fps=60,
 	},
 	{
+		component="sfx",
+	},
+	{
 		component="tiles",
 		name="tiles",
 		tile_size={8,8},
@@ -190,24 +193,6 @@ function main(need)
 
 	if not need.setup then need=coroutine.yield() end -- wait for setup request (should always be first call)
 
-	local sounds=oven.cake.sounds
-	local s=bitsynth.sound.simple_fm({
-		fwav="sine",
-		frequency="C4",
-		adsr={ 0.50 , 0.00 , 0.50 , 0.50 , 0.50 },
-		fm={
-			fwav="square",
-			frequency=8,
-			frange=function(v,t) return bitsynth.note2freq("C3")+v*10+t*100 end,
---			ffix=function(v,t) return v-(t*512) end,
-		},
-	})
-	local t=bitsynth.render(s)
-	t=bitsynth.float_to_16bit(t)
-	sounds.load_wavtab( t,"beep1",bitsynth.frequency)
-
-	sounds.beep( sounds.get("beep1") )
-
 -- cache components in locals for less typing
 	local ctiles   = system.components.tiles
 	local cfont    = system.components.font
@@ -215,6 +200,24 @@ function main(need)
 	local cmap     = system.components.map
 	local csprites = system.components.sprites
 	local ctext    = system.components.text
+	local csfx     = system.components.sfx
+
+-- render sound effects
+
+	csfx.render(bitsynth.sound.simple_fm({
+		name="beep1",
+		fwav="sine",
+		frequency="C4",
+		adsr={ 0.50 , 0.00 , 0.50 , 0.50 , 0.50 },
+		fm={
+			fwav="square",
+			frequency=8,
+			frange=function(v,t) return bitsynth.note2freq("C3")+v*10+t*100 end,
+		},
+	}))
+
+-- test the noise
+	csfx.play("beep1")
 
 --	ccopper.shader_name="fun_copper_back_noise"
 
