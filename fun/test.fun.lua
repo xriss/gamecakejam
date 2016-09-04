@@ -6,6 +6,7 @@ local tardis=require("wetgenes.tardis")	-- matrix/vector math
 local bitdown=require("wetgenes.gamecake.fun.bitdown")
 local bitdown_font_4x8=require("wetgenes.gamecake.fun.bitdown_font_4x8")
 
+local bitsynth=require("wetgenes.gamecake.fun.bitsynth")
 
 
 local hx,hy,ss=360,240,3
@@ -189,6 +190,30 @@ function main(need)
 
 	if not need.setup then need=coroutine.yield() end -- wait for setup request (should always be first call)
 
+	local sounds=oven.cake.sounds
+	local s=bitsynth.sound.fm_wav({
+		fwav="sine",
+		frequency="C4",
+		sustain_value=0.50,
+		attack_time  =0.00,
+		decay_time   =0.50,
+		sustain_time =0.50,
+		release_time =0.50,
+		fm={
+			fwav="square",
+			frequency=8,
+			range=function(v,t) return bitsynth.note2freq("C3")+v*10+t*100 end,
+--			frequency_low= "C4",
+--			frequency_mid= "D4",
+--			frequency_high="F4",
+--			fix=function(v,t) return v-(t*512) end,
+		},
+	})
+	local t=bitsynth.render(s)
+	t=bitsynth.float_to_16bit(t)
+	sounds.load_wavtab( t,"beep1",bitsynth.frequency)
+
+	sounds.beep( sounds.get("beep1") )
 
 -- cache components in locals for less typing
 	local ctiles   = system.components.tiles
