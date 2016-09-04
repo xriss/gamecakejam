@@ -194,19 +194,12 @@ function main(need)
 	local s=bitsynth.sound.fm_wav({
 		fwav="sine",
 		frequency="C4",
-		sustain_value=0.50,
-		attack_time  =0.00,
-		decay_time   =0.50,
-		sustain_time =0.50,
-		release_time =0.50,
+		adsr={ 0.50 , 0.00 , 0.50 , 0.50 , 0.50 },
 		fm={
 			fwav="square",
 			frequency=8,
-			range=function(v,t) return bitsynth.note2freq("C3")+v*10+t*100 end,
---			frequency_low= "C4",
---			frequency_mid= "D4",
---			frequency_high="F4",
---			fix=function(v,t) return v-(t*512) end,
+			frange=function(v,t) return bitsynth.note2freq("C3")+v*10+t*100 end,
+--			ffix=function(v,t) return v-(t*512) end,
 		},
 	})
 	local t=bitsynth.render(s)
