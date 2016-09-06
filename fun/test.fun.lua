@@ -206,7 +206,7 @@ function main(need)
 
 	csfx.render(bitsynth.sound.simple_fm({
 		name="beep1",
-		fwav="sine",
+		fwav="square",
 		frequency="C4",
 		adsr={ 0.50 , 0.00 , 0.50 , 0.50 , 0.50 },
 		fm={
@@ -217,7 +217,7 @@ function main(need)
 	}))
 
 -- test the noise
-	csfx.play("beep1")
+	csfx.play("beep1",1,1)
 
 --	ccopper.shader_name="fun_copper_back_noise"
 
