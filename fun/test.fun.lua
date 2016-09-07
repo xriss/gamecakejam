@@ -223,7 +223,7 @@ function main(need)
 
 
 -- copy font data
-	cfont.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask:pixels(0,0,128*4,8,"") )
+	cfont.bitmap_grd:pixels(0,0,128*4,8, bitdown_font_4x8.grd_mask )
 
 -- copy image data
 	bitdown.pixtab_tiles( tiles,    bitdown.cmap, ctiles   )
