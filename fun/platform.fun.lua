@@ -68,8 +68,8 @@ local tilemap={
 	[0]={0,0,0,0},
 
 	[". "]={  0,  0,  0,  0},
-	["1 "]={  1,  0,  0,  0,	solid=1, really_solid=1},
-	["2 "]={  2,  0,  0,  0,	solid=1},
+	["1 "]={  1,  0,  0,  0,	solid=1},
+	["2 "]={  2,  0,  0,  0,	solid=1,dense=1},
 	["3 "]={  3,  0,  0,  0,	solid=0},
 	["4 "]={  4,  0,  0,  0,	solid=1},
 	["5 "]={  5,  0,  0,  0,	solid=1},
@@ -268,36 +268,36 @@ tiles[0x0500]=[[
 ]]
 
 maps[0]=[[
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . ? . ? . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . . . . . . . 1 
-1 . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . ? . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . ? . ? . . . 1 
-1 . . . ? . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 1 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . 1 . . ? . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-1 . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . 1 1 1 1 1 1 . . . . . . . . ? . . . 1 . . . . $ . . . . . . $ . . . . . . $ . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . . . 1 . . . . . 1 . . . . . . 1 1 
-1 . . . . . . . . . . . . . . . . . . . . . $ $ . . . . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-1 . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . $ . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . $ . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . 1 . . . . . 1 . . . . . . . . . 1 . . . . . . . . . ? . . . . . $ . . . . . . . . . . . . . . 1 
-1 . . . 1 1 . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . $ . . . . . . . . . . . . 1  
-1 1 . . 1 1 . . . . 1 1 1 . . . . . 1 . . . . . . . . . . . 1 1 1 . . . . . . . . $ . . . . . . . . . . 1  
-1 1 . . 1 1 . . . 1 1 1 1 1 . . . . 1 1 . . . . . . . . . . 1 1 1 . . . . . . . . . . . . . . . . . . . 1 
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . ? . ? . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . . . . . . . 2 
+2 . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . ? . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . ? . ? . . . 2 
+2 . . . ? . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 1 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . 1 . . ? . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 
+2 . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . 1 1 1 1 1 1 . . . . . . . . ? . . . 1 . . . . $ . . . . . . $ . . . . . . $ . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . . . 1 . . . . . 1 . . . . . . 1 2 
+2 . . . . . . . . . . . . . . . . . . . . . $ $ . . . . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 
+2 . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . $ . . . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . . $ . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
+2 . . . . 1 . . . . . 1 . . . . . . . . . 1 . . . . . . . . 1 1 1 . . . . $ . . . . . . . . . . . . . . 2 
+2 . . . 1 1 . . . . . 1 . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . $ . . . . . . . . . . . . 2  
+2 1 . . 1 1 . . . . 1 1 1 . . . . . 1 . . . . . . . . . . . 1 1 1 . . . . . . . . $ . . . . . . . . . . 2  
+2 1 . . 1 1 . . . 1 1 1 1 1 . . . . 1 1 . . . . . . . . . . 1 1 1 . . . . . . . . . . . . . . . . . . . 2 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 ]]
 
 
@@ -332,83 +332,212 @@ function main(need)
 
 -- map for collision etc
 	local map=bitdown.pix_tiles(  maps[0],  tilemap )
-			
+		
 	local space=chipmunk.space()
 	space:gravity(0,700)
 	space:damping(0.5)
 
 -- this stops sticky internal edges, probably breaks some other stuff...
-	space:collision_slop(0.1)
-	space:collision_bias(0)
-	space:iterations(10)
+--	space:collision_slop(0.1)
+--	space:collision_bias(0)
+--	space:iterations(10)
 	
-	local tile_is_sold=function(x,y)
+	local tile_get=function(x,y,member)
 		local l=map[y] if not l then return false end
 		local c=l[x] if not c then return false end
-		if c.solid then return true end
-		return false
+		if member then return c[member] else return c end -- return the tile or a member
+	end
+
+	local tile_cmp=function(x,y,member,value)
+		local l=map[y] if not l then return true end -- outer space compares true with anything
+		local c=l[x] if not c then return true end
+		return (c[member]==value)
+	end
+
+	local tile_is_solid=function(x,y)
+		local l=map[y] if not l then return true end -- outer space is solid
+		local c=l[x] if not c then return true end
+		return c.solid and true or false
 	end
 	
-	for y,line in pairs(map) do
-		for x,tile in pairs(line) do
+-- go through and flag x/y prefered link status of each solid tile
+-- we use flow>=0 for x and flow<=0 for y and flow==nil for an empty space
 
-			if tile.solid then
-				local flags=0
-				if not tile_is_sold(x-1,y) then flags=flags+1 end
-				if not tile_is_sold(x,y-1) then flags=flags+2 end
-				if not tile_is_sold(x+1,y) then flags=flags+4 end
-				if not tile_is_sold(x,y+1) then flags=flags+8 end
+	for y,line in pairs(map) do for x,tile in pairs(line) do
+		if tile.dense then
+			tile.link=0
+			tile.flow=0
+			tile.coll="dense"
+		elseif tile.solid then			
+			tile.link=0
+			tile.flow=0
+			if tile_is_solid(x,y-1) or tile_is_solid(x,y+1) then -- a solid tile with another solid tile above/below becomes dense
+				tile.coll="dense"
+			else
+				tile.coll="solid"
+			end
+		end
+	end end
+	for y,line in pairs(map) do for x,tile in pairs(line) do
+		if tile.flow then
+			if not tile_cmp(x-1,y,"coll",tile.coll) then
+				tile.flow=tile.flow-1
+			end
+			if not tile_cmp(x+1,y,"coll",tile.coll) then
+				tile.flow=tile.flow-1
+			end
+			if not tile_cmp(x,y-1,"coll",tile.coll) then
+				tile.flow=tile.flow+1
+			end
+			if not tile_cmp(x,y+1,"coll",tile.coll) then
+				tile.flow=tile.flow+1
+			end
+		end
+	end end
 
-				if flags~=0 then -- ignore enclosed solids
-				
-					local shape=space.static:shape("box",x*8,y*8,(x+1)*8,(y+1)*8,0)
---					local shape=space.static:shape("box",x*8-1,y*8-1,(x+1)*8+1,(y+1)*8+1,0)
-					shape:friction(tile.solid)
-					shape:elasticity(tile.solid)
-					shape:filter(0,flags,0xffffffff) -- we use 4 bits to mark soft edges 
-					shape:collision_type(0x1001) -- used for softedge tiles
-					shape.cx=x
-					shape.cy=y
+	for y,line in pairs(map) do for x,tile in pairs(line) do
+		if tile.flow then
+			if tile.flow<0 and tile.link==0 then -- this tile really wants to link up/down so grab all tiles
+				tile.link=-1
+				for ny=y-1,0,-1 do
+					local ts=tile_get(x,ny)
+					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow<=0 then -- one of us
+						ts.link=-1
+					else break end
+				end
+				for ny=y+1,#map,1 do
+					local ts=tile_get(x,ny)
+					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow<=0 then -- one of us
+						ts.link=-1
+					else break end
 				end
 			end
+		end
+	end end
 
+	for y,line in pairs(map) do for x,tile in pairs(line) do
+		if tile.flow then
+			if tile.flow>0 and tile.link==0 then -- this tile really wants to link left/right so grab all tiles
+				tile.link=1
+				for nx=x-1,0,-1 do
+					local ts=tile_get(nx,y)
+					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow>=0 then -- one of us
+						ts.link=1
+					else break end
+				end
+				for nx=x+1,#line,1 do
+					local ts=tile_get(nx,y)
+					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow>=0 then -- one of us
+						ts.link=1
+					else break end
+				end
+			end
+		end
+	end end
+
+-- glob the rest together any old how
+	for y,line in pairs(map) do for x,tile in pairs(line) do
+		if tile.flow then
+			for _,d in ipairs{ {-1,0,1} , {1,0,1} , {0,-1,-1} , {0,1,-1} } do
+				if tile.link==0 then
+					local ts=tile_get(x+d[1],y+d[2])
+					if ts and ts.coll==tile.coll and ts.link==0 or ts.link==d[3] then
+						tile.link=d[3]
+						ts.link=d[3]
+					end
+				end
+			end
+		end
+	end end
+
+-- set parents of all runs
+	for y,line in pairs(map) do for x,tile in pairs(line) do
+		if tile.link==1 then
+			local ts=tile_get(x-1,y)
+			if ts and ts.coll==tile.coll and ts.link==1 then
+				tile.parent=ts
+				ts.child=tile
+			end
+		end
+		if tile.link==-1 then
+			local ts=tile_get(x,y-1)
+			if ts and ts.coll==tile.coll and ts.link==-1 then
+				tile.parent=ts
+				ts.child=tile
+			end
+		end
+	end end
+
+
+--debug dump of collision links
+--[[
+	for y,line in pairs(map) do
+		local s=""
+		for x,tile in pairs(line) do
+			if not tile.parent then
+				if     tile.link== 1 then s=s.."X "
+				elseif tile.link==-1 then s=s.."Y "
+				elseif tile.link== 0 then s=s.."0 "
+				else                      s=s..". "
+				end
+			else
+				if     tile.link== 1 then s=s.."x "
+				elseif tile.link==-1 then s=s.."y "
+				elseif tile.link== 0 then s=s.."o "
+				else                      s=s..". "
+				end
+			end
+		end
+		print(s)
+	end
+]]
+
+
+	for y,line in pairs(map) do
+		for x,tile in pairs(line) do
+			if tile.solid and (not tile.parent) then
+			
+				local l=1
+				local t=tile
+				while t.child do t=t.child l=l+1 end -- count lemgth of strip
+
+				local shape
+				
+				if     tile.link==1 then 
+					shape=space.static:shape("box",x*8,y*8,(x+l)*8,(y+1)*8,0)
+				elseif tile.link==-1 then 
+					shape=space.static:shape("box",x*8,y*8,(x+1)*8,(y+l)*8,0)
+				else
+					shape=space.static:shape("box",x*8,y*8,(x+1)*8,(y+1)*8,0)
+				end
+
+				shape:friction(tile.solid)
+				shape:elasticity(tile.solid)
+				shape.cx=x
+				shape.cy=y
+				shape.coll=tile.coll
+				shape:collision_type(0x1001) -- tile
+
+			end
 		end
 	end
+
 	space:add_handler({
 		presolve=function(it)
 
 --print(wstr.dump(it))
 			local points=it:points()
 
-			local _,flags,_=it.shape_a:filter()
-			local n=tardis.v2.new(points.normal_x,points.normal_y)
-
--- one we trigger headroom, we keep a table of headroom shapes and it is not reset until total separation
+-- once we trigger headroom, we keep a table of headroom shapes and it is not reset until total separation
 			if it.shape_b.in_body.headroom then
 				local headroom=false
 				for n,v in pairs(it.shape_b.in_body.headroom) do headroom=true break end -- still touching an old headroom shape?
-				if ( (n[2]>0) or headroom) and bit.band(flags,2)==2 then -- can only headroom through these tiles
+				if ( (points.normal_y>0) or headroom) and it.shape_a.coll~="dense" then -- can only headroom through non dense tiles
 					it.shape_b.in_body.headroom[it.shape_a]=true
 					return it:ignore()
 				end
 			end
 			
---			print("presolve",flags,it.shape_a,it.shape_b,it.normal_x,it.normal_y)
-
-			if bit.band(flags,1)==0 then if n[1]<=0 then n[1]=0 end end
-			if bit.band(flags,2)==0 then if n[2]<=0 then n[2]=0 end	end
-			if bit.band(flags,4)==0 then if n[1]>=0 then n[1]=0 end end
-			if bit.band(flags,8)==0 then if n[2]>=0 then n[2]=0 end end
-			
-			if n:len()<1/256 then return false end -- give up
-		
-			n:normalize()
-
-			points.normal_x=n[1]
-			points.normal_y=n[2]
-
-			it:points(points)
-
 			return true
 		end,
 		separate=function(it)
@@ -419,7 +548,7 @@ function main(need)
 	space:add_handler({
 		postsolve=function(it)
 			local points=it:points()
-			if points.normal_y>0.75 then -- on floor
+			if points.normal_y>0.25 then -- on floor
 				it.shape_a.in_body.floor_time=game_time
 			end
 			return true
@@ -610,11 +739,11 @@ function main(need)
 				end
 			end
 			
---			space:step(1/60)
-			space:step(0.25/fps)
-			space:step(0.25/fps)
-			space:step(0.25/fps)
-			space:step(0.25/fps)
+			space:step(1/fps)
+--			space:step(0.25/fps)
+--			space:step(0.25/fps)
+--			space:step(0.25/fps)
+--			space:step(0.25/fps)
 			game_time=game_time+1/fps
 
 --			ctext.px=(ctext.px+1)%360 -- scroll text position
