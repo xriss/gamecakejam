@@ -61,7 +61,13 @@ hardware={
 
 
 local tiles={}
+local names={} -- a name -> tile number lookup
 local maps={}
+
+local set_name_tile=function(name,tile,data)
+	names[name]=tile
+	tiles[tile]=data
+end
 
 
 local tilemap={
@@ -228,8 +234,7 @@ tiles[0x0206]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 ]]
-
-tiles[0x0209]=[[
+set_name_tile("cannon_ball",0x0209,[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -254,50 +259,50 @@ tiles[0x0209]=[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
-]]
+]])
 
 tiles[0x0500]=[[
 . . . . . . . . 
 . . Y Y Y Y . . 
-. Y Y 7 7 Y Y . 
-. Y 7 Y Y 7 Y . 
-. Y 7 Y Y 7 Y . 
-. Y Y 7 7 Y Y . 
+. Y Y 4 4 Y Y . 
+. Y 4 Y Y 4 Y . 
+. Y 4 Y Y 4 Y . 
+. Y Y 4 4 Y Y . 
 . . Y Y Y Y . . 
 . . . . . . . . 
 ]]
 
 maps[0]=[[
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . ? . ? . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . . . . . . . 2 
-2 . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . ? . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . ? . ? . . . 2 
-2 . . . ? . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 1 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . 1 . . ? . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 
-2 . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . 1 1 1 1 1 1 . . . . . . . . ? . . . 1 . . . . $ . . . . . . $ . . . . . . $ . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . . . 1 . . . . . 1 . . . . . . 1 2 
-2 . . . . . . . . . . . . . . . . . . . . . $ $ . . . . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 
-2 . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . $ . . . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . . . . . . . . . . . . . . $ . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 
-2 . . . . 1 . . . . . 1 . . . . . . . . . 1 . . . . . . . . 1 1 1 . . . . $ . . . . . . . . . . . . . . 2 
-2 . . . 1 1 . . . . . 1 . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . $ . . . . . . . . . . . . 2  
-2 1 . . 1 1 . . . . 1 1 1 . . . . . 1 . . . . . . . . . . . 1 1 1 . . . . . . . . $ . . . . . . . . . . 2  
-2 1 . . 1 1 . . . 1 1 1 1 1 . . . . 1 1 . . . . . . . . . . 1 1 1 . . . . . . . . . . . . . . . . . . . 2 
-2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . ? . ? . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . . . . . . . 1 
+1 . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . ? . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . ? . ? . . . 1 
+1 . . . ? . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 1 1 1 1 1 1 1 1 1 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . 1 . . ? . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+1 . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . 1 1 1 1 1 1 . . . . . . . . ? . . . 1 . . . . $ . . . . . . $ . . . . . . $ . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . . . 1 . . . . . 1 . . . . . . 1 1 
+1 . . . . . . . . . . . . . . . . . . . . . $ $ . . . . . . . . . . . . . . 1 . . . . . 1 . . . . . . 1 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+1 . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . $ . . . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . ? . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . . . . . . . . . . . . . . $ . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 . . . . 1 . . . . . 1 . . . . . . . . . 1 . . . . . . . . 1 1 1 . . . . $ . . . . . . . . . . . . . . 1 
+1 . . . 1 1 . . . . . 1 . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . . $ . . . . . . . . . . . . 1 
+1 1 . . 1 1 . . . . 1 1 1 . . . . . 1 . . . . . . . . . . . 1 1 1 . . . . . . . . $ . . . . . . . . . . 1 
+1 1 . . 1 1 . . . 1 1 1 1 1 . . . . 1 1 . . . . . . . . . . 1 1 1 . . . . . . . . . . . . . . . . . . . 1 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 ]]
 
 
@@ -343,7 +348,7 @@ function main(need)
 --	space:iterations(10)
 	
 	local tile_get=function(x,y,member)
-		local l=map[y] if not l then return false end
+		local l=map[y] if not l then return false end -- outer space returns nil 
 		local c=l[x] if not c then return false end
 		if member then return c[member] else return c end -- return the tile or a member
 	end
@@ -361,7 +366,6 @@ function main(need)
 	end
 	
 -- go through and flag x/y prefered link status of each solid tile
--- we use flow>=0 for x and flow<=0 for y and flow==nil for an empty space
 
 	for y,line in pairs(map) do for x,tile in pairs(line) do
 		if tile.dense then
@@ -378,6 +382,9 @@ function main(need)
 			end
 		end
 	end end
+
+-- we use flow>0 for x strips and flow<0 for y strips ( flow==nil for an empty space )
+
 	for y,line in pairs(map) do for x,tile in pairs(line) do
 		if tile.flow then
 			if not tile_cmp(x-1,y,"coll",tile.coll) then
@@ -394,6 +401,8 @@ function main(need)
 			end
 		end
 	end end
+
+-- try and make y strips
 
 	for y,line in pairs(map) do for x,tile in pairs(line) do
 		if tile.flow then
@@ -415,6 +424,8 @@ function main(need)
 		end
 	end end
 
+-- try and make x strips
+
 	for y,line in pairs(map) do for x,tile in pairs(line) do
 		if tile.flow then
 			if tile.flow>0 and tile.link==0 then -- this tile really wants to link left/right so grab all tiles
@@ -435,7 +446,8 @@ function main(need)
 		end
 	end end
 
--- glob the rest together any old how
+-- glob the rest together any old how we can
+
 	for y,line in pairs(map) do for x,tile in pairs(line) do
 		if tile.flow then
 			for _,d in ipairs{ {-1,0,1} , {1,0,1} , {0,-1,-1} , {0,1,-1} } do
@@ -450,7 +462,8 @@ function main(need)
 		end
 	end end
 
--- set parents of all runs
+-- set parents / child of each strip. The parent is the tile that will generate a collision strip
+
 	for y,line in pairs(map) do for x,tile in pairs(line) do
 		if tile.link==1 then
 			local ts=tile_get(x-1,y)
@@ -492,6 +505,7 @@ function main(need)
 	end
 ]]
 
+-- build each collision strip
 
 	for y,line in pairs(map) do
 		for x,tile in pairs(line) do
@@ -516,8 +530,9 @@ function main(need)
 				shape.cx=x
 				shape.cy=y
 				shape.coll=tile.coll
-				shape:collision_type(0x1001) -- tile
-
+				if tile.coll~="dense" then 
+					shape:collision_type(0x1001) -- a tile we can jump up through
+				end
 			end
 		end
 	end
@@ -532,7 +547,7 @@ function main(need)
 			if it.shape_b.in_body.headroom then
 				local headroom=false
 				for n,v in pairs(it.shape_b.in_body.headroom) do headroom=true break end -- still touching an old headroom shape?
-				if ( (points.normal_y>0) or headroom) and it.shape_a.coll~="dense" then -- can only headroom through non dense tiles
+				if ( (points.normal_y>0) or headroom) then -- can only headroom through non dense tiles
 					it.shape_b.in_body.headroom[it.shape_a]=true
 					return it:ignore()
 				end
@@ -543,7 +558,7 @@ function main(need)
 		separate=function(it)
 			if it.shape_b.in_body.headroom then it.shape_b.in_body.headroom[it.shape_a]=nil end
 		end
-	},0x1001) -- softedge tiles
+	},0x1001) -- background tiles we can jump up through
 
 	space:add_handler({
 		postsolve=function(it)
@@ -553,7 +568,7 @@ function main(need)
 			end
 			return true
 		end,
-	},0x2001) -- walking things
+	},0x2001) -- walking things (players)
 
 	space:add_handler({
 		presolve=function(it)
@@ -562,7 +577,7 @@ function main(need)
 			end
 			return false
 		end,
-	},0x3001) -- loot things
+	},0x3001) -- loot things (pickups)
 	
 	local loots={}
 	local items={}
@@ -585,7 +600,7 @@ function main(need)
 				local item={}
 				items[#items+1]=item
 				
-				item.sprite=0x0209
+				item.sprite=names.cannon_ball
 
 				item.active=true
 				item.body=space:body(2,2)
@@ -651,7 +666,7 @@ function main(need)
 		if need.update then
 		
 			for _,p in ipairs(players) do
-				local up=ups(p.idx) -- controls
+				local up=ups(p.idx) -- the controls for this player
 				
 				if not p.active then
 					if --[[up.button("up") or up.button("down") or up.button("left") or up.button("right") or]] up.button("fire") then
