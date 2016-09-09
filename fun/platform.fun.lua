@@ -274,7 +274,7 @@ tiles[0x0500]=[[
 
 maps[0]=[[
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 1 . . . . . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . ? . ? . ? . ? . . 1 
 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
 1 . . . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ? . . . . . . . 1 
@@ -343,7 +343,7 @@ function main(need)
 	space:damping(0.5)
 
 -- this stops sticky internal edges, probably breaks some other stuff...
---	space:collision_slop(0.1)
+--	space:collision_slop(0)
 --	space:collision_bias(0)
 --	space:iterations(10)
 	
@@ -565,6 +565,7 @@ function main(need)
 			local points=it:points()
 			if points.normal_y>0.25 then -- on floor
 				it.shape_a.in_body.floor_time=game_time
+				it.shape_a.in_body.floor=it.shape_b
 			end
 			return true
 		end,
@@ -642,18 +643,11 @@ function main(need)
 			p.frame=0
 			p.frames={0x0200,0x0203,0x0200,0x0206}
 
-			p.shapes={}
---			p.shapes[1]=p.body:shape("circle",3,0,-5)
---			p.shapes[2]=p.body:shape("circle",3,0, 0)
---			p.shapes[3]=p.body:shape("circle",3,0, 5)
-			p.shapes[1]=p.body:shape("box",-3,-8,3,8,0)
-
-			for i,v in ipairs(p.shapes) do
-				v:friction(0.0)
-				v:elasticity(0.0)
-				v:collision_type(0x2001) -- walker
-				v.player=p
-			end
+			p.shape=p.body:shape("segment",0,-4,0,4,4)
+			p.shape:friction(1)
+			p.shape:elasticity(0)
+			p.shape:collision_type(0x2001) -- walker
+			p.shape.player=p
 			
 			p.body.floor_time=0
 			if not start_time then start_time=game_time end -- when the game started
@@ -677,8 +671,11 @@ function main(need)
 				if p.active then
 				
 					local speed=60
+					local drift=20
 					
 					if game_time-p.body.floor_time < 0.125 then -- floor available recently
+
+						p.shape:friction(1)
 
 						if --[[up.button("up") or]] up.button("fire") then
 
@@ -698,50 +695,56 @@ function main(need)
 						if up.button("left") then
 							
 							local vx,vy=p.body:velocity()
-							if vx>0 then vx=0 elseif vx>-speed then vx=vx-12 end
-							p.body:velocity(vx,vy)
+							if vx>0 then p.body:velocity(0,vy) end
+							
+							p.shape:surface_velocity(speed,0)
+							if vx>-speed then p.body:apply_force(-speed,0,0,0) end
 							p.dir=-1
-							for i,v in ipairs(p.shapes) do v:friction(0) end
 							p.frame=p.frame+1
 							
 						elseif  up.button("right") then
 
 							local vx,vy=p.body:velocity()
-							if vx<0 then vx=0 elseif vx<speed then vx=vx+12 end
-							p.body:velocity(vx,vy)
+							if vx<0 then p.body:velocity(0,vy) end
+
+							p.shape:surface_velocity(-speed,0)
+							if vx<speed then p.body:apply_force(speed,0,0,0) end
 							p.dir= 1
-							for i,v in ipairs(p.shapes) do v:friction(0) end
 							p.frame=p.frame+1
 
 						else
 
-							for i,v in ipairs(p.shapes) do v:friction(1) end
+							p.shape:surface_velocity(0,0)
 
 						end
 						
 					else -- in air
 
+						p.shape:friction(0)
+
 						if up.button("left") then
 							
 							local vx,vy=p.body:velocity()
-							if vx>0 then vx=0 elseif vx>-speed then vx=vx-3 end
-							p.body:velocity(vx,vy)
+							if vx>0 then p.body:velocity(0,vy) end
+
+							if vx>-speed then p.body:apply_force(-speed,0,0,0) end
+							p.shape:surface_velocity(speed,0)
 							p.dir=-1
-							for i,v in ipairs(p.shapes) do v:friction(0) end
 							p.frame=p.frame+1
 							
 						elseif  up.button("right") then
 
 							local vx,vy=p.body:velocity()
-							if vx<0 then vx=0 elseif vx<speed then vx=vx+3 end
-							p.body:velocity(vx,vy)
+							if vx<0 then p.body:velocity(0,vy) end
+
+							if vx<speed then p.body:apply_force(speed,0,0,0) end
+							p.shape:surface_velocity(-speed,0)
 							p.dir= 1
-							for i,v in ipairs(p.shapes) do v:friction(0) end
 							p.frame=p.frame+1
 
 						else
 
-							for i,v in ipairs(p.shapes) do v:friction(1) end
+							p.shape:surface_velocity(0,0)
 
 						end
 
