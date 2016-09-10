@@ -106,14 +106,14 @@ tiles[0x0000]=[[
 . . . . . . . . 
 ]]
 tiles[0x0001]=[[
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
+1414121212121414
+1414121212121414
+1313131315151515
+1313131315151515
+1212141414141212
+1212141414141212
+1515151513131313
+1515151513131313
 ]]
 tiles[0x0002]=[[
 2 2 2 2 2 2 2 2 
@@ -157,120 +157,177 @@ tiles[0x0101]=[[
 ]]
 
 tiles[0x0200]=[[
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . 7 2 7 7 1 7 . . . . . . . . . 
-. . . . . . . . . 7 7 2 1 7 7 . . . . . . . . . 
-. . . . . . . . 7 7 7 1 2 7 7 7 . . . . . . . . 
-. . . . . . . 7 7 7 1 7 7 2 7 7 7 . . . . . . . 
-. . . . . . . 7 7 7 7 7 7 7 7 7 7 . . . . . . . 
-. . . . . . . . . . 7 7 0 7 . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 7 . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . . . 7 7 . . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . 7 7 7 7 7 7 . . . . . . . . . 
-. . . . . . . . . 7 7 7 7 7 7 . . . . . . . . . 
-. . . . . . . . 7 7 7 7 . 7 7 7 . . . . . . . . 
-. . . . . . . . 7 7 7 7 7 . 7 7 . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . 7 7 7 . 7 7 . . . . . . . . . 
-. . . . . . . . . 7 7 . 7 7 7 . . . . . . . . . 
-. . . . . . . . . 7 7 7 . 7 7 7 . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
+000000000000000000000000000000000000000000000000
+000000000000000000001C1C1C1C00000000000000000000
+0000000000000000001C1A1F1F191C000000000000000000
+0000000000000000001C1F1A191F1C000000000000000000
+00000000000000001C1F1F191A1F1F1C0000000000000000
+000000000000001C1F1F191F1F1A1F1F1C00000000000000
+000000000000001C1C1C1C1C1C1C1C1C1C00000000000000
+000000000000000000001F1F181F00000000000000000000
+000000000000000000001F1F1F1F1F000000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+00000000000000000000001F1F0000000000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+0000000000000000001F1F1F1F1F1F000000000000000000
+0000000000000000001F1F1F1F1F1F000000000000000000
+00000000000000001F1F1F1F001F1F1F0000000000000000
+00000000000000001F1F1F1F1F001F1F0000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+0000000000000000001F1F1F001F1F000000000000000000
+0000000000000000001F1F001F1F1F000000000000000000
+0000000000000000001F1F1F001F1F1F0000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
 ]]
 tiles[0x0203]=[[
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . 7 2 7 7 1 7 . . . . . . . . . 
-. . . . . . . . . 7 7 2 1 7 7 . . . . . . . . . 
-. . . . . . . . 7 7 7 1 2 7 7 7 . . . . . . . . 
-. . . . . . . 7 7 7 1 7 7 2 7 7 7 . . . . . . . 
-. . . . . . . 7 7 7 7 7 7 7 7 7 7 . . . . . . . 
-. . . . . . . . . . 7 7 0 7 . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 7 . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . . . 7 7 . . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . 7 7 . 7 7 7 . . . . . . . . . 
-. . . . . . . . . 7 7 . 7 7 7 . . . . . . . . . 
-. . . . . . . . . 7 7 . 7 7 7 . . . . . . . . . 
-. . . . . . . . . 7 7 7 . 7 7 . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . . . 7 7 . . . . . . . . . . . 
-. . . . . . . . . . . 7 7 . . . . . . . . . . . 
-. . . . . . . . . . . 7 7 7 . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
+000000000000000000000000000000000000000000000000
+000000000000000000001C1C1C1C00000000000000000000
+0000000000000000001C1A1F1F191C000000000000000000
+0000000000000000001C1F1A191F1C000000000000000000
+00000000000000001C1F1F191A1F1F1C0000000000000000
+000000000000001C1F1F191F1F1A1F1F1C00000000000000
+000000000000001C1C1C1C1C1C1C1C1C1C00000000000000
+000000000000000000001F1F181F00000000000000000000
+000000000000000000001F1F1F1F1F000000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+00000000000000000000001F1F0000000000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+0000000000000000001F1F001F1F1F000000000000000000
+0000000000000000001F1F001F1F1F000000000000000000
+0000000000000000001F1F001F1F1F000000000000000000
+0000000000000000001F1F1F001F1F000000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+00000000000000000000001F1F0000000000000000000000
+00000000000000000000001F1F0000000000000000000000
+00000000000000000000001F1F1F00000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
 ]]
 tiles[0x0206]=[[
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . 7 2 7 7 1 7 . . . . . . . . . 
-. . . . . . . . . 7 7 2 1 7 7 . . . . . . . . . 
-. . . . . . . . 7 7 7 1 2 7 7 7 . . . . . . . . 
-. . . . . . . 7 7 7 1 7 7 2 7 7 7 . . . . . . . 
-. . . . . . . 7 7 7 7 7 7 7 7 7 7 . . . . . . . 
-. . . . . . . . . . 7 7 0 7 . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 7 . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . . . 7 7 . . . . . . . . . . . 
-. . . . . . . . . . 7 7 7 7 . . . . . . . . . . 
-. . . . . . . . . 7 7 7 7 7 7 . . . . . . . . . 
-. . . . . . . . 7 7 7 7 7 7 7 7 . . . . . . . . 
-. . . . . . . 7 7 7 7 7 7 7 7 7 7 . . . . . . . 
-. . . . . . . 7 7 . 7 7 7 7 . 7 7 . . . . . . . 
-. . . . . . . . . . 7 7 7 7 7 . . . . . . . . . 
-. . . . . . . . . 7 7 7 . 7 7 . 7 . . . . . . . 
-. . . . . . . . 7 7 . . . . 7 7 7 . . . . . . . 
-. . . . . . . . 7 7 7 . . . 7 7 . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
+000000000000000000000000000000000000000000000000
+000000000000000000001C1C1C1C00000000000000000000
+0000000000000000001C1A1F1F191C000000000000000000
+0000000000000000001C1F1A191F1C000000000000000000
+00000000000000001C1F1F191A1F1F1C0000000000000000
+000000000000001C1F1F191F1F1A1F1F1C00000000000000
+000000000000001C1C1C1C1C1C1C1C1C1C00000000000000
+000000000000000000001F1F181F00000000000000000000
+000000000000000000001F1F1F1F1F000000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+00000000000000000000001F1F0000000000000000000000
+000000000000000000001F1F1F1F00000000000000000000
+0000000000000000001F1F1F1F1F1F000000000000000000
+00000000000000001F1F1F1F1F1F1F1F0000000000000000
+000000000000001F1F1F1F1F1F1F1F1F1F00000000000000
+000000000000001F1F001F1F1F1F001F1F00000000000000
+000000000000000000001F1F1F1F1F000000000000000000
+0000000000000000001F1F1F001F1F001F00000000000000
+00000000000000001F1F000000001F1F1F00000000000000
+00000000000000001F1F1F0000001F1F0000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
 ]]
 set_name_tile("cannon_ball",0x0209,[[
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . R R R R R R . . . . . . . . . 
-. . . . . . . R R R R R R R R R R . . . . . . . 
-. . . . . . R R R R R R R R R R R R . . . . . . 
-. . . . . R R R R R R R R R R R R R R . . . . . 
-. . . . . R R R R R R R R R R R R R R . . . . . 
-. . . . R R R R R R R R R R R R R R R R . . . . 
-. . . . R R R R R R R R R R R R R R R R . . . . 
-. . . . R R R R R R R R R R R R R R R R . . . . 
-. . . . R R R R R R R R R R R R R R R R . . . . 
-. . . . R R R R R R R R R R R R R R R R . . . . 
-. . . . R R R R R R R R R R R R R R R R . . . . 
-. . . . . R R R R R R R R R R R R R R . . . . . 
-. . . . . R R R R R R R R R R R R R R . . . . . 
-. . . . . . R R R R R R R R R R R R . . . . . . 
-. . . . . . . R R R R R R R R R R . . . . . . . 
-. . . . . . . . . R R R R R R . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000001414141400000000000000000000
+000000000000001214141414141414141200000000000000
+000000000000121212141414141414121212000000000000
+000000000012121212141414141414121212120000000000
+00000000001D121212121414141412121212060000000000
+00000000001D1D1D12121414141412120606060000000000
+000000001D1D1D1D1D1D1218181206060606060600000000
+000000001D1D1D1D1D1D1818181806060606060600000000
+000000001D1D1D1D1D1D1818181806060606060600000000
+000000001D1D1D1D1D1D1218181206060606060600000000
+00000000001D1D1D12121515151512120606060000000000
+00000000001D121212121515151512121212060000000000
+000000000012121212151515151515121212120000000000
+000000000000121212151515151515121212000000000000
+000000000000001215151515151515151200000000000000
+000000000000000000001515151500000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000
 ]])
 
 tiles[0x0500]=[[
-. . . . . . . . 
-. . Y Y Y Y . . 
-. Y Y 4 4 Y Y . 
-. Y 4 Y Y 4 Y . 
-. Y 4 Y Y 4 Y . 
-. Y Y 4 4 Y Y . 
-. . Y Y Y Y . . 
-. . . . . . . . 
+0000000000000000
+0000161616160000
+0016161818161600
+1616181616181616
+1616161818161616
+1616181616181616
+0016161818161600
+0000161616160000
 ]]
+
+set_name_tile("body_p1",0x0600,[[
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+0000000000001C1C1C1C000000000000
+00000000001C1A1F1F191C0000000000
+00000000001C1F1A191F1C0000000000
+000000001C1F1F191A1F1F1C00000000
+0000001C1F1F191F1F1A1F1F1C000000
+0000001C1C1C1C1C1C1C1C1C1C000000
+0000000000001F1F181F000000000000
+0000000000001F1F1F1F1F0000000000
+0000000000001F1F1F1F000000000000
+000000000000001C1C00000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+]])
+
+set_name_tile("body_p2",0x0602,[[
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+000000000000001C1C00000000000000
+0000000000001F1F1F1F000000000000
+00000000001F1F1F1F1F1F0000000000
+000000001F1F1F1F1F1F1F1F00000000
+0000001F1F1F1C1C1C1C1F1F1F000000
+0000001F1F001C1C1C1C001F1F000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+]])
+
+set_name_tile("body_p3",0x0604,[[
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+0000000000001C1C1C1C000000000000
+0000000000001F1F1F1F1F0000000000
+00000000001F1F1F001F1F001F000000
+000000001F1F000000001F1F1F000000
+000000001F1F1F0000001F1F00000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+]])
 
 maps[0]=[[
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
@@ -334,194 +391,42 @@ function main(need)
 -- screen
 	bitdown.pix_grd(    maps[0],  tilemap,      cmap.tilemap_grd  )--,0,0,48,32)
 
-
 -- map for collision etc
 	local map=bitdown.pix_tiles(  maps[0],  tilemap )
+	
 		
 	local space=chipmunk.space()
 	space:gravity(0,700)
 	space:damping(0.5)
 
--- this stops sticky internal edges, probably breaks some other stuff...
+-- mess around with low level setting that should not be messed with
 --	space:collision_slop(0)
 --	space:collision_bias(0)
 --	space:iterations(10)
 	
-	local tile_get=function(x,y,member)
-		local l=map[y] if not l then return false end -- outer space returns nil 
-		local c=l[x] if not c then return false end
-		if member then return c[member] else return c end -- return the tile or a member
-	end
 
-	local tile_cmp=function(x,y,member,value)
-		local l=map[y] if not l then return true end -- outer space compares true with anything
-		local c=l[x] if not c then return true end
-		return (c[member]==value)
-	end
-
-	local tile_is_solid=function(x,y)
-		local l=map[y] if not l then return true end -- outer space is solid
-		local c=l[x] if not c then return true end
-		return c.solid and true or false
-	end
-	
--- go through and flag x/y prefered link status of each solid tile
-
-	for y,line in pairs(map) do for x,tile in pairs(line) do
-		if tile.dense then
-			tile.link=0
-			tile.flow=0
-			tile.coll="dense"
-		elseif tile.solid then			
-			tile.link=0
-			tile.flow=0
-			if tile_is_solid(x,y-1) or tile_is_solid(x,y+1) then -- a solid tile with another solid tile above/below becomes dense
-				tile.coll="dense"
-			else
-				tile.coll="solid"
-			end
+-- build collision strips for each tile with a solid or dense member
+-- dense will be added for solid tiles that should be dense ( dense means can not jump up through)
+	bitdown.map_build_collision_strips(map,function(tile)
+		if tile.coll then -- can break the collision types up some more by appending a code to this
 		end
-	end end
-
--- we use flow>0 for x strips and flow<0 for y strips ( flow==nil for an empty space )
-
-	for y,line in pairs(map) do for x,tile in pairs(line) do
-		if tile.flow then
-			if not tile_cmp(x-1,y,"coll",tile.coll) then
-				tile.flow=tile.flow-1
-			end
-			if not tile_cmp(x+1,y,"coll",tile.coll) then
-				tile.flow=tile.flow-1
-			end
-			if not tile_cmp(x,y-1,"coll",tile.coll) then
-				tile.flow=tile.flow+1
-			end
-			if not tile_cmp(x,y+1,"coll",tile.coll) then
-				tile.flow=tile.flow+1
-			end
-		end
-	end end
-
--- try and make y strips
-
-	for y,line in pairs(map) do for x,tile in pairs(line) do
-		if tile.flow then
-			if tile.flow<0 and tile.link==0 then -- this tile really wants to link up/down so grab all tiles
-				tile.link=-1
-				for ny=y-1,0,-1 do
-					local ts=tile_get(x,ny)
-					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow<=0 then -- one of us
-						ts.link=-1
-					else break end
-				end
-				for ny=y+1,#map,1 do
-					local ts=tile_get(x,ny)
-					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow<=0 then -- one of us
-						ts.link=-1
-					else break end
-				end
-			end
-		end
-	end end
-
--- try and make x strips
-
-	for y,line in pairs(map) do for x,tile in pairs(line) do
-		if tile.flow then
-			if tile.flow>0 and tile.link==0 then -- this tile really wants to link left/right so grab all tiles
-				tile.link=1
-				for nx=x-1,0,-1 do
-					local ts=tile_get(nx,y)
-					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow>=0 then -- one of us
-						ts.link=1
-					else break end
-				end
-				for nx=x+1,#line,1 do
-					local ts=tile_get(nx,y)
-					if ts and ts.coll==tile.coll and ts.link==0 and tile.flow>=0 then -- one of us
-						ts.link=1
-					else break end
-				end
-			end
-		end
-	end end
-
--- glob the rest together any old how we can
-
-	for y,line in pairs(map) do for x,tile in pairs(line) do
-		if tile.flow then
-			for _,d in ipairs{ {-1,0,1} , {1,0,1} , {0,-1,-1} , {0,1,-1} } do
-				if tile.link==0 then
-					local ts=tile_get(x+d[1],y+d[2])
-					if ts and ts.coll==tile.coll and ts.link==0 or ts.link==d[3] then
-						tile.link=d[3]
-						ts.link=d[3]
-					end
-				end
-			end
-		end
-	end end
-
--- set parents / child of each strip. The parent is the tile that will generate a collision strip
-
-	for y,line in pairs(map) do for x,tile in pairs(line) do
-		if tile.link==1 then
-			local ts=tile_get(x-1,y)
-			if ts and ts.coll==tile.coll and ts.link==1 then
-				tile.parent=ts
-				ts.child=tile
-			end
-		end
-		if tile.link==-1 then
-			local ts=tile_get(x,y-1)
-			if ts and ts.coll==tile.coll and ts.link==-1 then
-				tile.parent=ts
-				ts.child=tile
-			end
-		end
-	end end
-
-
---debug dump of collision links
---[[
-	for y,line in pairs(map) do
-		local s=""
-		for x,tile in pairs(line) do
-			if not tile.parent then
-				if     tile.link== 1 then s=s.."X "
-				elseif tile.link==-1 then s=s.."Y "
-				elseif tile.link== 0 then s=s.."0 "
-				else                      s=s..". "
-				end
-			else
-				if     tile.link== 1 then s=s.."x "
-				elseif tile.link==-1 then s=s.."y "
-				elseif tile.link== 0 then s=s.."o "
-				else                      s=s..". "
-				end
-			end
-		end
-		print(s)
-	end
-]]
-
--- build each collision strip
+	end)
 
 	for y,line in pairs(map) do
 		for x,tile in pairs(line) do
-			if tile.solid and (not tile.parent) then
+			if tile.solid and (not tile.parent) then -- if we have no parent then we are the master tile
 			
 				local l=1
 				local t=tile
-				while t.child do t=t.child l=l+1 end -- count lemgth of strip
+				while t.child do t=t.child l=l+1 end -- count length of strip
 
 				local shape
 				
-				if     tile.link==1 then 
+				if     tile.link==1 then -- x strip
 					shape=space.static:shape("box",x*8,y*8,(x+l)*8,(y+1)*8,0)
-				elseif tile.link==-1 then 
+				elseif tile.link==-1 then  -- y strip
 					shape=space.static:shape("box",x*8,y*8,(x+1)*8,(y+l)*8,0)
-				else
+				else -- single box
 					shape=space.static:shape("box",x*8,y*8,(x+1)*8,(y+1)*8,0)
 				end
 
@@ -530,7 +435,7 @@ function main(need)
 				shape.cx=x
 				shape.cy=y
 				shape.coll=tile.coll
-				if tile.coll~="dense" then 
+				if not tile.dense then 
 					shape:collision_type(0x1001) -- a tile we can jump up through
 				end
 			end
@@ -750,18 +655,10 @@ function main(need)
 
 					end
 
---					local vx,vy=p.body:velocity(vx,vy)
---					if vx<-1 then p.dir=-1 end
---					if vx> 1 then p.dir= 1 end
-
 				end
 			end
 			
 			space:step(1/fps)
---			space:step(0.25/fps)
---			space:step(0.25/fps)
---			space:step(0.25/fps)
---			space:step(0.25/fps)
 			game_time=game_time+1/fps
 
 --			ctext.px=(ctext.px+1)%360 -- scroll text position
@@ -798,7 +695,7 @@ function main(need)
 				if item.active then
 					local px,py=item.body:position()
 					local rz=item.body:angle()
-					rz=0
+--					rz=0
 					csprites.list_add({t=item.sprite,h=24,px=px,py=py,rz=180*rz/math.pi})
 				end
 			end
