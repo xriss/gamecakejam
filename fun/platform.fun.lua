@@ -594,6 +594,12 @@ function main(need)
 			p.body:position(50+i,200)
 			p.body.headroom={}
 			
+			p.body:velocity_func(function(body)
+--				body.gravity_x=-body.gravity_x
+--				body.gravity_y=-body.gravity_y
+				return true
+			end)
+			
 			p.frame=0
 			p.frames={0x0200,0x0203,0x0200,0x0206}
 			
