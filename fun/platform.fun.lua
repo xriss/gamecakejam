@@ -18,8 +18,8 @@ hardware={
 	{
 		component="screen",
 		size={hx,hy},
---		bloom=0.75,
---		filter="scanline",
+		bloom=0.75,
+		filter="scanline",
 		scale=ss,
 		fps=60,
 	},
@@ -91,9 +91,10 @@ local tilemap={
 	["E "]={ 14,  0,  0,  0,	solid=1},
 	["F "]={ 15,  0,  0,  0,	solid=1},
 
--- items not tiles, so use tile 0
+-- items not tiles, so display tile 0 and we will add a sprite for display
 	["$ "]={  0,  0,  0,  0,	loot=1},
 	["? "]={  0,  0,  0,  0,	item=1},
+	["S "]={  0,  0,  0,  0,	"start"},
 }
 
 
@@ -272,6 +273,32 @@ set_tile_name(0x0209,"cannon_ball",[[
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 ]])
+set_tile_name(0x020C,"bubble",[[
+. . . . . . . . . 7 7 7 7 7 7 . . . . . . . . . 
+. . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
+. . . . . 7 7 . . . . . . . . . . 7 7 . . . . . 
+. . . . 7 . . . . . . . . . . . . . . 7 . . . . 
+. . . 7 . . . 7 7 . . . . . . . . . . . 7 . . . 
+. . 7 . . . 7 . . . . . . . . . . . . . . 7 . . 
+. . 7 . . 7 . . . . . . . . . . . . . . . 7 . . 
+. 7 . . . . . . . . . . . . . . . . . . . . 7 . 
+. 7 . . . . . . . . . . . . . . . . . . . . 7 . 
+7 . . . . . . . . . . . . . . . . . . . . . . 7 
+7 . . . . . . . . . . . . . . . . . . . . . . 7 
+7 . . . . . . . . . . . . . . . . . . . . . . 7 
+7 . . . . . . . . . . . . . . . . . . . . . . 7 
+7 . . . . . . . . . . . . . . . . . . . . . . 7 
+7 . . . . . . . . . . . . . . . . . . . . . . 7 
+. 7 . . . . . . . . . . . . . . . . . . . . 7 . 
+. 7 . . . . . . . . . . . . . . . . . . . . 7 . 
+. . 7 . . . . . . . . . . . . . . . 7 . . 7 . . 
+. . 7 . . . . . . . . . . . . . . 7 . . . 7 . . 
+. . . 7 . . . . . . . . . . . 7 7 . . . 7 . . . 
+. . . . 7 . . . . . . . . . . . . . . 7 . . . . 
+. . . . . 7 7 . . . . . . . . . . 7 7 . . . . . 
+. . . . . . . 7 7 . . . . . . 7 7 . . . . . . . 
+. . . . . . . . . 7 7 7 7 7 7 . . . . . . . . . 
+]])
 
 set_tile_name(0x0500,"coin",[[
 . . . . . . . . 
@@ -363,7 +390,7 @@ maps[0]=[[
 1 . . . . . . . . . . $ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
 1 . . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . 1 
 1 . . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
-1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . $ . . . . . 1 
+1 . . . S . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . $ . . . . . 1 
 1 . . . . . . . . . . . . . . . . . . . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
 1 . . . . . . . . . . . . . . . . . . . . . . 1 1 1 . . . . . ? . . . . . . . . . . . . . . . . . . . . 1 
 1 . . . . . . . . . . . . . . . . . $ . . . . . 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 
@@ -515,6 +542,23 @@ function main(need)
 	},0x1002) -- deadly things
 
 	space:add_handler({
+		presolve=function(it)
+			if it.shape_a.player and it.shape_b.player then
+				local pa=it.shape_a.player
+				local pb=it.shape_b.player
+				if pa.active then
+					if pb.bubble_active and pb.joined then -- burst
+						pb.call="join"
+					end
+				end				
+				if pb.active then
+					if pa.bubble_active and pa.joined then -- burst
+						pa.call="join"
+					end
+				end				
+			end
+			return true
+		end,
 		postsolve=function(it)
 			local points=it:points()
 			if points.normal_y>0.25 then -- on floor
@@ -534,6 +578,8 @@ function main(need)
 		end,
 	},0x3001) -- loot things (pickups)
 	
+	local players_colors={30,14,18,7,3,22}
+	local players={}
 	local loots={}
 	for y,line in pairs(map) do
 		for x,tile in pairs(line) do
@@ -566,11 +612,13 @@ function main(need)
 				item.shape:elasticity(0.5)
 
 			end
+			if tile[5]=="start" then
+			
+				players.start={x*8+4,y*8+4} --  remember start point
+			end
 		end
 	end
 
-	local players={}
-	local players_colors={30,14,18,7,3,22}
 	
 	for i=1,6 do
 		local p={}
@@ -587,11 +635,48 @@ function main(need)
 		
 		p.up_text_x=math.ceil( (ctext.tilemap_hx/8)*( i>3 and i+1 or i ) )
 
+		p.frame=0
+		p.frames={0x0200,0x0203,0x0200,0x0206}
+
+		p.bubble=function()
+			p.bubble_active=true
+
+			p.bubble_body=space:body(1,1)
+			p.bubble_body:position(players.start[1]+i,players.start[2]-i)
+
+			p.bubble_shape=p.bubble_body:shape("circle",12,0,0)
+			p.bubble_shape:friction(0)
+			p.bubble_shape:elasticity(1)
+
+			p.bubble_shape:collision_type(0x2002) -- bubble
+			p.bubble_shape.player=p
+
+			p.bubble_body:velocity_func(function(body)
+				local px,py=body:position()
+				
+				body.gravity_x=(players.start[1]-px)*8
+				body.gravity_y=(players.start[2]-py)*8
+				return true
+			end)
+
+		end
+		
 		p.join=function()
-			
+		
+			local px,py=players.start[1]+i,players.start[2]
+			local vx,vy=0,0
+
+			if p.bubble_active then -- pop bubble
+				px,py=p.bubble_body:position()
+				vx,vy=p.bubble_body:velocity()
+				space:remove(p.bubble_shape) -- auto?
+				space:remove(p.bubble_body)
+			end
+
+			p.bubble_active=false
 			p.active=true
 			p.body=space:body(1,math.huge)
-			p.body:position(50+i,200)
+			p.body:position(px,py)
 			p.body.headroom={}
 			
 			p.body:velocity_func(function(body)
@@ -599,10 +684,7 @@ function main(need)
 --				body.gravity_y=-body.gravity_y
 				return true
 			end)
-			
-			p.frame=0
-			p.frames={0x0200,0x0203,0x0200,0x0206}
-			
+						
 			p.floor_time=0 -- last time we had some floor
 
 			p.shape=p.body:shape("segment",0,-4,0,4,4)
@@ -622,7 +704,7 @@ function main(need)
 			local vx,vy=p.body:velocity()
 
 			p.active=false -- die
-			p.dead=true
+--			p.dead=true
 
 			space:remove(p.shape) -- auto?
 			space:remove(p.body)
@@ -633,6 +715,7 @@ function main(need)
 			it=add_item(names.body_p3,16,px,py+4,0.25,16,0.1,0.5,"box",-3,-2,3,2,0) it.body:velocity(vx*1,vy*1) it.color=p.color
 
 		end
+		
 	end
 	
 -- after setup we should yield and then perform updates only if requested from yield
@@ -648,13 +731,38 @@ function main(need)
 					p.call=nil
 				end
 				
-				if not p.active then
-					if --[[up.button("up") or up.button("down") or up.button("left") or up.button("right") or]] up.button("fire") then
-						p:join()
+				if not p.bubble_active and not p.active then -- can add as bubble
+					if up.button("up") or up.button("down") or up.button("left") or up.button("right") or up.button("fire") then
+						p.bubble() -- add bubble
+					end
+				end
+
+				if p.bubble_active then
+					if not p.active then
+						if not p.joined and up.button("fire") then -- first join is free
+							p.joined=true
+							p:join() -- join for real and remove bubble
+						end
 					end
 				end
 				
-				if p.active then
+				if p.bubble_active then
+
+					if up.button("left") then
+						
+						p.bubble_body:apply_force(-120,0,0,0)
+						p.dir=-1
+						p.frame=p.frame+1
+						
+					elseif  up.button("right") then
+
+						p.bubble_body:apply_force(120,0,0,0)
+						p.dir= 1
+						p.frame=p.frame+1
+
+					end
+
+				elseif p.active then
 				
 					local jump=200 -- up velocity we want when jumoing
 					local speed=60 -- required x velocity
@@ -762,7 +870,18 @@ function main(need)
 
 			csprites.list_reset()
 			for _,p in ipairs(players) do
-				if p.active then
+				if p.bubble_active then
+
+					local px,py=p.bubble_body:position()
+					local rz=p.bubble_body:angle()
+					p.frame=p.frame%16
+					local t=p.frames[1+math.floor(p.frame/4)]
+					
+					csprites.list_add({t=t,h=24,px=px,py=py,sx=p.dir,sy=1,rz=180*rz/math.pi,r=p.color.r,g=p.color.g,b=p.color.b,a=p.color.a})
+					
+					csprites.list_add({t=names.bubble,h=24,px=px,py=py})
+
+				elseif p.active then
 					local px,py=p.body:position()
 					local rz=p.body:angle()
 					p.frame=p.frame%16
