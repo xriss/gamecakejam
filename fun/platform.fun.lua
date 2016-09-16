@@ -24,6 +24,7 @@ hardware={
 		fps=60,
 		drawlist={ -- draw components with a 1 pix *merged* drop shadow
 			{ color={0,0,0,0.5} , dx=1 , dy=1 },
+			{ color={0,0,0,0.5} , dx=2 , dy=2 },
 			{ color={1,1,1,1  } , dx=0 , dy=0 },
 		}
 	},
@@ -48,12 +49,6 @@ hardware={
 		component="sprites",
 		name="sprites",
 		tiles="tiles",
-	},
-	{
-		component="tilemap",
-		name="window",
-		tiles="tiles",
-		tilemap_size={math.ceil(hx/8),math.ceil(hy/8)},
 	},
 	{
 		component="tilemap",
@@ -726,7 +721,7 @@ function main(need)
 	end
 
 -- save png test
-system.save_fun_png()
+--system.save_fun_png()
 
 -- after setup we should yield and then perform updates only if requested from yield
 	local done=false while not done do
