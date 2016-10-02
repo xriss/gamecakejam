@@ -735,7 +735,7 @@ function main(need)
 		
 	end
 	
-	ups(1).touch="left_right_fire" -- request this touch control scheme for player 0 only
+	ups(1).touch="left_right" -- request this touch control scheme for player 0 only
 
 -- save png test
 --system.save_fun_png()
@@ -747,6 +747,19 @@ function main(need)
 		
 			for _,p in ipairs(players) do
 				local up=ups(p.idx) -- the controls for this player
+				
+				p.move=false
+				p.jump=up.button("fire") -- right
+				if up.button("left") and up.button("right") then -- jump
+					p.move=p.move_last
+					p.jump=true
+				elseif up.button("left") then -- left
+					p.move_last="left"
+					p.move="left"
+				elseif up.button("right") then -- right
+					p.move_last="right"
+					p.move="right"
+				end
 				
 				if p.call then -- a callback requested
 					p[p.call](p)
@@ -761,7 +774,7 @@ function main(need)
 
 				if p.bubble_active then
 					if not p.active then
-						if not p.joined and up.button("fire") then -- first join is free
+						if not p.joined and p.jump then -- first join is free
 							p.joined=true
 							p:join() -- join for real and remove bubble
 						end
@@ -807,7 +820,7 @@ function main(need)
 
 						p.shape:friction(1)
 
-						if --[[up.button("up") or]] up.button("fire") then
+						if p.jump then
 
 							local vx,vy=p.body:velocity()
 
@@ -822,7 +835,7 @@ function main(need)
 
 						end
 
-						if up.button("left") then
+						if p.move=="left" then
 							
 							local vx,vy=p.body:velocity()
 							if vx>0 then p.body:velocity(0,vy) end
@@ -832,7 +845,7 @@ function main(need)
 							p.dir=-1
 							p.frame=p.frame+1
 							
-						elseif  up.button("right") then
+						elseif p.move=="right" then
 
 							local vx,vy=p.body:velocity()
 							if vx<0 then p.body:velocity(0,vy) end
@@ -852,7 +865,7 @@ function main(need)
 
 						p.shape:friction(0)
 
-						if up.button("left") then
+						if p.move=="left" then
 							
 							local vx,vy=p.body:velocity()
 							if vx>0 then p.body:velocity(0,vy) end
@@ -862,7 +875,7 @@ function main(need)
 							p.dir=-1
 							p.frame=p.frame+1
 							
-						elseif  up.button("right") then
+						elseif  p.move=="right" then
 
 							local vx,vy=p.body:velocity()
 							if vx<0 then p.body:velocity(0,vy) end
