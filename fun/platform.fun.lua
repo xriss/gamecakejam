@@ -13,6 +13,8 @@ local chipmunk=require("wetgenes.chipmunk")
 local hx,hy,ss=424,240,3
 local fps=60
 
+local cmap=bitdown.cmap -- use default swanky32 colors
+
 --request this hardware setup before calling main
 hardware={
 	{
@@ -22,11 +24,15 @@ hardware={
 		filter="scanline",
 		scale=ss,
 		fps=60,
-		drawlist={ -- draw components with a 1 pix *merged* drop shadow
+		drawlist={ -- draw components with a 2 pix *merged* drop shadow
 			{ color={0,0,0,0.5} , dx=1 , dy=1 },
 			{ color={0,0,0,0.5} , dx=2 , dy=2 },
 			{ color={1,1,1,1  } , dx=0 , dy=0 },
 		}
+	},
+	{
+		component="colors",
+		cmap=cmap, -- swanky32 palette
 	},
 	{
 		component="tiles",
@@ -60,7 +66,7 @@ hardware={
 		tile_size={4,8}, -- use half width tiles for font
 		tilemap_size={math.ceil(hx/4),math.ceil(hy/8)},
 		drawtype="last",
-		drawlist={ -- draw components with a 1 pix *merged* drop shadow
+		drawlist={ -- draw components with a 2 pix *merged* drop shadow
 			{ color={0,0,0,0.5} , dx=1 , dy=1 },
 			{ color={0,0,0,0.5} , dx=2 , dy=2 },
 			{ color={1,1,1,1  } , dx=0 , dy=0 },
@@ -78,7 +84,6 @@ local set_tile_name=function(tile,name,data)
 	tiles[tile]=data
 end
 
-local cmap=bitdown.cmap -- use default swanky32 colors
 local tilemap={
 	[0]={0,1,0,0},
 
@@ -884,7 +889,10 @@ function main(need)
 		end
 		if need.draw then
 		
-			ctext.tilemap_grd:clear(0)
+			ctext.dirty(true)
+			ctext.text_window()
+			ctext.text_clear(0x00000000)
+			
 
 -- draw test menu
 --[[
@@ -963,6 +971,10 @@ end
 			if remain==0 and not finish_time then -- done
 				finish_time=game_time
 			end
+
+--			ctext.text_window_center(30,10)
+--			ctext.text_clear(0x00000031)
+
 		end
 		if need.clean then done=true end -- cleanup requested
 	end
