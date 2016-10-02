@@ -735,7 +735,7 @@ function main(need)
 		
 	end
 	
-	ups(0).touch="left_right_fire" -- request this touch control scheme for player 0 only
+	ups(1).touch="left_right_fire" -- request this touch control scheme for player 0 only
 
 -- save png test
 --system.save_fun_png()
