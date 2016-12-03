@@ -1,7 +1,0 @@
-
-if [ "`getconf LONG_BIT`" = "64" ] ; then
-	../../bin/exe/gamecake.x64 -lstart $*
-	exit
-fi
-
-../../bin/exe/gamecake -lstart $*
