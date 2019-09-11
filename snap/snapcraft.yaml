@@ -25,3 +25,10 @@ apps:
   gamecakejam:
 
     command: gamecakejam
+
+
+plugs:
+  gamecake:
+    interface: content
+    content: executables
+    target: $SNAP/gamecake-bin
