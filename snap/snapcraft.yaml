@@ -25,8 +25,11 @@ parts:
     override-build: |
       ./make
       cp bin/gamecakejam $SNAPCRAFT_PART_INSTALL/gamecakejam
-      mkdir $SNAP/gamecake-bin
 
+  mountpoint:
+    plugin: nil
+    install: mkdir $SNAPCRAFT_PART_INSTALL/gamecake
+    
 apps:
 
   gamecakejam:
@@ -38,5 +41,5 @@ plugs:
   gamecake:
     interface: content
     content: executables
-    target: $SNAP/gamecake-bin
+    target: $SNAP/gamecake
     default-provider: gamecake:gamecake
