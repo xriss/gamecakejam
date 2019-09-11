@@ -24,6 +24,7 @@ parts:
 
     override-build: |
       ./make
+      cp bin/gamecakejam $SNAPCRAFT_PART_INSTALL/gamecakejam
 
 apps:
 
