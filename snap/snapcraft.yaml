@@ -9,6 +9,11 @@ confinement: strict # use 'strict' once you have the right plugs and slots
 
 base: core18
 
+architectures:
+  - build-on: amd64
+    run-on: all
+
+
 parts:
 
   gamecakejam:
@@ -32,3 +37,4 @@ plugs:
     interface: content
     content: executables
     target: $SNAP/gamecake-bin
+    default-provider: gamecake:gamecake
