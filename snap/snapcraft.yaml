@@ -38,6 +38,5 @@ apps:
 plugs:
   gamecake:
     interface: content
-    content: executables
     target: $SNAP/gamecake
     default-provider: gamecake:gamecake
