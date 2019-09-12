@@ -1,3 +1,1 @@
-/snap/bin/gamecake --help
-
-
+gamecake/gamecake $@
