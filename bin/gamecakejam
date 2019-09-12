@@ -1,1 +1,1 @@
-snap run gamecake $@
+gamecake/gamecake $@
