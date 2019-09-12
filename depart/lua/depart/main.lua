@@ -42,7 +42,7 @@ M.bake=function(oven,main)
 	
 main.loads=function()
 
-	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	cake.fonts.loads({1,"Vera"}) -- load 1st builtin font, a basic 8x8 font
 	
 	cake.sheets.loads_and_chops{
 		{"imgs/title",1,1,0.5,0.5},

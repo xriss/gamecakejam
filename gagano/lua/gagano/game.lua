@@ -42,7 +42,7 @@ M.bake=function(oven,game)
 
 game.loads=function()
 
-	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	cake.fonts.loads({1,"Vera"}) -- load 1st builtin font, a basic 8x8 font
 	
 	oven.cake.images.loads({
 	})

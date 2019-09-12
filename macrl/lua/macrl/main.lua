@@ -44,7 +44,7 @@ print("yarn setup")
 	
 main.loads=function()
 
-	cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	cake.fonts.loads({1,"Vera"}) -- load 1st builtin font, a basic 8x8 font
 	
 	cake.sheets.loads_and_chops{
 		{"imgs/tiles",8/128,8/128,4/128,4/128,1/128,1/128},
