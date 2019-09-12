@@ -1,5 +1,9 @@
 #!/usr/local/bin/gamecake
 
+local luapath,apppath=require("apps").default_paths(debug.getinfo(1,"S").source:match("^@(.*[/\\])")) -- default search paths so things can easily be found
+if luapath then print("Using lua found at : "..luapath.."lua/") end
+if apppath then print("Using app found at : "..apppath) end
+
 local global=require("global") -- prevent accidental global use
 
 local opts={
@@ -13,8 +17,6 @@ local opts={
 	fps=60,
 	... -- include commandline opts
 }
-
-require("apps").default_paths() -- default search paths so things can easily be found
 
 math.randomseed( os.time() ) -- try and randomise a little bit better
 

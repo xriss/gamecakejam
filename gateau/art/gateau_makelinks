@@ -16,14 +16,4 @@ cp ../../$id/out/$id.zip ../test
 
 done
 
-ids=( bulb )
-
-for id in "${ids[@]}" ; do
-
-ln -s ../../../../apps/$id/art/icons/gateau gateau/$id
-
-cp ../../../apps/$id/out/$id.zip ../test
-
-done
-
 ./gateau_update

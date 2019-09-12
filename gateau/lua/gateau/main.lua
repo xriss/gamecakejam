@@ -23,11 +23,17 @@ M.bake=function(oven,main)
 	local cake=oven.cake
 	local opts=oven.opts
 	local canvas=cake.canvas
-	local layouts=cake.layouts
 	local font=canvas.font
 	local flat=canvas.flat
 
-	local layout=layouts.push_child{} -- we shall have a child layout to fiddle with
+	local view=cake.views.create({
+		parent=cake.views.get(),
+		mode="full",
+		vx=opts.width,
+		vy=opts.height,
+		vz=opts.height*4,
+		fov=1/4,
+	})
 
 	local launch=oven.rebake("gateau.launch")
 
@@ -37,7 +43,7 @@ M.bake=function(oven,main)
 	
 main.loads=function()
 
-	oven.cake.fonts.loads({1}) -- load 1st builtin font, a basic 8x8 font
+	oven.cake.fonts.loads({1,"Vera"}) -- load 1st builtin font, a basic 8x8 font
 	
 	local t=wzips.readfile("data/gateau/all.lua")
 --print(t)
@@ -107,11 +113,7 @@ end
 main.msg=function(m)
 --	print(wstr.dump(m))
 
-	if m.xraw and m.yraw then	-- we need to fix raw x,y numbers
-		m.x,m.y=layout.xyscale(m.xraw,m.yraw)	-- local coords, 0,0 is center of screen
-		m.x=m.x+(opts.width/2)
-		m.y=m.y+(opts.height/2)
-	end
+	view.msg(m) -- fix mouse coords
 
 	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
 
@@ -136,7 +138,7 @@ end
 
 main.draw=function()
 	
-	layout.apply( opts.width,opts.height,1/4,opts.height*4 )
+	cake.views.push_and_apply(view)
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
@@ -152,6 +154,8 @@ main.draw=function()
 	end
 	
 	gl.PopMatrix()
+
+	cake.views.pop_and_apply()
 	
 end
 		

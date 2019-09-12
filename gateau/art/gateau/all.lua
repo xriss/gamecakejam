@@ -1,39 +1,18 @@
-
 {
- ["bulb"]=
- {
+ ["gthang"]={
   ["description"]="\
-A puzzling arcade experience.\
+A shmup, inspired by Galaga, Galaxian, Gaplus. \
 \
-Descend through 100 levels of challenging puzzle mayhem in a quest to defeat the big bad boss at the bottom of the bottom most well.\
+Juggle powerups for great success. \
 \
-Use bonus balls for easy victory or restrain yourself for maximum score.\
-\
-Lead on bold adventurer, the choice is yours.\
+I made this game using the Gamecake engine as an exercise to learn lua. This is the first game I've programmed on my own as I'm the artistic half of Wetgenes so thanks for trying this out! - shi\
 \
 ",
   ["version"]=0,
-  ["title"]="Dr Bulbaceous Puzzle Solver",
-  ["id"]="bulb",
- }
-,
- ["lonelybird"]=
- {
-  ["description"]="\
-This game was made in one weekend for the Leeds Data Mill , National Hack The Government 2014 by Rewired State challenge in Leeds.\
-\
-Lonely Bird is a game to visualise loneliness through Public Health Funeral data provided by Leeds City Council.\
-\
-Full source can be found on our bitbucket just search for gamecakejam or lonelybird.\
-\
-",
-  ["version"]=0,
-  ["title"]="Lonely Bird",
-  ["id"]="lonelybird",
- }
-,
- ["hunted"]=
- {
+  ["title"]="Gthang",
+  ["id"]="gthang",
+ },
+ ["hunted"]={
   ["description"]="\
 A pengo style game.\
 \
@@ -46,25 +25,21 @@ Thrown together in few hours and opensource for your perusal.\
   ["version"]=0,
   ["title"]="Hunted",
   ["id"]="hunted",
- }
-,
- ["gthang"]=
- {
+ },
+ ["lonelybird"]={
   ["description"]="\
-A shmup, inspired by Galaga, Galaxian, Gaplus. \
+This game was made in one weekend for the Leeds Data Mill , National Hack The Government 2014 by Rewired State challenge in Leeds.\
 \
-Juggle powerups for great success. \
+Lonely Bird is a game to visualise loneliness through Public Health Funeral data provided by Leeds City Council.\
 \
-I made this game using the Gamecake engine as an exercise to learn lua. This is the first game I've programmed on my own as I'm the artistic half of Wetgenes so thanks for trying this out! - shi\
+Full source can be found on our bitbucket just search for gamecakejam or lonelybird.\
 \
 ",
   ["version"]=0,
-  ["title"]="Gthang",
-  ["id"]="gthang",
- }
-,
- ["dmazed"]=
- {
+  ["title"]="Lonely Bird",
+  ["id"]="lonelybird",
+ },
+ ["dmazed"]={
   ["description"]="\
 This game exists in the twilight zone between 3D Monster Maze and Pacman. \
 \
@@ -76,6 +51,5 @@ Find the key and exit.\
   ["version"]=0,
   ["title"]="DmazeD",
   ["id"]="dmazed",
- }
-,
+ },
 }
