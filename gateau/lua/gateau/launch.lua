@@ -20,9 +20,9 @@ M.bake=function(oven,launch)
 
 
 	launch.run=function(id)
-		bake.writefile(wwin.files_prefix.."launch",[[
-./gamecake gamecake.cake ]]..id..[[.cake fullscreen
-		]])
+	
+		print("WHYHELLOTHERE_PLEASE_RUN_THIS_CAKE_KAITHXBAI "..id)
+
 	end
 	
 	

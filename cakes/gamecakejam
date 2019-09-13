@@ -1,20 +1,32 @@
 cd `dirname $0`
 
+gateau(){
+
+scan_output(){
+	while read line; do
+		words=($line)
+		if [ "${words[0]}" = "WHYHELLOTHERE_PLEASE_RUN_THIS_CAKE_KAITHXBAI" ] ; then
+			echo "${words[1]}"
+		fi
+	done
+}
+
+gamecake gateau.cake --maximised | scan_output
+
+}
+
+
 while :
 do
 
-gamecake gateau.cake maximised
+cakefile=$(gateau)
 
-launch=$HOME/.config/gateau/files/launch
-if [ -e "$launch" ] ; then
-	chmod +x $launch
-	$launch
-	rm $launch
-else
-	exit
+if [ "${cakefile}" = "" ] ; then 
+	exit 0
 fi
 
-#exit
+echo Launching ${cakefile}
+gamecake ${cakefile}.cake --maximised
 
 done
 
