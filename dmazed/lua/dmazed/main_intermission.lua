@@ -35,7 +35,6 @@ M.bake=function(oven,intermission)
 
 	local recaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
-	local layout=cake.layouts.create{}
 
 	local display_insert=function(d)
 		d.idx=idx

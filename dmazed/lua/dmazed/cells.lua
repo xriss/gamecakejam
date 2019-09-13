@@ -395,16 +395,23 @@ end
 cells.image=function()
 
 	local fbo=assert(fbs.create(480,480,0))
-	local layout=cake.layouts.create{parent={w=480,h=480,x=0,y=0}}
 	
+	local view=cake.views.create({
+		fbo=fbo,
+		mode="fbo",
+		vx=480,
+		vy=480,
+		vz=480*4,
+		fov=1/4,
+	})
+
 	fbs.bind_frame(fbo)
-	layout.setup()
+	view.fbo=fbo
+	cake.views.push_and_apply(view)
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 	
 	cells.draw()
-
-	layout.clean()
 
 	local gd = fbo:download()
 	assert(gd:convert(grd.FMT_U8_RGBA))
@@ -412,6 +419,8 @@ cells.image=function()
 	fbs.bind_frame(nil)
 	
 	fbo:clean()
+
+	cake.views.pop_and_apply()
 
 	return gd
 end
@@ -469,10 +478,21 @@ cells.draw_into_texture=function()
 		gl.PushMatrix()
 
 		cells.fbo:resize(512,512,0)
-		local layout=cake.layouts.create{parent={w=512,h=512,x=0,y=0}}
+--		local layout=cake.layouts.create{parent={w=512,h=512,x=0,y=0}}
+
+		cells.view=cake.views.create({
+			fbo=cells.fbo,
+			mode="fbo",
+			vx=512,
+			vy=512,
+			vz=512*4,
+			fov=1/4,
+		})
+
 		
 		fbs.bind_frame(cells.fbo)
-		layout.apply(480,480,1/4,480*4)
+--		layout.apply(480,480,1/4,480*4)
+		cake.views.push_and_apply(cells.view)
 		
 		gl.ClearColor(pack.argb4_pmf4(0x0000))
 		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
@@ -490,7 +510,8 @@ cells.draw_into_texture=function()
 		gl.MatrixMode(gl.MODELVIEW)
 		gl.PopMatrix()
 		
-		main.layout.restore()
+--		main.layout.restore()
+		cake.views.pop_and_apply()
 
 	end
 	

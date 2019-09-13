@@ -58,6 +58,3 @@ os.execute("rm -rf out")
 wbake.create_dir_for_file("out/lua/wetgenes/t.zip")
 os.execute("zip -r out/lemonhunter.zip data lua opts.lua")
 
--- include snapshot of base modules for version safeness, probably.
-os.execute("cp -r ../../gamecake/lua/wetgenes out/lua/")
-os.execute("cd out ; zip -r lemonhunter.zip lua")

@@ -18,7 +18,6 @@ M.bake=function(oven,bat)
 	local cake=oven.cake
 	local opts=oven.opts
 	local canvas=cake.canvas
-	local layouts=cake.layouts
 	local font=canvas.font
 	local flat=canvas.flat
 

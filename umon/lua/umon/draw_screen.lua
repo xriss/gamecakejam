@@ -26,7 +26,6 @@ M.bake=function(oven,draw_screen)
 	local flat=canvas.flat
 	local gl=oven.gl
 	local sheets=cake.sheets
-	local layouts=cake.layouts
 
 
 	local sgui=oven.rebake("wetgenes.gamecake.spew.gui")
@@ -57,7 +56,16 @@ draw_screen.setup=function()
 
 	draw_screen.fbo:bind_texture()
 
-	draw_screen.lay=layouts.create{parent={x=0,y=0,w=1024,h=1024}}
+--	draw_screen.lay=layouts.create{parent={x=0,y=0,w=1024,h=1024}}
+
+	draw_screen.view=cake.views.create({
+		fbo=draw_screen.fbo,
+		mode="fbo",
+		vx=1024,
+		vy=1024,
+		vz=1024*4,
+		fov=1/4,
+	})
 
 -- effect fbos 1 and 2 for bloom processing
 	draw_screen.fxbos={}
@@ -89,7 +97,8 @@ draw_screen.draw_bloom_pick=function()
 
 	local fbo=draw_screen.fxbos[1]
 	fbo:bind_frame()
-	gl.Viewport( 0 , 0 , 1024 , 1024 )
+--	gl.Viewport( 0 , 0 , 1024 , 1024 )
+	cake.views.push_and_apply(draw_screen.view)
 
 	local data={
 		-1,	-1,		0,		0,	0,
@@ -123,7 +132,7 @@ draw_screen.draw_bloom_pick=function()
 	gl.DrawArrays(gl.TRIANGLE_STRIP,0,4)
 
 	fbo.bind_frame() -- restore old frame
-	canvas.layout.restore()
+	cake.views.pop_and_apply()
 		
 end
 
@@ -134,7 +143,8 @@ draw_screen.draw_bloom_blur=function()
 	local fbos=draw_screen.fxbos
 
 	fbos[2]:bind_frame()
-	gl.Viewport( 0 , 0 , fbos[2].w , fbos[2].h )
+--	gl.Viewport( 0 , 0 , fbos[2].w , fbos[2].h )
+	cake.views.push_and_apply(draw_screen.view)
 
 	local data={
 		-1,	-1,		0,		0,				0,
@@ -177,7 +187,7 @@ draw_screen.draw_bloom_blur=function()
 
 	fbos[1].bind_frame() -- restore old frame
 
-	canvas.layout.restore()
+	cake.views.pop_and_apply()
 
 end
 
@@ -197,7 +207,8 @@ draw_screen.draw_into=function(callback)
 	gl.PushMatrix()
 	
 
-	draw_screen.lay_orig=draw_screen.lay.apply(nil,nil,0)
+--	draw_screen.lay_orig=draw_screen.lay.apply(nil,nil,0)
+	cake.views.push_and_apply(view)
 
 	gl.ClearColor(0,0,0,1)
 	gl.DepthMask(gl.TRUE)
@@ -216,7 +227,8 @@ draw_screen.draw_into=function(callback)
 
 	gl.BindFramebuffer(gl.FRAMEBUFFER, 0)
 
-	draw_screen.lay_orig.restore()
+	cake.views.pop_and_apply()
+--	draw_screen.lay_orig.restore()
 
 	gl.MatrixMode(gl.PROJECTION)
 	gl.PopMatrix()

@@ -19,8 +19,17 @@ bake=function(state,game)
 	game.page="menu"
 	game.wait=60
 
+	local cake=state
+	local opts=cake.opts
 	local cake=state.cake
-	local layout=cake.layouts.create{}
+	local view=cake.views.create({
+		parent=cake.views.get(),
+		mode="full",
+		vx=opts.width,
+		vy=opts.height,
+		vz=opts.height*4,
+		fov=1/4,
+	})
 	
 	
 game.loads=function()
@@ -99,15 +108,11 @@ game.draw=function()
 	local flat=canvas.flat
 	local gl=state.gl
 	
-	layout.viewport(opts.width,opts.height) -- did our window change?
-	layout.project23d(opts.width,opts.height,0.25,opts.height*4)
+	cake.views.push_and_apply(view)
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
-
-	gl.MatrixMode(gl.PROJECTION)
-	gl.LoadMatrix( layout.pmtx )
 
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()
@@ -133,6 +138,8 @@ game.draw=function()
 	end
 	
 	gl.PopMatrix()
+
+	cake.views.pop_and_apply()
 	
 end
 

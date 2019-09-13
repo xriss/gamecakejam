@@ -35,8 +35,6 @@ M.bake=function(oven,menu)
 
 	local recaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
-	local layout=cake.layouts.create{}
-
 
 
 menu.back="imgs/title"
@@ -90,7 +88,7 @@ menu.draw=function()
 	
 	if wgui.active then
 
-		layout.viewport() -- clear clip area
+--		layout.viewport() -- clear clip area
 
 		gl.ClearColor(pack.argb4_pmf4(0xf004))
 		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)

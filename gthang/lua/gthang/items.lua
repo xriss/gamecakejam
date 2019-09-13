@@ -40,7 +40,6 @@ M.bake=function(oven,items)
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
-	local layout=cake.layouts.create{}
 
 	local item={}
 

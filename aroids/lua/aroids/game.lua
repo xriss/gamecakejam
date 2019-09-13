@@ -31,7 +31,14 @@ bake=function(oven,game)
 	local font=canvas.font
 	local flat=canvas.flat
 	local gl=oven.gl
-	local layout=cake.layouts.create{}
+	local view=cake.views.create({
+		parent=cake.views.get(),
+		mode="clip",
+		vx=opts.width,
+		vy=opts.height,
+		vz=opts.height*4,
+		fov=1/4,
+	})
 
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
 	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
@@ -156,15 +163,11 @@ end
 game.draw=function()
 --print("draw")
 	
-	layout.viewport() -- did our window change?
-	layout.project23d(opts.width,opts.height,1/4,opts.height*4)
+	cake.views.push_and_apply(view)
 	canvas.gl_default() -- reset gl state
 		
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
-
-	gl.MatrixMode(gl.PROJECTION)
-	gl.LoadMatrix( layout.pmtx )
 
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()
@@ -183,6 +186,8 @@ game.draw=function()
 --	cake.sheets:get("splash"):draw(1,0,0,0,1,1)
 	
 	gl.PopMatrix()
+
+	cake.views.pop_and_apply()
 	
 end
 		
