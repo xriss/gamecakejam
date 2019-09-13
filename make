@@ -10,7 +10,7 @@ for cake in ${cakes} ; do
 
 	echo ${cake}
 
-	../../bake
+	gamecake bake.lua
 	cp out/${cake}.zip ../cakes/${cake}.cake
 
 	cd ..

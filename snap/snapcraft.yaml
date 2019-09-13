@@ -23,6 +23,7 @@ parts:
     source: .
 
     override-build: |
+      snap install gamecake
       ./make
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp bin/gamecakejam $SNAPCRAFT_PART_INSTALL/bin/gamecakejam
