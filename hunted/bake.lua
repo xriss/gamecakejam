@@ -57,7 +57,7 @@ for _,dir in ipairs{"fonts"} do
 
 	for i,v in ipairs(files) do
 		wbake.create_dir_for_file("data/"..v)
-		copyfile("art/"..v,"data/"..v)
+		wbake.copyfile("art/"..v,"data/"..v)
 		print(v)
 	end
 
