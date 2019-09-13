@@ -23,7 +23,8 @@ parts:
     source: .
 
     override-build: |
-      snap install gamecake
+      git clone --branch exe https://github.com/xriss/gamecake.git
+      gamecake/install
       bash ./make
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp bin/gamecakejam $SNAPCRAFT_PART_INSTALL/bin/gamecakejam
