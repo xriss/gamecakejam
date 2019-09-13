@@ -1,1 +1,6 @@
-gamecake/gamecake $@
+echo " "
+echo " gamecakejam is a collection of gamecake examples "
+echo " to run them you should use the gamecake snap command "
+echo " "
+echo " gamecake.jam "
+echo " "
