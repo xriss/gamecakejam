@@ -67,23 +67,17 @@ for _,dir in ipairs{"oggs"} do
 
 end
 
-for i,v in ipairs{
-	"fonts/Vera.ttf",
-	"wskins/soapbar.png",
-} do
-	wbake.create_dir_for_file("data/"..v)
-	copyfile("../../gamecake/mods/data/"..v,"data/"..v)
-end
+for _,dir in ipairs{"fonts"} do
 
---[[
-wbake.create_dir_for_file("data/imgs/preloader/.png")
+	local files=wbake.findfiles{basedir="art",dir=dir,filter="."}.ret
 
-if args.smell=="pimoroni" then
-	wbake.copyfile( "../../gamecake/mods/data/imgs/preloader/pimoroni.jpg","data/imgs/preloader/pimoroni.jpg")
-else
-	wbake.copyfile( "../../gamecake/mods/data/imgs/preloader/kittychair.jpg","data/imgs/preloader/kittychair.jpg")
+	for i,v in ipairs(files) do
+		wbake.create_dir_for_file("data/"..v)
+		copyfile("art/"..v,"data/"..v)
+		print(v)
+	end
+
 end
-]]
 
 os.execute("rm -rf out")
 wbake.create_dir_for_file("out/lua/wetgenes/t.zip")

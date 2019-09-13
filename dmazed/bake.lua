@@ -52,12 +52,16 @@ for _,dir in ipairs{"oggs"} do
 
 end
 
-for i,v in ipairs{
-	"fonts/Vera.ttf",
-	"wskins/soapbar.png",
-} do
-	wbake.create_dir_for_file("data/"..v)
-	wbake.copyfile("../../gamecake/mods/data/"..v,"data/"..v)
+for _,dir in ipairs{"fonts"} do
+
+	local files=wbake.findfiles{basedir="art",dir=dir,filter="."}.ret
+
+	for i,v in ipairs(files) do
+		wbake.create_dir_for_file("data/"..v)
+		copyfile("art/"..v,"data/"..v)
+		print(v)
+	end
+
 end
 
 
