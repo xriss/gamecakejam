@@ -23,6 +23,7 @@ parts:
     source: .
 
     override-build: |
+      sudo apt install -y zip
       git clone --branch exe https://github.com/xriss/gamecake.git
       gamecake/install
       bash ./make
