@@ -24,7 +24,8 @@ parts:
 
     override-build: |
       ./make
-      cp bin/gamecakejam $SNAPCRAFT_PART_INSTALL/gamecakejam
+      mkdir $SNAPCRAFT_PART_INSTALL/bin
+      cp bin/gamecakejam $SNAPCRAFT_PART_INSTALL/bin/gamecakejam
       mkdir $SNAPCRAFT_PART_INSTALL/gamecake
       cp -r cakes $SNAPCRAFT_PART_INSTALL
     
