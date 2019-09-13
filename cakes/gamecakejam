@@ -3,7 +3,7 @@ cd `dirname $0`
 while :
 do
 
-./gamecake gamecake.cake gateau.cake fullscreen
+gamecake gateau.cake maximised
 
 launch=$HOME/.config/gateau/files/launch
 if [ -e "$launch" ] ; then
