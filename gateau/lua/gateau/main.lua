@@ -37,9 +37,13 @@ M.bake=function(oven,main)
 
 	local launch=oven.rebake("gateau.launch")
 
-	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
-	skeys.setup({max_up=1}) -- also calls srecaps.setup
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
+	
+--	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	skeys.setup({max_up=1}) -- also calls srecaps.setup
 	
 main.loads=function()
 

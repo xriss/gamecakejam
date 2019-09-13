@@ -7,7 +7,7 @@ local function print(...) _G.print(...) end
 local wwin=require("wetgenes.win") -- system independent helpers
 local wstr=require("wetgenes.string")
 local pack=require("wetgenes.pack")
-
+local ls=function(it) print(wstr.dump(it)) end
 --module
 local M={ modname=(...) } ; package.loaded[M.modname]=M
 
@@ -52,6 +52,8 @@ M.bake=function(oven,gui)
 
 		if act=="over" then sgui.anim.bounce(w,1/16) end
 		
+--print( "hook_"..tostring(act) )
+
 		if w.id and act and gui["hook_"..act] then
 			local f=gui["hook_"..act][w.id]
 			if f then
@@ -119,8 +121,9 @@ for i,v in ipairs(main.list) do
 		line=top:add({hx=640,hy=200,class="fill"})
 	end
 	line:add({hx=10,hy=200})
-	local w=line:add({hx=200,hy=200,color=0xffcccccc,sheet="gateau/"..v.id.."/icon",sheet_px=100,sheet_py=100,id="gateau_"..v.id,hooks=gui.hooks,user=v})
+	local w=line:add({solid=true,hx=200,hy=200,color=0xffcccccc,sheet="gateau/"..v.id.."/icon",sheet_px=100,sheet_py=100,id="gateau_"..v.id,hooks=gui.hooks,user=v})
 	datfill(w,v)
+
 	gui.hook_over[w.id]=function(w)
 		top.sheet="gateau/"..w.user.id.."/screen"
 		local sh=sheets.get(top.sheet)
@@ -132,12 +135,13 @@ for i,v in ipairs(main.list) do
 			top.sheet_hx=640
 			top.sheet_hy=(sh.img.height/sh.img.width)*640
 		end
-		top.sheet_hx=top.sheet_hx*2 -- then scaleup 
-		top.sheet_hy=top.sheet_hy*2
+		top.sheet_hx=top.sheet_hx*1.5 -- then scaleup 
+		top.sheet_hy=top.sheet_hy*1.5
 
 		top.color=0x88888888
 --			print("OVER->"..w.id)
 	end
+
 	gui.hook_click[w.id]=function(w)
 		launch.run(w.user.id)
 		oven.next=true -- exit
@@ -145,7 +149,7 @@ for i,v in ipairs(main.list) do
 end
 
 	line:add({hx=10,hy=200})
-	local w=line:add({hx=200,hy=200,color=0xffcccccc,sheet="imgs/pimoroni_icon",sheet_px=100,sheet_py=100,id="pimoroni"})
+--	local w=line:add({hx=200,hy=200,color=0xffcccccc,sheet="imgs/pimoroni_icon",sheet_px=100,sheet_py=100,id="pimoroni"})
 
 
 --[[

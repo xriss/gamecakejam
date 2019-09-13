@@ -5,6 +5,7 @@ local pack=require("wetgenes.pack")
 local wwin=require("wetgenes.win")
 local wstr=require("wetgenes.string")
 local tardis=require("wetgenes.tardis")	-- matrix/vector math
+local ls=function(it) print(wstr.dump(it)) end
 
 local function dprint(a) print(wstr.dump(a)) end
 
@@ -63,39 +64,40 @@ menu.msg=function(m)
 
 --	print(wstr.dump(m))
 
-	if sgui.active then
-		sgui.msg(m)
-	else
+--	if sgui.active then
+--		sgui.msg(m)
+--	else
 		gui.msg(m)
-	end
-	
+--	end
+
 end
 
 menu.update=function()
 
-	if sgui.active then
-		sgui.update()	
-	else
+--	if sgui.active then
+--		sgui.update()	
+--	else
 		gui.update()
-	end
+--	end
 	
 end
 
 menu.draw=function()
 	
-	if sgui.active then
+--	if sgui.active then
 
-		gl.ClearColor(pack.argb4_pmf4(0xf004))
-		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
+--		gl.ClearColor(pack.argb4_pmf4(0xf004))
+--		gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
-		sgui.draw()	
-	else
+--		sgui.draw()	
+--	else
+
 --		sheets.get("imgs/title"):draw(1,320,240,nil,640,480)
 		
 --		sscores.draw("arcade2")
 
 		gui.draw()	
-	end
+--	end
 	
 end
 
