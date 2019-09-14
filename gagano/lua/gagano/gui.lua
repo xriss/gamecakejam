@@ -50,7 +50,7 @@ M.bake=function(oven,gui)
 		top:add({hy=440,hx=720})
 		local bot=top:add({hy=40,hx=720,class="fill"})
 		bot:add({hy=40,hx=200})
-		bot:add({hx=200,hy=40,color=0xffffffff,text="Start!",id="start",hooks=gui.hooks})
+		bot:add({hx=200,hy=40,color=0xffffffff,text="Start!",id="start",hooks=gui.hooks,solid=true})
 		bot:add({hy=40,hx=200})
 		
 	end

@@ -7,7 +7,7 @@ local opts={
 	
 	width=720,	-- display basics
 	height=480,
-	show="full",
+--	show="full",
 	title="Lemon Hunter",
 	start="lemonhunter.main", -- rebake this mod
 	fps=60,

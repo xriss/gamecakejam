@@ -45,7 +45,7 @@ M.bake=function(state,gui)
 
 		top:add({hx=720,hy=400})
 		
-		top:add({hx=720,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=720,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks,solid=true})
 		
 		top:add({hx=720,hy=40})
 		

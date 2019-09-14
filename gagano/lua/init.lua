@@ -7,7 +7,7 @@ local opts={
 	
 	width=720,	-- display basics
 	height=480,
-	show="full",
+--	show="full",
 	title="Gagano",
 	start="gagano.game", -- rebake this mod
 	fps=60,

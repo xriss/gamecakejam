@@ -172,7 +172,7 @@ main.draw=function()
 	
 	gl.PopMatrix()
 	
-	cake.views.pop_and_apply()
+--	cake.views.pop_and_apply()
 
 end
 		

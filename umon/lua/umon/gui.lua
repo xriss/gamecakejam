@@ -67,15 +67,15 @@ print(act,w.id)
 		
 		top:add({hx=40,hy=40})
 		top:add({hx=180,hy=40,color=0xffcccccc,text="Hello",style="indent"})
-		top:add({hx=380+160,hy=40,color=0xffcccccc,text=sprofiles.get("name"),id="profiles",hooks=gui.hooks})
+		top:add({hx=380+160,hy=40,color=0xffcccccc,text=sprofiles.get("name"),id="profiles",hooks=gui.hooks,solid=true})
 		top:add({hx=40,hy=40})
 
 		top:add({hx=800,hy=20})
 
 		top:add({hx=20,hy=40})
-		top:add({hx=280+80,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({hx=280+80,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks,solid=true})
 		top:add({hx=40,hy=40})
-		top:add({hx=280+80,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=280+80,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks,solid=true})
 		top:add({hx=20,hy=40})
 
 		top:add({hx=800,hy=20})

@@ -225,18 +225,18 @@ play.draw=function()
 	
 
 	gl.Color(pack.argb4_pmf4(0xffff)) 
-	cake.sheets.get("back"):draw(1,0,0,0,640,480)
+	cake.sheets.get("back"):draw(1,320,240,0,640,480)
 
 	for i,v in ipairs(play.planes) do
 		v.draw()
 	end
 
 	gl.Color(pack.argb4_pmf4(0xffff)) 
-	cake.sheets.get("cone"):draw(1,0,0,0,640,480)
+	cake.sheets.get("cone"):draw(1,320,240,0,640,480)
 
 --	gl.Color(pack.argb4_pmf4(0xffff))
 	gl.Color(1,1,1,0)
-	cake.sheets.get("clouds"):draw(1,0,0,0,640,480)
+	cake.sheets.get("clouds"):draw(1,320,240,0,640,480)
 	
 	return play.drawscore()
 	

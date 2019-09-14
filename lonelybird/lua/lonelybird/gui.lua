@@ -82,7 +82,7 @@ print(act,w.id)
 
 
 		top:add({hx=(512-220)/2,hy=60})
-		top:add({hx=220,hy=60,color=0xff1E90FF,text="Menu",text_color=0xffffffff,color_over=0xff6BB6FF,id="menu",hooks=gui.hooks})
+		top:add({hx=220,hy=60,color=0xff1E90FF,text="Menu",text_color=0xffffffff,color_over=0xff6BB6FF,id="menu",hooks=gui.hooks,solid=true})
 		top:add({hx=(512-220)/2,hy=60})
 
 		top:add({hx=512,hy=10})
@@ -97,7 +97,7 @@ print(act,w.id)
 ]]
 
 		top:add({hx=(512-220)/2,hy=60})
-		top:add({hx=220,hy=60,color=0xffff0000,text="Start",text_color=0xffffffff,color_over=0xffFF009D,id="start",hooks=gui.hooks})
+		top:add({hx=220,hy=60,color=0xffff0000,text="Start",text_color=0xffffffff,color_over=0xffFF009D,id="start",hooks=gui.hooks,solid=true})
 		top:add({hx=(512-220)/2,hy=60})
 
 --		top:add({hx=512,hy=20})

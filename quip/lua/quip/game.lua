@@ -24,13 +24,17 @@ bake=function(state,game)
 	local cake=state.cake
 	local view=cake.views.create({
 		parent=cake.views.get(),
-		mode="full",
+		mode="clip",
 		vx=opts.width,
 		vy=opts.height,
 		vz=opts.height*4,
 		fov=1/4,
 	})
 	
+	local oven=state
+	local skeys=oven.rebake("wetgenes.gamecake.spew.keys").setup(1)
+	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps").setup(1)
+	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
 	
 game.loads=function()
 
@@ -82,6 +86,8 @@ end
 
 game.update=function()
 
+	srecaps.step()
+
 	for i,v in pairs(game.input.volatile) do
 		game.input[i]=v 
 	end
@@ -126,7 +132,7 @@ game.draw=function()
 	if game.page=="menu" then
 
 		gl.Color(pack.argb4_pmf4(0xffff)) -- draw drop shadow
-		cake.sheets.get("splash"):draw(1,0,0,0,640,480)
+		cake.sheets.get("splash"):draw(1,320,240,0,640,480)
 
 		game.play.drawscore()
 		

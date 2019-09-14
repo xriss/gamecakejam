@@ -59,10 +59,10 @@ M.bake=function(oven,gui)
 
 		top:add({hx=480,hy=400-40})
 		
-		top:add({hx=480,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=480,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks,solid=true})
 		
 		top:add({hx=480,hy=40})
-		top:add({hx=100,hy=40,color=0xffffcccc,text="Exit",id="exit",hooks=gui.hooks})
+		top:add({hx=100,hy=40,color=0xffffcccc,text="Exit",id="exit",hooks=gui.hooks,solid=true})
 		top:add({hx=380,hy=40})
 		
 	end

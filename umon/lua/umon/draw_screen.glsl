@@ -92,7 +92,7 @@ void main(void)
 
 #endif
 
-#shader "bloom_screen_draw" "draw_screen"
+#header "draw_screen_head"
 
 // this is the header to all the above chunks with their unique source
 // defined in another shader chunk bellow us
@@ -165,6 +165,8 @@ vec2 square_squish(vec2 uv,vec2 focus)
 
 #shader "bloom_screen_draw"
 
+#include "draw_screen_head"
+
 varying vec2  v_texcoord;
 varying vec4  v_color;
  
@@ -235,6 +237,8 @@ void main(void)
 
 
 #shader "draw_screen"
+
+#include "draw_screen_head"
 
 varying vec2  v_texcoord;
 varying vec4  v_color;

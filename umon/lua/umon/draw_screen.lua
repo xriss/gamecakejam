@@ -208,7 +208,7 @@ draw_screen.draw_into=function(callback)
 	
 
 --	draw_screen.lay_orig=draw_screen.lay.apply(nil,nil,0)
-	cake.views.push_and_apply(view)
+	cake.views.push_and_apply(draw_screen.view)
 
 	gl.ClearColor(0,0,0,1)
 	gl.DepthMask(gl.TRUE)
