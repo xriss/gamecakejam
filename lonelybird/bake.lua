@@ -71,14 +71,6 @@ wbake.create_dir_for_file("data/"..v)
 wbake.copyfile("art/"..v,"data/"..v)
 
 
-for i,v in ipairs{
-	"fonts/Vera.ttf",
-	"wskins/soapbar.png",
-} do
-	wbake.create_dir_for_file("data/"..v)
-	wbake.copyfile("../../gamecake/mods/data/"..v,"data/"..v)
-end
-
 
 os.execute("rm -rf out")
 wbake.create_dir_for_file("out/lua/wetgenes/t.zip")

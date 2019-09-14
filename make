@@ -2,7 +2,8 @@ cd `dirname $0`
 
 rm cakes/*.cakes
 
-cakes="gateau gthang lonelybird hunted dmazed"
+#cakes="gateau gthang lonelybird hunted dmazed"
+cakes="lonelybird"
 
 for cake in ${cakes} ; do
 
