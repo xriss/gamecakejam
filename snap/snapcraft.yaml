@@ -29,7 +29,6 @@ parts:
       bash ./make
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp bin/gamecakejam $SNAPCRAFT_PART_INSTALL/bin/gamecakejam
-      mkdir $SNAPCRAFT_PART_INSTALL/gamecake
       cp -r cakes $SNAPCRAFT_PART_INSTALL
     
 apps:
@@ -39,8 +38,9 @@ apps:
     command: gamecakejam
 
 
-plugs:
-  gamecake:
+slots:
+  cakes:
     interface: content
-    target: $SNAP/gamecake
-    default-provider: gamecake:gamecake
+    read: 
+      - cakes
+
