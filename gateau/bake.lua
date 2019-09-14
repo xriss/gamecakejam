@@ -15,10 +15,12 @@ local wbgrd=require("wetgenes.bake.grd")
 local copyfile=wbgrd.auto_copyfile
 local copysave=wbgrd.auto_copysave
 
+local wsbox=require("wetgenes.sandbox")
+
 
 local lfs=require("lfs")
 
-
+--[[
 for _,dir in ipairs{"gateau"} do
 
 	local files=wbake.findfiles{basedir="art",dir=dir,filter="."}.ret
@@ -30,6 +32,8 @@ for _,dir in ipairs{"gateau"} do
 	end
 
 end
+]]
+
 
 for _,dir in ipairs{"imgs"} do
 
@@ -78,6 +82,54 @@ for _,dir in ipairs{"fonts"} do
 	end
 
 end
+
+
+
+
+
+local files={
+	"aroids",
+	"batwsbat",
+	"cloids",
+	"dmazed",
+	"gagano",
+	"gthang",
+	"hunted",
+	"lemonhunter",
+	"lonelybird",
+	"macrl",
+	"quip",
+	"umon",
+}
+local gateau={}
+for i,name in ipairs(files) do
+
+	local fname="../"..name.."/art/icons/gateau/gateau.lua"
+	if wbake.isfile(fname) then
+
+		local s=wbake.readfile(fname)
+
+		local d=wsbox.ini(s)
+		if d and d.id then
+			gateau[d.id]=d		
+			print("adding "..d.id.." to the gateau")
+		end
+
+		local files=wbake.findfiles{basedir="../"..name.."/art/icons/gateau",dir=".",filter="."}.ret
+
+		for i,v in ipairs(files) do
+			wbake.create_dir_for_file("data/gateau/"..name.."/"..v)
+			wbake.copyfile("../"..name.."/art/icons/gateau/"..v,"data/gateau/"..name.."/"..v)
+			print(v)
+		end
+
+	end
+end
+
+--print(wstr.dump(gateau))
+
+wbake.writefile("data/gateau/all.lua",wstr.dump(gateau))
+
 
 os.execute("rm -rf out")
 wbake.create_dir_for_file("out/lua/wetgenes/t.zip")

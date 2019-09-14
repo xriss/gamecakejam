@@ -82,21 +82,27 @@ M.bake=function(oven,gui)
 	
 	function gui.pages.menu(master)
 
-		local top=master:add({hx=640,hy=480,class="fill",font="Vera",text_size=16})
-
---		top:add({hx=640,hy=40})
+		local top=master:add({hx=768,hy=432,class="fill",font="Vera",text_size=16})
 		
---		top:add({hx=40,hy=40})
---		top:add({hx=280,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		
+		local butsiz=128
+		local butpad=8
+		local butwid=math.floor( (768-butpad) / (butsiz+butpad) )
+		local buthid=math.floor( (432-butpad) / (butsiz+butpad) )
+		
+		local butxp=math.floor(( (768-butpad) - ( (butsiz+butpad)*butwid ) )/2)
+		local butyp=math.floor(( (432-butpad) - ( (butsiz+butpad)*buthid ) )/2)
+
+print(butxp,butyp,butwid,buthid)
 
 local line
 local datfill=function(w,v)
 	local tt=v.title
-	local hx=200
+	local hx=butsiz
 	local hy=25
 	local px=0
 	local py=0
-	local fy=w:bubble("text_size") or 16
+	local fy=w:bubble("text_size") or 12
 	local fyp=1
 	local f=w:bubble("font") or 1
 
@@ -104,39 +110,43 @@ local datfill=function(w,v)
 	font.set_size(fy,0)
 
 	local lines=font.wrap(tt,{w=w.hx}) -- break into lines
-	py=200-(#lines*(fy+fyp))-8
-	w:add({px=0-2,py=py-2,hx=hx+4,hy=200-py+4,color=0xcc000000})
+	py=butsiz-(#lines*(fy+fyp))-8
+	w:add({px=0-2,py=py-2,hx=hx+4,hy=butsiz-py+4,color=0xcc000000})
 	for i=1,#lines do
 		w:add({px=0,py=py,hx=hx,hy=hy,text_color=0xffffffff,text=lines[i]})
 		py=py+fy+fyp
 	end
 end
 gui.master.go_forward_id=nil
+
+	top:add({hx=768,hy=butyp})
+
 for i,v in ipairs(main.list) do
 	if not gui.master.go_forward_id then
 		gui.master.go_forward_id="gateau_"..v.id
 	end
-	if (i-1)%3==0 then
-		top:add({hx=640,hy=10})
-		line=top:add({hx=640,hy=200,class="fill"})
+	if (i-1)%butwid==0 then
+		top:add({hx=768,hy=butpad})
+		line=top:add({hx=768,hy=butsiz,class="fill"})
+		line:add({hx=butxp,hy=butsiz})
 	end
-	line:add({hx=10,hy=200})
-	local w=line:add({solid=true,hx=200,hy=200,color=0xffcccccc,sheet="gateau/"..v.id.."/icon",sheet_px=100,sheet_py=100,id="gateau_"..v.id,hooks=gui.hooks,user=v})
+	line:add({hx=butpad,hy=butsiz})
+	local w=line:add({solid=true,hx=butsiz,hy=butsiz,color=0xffcccccc,sheet="gateau/"..v.id.."/icon",sheet_px=butsiz/2,sheet_py=butsiz/2,id="gateau_"..v.id,hooks=gui.hooks,user=v})
 	datfill(w,v)
 
 	gui.hook_over[w.id]=function(w)
 		top.sheet="gateau/"..w.user.id.."/screen"
 		local sh=sheets.get(top.sheet)
-		top.sheet_px=320
-		top.sheet_py=240
-		top.sheet_hx=(sh.img.width/sh.img.height)*480
-		top.sheet_hy=480
-		if top.sheet_hx < 640 then -- cover 640x480
-			top.sheet_hx=640
-			top.sheet_hy=(sh.img.height/sh.img.width)*640
+		top.sheet_px=768/2
+		top.sheet_py=432/2
+		top.sheet_hx=(sh.img.width/sh.img.height)*432 -- cover 432 high
+		top.sheet_hy=432
+		if top.sheet_hx < 768 then -- else cover 768 wide
+			top.sheet_hx=768
+			top.sheet_hy=(sh.img.height/sh.img.width)*768
 		end
-		top.sheet_hx=top.sheet_hx*1.5 -- then scaleup 
-		top.sheet_hy=top.sheet_hy*1.5
+		top.sheet_hx=top.sheet_hx*1.25 -- then scaleup 
+		top.sheet_hy=top.sheet_hy*1.25
 
 		top.color=0x88888888
 --			print("OVER->"..w.id)
@@ -148,26 +158,9 @@ for i,v in ipairs(main.list) do
 	end
 end
 
-	line:add({hx=10,hy=200})
---	local w=line:add({hx=200,hy=200,color=0xffcccccc,sheet="imgs/pimoroni_icon",sheet_px=100,sheet_py=100,id="pimoroni"})
+	line:add({hx=butpad,hy=butsiz})
 
 
---[[
-		top:add({hx=40,hy=40})
-		top:add({hx=180,hy=40,color=0xffcccccc,text="Hello",style="indent"})
-		top:add({hx=380,hy=40,color=0xffcccccc,text=sprofiles.get("name"),id="profiles",hooks=gui.hooks})
-		top:add({hx=40,hy=40})
-
-		top:add({hx=640,hy=20})
-
-		top:add({hx=20,hy=40})
-		top:add({hx=280,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
-		top:add({hx=40,hy=40})
-		top:add({hx=280,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
-		top:add({hx=20,hy=40})
-
-		top:add({hx=640,hy=20})
-]]
 		
 	end
 

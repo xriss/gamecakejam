@@ -151,7 +151,7 @@ main.draw=function()
 	gl.PushMatrix()
 	
 	font.set(cake.fonts.get(1)) -- default font
-	font.set_size(32,0) -- 32 pixels high
+	font.set_size(16,0) -- 32 pixels high
 
 	if main.now and main.now.draw then
 		main.now.draw()
