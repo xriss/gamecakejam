@@ -7,7 +7,7 @@ local opts={
 	
 	width=720,	-- display basics
 	height=480,
-	show="full",
+--	show="full",
 	title="Aroids",
 	start="aroids.game", -- rebake this mod
 	fps=60,

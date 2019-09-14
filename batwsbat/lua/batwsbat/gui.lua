@@ -114,9 +114,9 @@ Adjust the handicap if you wish to give your opponent more of a chance.
 		top:add({hx=640,hy=20})
 
 		top:add({hx=150,hy=40})
-		top:add({hx=150,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({hx=150,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks,solid=true})
 		top:add({hx=40,hy=40})
-		top:add({hx=150,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=150,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks,solid=true})
 		top:add({hx=150,hy=40})
 
 		top:add({hx=640,hy=20})

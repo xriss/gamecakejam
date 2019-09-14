@@ -483,9 +483,9 @@ cells.draw_into_texture=function()
 		cells.view=cake.views.create({
 			fbo=cells.fbo,
 			mode="fbo",
-			vx=512,
-			vy=512,
-			vz=512*4,
+			vx=480,
+			vy=480,
+			vz=480*4,
 			fov=1/4,
 		})
 

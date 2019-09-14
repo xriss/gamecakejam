@@ -1,6 +1,6 @@
 echo " "
 echo " gamecakejam is a collection of gamecake examples "
-echo " to run them you should use the gamecake snap command "
+echo " to run them try the following command "
 echo " "
-echo " gamecake.jam "
+echo " 	/snap/gamecakejam/current/cakes/gamecakejam "
 echo " "

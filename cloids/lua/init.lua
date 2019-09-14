@@ -7,7 +7,7 @@ local opts={
 	
 	width=720,	-- display basics
 	height=480,
-	show="full",
+--	show="full",
 	title="Cloids",
 	start="cloids.main", -- rebake this mod
 	fps=60,

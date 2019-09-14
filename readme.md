@@ -2,8 +2,8 @@
 The easiest way to run these examples is via snap, the following should 
 install the engine and run these examples using the gateau menu.
 
-	snap install gamecakejam
-	gamecake.jam
+	snap install gamecake
+	gamecakejam
 
 
 Some quick and dirty (:QAD:) gamecake games, built quickly as test 
@@ -16,8 +16,8 @@ magazines in the 80s. It was much more fun to fiddle with the code than
 to play the games.
 
 The code lives in the lua directory of each game, change it and run it 
-using gamecake. the following will bake any art assets ( which live in 
-the art directory ) and then run the code.
+using gamecake. the following will bake any art assets into the data 
+directory ( from the art directory ) and then run the code.
 
 	cd lonelybird		# enter the project folder
 	gamecake bake.lua	# build the art assets

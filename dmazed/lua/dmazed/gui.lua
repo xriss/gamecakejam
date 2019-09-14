@@ -75,15 +75,15 @@ M.bake=function(oven,gui)
 		
 		top:add({hx=40,hy=40})
 		top:add({hx=100,hy=40,color=0xffcccccc,text="Hello",style="indent"})
-		top:add({hx=300,hy=40,color=0xffcccccc,text=wprofiles.get("name"),id="profiles",hooks=gui.hooks})
+		top:add({hx=300,hy=40,color=0xffcccccc,text=wprofiles.get("name"),id="profiles",hooks=gui.hooks,solid=true})
 		top:add({hx=40,hy=40})
 
 		top:add({hx=480,hy=20})
 
 		top:add({hx=20,hy=40})
-		top:add({hx=200,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks})
+		top:add({hx=200,hy=40,color=0xffcccccc,text="Menu",id="menu",hooks=gui.hooks,solid=true})
 		top:add({hx=40,hy=40})
-		top:add({hx=200,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks})
+		top:add({hx=200,hy=40,color=0xffcccccc,text="Start",id="start",hooks=gui.hooks,solid=true})
 		top:add({hx=20,hy=40})
 
 		top:add({hx=480,hy=20})
