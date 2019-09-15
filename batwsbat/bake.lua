@@ -56,13 +56,6 @@ for _,dir in ipairs{"fonts"} do
 	end
 
 end
-for i,v in ipairs{
-	"fonts/Vera.ttf",
-	"wskins/soapbar.png",
-} do
-	wbake.create_dir_for_file("data/"..v)
-	wbake.copyfile("../../gamecake/mods/data/"..v,"data/"..v)
-end
 
 -- write data bake log
 do local fn="lua/init_bake.lua" wbake.create_dir_for_file(fn) local fp=io.open(fn,"w") fp:write(wstr.serialize(
