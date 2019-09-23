@@ -24,6 +24,7 @@ parts:
 
     override-build: |
       sudo apt install -y zip
+      sudo apt install -y libasound2
       git clone --branch exe https://github.com/xriss/gamecake.git
       gamecake/install
       bash ./make
