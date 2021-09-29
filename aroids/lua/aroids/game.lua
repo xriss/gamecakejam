@@ -37,7 +37,7 @@ bake=function(oven,game)
 		vx=opts.width,
 		vy=opts.height,
 		vz=opts.height*4,
-		fov=1/4,
+		fov=0,
 	})
 
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
@@ -108,7 +108,7 @@ end
 game.msg=function(m)
 --	print(wstr.dump(m))
 
-	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+--	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
 
 
 	if m.class=="key" then
@@ -145,7 +145,7 @@ end
 game.update=function()
 
 	game.change()
-	srecaps.step()
+--	srecaps.step()
 
 	for i,v in pairs(game.input.volatile) do
 		game.input[i]=v 

@@ -28,7 +28,7 @@ bake=function(state,game)
 		vx=opts.width,
 		vy=opts.height,
 		vz=opts.height*4,
-		fov=1/4,
+		fov=0,
 	})
 	
 	local oven=state
@@ -86,7 +86,7 @@ end
 
 game.update=function()
 
-	srecaps.step()
+--	srecaps.step()
 
 	for i,v in pairs(game.input.volatile) do
 		game.input[i]=v 

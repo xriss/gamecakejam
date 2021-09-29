@@ -28,7 +28,7 @@ M.bake=function(oven,main)
 		vx=opts.width,
 		vy=opts.height,
 		vz=opts.height*4,
-		fov=1/4,
+		fov=0,
 	})
 
 	main.modname=M.modname
@@ -118,7 +118,7 @@ main.msg=function(m)
 
 	view.msg(m) -- fix mouse coords
 	
-	skeys.msg(m) -- translate into controls
+--	skeys.msg(m) -- translate into controls
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -130,7 +130,7 @@ main.update=function()
 
 	main.change()
 	
-	srecaps.step()
+--	srecaps.step()
 	
 	if oven.mods["wetgenes.gamecake.mods.escmenu"].show then return end -- pause
 

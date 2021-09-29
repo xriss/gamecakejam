@@ -64,7 +64,7 @@ draw_screen.setup=function()
 		vx=1024,
 		vy=1024,
 		vz=1024*4,
-		fov=1/4,
+		fov=0,
 	})
 
 -- effect fbos 1 and 2 for bloom processing

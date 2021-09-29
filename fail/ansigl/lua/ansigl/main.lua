@@ -94,7 +94,7 @@ main.msg=function(m)
 		m.y=m.y+(opts.height/2)
 	end
 
-	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+--	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
 	
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -104,7 +104,7 @@ end
 
 main.update=function()
 
-	srecaps.step()
+--	srecaps.step()
 	
 	main.change()
 

@@ -30,8 +30,10 @@ M.bake=function(oven,main)
 		mode="full",
 		vx=opts.width,
 		vy=opts.height,
-		vz=opts.height*4,
-		fov=1/4,
+		vz=8192,
+--		fov=0.5,
+--		fov_scale2d=1/opts.height,
+		fov=0,
 	})
 
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
@@ -117,7 +119,7 @@ main.msg=function(m)
 
 	view.msg(m) -- fix mouse coords
 	
-	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+--	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -129,7 +131,7 @@ main.update=function()
 
 	main.change()
 	
-	srecaps.step()
+--	srecaps.step()
 
 	if oven.mods["wetgenes.gamecake.mods.escmenu"].show then return end -- pause
 

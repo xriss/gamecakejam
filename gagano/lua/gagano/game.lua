@@ -32,7 +32,7 @@ M.bake=function(oven,game)
 		vx=opts.width,
 		vy=opts.height,
 		vz=opts.height*4,
-		fov=1/4,
+		fov=0,
 	})
 
 	game.modname=M.modname
@@ -108,7 +108,7 @@ game.msg=function(m)
 
 	view.msg(m) -- fix mouse coords
 	
-	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+--	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
 
 	if game.now and game.now.msg then
 		game.now.msg(m)
@@ -119,7 +119,7 @@ end
 game.update=function()
 
 	game.change()
-	srecaps.step()
+--	srecaps.step()
 	for i,v in pairs(game.input.volatile) do
 		game.input[i]=v 
 	end

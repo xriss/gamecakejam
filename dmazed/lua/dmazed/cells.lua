@@ -402,7 +402,7 @@ cells.image=function()
 		vx=480,
 		vy=480,
 		vz=480*4,
-		fov=1/4,
+		fov=0,
 	})
 
 	fbs.bind_frame(fbo)
@@ -486,7 +486,7 @@ cells.draw_into_texture=function()
 			vx=480,
 			vy=480,
 			vz=480*4,
-			fov=1/4,
+			fov=0,
 		})
 
 		

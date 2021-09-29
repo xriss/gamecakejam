@@ -32,7 +32,7 @@ M.bake=function(oven,main)
 		vx=opts.width,
 		vy=opts.height,
 		vz=opts.height*4,
-		fov=1/4,
+		fov=0,
 	})
 
 	local launch=oven.rebake("gateau.launch")
@@ -119,7 +119,7 @@ main.msg=function(m)
 
 	view.msg(m) -- fix mouse coords
 
-	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
+--	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
 
 	if main.now and main.now.msg then
 		main.now.msg(m)
@@ -130,7 +130,7 @@ end
 main.update=function()
 
 	main.change()
-	srecaps.step()
+--	srecaps.step()
 
 	if oven.mods["wetgenes.gamecake.mods.escmenu"].show then return end -- pause
 
