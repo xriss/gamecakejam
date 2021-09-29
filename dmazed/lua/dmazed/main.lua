@@ -18,7 +18,7 @@ M.bake=function(oven,main)
 	local sheets=cake.sheets
 	local view=cake.views.create({
 		parent=cake.views.get(),
-		mode="full",
+		mode="clip",
 		vx=opts.width,
 		vy=opts.height,
 		vz=opts.height*4,
@@ -166,7 +166,7 @@ main.draw=function()
 
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()
-	gl.Translate(-opts.width/2,-opts.height/2,-opts.height*2) -- top left corner is origin
+--	gl.Translate(-opts.width/2,-opts.height/2,-opts.height*2) -- top left corner is origin
 
 	gl.PushMatrix()
 	

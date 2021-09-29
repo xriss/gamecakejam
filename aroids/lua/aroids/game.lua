@@ -171,7 +171,7 @@ game.draw=function()
 
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()
-	gl.Translate(-opts.width/2,-opts.height/2,-opts.height*2) -- top left corner is origin
+--	gl.Translate(-opts.width/2,-opts.height/2,-opts.height*2) -- top left corner is origin
 
 	gl.PushMatrix()
 	

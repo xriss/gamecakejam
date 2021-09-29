@@ -1,6 +1,18 @@
 
 #shader "dmazed_darkness"
 
+#version 300 es
+#version 330
+#version 100
+#version 120
+#ifdef VERSION_ES
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+#endif
+
 #ifdef VERTEX_SHADER
 
 uniform mat4 modelview;
@@ -50,17 +62,21 @@ float nose( float n )
 void main(void)
 {
 	float w2=center.w*(1.0/512.0); w2*=w2;
+
+	vec2 dd=v_texcoord.xy-center.xy;
+	float wx=(dd.x*(1.0/512.0)); wx*=wx;
+	float wy=(dd.y*(1.0/512.0)); wy*=wy;
+	float a=clamp(((wx+wy)/w2),0.0,1.0);
+
 /*
 	float t=fract(center.z*(1.0/1024.0));
 	float x=fract(v_texcoord.x*(1.0/512.0));
 	float y=fract(v_texcoord.y*(1.0/512.0));
 	float n=( nose( x * y * (1.0-t) ) - nose( y * t ) ) ;
-*/
-	vec2 dd=v_texcoord.xy-center.xy;
-	float wx=(dd.x*(1.0/512.0)); wx*=wx;
-	float wy=(dd.y*(1.0/512.0)); wy*=wy;
-	float a=clamp(((wx+wy)/w2),0.0,1.0);
-/*	gl_FragColor=v_color*n*a ;
+	n=max(min(n,1.0),0.0);
+
+	a=a+pow(n,4.0);
+	gl_FragColor=v_color*n*a ;
 */	
 	gl_FragColor=v_color*a ;
 	gl_FragColor.a=a;

@@ -174,21 +174,31 @@ end
 
 game.draw=function()
 
+oven.gl.CheckError()
+
 	sheets.get(game.floor):draw(1,240,240,nil,480,480)
 
+oven.gl.CheckError()
 	cells.draw()
+oven.gl.CheckError()
 	hero.draw()
+oven.gl.CheckError()
 	monster.draw()
+oven.gl.CheckError()
 	talkers.draw()
+oven.gl.CheckError()
 	darkness.draw()
+oven.gl.CheckError()
 
 	floaters.draw()
+oven.gl.CheckError()
 
 	if hero.item>0 then
 		local sheet=sheets.get("imgs/items")
 		oven.gl.Color(1,1,1,1)
 		sheet:draw(hero.item,480-24,24+16,nil,48,48)
 	end
+oven.gl.CheckError()
 	
 	do
 		local x=480-80-48-16
@@ -204,9 +214,12 @@ game.draw=function()
 		font.draw(s)
 	end
 	
+oven.gl.CheckError()
 	wscores.draw("arcade2")
 
+oven.gl.CheckError()
 	gui.draw()
+oven.gl.CheckError()
 
 end
 

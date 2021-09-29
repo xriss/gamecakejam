@@ -90,11 +90,17 @@ darkness.draw=function()
 	local p=gl.program("dmazed_darkness")
 	gl.UseProgram( p[0] )
 
+	local vertexarray
+	if gl.GenVertexArray then
+		vertexarray=gl.GenVertexArray()
+		gl.BindVertexArray(vertexarray)
+	end
+
 	darkness.buff:bind()
 
 	gl.UniformMatrix4f(p:uniform("modelview"), gl.matrix(gl.MODELVIEW) )
 	gl.UniformMatrix4f(p:uniform("projection"), gl.matrix(gl.PROJECTION) )
---	gl.Uniform4f( p:uniform("color"), 0.125,0.125,0.125,1 )
+--	gl.Uniform4f( p:uniform("color"), 0.3,0.2,0.4,1 )
 	gl.Uniform4f( p:uniform("color"), 0,0,0,1 )
 --	gl.Uniform4f( p:uniform("color"), 1,1,1,1 )
 
@@ -107,6 +113,11 @@ darkness.draw=function()
 	gl.EnableVertexAttribArray(p:attrib("a_texcoord"))
 
 	gl.DrawArrays(gl.TRIANGLE_STRIP,0,4)
+
+	if gl.GenVertexArray then
+		gl.BindVertexArray(0)
+		gl.DeleteVertexArray(vertexarray)
+	end
 
 end
 

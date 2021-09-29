@@ -77,7 +77,7 @@ M.bake=function(oven,talkers)
 			gl.Translate(v.anchor.px,v.anchor.py-64,0)
 			local s=v.scale
 			if s>1 then s=1 end
-			gl.Scale(s,s,a)
+			gl.Scale(s,s,s)
 			
 			gl.Color(1,1,1,1)	
 			canvas.flat.tristrip("xyz",{
