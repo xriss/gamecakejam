@@ -24,6 +24,7 @@ M.bake=function(oven,main)
 		vz=opts.height*4,
 		fov=0,
 	})
+	oven.msg_view=view -- fix mouse coords using this view
 	
 	local font=canvas.font
 	local flat=canvas.flat
@@ -33,9 +34,9 @@ M.bake=function(oven,main)
 	main.modname=M.modname
 		
 	
-	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
-	skeys.setup({max_up=1,swipe=true}) -- also calls srecaps.setup
+--	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	skeys.setup({max_up=1,swipe=true}) -- also calls srecaps.setup
 
 
 	local scores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
@@ -131,7 +132,7 @@ end
 main.msg=function(m)
 --	print(wstr.dump(m))
 
-	view.msg(m) -- fix mouse coords
+--	view.msg(m) -- fix mouse coords
 	
 --	if skeys.msg(m) then m.skeys=true end -- translate into controls
 
@@ -164,8 +165,8 @@ main.draw=function()
 	gl.ClearColor(pack.argb4_pmf4(0xf000))
 	gl.Clear(gl.COLOR_BUFFER_BIT+gl.DEPTH_BUFFER_BIT)
 
-	gl.MatrixMode(gl.MODELVIEW)
-	gl.LoadIdentity()
+--	gl.MatrixMode(gl.MODELVIEW)
+--	gl.LoadIdentity()
 --	gl.Translate(-opts.width/2,-opts.height/2,-opts.height*2) -- top left corner is origin
 
 	gl.PushMatrix()

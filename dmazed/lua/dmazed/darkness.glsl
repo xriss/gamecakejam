@@ -1,8 +1,6 @@
 
 #shader "dmazed_darkness"
 
-#version 300 es
-#version 330
 #version 100
 #version 120
 #ifdef VERSION_ES

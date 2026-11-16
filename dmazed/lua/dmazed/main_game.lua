@@ -37,7 +37,7 @@ M.bake=function(oven,game)
 
 	local wscores=oven.rebake("wetgenes.gamecake.spew.scores")
 
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 
 game.loads=function()
@@ -141,14 +141,15 @@ game.update=function()
 
 	game.time=game.time+1
 
-	local ups=srecaps.ups()	
-	if ups.button("up_set") then
+	local up=oven.ups.up(1)
+	
+	if up.button("up_set") then
 		hero.move="up"
-	elseif ups.button("down_set") then
+	elseif up.button("down_set") then
 		hero.move="down"
-	elseif ups.button("left_set") then
+	elseif up.button("left_set") then
 		hero.move="left"
-	elseif ups.button("right_set") then
+	elseif up.button("right_set") then
 		hero.move="right"
 	end
 	
