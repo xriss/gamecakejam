@@ -33,7 +33,7 @@ M.bake=function(oven,explosions)
 	local enemies=oven.rebake(oven.modgame..".enemies")
 	local ships=oven.rebake(oven.modgame..".ships")
 
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 	local explosion={}
 

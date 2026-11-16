@@ -38,7 +38,7 @@ M.bake=function(oven,hud)
 	local ships=oven.rebake(oven.modgame..".ships")
 
 	local sscores=oven.rebake("wetgenes.gamecake.spew.scores").setup(1)
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 
 

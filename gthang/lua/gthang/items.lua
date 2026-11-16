@@ -37,7 +37,7 @@ M.bake=function(oven,items)
 	local beep=oven.rebake(oven.modgame..".beep")
 
 	local hud=oven.rebake(oven.modgame..".hud")
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 	local console=oven.rebake("wetgenes.gamecake.mods.console")
 
 

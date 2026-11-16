@@ -13,7 +13,7 @@ local wgrd=require("wetgenes.grd")
 local wgrdmap=require("wetgenes.grdmap")
 
 local lfs=require("lfs")
-local zip=require("zip")
+local zip=require("wetgenes.zip")
 
 
 for _,dir in ipairs{"imgs"} do

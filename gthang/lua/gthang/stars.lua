@@ -32,7 +32,7 @@ M.bake=function(oven,stars)
 --	local beep=oven.rebake(oven.modgame..".beep")
 	local enemies=oven.rebake(oven.modgame..".enemies")
 
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 
 

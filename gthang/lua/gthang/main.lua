@@ -35,10 +35,11 @@ M.bake=function(oven,main)
 --		fov_scale2d=1/opts.height,
 		fov=0,
 	})
+	oven.msg_view=view -- fix mouse coords using this view
 
 	local skeys=oven.rebake("wetgenes.gamecake.spew.keys")
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
-	skeys.setup({max_up=2}) -- also calls srecaps.setup
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	skeys.setup({max_up=2}) -- also calls srecaps.setup
 
 	local hud=oven.rebake(oven.modgame..".hud")
 	
@@ -117,7 +118,7 @@ end
 main.msg=function(m)
 --	print(wstr.dump(m))
 
-	view.msg(m) -- fix mouse coords
+--	view.msg(m) -- fix mouse coords
 	
 --	if skeys.msg(m) then m.skeys=true end -- flag this msg as handled by skeys
 

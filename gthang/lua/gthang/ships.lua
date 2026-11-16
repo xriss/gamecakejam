@@ -35,7 +35,7 @@ M.bake=function(oven,ships)
 	local explosions=oven.rebake(oven.modgame..".explosions")
 	local beep=oven.rebake(oven.modgame..".beep")
 
-	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
+--	local srecaps=oven.rebake("wetgenes.gamecake.spew.recaps")
 
 
 
@@ -112,38 +112,37 @@ end
 
 ship.update=function()
 
-	local ups=srecaps.ups(ship.idx)
-	local axis=ups.axis()
+	local up=oven.ups.up(ship.idx)
 	
-	if ups.button("mouse_left_set") then
+	if up.button("mouse_left_set") then
 		ship.mouse 	= true
 	end
 
 	if ship.mouse then
-		ship.px     = axis.mx
-		ship.mouse_y= axis.my
+		ship.px     = up.axis("vx")
+		ship.mouse_y= up.axis("vy")
 	end
 
-	if ups.button("left_set") then
+	if up.button("left_set") then
 		ship.mouse = false
 		ship.left = true
 	end
-	if ups.button("left_clr") then
+	if up.button("left_clr") then
 		ship.left = false
 	end
 
-	if ups.button("right_set") then
+	if up.button("right_set") then
 		ship.mouse = false
 		ship.right = true
 	end
-	if ups.button("right_clr") then
+	if up.button("right_clr") then
 		ship.right = false
 	end
 
-	if ups.button("fire_set") then -- mouse buttons also set fire key
+	if up.button("fire_set") then -- mouse buttons also set fire key
 		ship.fire = true
 	end
-	if ups.button("fire_clr") then
+	if up.button("fire_clr") then
 		ship.fire = false
 	end
 
